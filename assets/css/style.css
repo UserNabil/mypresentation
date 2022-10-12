@@ -16,6 +16,24 @@ body {
   /* overflow: hidden; */
 }
 
+.hide {
+  display: none;
+}
+
+.langage {
+  top: 0;
+  right: 0;
+  position: fixed;
+  color: #111;
+}
+
+.langage button {
+  color: #040b14;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 0px;
 }

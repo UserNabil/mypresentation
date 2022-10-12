@@ -5,7 +5,10 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Web Designer</title>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <title>Nabil OULD TERKI</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -29,13 +32,19 @@
 </head>
 
 <body>
+  <!-- <div class="langage">
+    <button id="fr"><a href="#">Fr</a></button>/
+    <button id="en"><a href="#">En</a></button>
+  </div> -->
 
-  <!-- ======= Mobile nav toggle button ======= -->
+  <div id="french">
+    <!-- ======= Mobile nav toggle button ======= -->
   <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
   <!-- ======= Header ======= -->
   <header id="header">
     <div class="d-flex flex-column">
+      
 
       <div class="profile">
         <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
@@ -50,12 +59,13 @@
 
       <nav id="navbar" class="nav-menu navbar">
         <ul>
-          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Accueil</span></a></li>
+          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-id-card"></i> <span>A propos</span></a></li>
+          <li><a href="#facts" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Faits</span></a></li>
+          <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-cog"></i> <span>Compétences</span></a></li>
+          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Curriculum vitae</span></a></li>
           <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
-          <li><a href="#testimonials" class="nav-link scrollto"><i class="bx bx-heart"></i> <span>Testimonials</span></a></li>
-          <!-- <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li> -->
+          <li><a href="#testimonials" class="nav-link scrollto"><i class="bx bx-heart"></i> <span>Témoignages</span></a></li>
         </ul>
       </nav><!-- .nav-menu -->
     </div>
@@ -65,7 +75,7 @@
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
       <h1>Nabil OULD-TERKI</h1>
-      <p>I'm <span class="typed" data-typed-items="Designer, Developer, Photographer"></span></p>
+      <p>Je suis <span class="typed" data-typed-items="Designer, Développeur, Photographe"></span></p>
     </div>
   </section><!-- End Hero -->
 
@@ -81,39 +91,39 @@
         <div class="row">
           <div class="col-sm" data-aos="fade-right">
             <div class="col-sm-auto">
-              <h2>About</h2>
-              <p>Being passionate about new technologies and web development. I devoted my spare time to discover this universe. This is how, after several small challenges, my professional future was decided.</p>
+              <h2>A propos</h2>
+              <p>Passionné par les nouvelles technologies et le développement web. J'ai consacré mon temps libre à la découverte de cet univers. C'est ainsi qu'après plusieurs petits défis, mon avenir professionnel s'est décidé.</p>
             </div>
             <div  class="col-sm-auto"><img id="lighty" src="assets/img/profile-img.jpg" class="img-fluid" alt=""></div>            
           </div>
           <div class="col-sm-8 pt-4 pt-sm-0 content" data-aos="fade-left">
-            <h3>UI/UX Designer &amp; Web Developer.</h3>
+            <h3>Designer UI/UX &amp; Développeur Web.</h3>
             <p id="lighty"  class="fst-italic">
-              In order to complete my engineering degree and enter the professional world, I would like to complete a six-month internship for an end of study project in the field of web development.
+              Afin de compléter mon diplôme d'ingénieur et d'entrer dans le monde professionnel, je souhaiterais effectuer un stage de fin d'études de six mois dans le domaine du développement web.
             </p>
             <div class="row">
               <div id="lighty" class="col-sm-auto">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong><span>11 May 1996</span</li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Mobility:</strong> <span>B license</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+33 6 41 40 52 37</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Calais, FRANCE</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Date de naissance:</strong><span>11 Mai 1996</span</li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Moyen de transport:</strong> <span>Véhiculé Permis B</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Numéro de téléphone:</strong> <span>+33 6 41 40 52 37</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Ville:</strong> <span>Paris, FRANCE</span></li>
                 </ul>
               </div>
               <div id="lighty"  class="col-sm-auto">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>26</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Engineer</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Âge:</strong> <span>26</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Diplôme:</strong> <span>Engineer</span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>TOEIC:</strong> <span>795</span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>n.ouldterki@gmail.com</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Internship:</strong> <span>Available from January 16th for a period of 6 months</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Stage:</strong> <span>Disponible à partir du 16 janvier pour une période de 6 mois.</span></li>
                 </ul>
               </div>
             </div>
           </div>
           <div id="lighty"  class="col-sm-12">
               <br/>
-              <p>I am currently ERASMUS mobility in Larnaca, CYPRUS in the school UCLAN for a training of web design in order to specialize in this field I would like to consolidate my knowledge and make it benefit your company.</p>
+              <p>Je suis actuellement en mobilité ERASMUS à Larnaca, CHYPRE dans l'école UCLAN pour une formation de web design afin de me spécialiser dans ce domaine je voudrais consolider mes connaissances et en faire profiter votre entreprise.</p>
           </div>
         </div>
 
@@ -125,8 +135,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Facts</h2>
-          <p>During my studies as a computer engineer I was able to realize several projects such as the creation of a student management application for my institution. I also realized an internship of a duration of four months, during this last one I could contribute to the realization of a project allowing the management of the employees of the company in order to allow them to count the workforce as well as to manage it according to their contracts. And at the end of my internship I was able to create a video game totally coded for an Arcade game website in the theme of piracy.</p>
+          <h2>Faits</h2>
+          <p>Durant mes études d'ingénieur en informatique j'ai pu réaliser plusieurs projets tels que la création d'une application de gestion des étudiants pour mon établissement. J'ai également réalisé un stage d'une durée de quatre mois, durant ce dernier j'ai pu contribuer à la réalisation d'un projet permettant la gestion des employés de l'entreprise afin de leur permettre de comptabiliser les effectifs ainsi que de les gérer selon leurs contrats. Et à la fin de mon stage j'ai pu créer un jeu vidéo totalement codé pour un site de jeux d'Arcade dans le thème du piratage.</p>
         </div>
 
         <div class="row no-gutters">
@@ -135,7 +145,7 @@
             <div class="count-box">
               <i class="bi bi-emoji-smile"></i>
               <span data-purecounter-start="0" data-purecounter-end="4" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Happy Clients</strong><br>My teachers<br>My internship supervisors</p>
+              <p><strong>Clients satisfaits</strong><br>Mes professeurs<br>Mes superviseurs de stage</p>
             </div>
           </div>
 
@@ -143,7 +153,7 @@
             <div class="count-box">
               <i class="bi bi-journal-richtext"></i>
               <span data-purecounter-start="0" data-purecounter-end="3" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Projects</strong><br>Student Enrollment Management<br>Managing a company's employees<br>Creating a game</p>
+              <p><strong>Projets</strong><br>Gestion des inscriptions des étudiants<br>Gestion des employés d'une entreprise<br>Créer un jeu</p>
             </div>
           </div>
 
@@ -151,7 +161,7 @@
             <div class="count-box">
               <i class="bi bi-percent"></i>
               <span data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Availability for an interview</strong><br>Monday to Friday from 3pm</p>
+              <p><strong>Disponibilité pour un entretien</strong><br>Du lundi au vendredi à partir de 15 heures</p>
             </div>
           </div>
 
@@ -159,7 +169,7 @@
             <div class="count-box">
               <i class="bi bi-calendar-week"></i>
               <span data-purecounter-start="0" data-purecounter-end="6" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Period of the internship</strong><br/>From mid-January to mid-July</p>
+              <p><strong>Période du stage</strong><br/>De mi-janvier à mi-juillet</p>
             </div>
           </div>
 
@@ -173,8 +183,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Skills</h2>
-          <p>Throughout my training and professional experience I have learned to develop my skills and acquire knowledge through self-study through research and online courses.</p>
+          <h2>Compétences</h2>
+          <p>Tout au long de ma formation et de mon expérience professionnelle, j'ai appris à développer mes compétences et à acquérir des connaissances par l'auto-apprentissage au moyen de recherches et de cours en ligne.</p>
         </div>
 
         <div class="row skills-content">
@@ -289,9 +299,438 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Resume</h2>
+          <h2>Curriculum vitae</h2>
           <!-- <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> -->
         </div>
+
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-up">
+            <h3 class="resume-title">Résumé</h3>
+            <div class="resume-item pb-0">
+              <h4>Nabil OULD TERKI</h4>
+              <p><em>Graphiste innovant et respectueux des délais, il possède plus d'un an d'expérience dans la conception et le développement d'applications web centrées sur l'utilisateur, du concept initial au produit fini.</em></p>
+              <!-- <ul>
+                <li>8 rue Clin, Calais</li>
+                <li>+33 6 41 40 52 37</li>
+                <li>n.ouldterki@gmail.com</li>
+              </ul> -->
+            </div>
+
+            <h3 class="resume-title">Expérience professionnelle</h3>
+            <div class="resume-item">
+              <h4>Stagiaire en développement web</h4>
+              <h5>2022 - 4 mois</h5>
+              <p><em>HDM Network, Bruxelles, BELGIQUE </em></p>
+              <ul>
+                <li>Diriger la conception, le développement et la mise en œuvre du matériel de communication graphique, de mise en page et de production.</li>
+                <li>Recommandation et consultation des clients sur la conception graphique la plus appropriée.</li>
+                <li>Déléguer les tâches aux 4 membres de l'équipe de conception et fournir des conseils sur tous les aspects du projet. </li>
+                <li>Superviser l'évaluation de tous les documents graphiques afin de garantir la qualité et l'exactitude de la conception.</li>
+              </ul>
+            </div>           
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="resume-title">Formation</h3>
+            <div class="resume-item">
+              <h4>Brevet technicien supérieur, Assistant en technique d'ingénieur</h4>
+              <h5>2017 - 2019</h5>
+              <p><em>Lycée du Rempart, Marseille, FRANCE</em></p>
+              <p>Au cours de ce diplôme, j'ai pu apprendre la gestion et l'organisation d'un projet en tant qu'assistant ingénieur dans le domaine industriel.</p>
+            </div>
+            <div class="resume-item">
+              <h4>Classe préparatoire, adaptation du technicien supérieur</h4>
+              <h5>2019 - 2020</h5>
+              <p><em>Lycée du Rempart, Marseille, FRANCE</em></p>
+              <p>C'est une étape cruciale qui m'a permis d'avoir de la rigueur et d'apprendre à gérer la surcharge de travail.</p>
+            </div>
+            <div class="resume-item">
+              <h4>Diplôme d'ingénieur en informatique</h4>
+              <h5>2020 - 2023</h5>
+              <p><em>EILCO, Calais, FRANCE</em></p>
+              <p>Les compétences acquises au cours de cette formation m'ont permis d'avoir accès à des expériences professionnelles très intéressantes sans avoir de lacunes.</p>
+            </div>
+            <div class="resume-item">
+              <h4>Mobilité Erasmus, conception et livraison d'applications</h4>
+              <h5>2022 - 1 semester</h5>
+              <p><em>UCLAN , Larnaca , CHYPRE</em></p>
+              <p>J'ai pu m'affirmer au cours de cette mobilité afin de maîtriser plusieurs outils très importants pour ma future carrière dans la conception de sites web.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Resume Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Portfolio</h2>
+          <p>Vous pouvez consulter ici mon portfolio, dans lequel chaque maquette de site web est déployée gratuitement sur GitHub, Firebase ou Heroku.</p>
+        </div>
+
+        <div class="row" data-aos="fade-up">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">Tout</li>
+              <li data-filter=".filter-card">Jeu</li>
+              <li data-filter=".filter-web">Site web</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+            <div class="portfolio-wrap">
+              <img src="assets/img/portfolio/portfolio-1.PNG" class="img-fluid" alt="">
+              <div class="portfolio-links">
+                <a href="assets/img/portfolio/portfolio-1.PNG" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
+                <a href="https://nabilot5.github.io/thepiratedice" title="More Details"><i class="bx bx-link"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <div class="portfolio-wrap">
+              <img src="assets/img/portfolio/portfolio-2.PNG" class="img-fluid" alt="">
+              <div class="portfolio-links">
+                <a href="assets/img/portfolio/portfolio-2.PNG" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
+                <a href="https://www.hdmnetwork.be/" title="More Details"><i class="bx bx-link"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <div class="portfolio-wrap">
+              <img src="assets/img/portfolio/portfolio-3.PNG" class="img-fluid" alt="">
+              <div class="portfolio-links">
+                <a href="assets/img/portfolio/portfolio-3.PNG" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
+                <a href="https://projet-technique.herokuapp.com/login.php" title="More Details"><i class="bx bx-link"></i></a>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Témoignages</h2>
+          <p>Voici quelques témoignages de personnes qui m'ont aidé et ont apprécié mon travail.</p>
+        </div>
+
+        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item" data-aos="fade-up">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                    <br>Étudiant sérieux et engagé, il a su très bien s'organiser et organiser son équipe afin de fournir un travail professionnel.<br>
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-1.PNG" class="testimonial-img" alt="">
+                <h3>Régis LHERBIER</h3>
+                <h4>Maître de conférences à l'Université</h4>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="100">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                    <br>C'était un stagiaire de qualité, il s'est adapté au rythme de travail de l'entreprise tout en fournissant un travail de qualité. Bravo !<br>
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                <h3>David VAN GOIDSTNOVEN</h3>
+                <h4>CEO & Web Designer</h4>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="200">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                    <br>Très impliqué dans son stage, même s'il était en stage, il a dépensé beaucoup d'énergie et de temps en dehors des heures prévues, pour mener à bien ses projets.<br>
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                <h3>Quentin MOUSSET</h3>
+                <h4>Web Developer</h4>
+              </div>
+            </div><!-- End testimonial item -->
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Testimonials Section -->
+  </main>
+  </div>
+
+  <!-- <div id="english" class="hide">
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+  <header id="header">
+    <div class="d-flex flex-column">
+      <div class="profile">
+        <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a href="index.html">Nabil OULD-TERKI</a></h1>
+        <div class="social-links mt-3 text-center">
+          <a href="https://twitter.com/nabil_ot5" class="twitter"><i class="bx bxl-twitter"></i></a>
+          <a href="https://www.facebook.com/nabil.ouldterki" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href="https://www.instagram.com/nabil_ot5/" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/nabil-ould-terki/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div>
+
+      <nav id="navbar" class="nav-menu navbar">
+        <ul>
+          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-id-card"></i> <span>About</span></a></li>
+          <li><a href="#facts" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Facts</span></a></li>
+          <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-cog"></i> <span>Skills</span></a></li>
+          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+          <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
+          <li><a href="#testimonials" class="nav-link scrollto"><i class="bx bx-heart"></i> <span>Testimonials</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="hero-container" data-aos="fade-in">
+      <h1>Nabil OULD-TERKI</h1>
+      <p>I'm <span class="typed" data-typed-items="Designer, Developer, Photographer"></span></p>
+    </div>
+  </section>
+
+  <main id="main">
+
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+         </div>
+
+        <div class="row">
+          <div class="col-sm" data-aos="fade-right">
+            <div class="col-sm-auto">
+              <h2>About</h2>
+              <p>Being passionate about new technologies and web development. I devoted my spare time to discover this universe. This is how, after several small challenges, my professional future was decided.</p>
+            </div>
+            <div  class="col-sm-auto"><img id="lighty" src="assets/img/profile-img.jpg" class="img-fluid" alt=""></div>            
+          </div>
+          <div class="col-sm-8 pt-4 pt-sm-0 content" data-aos="fade-left">
+            <h3>UI/UX Designer &amp; Web Developer.</h3>
+            <p id="lighty"  class="fst-italic">
+              In order to complete my engineering degree and enter the professional world, I would like to complete a six-month internship for an end of study project in the field of web development.
+            </p>
+            <div class="row">
+              <div id="lighty" class="col-sm-auto">
+                <ul>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong><span>11 May 1996</span</li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Mobility:</strong> <span>B license</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+33 6 41 40 52 37</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Calais, FRANCE</span></li>
+                </ul>
+              </div>
+              <div id="lighty"  class="col-sm-auto">
+                <ul>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>26</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Engineer</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>TOEIC:</strong> <span>795</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>n.ouldterki@gmail.com</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Internship:</strong> <span>Available from January 16th for a period of 6 months</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="lighty"  class="col-sm-12">
+              <br/>
+              <p>I am currently ERASMUS mobility in Larnaca, CYPRUS in the school UCLAN for a training of web design in order to specialize in this field I would like to consolidate my knowledge and make it benefit your company.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="facts" class="facts">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Facts</h2>
+          <p>During my studies as a computer engineer I was able to realize several projects such as the creation of a student management application for my institution. I also realized an internship of a duration of four months, during this last one I could contribute to the realization of a project allowing the management of the employees of the company in order to allow them to count the workforce as well as to manage it according to their contracts. And at the end of my internship I was able to create a video game totally coded for an Arcade game website in the theme of piracy.</p>
+        </div>
+
+        <div class="row no-gutters">
+
+          <div class="col-lg-6 col-md-6 d-md-flex align-items-md-stretch" data-aos="fade-up">
+            <div class="count-box">
+              <i class="bi bi-emoji-smile"></i>
+              <span data-purecounter-start="0" data-purecounter-end="4" data-purecounter-duration="1" class="purecounter"></span>
+              <p><strong>Happy Clients</strong><br>My teachers<br>My internship supervisors</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 d-md-flex align-items-md-stretch" data-aos="fade-up" data-aos-delay="100">
+            <div class="count-box">
+              <i class="bi bi-journal-richtext"></i>
+              <span data-purecounter-start="0" data-purecounter-end="3" data-purecounter-duration="1" class="purecounter"></span>
+              <p><strong>Projects</strong><br>Student Enrollment Management<br>Managing a company's employees<br>Creating a game</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 d-md-flex align-items-md-stretch" data-aos="fade-up" data-aos-delay="200">
+            <div class="count-box">
+              <i class="bi bi-percent"></i>
+              <span data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="1" class="purecounter"></span>
+              <p><strong>Availability for an interview</strong><br>Monday to Friday from 3pm</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 d-md-flex align-items-md-stretch" data-aos="fade-up" data-aos-delay="300">
+            <div class="count-box">
+              <i class="bi bi-calendar-week"></i>
+              <span data-purecounter-start="0" data-purecounter-end="6" data-purecounter-duration="1" class="purecounter"></span>
+              <p><strong>Period of the internship</strong><br/>From mid-January to mid-July</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="skills" class="skills section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Skills</h2>
+          <p>Throughout my training and professional experience I have learned to develop my skills and acquire knowledge through self-study through research and online courses.</p>
+        </div>
+
+        <div class="row skills-content">
+
+          <div class="col-lg-6" data-aos="fade-up">
+
+            <div class="progress">
+              <span class="skill">HTML <i class="val">65%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">CSS <i class="val">90%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">JavaScript <i class="val">95%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-up">
+
+            <div class="progress">
+              <span class="skill">React <i class="val">80%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">Bootstrap <i class="val">90%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">Adobe XD <i class="val">95%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="progress">
+              <span class="skill">PHP <i class="val">80%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">WordPress/CMS <i class="val">90%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">Photoshop <i class="val">55%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-up">
+
+            <div class="progress">
+              <span class="skill">Java <i class="val">75%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">MySQL/NoSQL <i class="val">60%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">NodeJS <i class="val">85%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="resume" class="resume">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Resume</h2>
+          </div>
 
         <div class="row">
           <div class="col-lg-6" data-aos="fade-up">
@@ -299,11 +738,6 @@
             <div class="resume-item pb-0">
               <h4>Nabil OULD TERKI</h4>
               <p><em>Innovative and deadline-driven graphic designer with over one year of experience in user-centered web application design and development, from initial concept to final polished deliverable.</em></p>
-              <!-- <ul>
-                <li>8 rue Clin, Calais</li>
-                <li>+33 6 41 40 52 37</li>
-                <li>n.ouldterki@gmail.com</li>
-              </ul> -->
             </div>
 
             <h3 class="resume-title">Professional Experience</h3>
@@ -349,9 +783,8 @@
         </div>
 
       </div>
-    </section><!-- End Resume Section -->
+    </section>
 
-    <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio section-bg">
       <div class="container">
 
@@ -405,54 +838,7 @@
         </div>
 
       </div>
-    </section><!-- End Portfolio Section -->
-
-    <!-- ======= Services Section ======= -->
-    <!-- <section id="services" class="services">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Services</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
-            <div class="icon"><i class="bi bi-briefcase"></i></div>
-            <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon"><i class="bi bi-card-checklist"></i></div>
-            <h4 class="title"><a href="">Dolor Sitema</a></h4>
-            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon"><i class="bi bi-bar-chart"></i></div>
-            <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
-            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon"><i class="bi bi-binoculars"></i></div>
-            <h4 class="title"><a href="">Magni Dolores</a></h4>
-            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bi bi-brightness-high"></i></div>
-            <h4 class="title"><a href="">Nemo Enim</a></h4>
-            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
-            <div class="icon"><i class="bi bi-calendar4-week"></i></div>
-            <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
-            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
-          </div>
-        </div>
-
-      </div>
-    </section>End Services Section -->
-
-    <!-- ======= Testimonials Section ======= -->
+    </section>
     <section id="testimonials" class="testimonials section-bg">
       <div class="container">
 
@@ -475,7 +861,7 @@
                 <h3>Régis LHERBIER</h3>
                 <h4>Lecturer at the University</h4>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
 
             <div class="swiper-slide">
               <div class="testimonial-item" data-aos="fade-up" data-aos-delay="100">
@@ -488,7 +874,7 @@
                 <h3>David VAN GOIDSTNOVEN</h3>
                 <h4>CEO & Web Designer</h4>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
 
             <div class="swiper-slide">
               <div class="testimonial-item" data-aos="fade-up" data-aos-delay="200">
@@ -501,90 +887,19 @@
                 <h3>Quentin MOUSSET</h3>
                 <h4>Web Developer</h4>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
           </div>
           <div class="swiper-pagination"></div>
         </div>
 
       </div>
-    </section><!-- End Testimonials Section -->
+    </section>
+  </main>
+  </div> -->
+  
 
-    <!-- ======= Contact Section ======= -->
-    <!-- <section id="contact" class="contact">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Contact</h2>
-          <p>I hope you have enjoyed following this resume, I leave you my contact information in order to have your availability. Thank you for your attention.</p>
-        </div>
-
-        <div class="row" data-aos="fade-in">
-
-          <div class="col-lg-5 d-flex align-items-stretch">
-            <div class="info">
-              <div class="address">
-                <i class="bi bi-geo-alt"></i>
-                <h4>Location:</h4>
-                <p>8 rue clin, 62100 Calais, FRANCE</p>
-              </div>
-
-              <div class="email">
-                <i class="bi bi-envelope"></i>
-                <h4>Email:</h4>
-                <p>n.ouldterki@gmail.com</p>
-              </div>
-
-              <div class="phone">
-                <i class="bi bi-phone"></i>
-                <h4>Call:</h4>
-                <p>+33 6 41 40 52 37</p>
-              </div>
-
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d40215.587535750296!2d1.8339619331588572!3d50.951935935837426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47dc3f75d7f1e363%3A0xacbed9e08cd279f4!2sCalais%2C%20France!5e0!3m2!1sfr!2s!4v1664638627713!5m2!1sfr!2s" width="300" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-
-          </div>
-
-          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="http://localhost/forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="row">
-                <div class="form-group col-md-6">
-                  <label for="name">Your Name</label>
-                  <input type="text" name="name" class="form-control" id="name" required>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="name">Your Email</label>
-                  <input type="email" class="form-control" name="email" id="email" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="name">Subject</label>
-                <input type="text" class="form-control" name="subject" id="subject" required>
-              </div>
-              <div class="form-group">
-                <label for="name">Message</label>
-                <textarea class="form-control" name="message" rows="10" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
-            </form>
-          </div>
-
-        </div>
-
-      </div>
-    </section>End Contact Section -->
-
-  </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -595,7 +910,6 @@
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
 </body>
