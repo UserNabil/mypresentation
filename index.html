@@ -1,257 +1,204 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nabil OULD-TERKI - Ingénieur Full Stack Freelance</title>
-  <meta name="description" content="Ingénieur Full Stack freelance spécialisé .NET Core, Angular, Flutter. Disponible en portage salarial pour missions longues durées.">
-  <meta name="keywords" content="développeur freelance, .NET Core, Angular, Flutter, portage salarial, Paris">
-  <link href="favicon.png" rel="icon">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --primary: #3B82F6;
-      --secondary: #1E293B;
-      --accent: #10B981;
-      --text: #1F2937;
-      --bg: #F9FAFB;
-      --card: #FFFFFF;
-      --border: #E5E7EB;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      font-family: 'Inter', sans-serif; 
-      color: var(--text); 
-      background: var(--bg);
-      overflow-x: hidden;
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #fff;
     }
 
-    /* HEADER FIXED */
-    .navbar-custom {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-      padding: 1rem 0;
+    /* NAVIGATION */
+    nav {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       position: fixed;
+      width: 100%;
       top: 0;
-      width: 100%;
       z-index: 1000;
-      transition: all 0.3s ease;
     }
 
-    .navbar-scrolled { padding: 0.5rem 0; }
-
-    .navbar-brand {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--secondary);
-      transition: color 0.3s;
-    }
-
-    .navbar-brand:hover { color: var(--primary); }
-
-    .nav-link {
-      color: var(--text);
-      font-weight: 500;
-      margin: 0 1rem;
-      transition: color 0.3s;
-      position: relative;
-    }
-
-    .nav-link:hover, .nav-link.active {
-      color: var(--primary);
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
-      transition: width 0.3s;
-    }
-
-    .nav-link:hover::after, .nav-link.active::after {
-      width: 100%;
-    }
-
-    /* HERO SECTION */
-    #hero {
-      min-height: 100vh;
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
       display: flex;
+      justify-content: space-between;
       align-items: center;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #2563eb;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 120px 2rem 80px;
+      text-align: center;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      position: relative;
-      overflow: hidden;
-      padding-top: 80px;
-    }
-
-    #hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-      background-size: cover;
-      opacity: 0.3;
     }
 
     .hero-content {
-      position: relative;
-      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
-    .hero-title {
-      font-size: 3.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      line-height: 1.2;
-    }
-
-    .hero-subtitle {
-      font-size: 1.5rem;
-      font-weight: 300;
-      margin-bottom: 2rem;
-      opacity: 0.9;
-    }
-
-    .badge-freelance {
+    .badge {
       display: inline-block;
-      background: var(--accent);
-      color: white;
+      background: #10b981;
       padding: 0.5rem 1.5rem;
       border-radius: 50px;
       font-weight: 600;
       margin-bottom: 1rem;
-      animation: pulse 2s infinite;
+      font-size: 0.9rem;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero h2 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      opacity: 0.95;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
     }
 
     .hero-stats {
       display: flex;
+      justify-content: center;
       gap: 3rem;
       margin-top: 2rem;
     }
 
-    .stat-item {
+    .stat {
       text-align: center;
     }
 
     .stat-number {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
       display: block;
     }
 
     .stat-label {
       font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    .btn-cta {
-      background: white;
-      color: var(--primary);
-      padding: 1rem 2.5rem;
-      border-radius: 50px;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-block;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-
-    .btn-cta:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-      color: var(--primary);
+      opacity: 0.9;
     }
 
     /* SECTIONS */
     section {
-      padding: 5rem 0;
+      padding: 80px 2rem;
     }
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 4rem;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    .section-title h2 {
+    h2 {
       font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--secondary);
-      position: relative;
-      display: inline-block;
-    }
-
-    .section-title h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 4px;
-      background: var(--primary);
-      border-radius: 2px;
-    }
-
-    .section-title p {
-      color: #6B7280;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
+      margin-bottom: 3rem;
+      text-align: center;
+      color: #1e293b;
     }
 
     /* ABOUT */
-    .about-card {
-      background: var(--card);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-      transition: transform 0.3s;
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      align-items: center;
     }
 
-    .about-card:hover {
-      transform: translateY(-10px);
-    }
-
-    .about-image {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid var(--primary);
-      margin: 0 auto 2rem;
+    .about-img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+      margin: 0 auto;
       display: block;
     }
 
-    /* FREELANCE STATUS */
-    .freelance-banner {
-      background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
-      color: white;
-      padding: 3rem 0;
-      text-align: center;
-      border-radius: 20px;
-      margin: 3rem 0;
-      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+    .about-text h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #1e293b;
     }
 
-    .freelance-banner h3 {
-      font-size: 2rem;
-      font-weight: 700;
+    .about-text p {
+      margin-bottom: 1rem;
+      color: #64748b;
+      line-height: 1.8;
+    }
+
+    .info-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-item i {
+      color: #2563eb;
+    }
+
+    /* FREELANCE BOX */
+    .freelance-box {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .freelance-box h3 {
+      font-size: 1.8rem;
       margin-bottom: 1rem;
     }
 
@@ -259,231 +206,178 @@
       display: flex;
       justify-content: center;
       gap: 3rem;
+      margin-top: 1.5rem;
       flex-wrap: wrap;
-      margin-top: 2rem;
     }
 
-    .info-item {
+    .freelance-item {
       text-align: center;
     }
 
-    .info-item i {
+    .freelance-item i {
       font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .info-item strong {
       display: block;
-      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
     }
 
     /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
     .skill-card {
-      background: var(--card);
+      background: #f8fafc;
       padding: 2rem;
-      border-radius: 15px;
+      border-radius: 10px;
       text-align: center;
-      transition: all 0.3s;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-      height: 100%;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .skill-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
     .skill-icon {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, var(--primary), #8B5CF6);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      font-size: 2rem;
-      color: white;
+      font-size: 3rem;
+      color: #2563eb;
+      margin-bottom: 1rem;
     }
 
     .skill-name {
-      font-weight: 600;
       font-size: 1.2rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
-      color: var(--secondary);
     }
 
     .skill-level {
-      color: #6B7280;
+      color: #64748b;
       font-size: 0.9rem;
     }
 
     /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
     .project-card {
-      background: var(--card);
-      border-radius: 20px;
+      background: #fff;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-      transition: all 0.3s;
-      height: 100%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .project-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
 
-    .project-image-container {
-      position: relative;
-      height: 250px;
-      overflow: hidden;
-      background: #f3f4f6;
-    }
-
-    .project-image {
+    .project-img {
       width: 100%;
-      height: 100%;
+      height: 250px;
       object-fit: cover;
-      transition: transform 0.5s;
-    }
-
-    .project-card:hover .project-image {
-      transform: scale(1.1);
-    }
-
-    .project-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex;
-      align-items: flex-end;
-      padding: 1.5rem;
-    }
-
-    .project-card:hover .project-overlay {
-      opacity: 1;
-    }
-
-    .project-links {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .project-link {
-      background: white;
-      color: var(--primary);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    .project-link:hover {
-      transform: scale(1.2);
-      background: var(--primary);
-      color: white;
+      background: #e2e8f0;
     }
 
     .project-content {
-      padding: 2rem;
-    }
-
-    .project-title {
-      font-weight: 700;
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-      color: var(--secondary);
+      padding: 1.5rem;
     }
 
     .project-category {
-      color: var(--primary);
-      font-size: 0.9rem;
+      color: #2563eb;
       font-weight: 600;
-      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
     }
 
-    .project-description {
-      color: #6B7280;
+    .project-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #1e293b;
+    }
+
+    .project-desc {
+      color: #64748b;
+      margin-bottom: 1rem;
       line-height: 1.6;
-      margin-bottom: 1rem;
     }
 
-    .project-tech {
+    .project-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+      margin-bottom: 1rem;
     }
 
-    .tech-tag {
-      background: #EEF2FF;
-      color: var(--primary);
-      padding: 0.25rem 0.75rem;
+    .tag {
+      background: #e0e7ff;
+      color: #2563eb;
+      padding: 0.3rem 0.8rem;
       border-radius: 20px;
       font-size: 0.8rem;
       font-weight: 500;
     }
 
-    /* CONTACT */
-    .contact-card {
-      background: var(--card);
-      padding: 3rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .contact-item {
-      display: flex;
+    .project-link {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 0.5rem;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .contact-card {
+      background: #f8fafc;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
     }
 
     .contact-icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--primary), #8B5CF6);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: white;
-      flex-shrink: 0;
+      font-size: 2.5rem;
+      color: #2563eb;
+      margin-bottom: 1rem;
     }
 
-    .contact-details h5 {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-      color: var(--secondary);
+    .contact-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #1e293b;
     }
 
-    .contact-details p {
-      color: #6B7280;
-      margin: 0;
+    .contact-card p {
+      color: #64748b;
     }
 
-    .contact-details a {
-      color: var(--primary);
+    .contact-card a {
+      color: #2563eb;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .social-links {
       display: flex;
+      justify-content: center;
       gap: 1rem;
       margin-top: 2rem;
     }
@@ -491,124 +385,105 @@
     .social-link {
       width: 50px;
       height: 50px;
-      background: #F3F4F6;
+      background: #f8fafc;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--secondary);
+      color: #64748b;
+      font-size: 1.5rem;
       text-decoration: none;
       transition: all 0.3s;
     }
 
     .social-link:hover {
-      background: var(--primary);
+      background: #2563eb;
       color: white;
       transform: translateY(-5px);
     }
 
     /* FOOTER */
     footer {
-      background: var(--secondary);
+      background: #1e293b;
       color: white;
-      padding: 2rem 0;
       text-align: center;
+      padding: 2rem;
     }
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .hero-title { font-size: 2.5rem; }
-      .hero-subtitle { font-size: 1.2rem; }
-      .hero-stats { gap: 1.5rem; }
-      .stat-number { font-size: 2rem; }
-      .freelance-info { gap: 1.5rem; }
-      .section-title h2 { font-size: 2rem; }
-    }
+      nav ul {
+        display: none;
+      }
 
-    .back-to-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: var(--primary);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      z-index: 999;
-    }
+      .hero h1 {
+        font-size: 2rem;
+      }
 
-    .back-to-top.show {
-      opacity: 1;
-      visibility: visible;
-    }
+      .hero h2 {
+        font-size: 1.2rem;
+      }
 
-    .back-to-top:hover {
-      transform: translateY(-5px);
-      background: var(--secondary);
-      color: white;
+      .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .info-list {
+        grid-template-columns: 1fr;
+      }
+
+      .freelance-info {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-custom">
+  <!-- NAVIGATION -->
+  <nav>
     <div class="container">
-      <a class="navbar-brand" href="#hero">Nabil OT</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="#hero">Accueil</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#skills">Compétences</a></li>
-          <li class="nav-item"><a class="nav-link" href="#projects">Projets</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-      </div>
+      <a href="#" class="logo">Nabil OT</a>
+      <ul>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#skills">Compétences</a></li>
+        <li><a href="#projects">Projets</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section id="hero">
-    <div class="container">
-      <div class="hero-content" data-aos="fade-up">
-        <div class="badge-freelance">
-          <i class="bi bi-check-circle-fill"></i> Disponible en Freelance - Mars 2025
+  <section class="hero">
+    <div class="hero-content">
+      <span class="badge">
+        <i class="fas fa-check-circle"></i> Disponible en Freelance - Mars 2025
+      </span>
+      <h1>Nabil OULD-TERKI</h1>
+      <h2>Ingénieur Full Stack | .NET Core • Angular • Flutter</h2>
+      <p>Je conçois des applications web et mobiles performantes, scalables et modernes. Spécialisé en solutions SaaS de A à Z.</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">2+</span>
+          <span class="stat-label">Ans d'expérience</span>
         </div>
-        <h1 class="hero-title">Nabil OULD-TERKI</h1>
-        <p class="hero-subtitle">Ingénieur Full Stack | .NET Core • Angular • Flutter</p>
-        <p style="font-size: 1.1rem; opacity: 0.9; max-width: 600px;">
-          Je conçois des applications web et mobiles performantes, scalables et modernes. 
-          Spécialisé en solutions SaaS de A à Z.
-        </p>
-        <div class="mt-4">
-          <a href="#contact" class="btn-cta me-3">Discutons de votre projet</a>
-          <a href="assets/CV_Nabil_OULD_TERKI.pdf" class="btn btn-outline-light btn-lg" download>
-            <i class="bi bi-download"></i> Télécharger CV
-          </a>
+        <div class="stat">
+          <span class="stat-number">500€</span>
+          <span class="stat-label">TJM à partir de</span>
         </div>
-        <div class="hero-stats">
-          <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-            <span class="stat-number">2+</span>
-            <span class="stat-label">Ans d'expérience</span>
-          </div>
-          <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-            <span class="stat-number">500€</span>
-            <span class="stat-label">TJM à partir de</span>
-          </div>
-          <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
-            <span class="stat-number">100%</span>
-            <span class="stat-label">Remote possible</span>
-          </div>
+        <div class="stat">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Remote possible</span>
         </div>
       </div>
     </div>
@@ -617,40 +492,296 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="container">
-      <div class="section-title" data-aos="fade-up">
-        <h2>À propos</h2>
-        <p>Ingénieur full-stack passionné par la création d'applications innovantes</p>
-      </div>
-      <div class="row align-items-center">
-        <div class="col-lg-4" data-aos="fade-right">
-          <img src="assets/img/hero-bg.jpeg" alt="Nabil OULD-TERKI" class="about-image">
+      <h2>À propos</h2>
+      <div class="about-grid">
+        <img src="assets/img/hero-bg.jpeg" alt="Nabil OULD-TERKI" class="about-img">
+        <div class="about-text">
+          <h3>Designer UI/UX & Développeur Full Stack</h3>
+          <p>Ingénieur informatique spécialisé en développement full stack, je suis à l'aise tant sur le front-end que sur le back-end, avec une expertise particulière dans les technologies .NET et Angular.</p>
+          <p>Je possède également une solide expérience en développement mobile avec Flutter, ce qui me permet de créer des applications cross-platforms performantes et élégantes.</p>
+          <div class="info-list">
+            <div class="info-item">
+              <i class="fas fa-user"></i>
+              <span><strong>Âge:</strong> 29 ans</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span><strong>Localisation:</strong> Paris, France</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-graduation-cap"></i>
+              <span><strong>Diplôme:</strong> Ingénieur informatique</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-envelope"></i>
+              <span><strong>Email:</strong> n.ouldterki@gmail.com</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone"></i>
+              <span><strong>Tél:</strong> +33 6 41 40 52 37</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-language"></i>
+              <span><strong>Anglais:</strong> TOEIC 795</span>
+            </div>
+          </div>
         </div>
-        <div class="col-lg-8" data-aos="fade-left">
-          <div class="about-card">
-            <h3 class="mb-4">Designer UI/UX & Développeur Full Stack</h3>
-            <p class="lead">
-              Ingénieur informatique spécialisé en développement full stack, je suis à l'aise tant sur le 
-              front-end que sur le back-end, avec une expertise particulière dans les technologies .NET et Angular.
-            </p>
-            <p>
-              En outre, je possède une solide expérience en développement mobile avec Flutter, ce qui me permet 
-              de créer des applications cross-platforms performantes et élégantes. Actuellement en CDI chez Granite, 
-              je prépare mon lancement en freelance pour mettre mon expertise au service de projets à forte valeur ajoutée.
-            </p>
-            <div class="row mt-4">
-              <div class="col-md-6">
-                <ul class="list-unstyled">
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Âge:</strong> 29 ans</li>
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Localisation:</strong> Paris, France</li>
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Diplôme:</strong> Ingénieur informatique (EILCO)</li>
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Mobilité:</strong> Véhiculé Permis B</li>
-                </ul>
-              </div>
-              <div class="col-md-6">
-                <ul class="list-unstyled">
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Email:</strong> n.ouldterki@gmail.com</li>
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Téléphone:</strong> +33 6 41 40 52 37</li>
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Anglais:</strong> TOEIC 795</li>
-                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Format:</strong> Portage salarial / Freelance</li>
-                </ul>
-              </div>
+      </div>
+
+      <!-- FREELANCE BOX -->
+      <div class="freelance-box">
+        <h3><i class="fas fa-bolt"></i> Disponible en Freelance dès Mars 2025</h3>
+        <p>Missions longues durées • Remote ou hybride Paris • Portage salarial</p>
+        <div class="freelance-info">
+          <div class="freelance-item">
+            <i class="fas fa-euro-sign"></i>
+            <strong>TJM: 500-650€</strong>
+            <small>Selon mission</small>
+          </div>
+          <div class="freelance-item">
+            <i class="fas fa-calendar"></i>
+            <strong>Disponibilité</strong>
+            <small>Mars 2025</small>
+          </div>
+          <div class="freelance-item">
+            <i class="fas fa-clock"></i>
+            <strong>Durée</strong>
+            <small>6+ mois idéalement</small>
+          </div>
+          <div class="freelance-item">
+            <i class="fas fa-laptop"></i>
+            <strong>Modalités</strong>
+            <small>100% remote possible</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" style="background: #f8fafc;">
+    <div class="container">
+      <h2>Compétences Techniques</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fab fa-microsoft"></i></div>
+          <div class="skill-name">.NET Core</div>
+          <div class="skill-level">Expert • 95%</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fab fa-angular"></i></div>
+          <div class="skill-name">Angular</div>
+          <div class="skill-level">Expert • 90%</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div>
+          <div class="skill-name">Flutter</div>
+          <div class="skill-level">Avancé • 85%</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-database"></i></div>
+          <div class="skill-name">SQL Server</div>
+          <div class="skill-level">Avancé • 80%</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fab fa-microsoft"></i></div>
+          <div class="skill-name">Azure</div>
+          <div class="skill-level">Intermédiaire • 75%</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fab fa-react"></i></div>
+          <div class="skill-name">React</div>
+          <div class="skill-level">Avancé • 85%</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fab fa-node-js"></i></div>
+          <div class="skill-name">Node.js</div>
+          <div class="skill-level">Avancé • 85%</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-paint-brush"></i></div>
+          <div class="skill-name">Figma / UI/UX</div>
+          <div class="skill-level">Expert • 95%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <h2>Mes Réalisations</h2>
+      <div class="projects-grid">
+        
+        <!-- UTRAV -->
+        <div class="project-card">
+          <img src="assets/img/portfolio/utrav.jpg" alt="Utrav" class="project-img" onerror="this.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'">
+          <div class="project-content">
+            <div class="project-category">📱 Application Mobile SaaS • 2024-2025</div>
+            <h3 class="project-title">Utrav</h3>
+            <p class="project-desc">Solution complète pour agences de voyage : réservations, paiements, programme fidélité, notifications push. App Flutter + back-office Angular.</p>
+            <div class="project-tags">
+              <span class="tag">Flutter</span>
+              <span class="tag">Angular</span>
+              <span class="tag">.NET Core</span>
+              <span class="tag">Firebase</span>
+            </div>
+            <a href="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav" class="project-link" target="_blank">
+              Voir sur Play Store <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- MY OFFICE -->
+        <div class="project-card">
+          <img src="assets/img/portfolio/myoffice.jpg" alt="My Office" class="project-img" onerror="this.style.background='linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'">
+          <div class="project-content">
+            <div class="project-category">💼 Application CRM • 2023-2024</div>
+            <h3 class="project-title">My Office</h3>
+            <p class="project-desc">CRM from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma complète.</p>
+            <div class="project-tags">
+              <span class="tag">Angular</span>
+              <span class="tag">.NET Core</span>
+              <span class="tag">Figma</span>
+              <span class="tag">Azure</span>
+            </div>
+            <a href="https://my-officeapps.com" class="project-link" target="_blank">
+              Voir le site <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- GRANITE -->
+        <div class="project-card">
+          <img src="assets/img/portfolio/granite.jpg" alt="Granite" class="project-img" onerror="this.style.background='linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'">
+          <div class="project-content">
+            <div class="project-category">🏦 Gestion de Patrimoine • 2024-2025</div>
+            <h3 class="project-title">Application ADD Associés</h3>
+            <p class="project-desc">Application de gestion de patrimoine : suivi portefeuilles clients, génération de rapports automatisés.</p>
+            <div class="project-tags">
+              <span class="tag">React</span>
+              <span class="tag">.NET Core</span>
+              <span class="tag">Azure</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUENEY -->
+        <div class="project-card">
+          <img src="assets/img/portfolio/queney.jpg" alt="Queney" class="project-img" onerror="this.style.background='linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'">
+          <div class="project-content">
+            <div class="project-category">📱 Application Mobile • 2023-2024</div>
+            <h3 class="project-title">Application Queney</h3>
+            <p class="project-desc">Application mobile cross-platform. Conception UI/UX sur Figma, développement Flutter et intégration API .NET Core.</p>
+            <div class="project-tags">
+              <span class="tag">Flutter</span>
+              <span class="tag">.NET Core</span>
+              <span class="tag">Figma</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SANTELAC -->
+        <div class="project-card">
+          <img src="assets/img/portfolio/santelac.gif" alt="Santelac" class="project-img">
+          <div class="project-content">
+            <div class="project-category">🌐 Site Web</div>
+            <h3 class="project-title">Santelac</h3>
+            <p class="project-desc">Site web médical avec système de rendez-vous en ligne.</p>
+            <div class="project-tags">
+              <span class="tag">Azure</span>
+              <span class="tag">ASP.NET</span>
+            </div>
+            <a href="https://devsantelacweb.azurewebsites.net" class="project-link" target="_blank">
+              Voir le site <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- VACANCIEL -->
+        <div class="project-card">
+          <img src="assets/img/portfolio/vacanciel.gif" alt="Vacanciel" class="project-img">
+          <div class="project-content">
+            <div class="project-category">🌐 Site Web</div>
+            <h3 class="project-title">Vacanciel</h3>
+            <p class="project-desc">Plateforme de réservation de vacances avec galerie photos.</p>
+            <div class="project-tags">
+              <span class="tag">Azure</span>
+              <span class="tag">.NET</span>
+            </div>
+            <a href="https://devvacancielweb.azurewebsites.net/" class="project-link" target="_blank">
+              Voir le site <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background: #f8fafc;">
+    <div class="container">
+      <h2>Contactez-moi</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3>Localisation</h3>
+          <p>Paris, Île-de-France<br>100% Remote possible</p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <h3>Email</h3>
+          <p><a href="mailto:n.ouldterki@gmail.com">n.ouldterki@gmail.com</a></p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <h3>Téléphone</h3>
+          <p><a href="tel:+33641405237">+33 6 41 40 52 37</a></p>
+        </div>
+      </div>
+
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/nabil-ould-terki/" class="social-link" target="_blank" title="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/nabilot5?tab=repositories" class="social-link" target="_blank" title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://malt.fr/profile/nabilouldterki" class="social-link" target="_blank" title="Malt">
+          <i class="fas fa-briefcase"></i>
+        </a>
+        <a href="https://twitter.com/nabil_ot5" class="social-link" target="_blank" title="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.instagram.com/nabil_ot5/" class="social-link" target="_blank" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Nabil OULD-TERKI - Tous droits réservés</p>
+    <p>Ingénieur Full Stack Freelance • .NET Core • Angular • Flutter</p>
+  </footer>
+
+  <script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 70,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
