@@ -1,421 +1,656 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <title>Nabil OULD TERKI</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <title>Nabil OULD-TERKI - Ingénieur Full Stack Freelance</title>
+  <meta name="description" content="Ingénieur Full Stack freelance spécialisé .NET Core, Angular, Flutter. Disponible en portage salarial pour missions longues durées.">
+  <meta name="keywords" content="développeur freelance, .NET Core, Angular, Flutter, portage salarial, Paris">
   <link href="favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3B82F6;
+      --secondary: #1E293B;
+      --accent: #10B981;
+      --text: #1F2937;
+      --bg: #F9FAFB;
+      --card: #FFFFFF;
+      --border: #E5E7EB;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      color: var(--text); 
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* HEADER FIXED */
+    .navbar-custom {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-scrolled { padding: 0.5rem 0; }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--secondary);
+      transition: color 0.3s;
+    }
+
+    .navbar-brand:hover { color: var(--primary); }
+
+    .nav-link {
+      color: var(--text);
+      font-weight: 500;
+      margin: 0 1rem;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* HERO SECTION */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+      background-size: cover;
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .badge-freelance {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .btn-cta {
+      background: white;
+      color: var(--primary);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      color: var(--primary);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .section-title p {
+      color: #6B7280;
+      max-width: 700px;
+      margin: 1.5rem auto 0;
+    }
+
+    /* ABOUT */
+    .about-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .about-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .about-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--primary);
+      margin: 0 auto 2rem;
+      display: block;
+    }
+
+    /* FREELANCE STATUS */
+    .freelance-banner {
+      background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+      color: white;
+      padding: 3rem 0;
+      text-align: center;
+      border-radius: 20px;
+      margin: 3rem 0;
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+    }
+
+    .freelance-banner h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .freelance-info {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .info-item {
+      text-align: center;
+    }
+
+    .info-item i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-item strong {
+      display: block;
+      font-size: 1.1rem;
+    }
+
+    /* SKILLS */
+    .skill-card {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      height: 100%;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+
+    .skill-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      color: white;
+    }
+
+    .skill-name {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--secondary);
+    }
+
+    .skill-level {
+      color: #6B7280;
+      font-size: 0.9rem;
+    }
+
+    /* PROJECTS */
+    .project-card {
+      background: var(--card);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+      height: 100%;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .project-image-container {
+      position: relative;
+      height: 250px;
+      overflow: hidden;
+      background: #f3f4f6;
+    }
+
+    .project-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .project-card:hover .project-image {
+      transform: scale(1.1);
+    }
+
+    .project-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+
+    .project-card:hover .project-overlay {
+      opacity: 1;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-link {
+      background: white;
+      color: var(--primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .project-link:hover {
+      transform: scale(1.2);
+      background: var(--primary);
+      color: white;
+    }
+
+    .project-content {
+      padding: 2rem;
+    }
+
+    .project-title {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--secondary);
+    }
+
+    .project-category {
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .project-description {
+      color: #6B7280;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tech-tag {
+      background: #EEF2FF;
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* CONTACT */
+    .contact-card {
+      background: var(--card);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .contact-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .contact-details h5 {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--secondary);
+    }
+
+    .contact-details p {
+      color: #6B7280;
+      margin: 0;
+    }
+
+    .contact-details a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      width: 50px;
+      height: 50px;
+      background: #F3F4F6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-5px);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--secondary);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem; }
+      .hero-subtitle { font-size: 1.2rem; }
+      .hero-stats { gap: 1.5rem; }
+      .stat-number { font-size: 2rem; }
+      .freelance-info { gap: 1.5rem; }
+      .section-title h2 { font-size: 2rem; }
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 999;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      background: var(--secondary);
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
-  <div id="french">
-  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
-  <header id="header">
-    <div class="d-flex flex-column">
-      <div class="profile">
-        <img src="assets/img/hero-bg.jpeg" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html">Nabil OULD-TERKI</a></h1>
-        <div class="social-links mt-3 text-center">
-          <a href="https://github.com/nabilot5?tab=repositories" class="github"><i class="bx bxl-github"></i></a>
-          <a href="https://twitter.com/nabil_ot5" class="twitter"><i class="bx bxl-twitter"></i></a>
-          <a href="https://www.facebook.com/nabil.ouldterki" class="facebook"><i class="bx bxl-facebook"></i></a>
-          <a href="https://www.instagram.com/nabil_ot5/" class="instagram"><i class="bx bxl-instagram"></i></a>
-          <a href="https://www.linkedin.com/in/nabil-ould-terki/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+      <a class="navbar-brand" href="#hero">Nabil OT</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#hero">Accueil</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Compétences</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-content" data-aos="fade-up">
+        <div class="badge-freelance">
+          <i class="bi bi-check-circle-fill"></i> Disponible en Freelance - Mars 2025
+        </div>
+        <h1 class="hero-title">Nabil OULD-TERKI</h1>
+        <p class="hero-subtitle">Ingénieur Full Stack | .NET Core • Angular • Flutter</p>
+        <p style="font-size: 1.1rem; opacity: 0.9; max-width: 600px;">
+          Je conçois des applications web et mobiles performantes, scalables et modernes. 
+          Spécialisé en solutions SaaS de A à Z.
+        </p>
+        <div class="mt-4">
+          <a href="#contact" class="btn-cta me-3">Discutons de votre projet</a>
+          <a href="assets/CV_Nabil_OULD_TERKI.pdf" class="btn btn-outline-light btn-lg" download>
+            <i class="bi bi-download"></i> Télécharger CV
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+            <span class="stat-number">2+</span>
+            <span class="stat-label">Ans d'expérience</span>
+          </div>
+          <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+            <span class="stat-number">500€</span>
+            <span class="stat-label">TJM à partir de</span>
+          </div>
+          <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Remote possible</span>
+          </div>
         </div>
       </div>
-
-      <nav id="navbar" class="nav-menu navbar">
-        <ul>
-          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Accueil</span></a></li>
-          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-id-card"></i> <span>A propos</span></a></li>
-          <!-- <li><a href="#facts" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Faits</span></a></li> -->
-          <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-cog"></i> <span>Compétences</span></a></li>
-          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Curriculum vitae</span></a></li>
-          <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
-          <!-- <li><a href="#testimonials" class="nav-link scrollto"><i class="bx bx-heart"></i> <span>Témoignages</span></a></li> -->
-        </ul>
-      </nav><!-- .nav-menu -->
-    </div>
-  </header>
-
-  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-    <div class="hero-container" data-aos="fade-in">
-      <h1>Nabil OULD-TERKI</h1>
-      <p>Je suis <span class="typed" data-typed-items="Designer, Développeur web, Programmeur, Photographe"></span></p>
     </div>
   </section>
 
-  <main id="main">
-    <section id="about" class="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm" data-aos="fade-right">
-            <div class="col-sm-auto">
-              <h2>A propos</h2>
-              <p>Passionné par les nouvelles technologies de jeux et le développement web. J'ai consacré mon temps libre à la découverte de cet univers. C'est ainsi qu'après plusieurs défis, mon avenir professionnel s'est décidé.</p>
-            </div>
-            <div  class="col-sm-auto"><img id="lighty" src="assets/img/profile-img2.jpeg" class="img-fluid" alt=""></div>            
-          </div>
-          <div class="col-sm-8 pt-4 pt-sm-0 content" data-aos="fade-left">
-            <h3>Designer UI/UX &amp; Développeur Web.</h3>
-            <p id="lighty"  class="fst-italic">
-              Avec plus de 2 ans d'expérience en développement web, je suis compétent dans la création de sites web performants, la résolution de problèmes techniques, et la conception d'interfaces conviviales
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>À propos</h2>
+        <p>Ingénieur full-stack passionné par la création d'applications innovantes</p>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-lg-4" data-aos="fade-right">
+          <img src="assets/img/hero-bg.jpeg" alt="Nabil OULD-TERKI" class="about-image">
+        </div>
+        <div class="col-lg-8" data-aos="fade-left">
+          <div class="about-card">
+            <h3 class="mb-4">Designer UI/UX & Développeur Full Stack</h3>
+            <p class="lead">
+              Ingénieur informatique spécialisé en développement full stack, je suis à l'aise tant sur le 
+              front-end que sur le back-end, avec une expertise particulière dans les technologies .NET et Angular.
             </p>
-            <div class="row">
-              <div id="lighty" class="col-sm-auto">
-                <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Date de naissance:</strong><span>11 Mai 1996</span</li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Moyen de transport:</strong> <span>Véhiculé Permis B</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Numéro de téléphone:</strong> <span>+33 6 41 40 52 37</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Ville:</strong> <span>Paris, FRANCE</span></li>
+            <p>
+              En outre, je possède une solide expérience en développement mobile avec Flutter, ce qui me permet 
+              de créer des applications cross-platforms performantes et élégantes. Actuellement en CDI chez Granite, 
+              je prépare mon lancement en freelance pour mettre mon expertise au service de projets à forte valeur ajoutée.
+            </p>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <ul class="list-unstyled">
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Âge:</strong> 29 ans</li>
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Localisation:</strong> Paris, France</li>
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Diplôme:</strong> Ingénieur informatique (EILCO)</li>
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Mobilité:</strong> Véhiculé Permis B</li>
                 </ul>
               </div>
-              <div id="lighty"  class="col-sm-auto">
-                <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Âge:</strong> <span>27</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Diplôme:</strong> <span>Ingénieur informatique</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>TOEIC:</strong> <span>795</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>n.ouldterki@gmail.com</span></li>
-                  <!-- <li><i class="bi bi-chevron-right"></i> <strong>Stage:</strong> <span>Disponible à partir du 16 janvier pour une période de 6 mois.</span></li> -->
+              <div class="col-md-6">
+                <ul class="list-unstyled">
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Email:</strong> n.ouldterki@gmail.com</li>
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Téléphone:</strong> +33 6 41 40 52 37</li>
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Anglais:</strong> TOEIC 795</li>
+                  <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Format:</strong> Portage salarial / Freelance</li>
                 </ul>
               </div>
-            </div>
-          </div>
-          <div id="lighty"  class="col-sm-12">
-              <br/>
-              <p>
-                Ingénieur en informatique spécialisé dans le développement web, avec une expérience professionnelle
-                d'une année en tant que développeur web. À la recherche d'un poste d'Ingénieur Développeur Web Full
-                stack .NET CORE Azure.
-              </p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-    <section id="skills" class="skills section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Compétences</h2>
-          <p>Tout au long de ma formation et de mon expérience professionnelle, j'ai appris à développer mes compétences et à acquérir des connaissances par l'auto-apprentissage au moyen de recherches et de cours en ligne.</p>
-        </div>
-
-        <div class="row skills-content">
-
-          <div class="col-lg-6" data-aos="fade-up">
-
-            <div class="progress">
-              <span class="skill">HTML <i class="val">65%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">CSS <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">JavaScript <i class="val">95%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up">
-
-            <div class="progress">
-              <span class="skill">React <i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Bootstrap <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Adobe XD <i class="val">95%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="progress">
-              <span class="skill">PHP <i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">WordPress/CMS <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Photoshop <i class="val">55%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <div class="progress">
-              <span class="skill">Unity <i class="val">85%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up">
-
-            <div class="progress">
-              <span class="skill">Java <i class="val">75%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <div class="progress">
-              <span class="skill">C# <i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">MySQL/NoSQL <i class="val">60%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">NodeJS <i class="val">85%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-    <section id="resume" class="resume">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Curriculum vitae</h2> </div>
-
-        <div class="row">
-          <div class="col-lg-6" data-aos="fade-up">
-            <h3 class="resume-title">Résumé</h3>
-            <div class="resume-item pb-0">
-              <h4>Nabil OULD TERKI</h4>
-              <p><em>Graphiste innovant et respectueux des délais, je possède plus d'un an d'expérience dans la conception et le développement d'applications web centrées sur l'UX expérience.</em></p>
-            </div>
-
-            <h3 class="resume-title">Expérience professionnelle</h3>
-            <div class="resume-item">
-              <h4>Stagiaire en développement web</h4>
-              <h5>2020 - 4 mois</h5>
-              <p><em>HDM Network, Bruxelles, BELGIQUE </em></p>
-              <ul>
-                <li>Diriger la conception, le développement et la mise en œuvre du matériel de communication graphique, de mise en page et de production.</li>
-                <li>Recommandation et consultation des clients sur la conception graphique la plus appropriée.</li>
-                <li>Déléguer les tâches aux 4 membres de l'équipe de conception et fournir des conseils sur tous les aspects du projet. </li>
-                <li>Superviser l'évaluation de tous les documents graphiques afin de garantir la qualité et l'exactitude de la conception.</li>
-              </ul>
-            </div>           
-            <div class="resume-item">
-              <h4>Stagiaire en qu'assistant ingénieur</h4>
-              <h5>2017 - 3 mois</h5>
-              <p><em>SERAMM, Marseille, FRANCE </em></p>
-              <ul>
-                <li>Organiser des réunions</li>
-                <li>Préparer les tâches suivant un gantt</li>
-                <li>Créer des rapports</li>
-              </ul>
-            </div>           
-          </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <h3 class="resume-title">Formation</h3>
-            <div class="resume-item">
-              <h4>Brevet technicien supérieur, Assistant en technique d'ingénieur</h4>
-              <h5>2015 - 2017</h5>
-              <p><em>Lycée du Rempart, Marseille, FRANCE</em></p>
-              <p>Au cours de ce diplôme, j'ai pu apprendre la gestion et l'organisation d'un projet en tant qu'assistant ingénieur dans le domaine industriel.</p>
-            </div>
-            <div class="resume-item">
-              <h4>Classe préparatoire, adaptation du technicien supérieur</h4>
-              <h5>2017 - 2018</h5>
-              <p><em>Lycée du Rempart, Marseille, FRANCE</em></p>
-              <p>C'est une étape cruciale qui m'a permis d'avoir de la rigueur et d'apprendre à gérer la surcharge de travail.</p>
-            </div>
-            <div class="resume-item">
-              <h4>Diplôme d'ingénieur en informatique</h4>
-              <h5>2018 - 2021</h5>
-              <p><em>EILCO, Calais, FRANCE</em></p>
-              <p>Les compétences acquises au cours de cette formation m'ont permis d'avoir accès à des expériences professionnelles très intéressantes sans avoir de lacunes.</p>
-            </div>
-            <div class="resume-item">
-              <h4>Mobilité Erasmus, conception et livraison d'applications</h4>
-              <h5>2020 - 1 semester</h5>
-              <p><em>UCLAN , Larnaca , CHYPRE</em></p>
-              <p>J'ai pu m'affirmer au cours de cette mobilité afin de maîtriser plusieurs outils très importants pour ma future carrière dans la conception de sites web.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-    <section id="portfolio" class="portfolio section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Portfolio</h2>
-          <p>Vous pouvez consulter ici mon portfolio, dans lequel chaque maquette de site web est déployée gratuitement sur GitHub, Firebase ou Heroku.</p>
-        </div>
-
-        <div class="row" data-aos="fade-up">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">Tout</li>
-              <li data-filter=".filter-web">Site web</li>
-              <li data-filter=".filter-card">Jeu</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
-
-   
-          <div class="col-lg-3 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/santelac.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/santelac.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://devsantelacweb.azurewebsites.net" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/nakedcity.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/nakedcity.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://usernabil.github.io/thenakedcity" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/dz.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/dz.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://media.uclan.ac.uk/~nould-terki/assignment1" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-   
-        
-          <div class="col-lg-3 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/vacancia-gallery.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/vacancia-gallery.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://devvacancielphotos.azurewebsites.net/" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-lg-3 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/vacanciel.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/vacanciel.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://devvacancielweb.azurewebsites.net/" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-        
-          <div class="col-lg-3 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/Jeu.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/Jeu.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://nabilot5.github.io/EternalWorld/" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/pong.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/pong.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://nabilot5.github.io/d-fis-space-invaders/" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/pirate.gif" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/pirate.gif" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                <a href="https://nabilot5.github.io/" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  </div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/js/main.js"></script>
-</body>
-</html>
