@@ -22,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <style>
     /* ============ DESIGN TOKENS ============ */
@@ -223,6 +223,8 @@
     .project .p-link { font-family:var(--ff-mono); font-size:.8rem; color:var(--ink); display:inline-flex; align-items:center; gap:.5rem; transition:gap .25s, color .25s; align-self:flex-start; }
     .project .p-link:hover { color:var(--accent); gap:.9rem; }
     .project .p-link.disabled { color:var(--faint); pointer-events:none; }
+    .project .p-links { display:flex; gap:1.3rem; flex-wrap:wrap; align-items:center; }
+    .project .p-links .p-link i { font-size:1rem; }
 
     /* ============ FREELANCE / OFFER ============ */
     .offer { border:1px solid var(--ink); border-radius:4px; padding:clamp(2rem,5vw,3.5rem); background:var(--ink); color:var(--bg); }
@@ -506,15 +508,18 @@
             <h3>The Pirate's Dice</h3>
             <p class="p-desc">Jeu de dés pirate porté sur mobile, avec chaîne de publication automatisée (APK signé en une commande, incrément de version, workflow CI). Une seule base de code partagée entre l'outil web et l'app — un correctif arrive dans le téléphone au build suivant.</p>
             <div class="p-tags"><span>JavaScript</span><span>Capacitor</span><span>Android · iOS</span><span>CI/CD</span></div>
-            <button class="p-link" data-prev-type="iframe" data-prev-src="https://usernabil.github.io/piratesdice-site/" data-prev-url="https://usernabil.github.io/piratesdice-site/">Visite live <i class="fas fa-tower-broadcast"></i></button>
+            <div class="p-links">
+              <a class="p-link" href="https://play.google.com/store/apps/details?id=com.nabil.piratesdice" target="_blank" rel="noopener"><i class="fab fa-google-play"></i> Google Play</a>
+              <a class="p-link" href="https://apps.apple.com/app/id6804324160" target="_blank" rel="noopener"><i class="fab fa-app-store-ios"></i> App Store</a>
+            </div>
           </article>
 
           <article class="project">
             <div class="p-top"><span class="p-cat">🛠️ Outil desktop · Reverse-engineering</span><span class="p-idx">03</span></div>
             <h3>Eden Ultimate Tool</h3>
-            <p class="p-desc">Console Game Master desktop (fenêtre native) pour éditer monstres, objets et sorts d'un MMORPG — stats, loot, descriptions — avec aperçu 3D. Reverse-engineering et crack du codec serveur chiffré, écriture atomique double couche (client + serveur) vérifiée byte-identique, avec backups.</p>
+            <p class="p-desc">Console d'opérations complète pour MMORPG (fenêtre desktop native) : santé des serveurs en temps réel, déploiement multi-environnements (DEV/PREPROD/PROD), édition de 90 000+ entités — créatures, objets, sorts, enchantements — avec aperçu in-game live. Reverse-engineering du codec serveur chiffré, écriture atomique double couche client + serveur vérifiée byte-identique.</p>
             <div class="p-tags"><span>Python</span><span>FastAPI</span><span>pywebview</span><span>Reverse Eng.</span></div>
-            <span class="p-link disabled">Projet privé · R&D <i class="fas fa-lock"></i></span>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/eden.gif" data-prev-url="" data-prev-label="Eden Ultimate Tool — console privée (R&D)">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
           <article class="project">
@@ -769,8 +774,14 @@
         var type = btn.getAttribute('data-prev-type');
         var src  = btn.getAttribute('data-prev-src');
         var url  = btn.getAttribute('data-prev-url');
-        mUrl.textContent = url.replace(/^https?:\/\//,'');
-        mOpen.href = url;
+        if(url){
+          mOpen.style.display = '';
+          mOpen.href = url;
+          mUrl.textContent = url.replace(/^https?:\/\//,'');
+        } else {
+          mOpen.style.display = 'none';
+          mUrl.textContent = btn.getAttribute('data-prev-label') || 'Démo du projet';
+        }
         mBody.innerHTML = '';
         if(type === 'iframe'){
           mBody.classList.remove('media');
