@@ -1,795 +1,700 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nabil OULD-TERKI - Ingénieur Full Stack Freelance</title>
+  <title>Nabil OULD-TERKI — Ingénieur Full Stack Freelance</title>
+  <meta name="description" content="Nabil OULD-TERKI, ingénieur full stack freelance à Paris. Conception d'applications web & mobiles SaaS de A à Z : .NET Core, Angular, Flutter. Disponible en mission.">
+  <meta name="author" content="Nabil OULD-TERKI">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nabil OULD-TERKI — Ingénieur Full Stack Freelance">
+  <meta property="og:description" content="Applications web & mobiles SaaS de A à Z. .NET Core · Angular · Flutter. Disponible en freelance à Paris / Remote.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://usernabil.github.io/mypresentation/">
+
+  <link rel="icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* ============ DESIGN TOKENS ============ */
+    :root {
+      --bg:        #f7f5f0;   /* warm off-white (papier) */
+      --surface:   #fffefb;
+      --ink:       #16140f;   /* near-black */
+      --muted:     #6b655a;   /* warm grey */
+      --faint:     #a8a194;
+      --line:      #ddd8cd;   /* hairline */
+      --accent:    #e4482a;   /* vermillon — l'unique accent */
+      --accent-soft:#fbe5df;
+      --maxw: 1080px;
+      --gut: clamp(1.25rem, 5vw, 4rem);
+      --ff-display: 'Space Grotesk', system-ui, sans-serif;
+      --ff-body: 'Inter', system-ui, sans-serif;
+      --ff-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    :root[data-theme="dark"] {
+      --bg:      #0e0d0b;
+      --surface: #16140f;
+      --ink:     #f3f0e8;
+      --muted:   #9a9385;
+      --faint:   #5d5748;
+      --line:    #2a2720;
+      --accent:  #ff5a3c;
+      --accent-soft:#2a1611;
     }
 
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: var(--ff-body);
+      background: var(--bg);
+      color: var(--ink);
       line-height: 1.6;
-      color: #333;
-      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background .4s ease, color .4s ease;
+    }
+    ::selection { background: var(--accent); color:#fff; }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width:100%; display:block; }
+
+    .wrap { max-width: var(--maxw); margin:0 auto; padding-inline: var(--gut); }
+
+    /* ============ SCROLL PROGRESS ============ */
+    #progress {
+      position: fixed; top:0; left:0; height:2px; width:0%;
+      background: var(--accent); z-index:2000;
+      transition: width .1s linear;
     }
 
-    /* NAVIGATION */
+    /* ============ NAV ============ */
     nav {
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
+      position: fixed; top:0; left:0; width:100%; z-index:1500;
+      backdrop-filter: saturate(180%) blur(12px);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease, background .4s ease;
     }
+    nav.scrolled { border-bottom-color: var(--line); }
+    .nav-inner {
+      max-width: var(--maxw); margin:0 auto;
+      padding: 1.1rem var(--gut);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand { font-family:var(--ff-display); font-weight:700; letter-spacing:-.02em; font-size:1.05rem; display:flex; align-items:center; gap:.5rem; }
+    .brand .dot { width:9px; height:9px; border-radius:50%; background:var(--accent); display:inline-block; }
+    .nav-links { display:flex; align-items:center; gap:2rem; list-style:none; }
+    .nav-links a { font-size:.82rem; font-family:var(--ff-mono); color:var(--muted); transition:color .25s; position:relative; }
+    .nav-links a::after { content:""; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--accent); transition:width .25s; }
+    .nav-links a:hover { color:var(--ink); }
+    .nav-links a:hover::after { width:100%; }
+    .theme-btn {
+      border:1px solid var(--line); background:transparent; color:var(--ink);
+      width:34px; height:34px; border-radius:50%; cursor:pointer;
+      display:grid; place-items:center; font-size:.8rem; transition:all .25s;
+    }
+    .theme-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .nav-toggle { display:none; background:none; border:none; color:var(--ink); font-size:1.2rem; cursor:pointer; }
 
-    nav .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* ============ HERO ============ */
+    .hero { padding: clamp(8rem,18vh,11rem) 0 clamp(3rem,7vh,5rem); }
+    .hero-meta {
+      font-family:var(--ff-mono); font-size:.78rem; color:var(--muted);
+      display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center;
+      padding-bottom:2rem; margin-bottom:2.5rem; border-bottom:1px solid var(--line);
     }
-
-    nav .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #2563eb;
-      text-decoration: none;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #2563eb;
-    }
-
-    /* HERO */
-    .hero {
-      padding: 120px 2rem 80px;
-      text-align: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
-
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #10b981;
-      padding: 0.5rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-    }
+    .avail { display:inline-flex; align-items:center; gap:.5rem; color:var(--ink); font-weight:500; }
+    .pulse { width:8px; height:8px; border-radius:50%; background:#19b36b; position:relative; }
+    .pulse::after { content:""; position:absolute; inset:-5px; border-radius:50%; border:1px solid #19b36b; animation:pulse 2s ease-out infinite; }
+    @keyframes pulse { 0%{transform:scale(.6);opacity:1} 100%{transform:scale(1.8);opacity:0} }
+    #clock { margin-left:auto; }
 
     .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-family:var(--ff-display); font-weight:700;
+      font-size: clamp(2.6rem, 8.5vw, 6rem);
+      line-height: .98; letter-spacing:-.03em;
+    }
+    .hero h1 .accent { color:var(--accent); }
+    .hero-role {
+      font-family:var(--ff-display); font-weight:500;
+      font-size: clamp(1.15rem, 3.2vw, 1.9rem);
+      margin-top:1.4rem; color:var(--ink); min-height:1.5em;
+    }
+    .hero-role .cursor { color:var(--accent); font-weight:400; animation:blink 1s steps(1) infinite; }
+    @keyframes blink { 50%{opacity:0} }
+    .hero-lede { max-width:46ch; color:var(--muted); font-size:1.08rem; margin-top:1.6rem; }
+
+    .hero-cta { display:flex; flex-wrap:wrap; gap:1rem; margin-top:2.4rem; }
+    .btn {
+      font-family:var(--ff-mono); font-size:.85rem; letter-spacing:.01em;
+      padding:.85rem 1.5rem; border-radius:2px; cursor:pointer;
+      display:inline-flex; align-items:center; gap:.6rem; border:1px solid var(--ink);
+      transition:all .25s; background:transparent; color:var(--ink);
+    }
+    .btn.primary { background:var(--ink); color:var(--bg); }
+    .btn.primary:hover { background:var(--accent); border-color:var(--accent); color:#fff; transform:translateY(-2px); }
+    .btn.ghost:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+    /* ============ STAT STRIP ============ */
+    .stats {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+      margin-top: clamp(3rem,7vh,5rem);
+    }
+    .stat { padding:2rem 1.5rem 2rem 0; border-left:1px solid var(--line); padding-left:1.5rem; }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .n { font-family:var(--ff-display); font-weight:700; font-size:clamp(2rem,5vw,3rem); line-height:1; letter-spacing:-.02em; }
+    .stat .l { font-family:var(--ff-mono); font-size:.72rem; color:var(--muted); margin-top:.6rem; text-transform:uppercase; letter-spacing:.06em; }
+
+    /* ============ SECTION FRAME ============ */
+    section.block { padding: clamp(4.5rem,11vh,8rem) 0; }
+    .sec-head { display:flex; align-items:baseline; gap:1rem; margin-bottom:3rem; }
+    .sec-num { font-family:var(--ff-mono); font-size:.8rem; color:var(--accent); }
+    .sec-title { font-family:var(--ff-display); font-weight:700; font-size:clamp(1.7rem,4.5vw,2.6rem); letter-spacing:-.02em; }
+    .sec-rule { flex:1; height:1px; background:var(--line); align-self:center; }
+
+    /* ============ ABOUT ============ */
+    .about { display:grid; grid-template-columns: 1fr 1.4fr; gap:clamp(2rem,5vw,4rem); align-items:start; }
+    .portrait { position:relative; }
+    .portrait img { width:100%; border-radius:3px; filter:grayscale(1) contrast(1.02); transition:filter .5s; aspect-ratio:4/5; object-fit:cover; }
+    .portrait:hover img { filter:grayscale(0); }
+    .portrait .frame { position:absolute; inset:14px -14px -14px 14px; border:1px solid var(--accent); border-radius:3px; z-index:-1; }
+    .about-text p { color:var(--muted); font-size:1.05rem; margin-bottom:1.1rem; max-width:52ch; }
+    .about-text p strong { color:var(--ink); font-weight:600; }
+    .facts { display:grid; grid-template-columns:1fr 1fr; gap:.1rem 2rem; margin-top:2rem; border-top:1px solid var(--line); }
+    .fact { display:flex; justify-content:space-between; gap:1rem; padding:.85rem 0; border-bottom:1px solid var(--line); font-size:.9rem; }
+    .fact .k { font-family:var(--ff-mono); color:var(--faint); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+    .fact .v { font-weight:500; text-align:right; }
+
+    /* ============ GITHUB LIVE ============ */
+    .gh { border:1px solid var(--line); border-radius:4px; padding:clamp(1.5rem,4vw,2.5rem); background:var(--surface); }
+    .gh-top { display:flex; flex-wrap:wrap; align-items:center; gap:1rem 2rem; margin-bottom:1.8rem; }
+    .gh-top .label { font-family:var(--ff-mono); font-size:.78rem; color:var(--muted); display:flex; align-items:center; gap:.6rem; }
+    .gh-nums { display:flex; gap:2.5rem; margin-left:auto; flex-wrap:wrap; }
+    .gh-nums .n { font-family:var(--ff-display); font-weight:700; font-size:1.5rem; }
+    .gh-nums .l { font-family:var(--ff-mono); font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+    .gh-chart { width:100%; overflow-x:auto; }
+    .gh-chart img { width:100%; min-width:620px; }
+    .gh-link { font-family:var(--ff-mono); font-size:.78rem; color:var(--accent); margin-top:1.2rem; display:inline-flex; gap:.5rem; align-items:center; }
+
+    /* ============ SKILLS ============ */
+    .skills { display:grid; grid-template-columns:1fr 1fr; gap:2rem 4rem; }
+    .skill { border-bottom:1px solid var(--line); padding-bottom:1rem; }
+    .skill-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:.6rem; }
+    .skill-row .name { font-family:var(--ff-display); font-weight:600; font-size:1.05rem; }
+    .skill-row .lvl { font-family:var(--ff-mono); font-size:.72rem; color:var(--muted); }
+    .bar { height:3px; background:var(--line); border-radius:2px; overflow:hidden; }
+    .bar span { display:block; height:100%; width:0; background:var(--accent); transition:width 1.2s cubic-bezier(.22,1,.36,1); }
+    .stack-tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:2.5rem; }
+    .chip { font-family:var(--ff-mono); font-size:.74rem; color:var(--muted); border:1px solid var(--line); padding:.4rem .8rem; border-radius:2px; transition:all .25s; }
+    .chip:hover { border-color:var(--accent); color:var(--accent); }
+
+    /* ============ TIMELINE ============ */
+    .timeline { border-left:1px solid var(--line); margin-left:.5rem; }
+    .tl-item { position:relative; padding:0 0 2.6rem 2rem; }
+    .tl-item::before { content:""; position:absolute; left:-5px; top:6px; width:9px; height:9px; border-radius:50%; background:var(--bg); border:2px solid var(--accent); }
+    .tl-item:last-child { padding-bottom:0; }
+    .tl-when { font-family:var(--ff-mono); font-size:.74rem; color:var(--accent); }
+    .tl-role { font-family:var(--ff-display); font-weight:600; font-size:1.15rem; margin:.3rem 0 .2rem; }
+    .tl-org { font-size:.92rem; color:var(--muted); }
+    .tl-desc { color:var(--muted); font-size:.95rem; margin-top:.5rem; max-width:58ch; }
+
+    /* ============ PROJECTS ============ */
+    .projects { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+    .project { background:var(--surface); padding:clamp(1.6rem,4vw,2.4rem); display:flex; flex-direction:column; transition:background .3s; position:relative; }
+    .project:hover { background:var(--bg); }
+    .project .p-top { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; }
+    .project .p-cat { font-family:var(--ff-mono); font-size:.72rem; color:var(--accent); text-transform:uppercase; letter-spacing:.05em; }
+    .project .p-idx { font-family:var(--ff-mono); font-size:.72rem; color:var(--faint); }
+    .project h3 { font-family:var(--ff-display); font-weight:700; font-size:1.45rem; letter-spacing:-.01em; margin:.9rem 0 .6rem; }
+    .project .p-desc { color:var(--muted); font-size:.95rem; flex:1; }
+    .project .p-tags { display:flex; flex-wrap:wrap; gap:.4rem; margin:1.3rem 0; }
+    .project .p-tags span { font-family:var(--ff-mono); font-size:.7rem; color:var(--muted); border:1px solid var(--line); padding:.25rem .6rem; border-radius:2px; }
+    .project .p-link { font-family:var(--ff-mono); font-size:.8rem; color:var(--ink); display:inline-flex; align-items:center; gap:.5rem; transition:gap .25s, color .25s; align-self:flex-start; }
+    .project .p-link:hover { color:var(--accent); gap:.9rem; }
+    .project .p-link.disabled { color:var(--faint); pointer-events:none; }
+
+    /* ============ FREELANCE / OFFER ============ */
+    .offer { border:1px solid var(--ink); border-radius:4px; padding:clamp(2rem,5vw,3.5rem); background:var(--ink); color:var(--bg); }
+    :root[data-theme="dark"] .offer { background:var(--surface); color:var(--ink); border-color:var(--line); }
+    .offer h3 { font-family:var(--ff-display); font-weight:700; font-size:clamp(1.5rem,4vw,2.2rem); letter-spacing:-.02em; }
+    .offer .sub { opacity:.8; margin-top:.8rem; font-size:1rem; }
+    .offer-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:2.5rem; background:color-mix(in srgb,var(--bg) 25%, transparent); border-radius:3px; overflow:hidden; }
+    :root[data-theme="dark"] .offer-grid { background:var(--line); }
+    .offer-cell { padding:1.4rem; background:var(--ink); }
+    :root[data-theme="dark"] .offer-cell { background:var(--surface); }
+    .offer-cell .k { font-family:var(--ff-mono); font-size:.68rem; opacity:.65; text-transform:uppercase; letter-spacing:.06em; }
+    .offer-cell .v { font-family:var(--ff-display); font-weight:600; font-size:1.25rem; margin-top:.4rem; }
+
+    /* ============ CONTACT ============ */
+    .contact-grid { display:grid; grid-template-columns:1.3fr 1fr; gap:clamp(2rem,5vw,4rem); align-items:end; }
+    .contact-grid h3 { font-family:var(--ff-display); font-weight:700; font-size:clamp(1.8rem,5vw,3rem); letter-spacing:-.02em; line-height:1.05; }
+    .contact-grid h3 a { border-bottom:2px solid var(--accent); transition:color .25s; }
+    .contact-grid h3 a:hover { color:var(--accent); }
+    .contact-list { }
+    .contact-list .row { display:flex; justify-content:space-between; gap:1rem; padding:.9rem 0; border-bottom:1px solid var(--line); font-size:.92rem; }
+    .contact-list .row .k { font-family:var(--ff-mono); font-size:.72rem; color:var(--faint); text-transform:uppercase; letter-spacing:.05em; }
+    .contact-list .row a:hover { color:var(--accent); }
+    .socials { display:flex; gap:.6rem; margin-top:2rem; }
+    .socials a { width:44px; height:44px; border:1px solid var(--line); border-radius:3px; display:grid; place-items:center; font-size:1.05rem; color:var(--muted); transition:all .25s; }
+    .socials a:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-3px); }
+
+    /* ============ FOOTER ============ */
+    footer { border-top:1px solid var(--line); padding:2.5rem 0; }
+    .foot-inner { display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; font-family:var(--ff-mono); font-size:.76rem; color:var(--muted); }
+
+    /* ============ REVEAL ANIM ============ */
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+    .reveal.in { opacity:1; transform:none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity:1; transform:none; transition:none; }
+      .bar span { transition:none; }
+      html { scroll-behavior:auto; }
     }
 
-    .hero h2 {
-      font-size: 1.5rem;
-      font-weight: 400;
-      margin-bottom: 1rem;
-      opacity: 0.95;
+    /* ============ RESPONSIVE ============ */
+    @media (max-width:820px) {
+      .about, .contact-grid { grid-template-columns:1fr; }
+      .skills, .projects, .offer-grid { grid-template-columns:1fr; }
+      .projects { gap:1px; }
+      .stats { grid-template-columns:1fr 1fr; }
+      .stat:nth-child(3) { border-left:none; padding-left:0; }
+      .portrait { max-width:340px; }
+      .gh-nums { margin-left:0; }
+    }
+    @media (max-width:560px) {
+      .nav-links { display:none; }
+      .nav-toggle { display:block; }
+      .nav-links.open { display:flex; position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:1.2rem; padding:1.5rem var(--gut); background:var(--bg); border-bottom:1px solid var(--line); }
+      .stats { grid-template-columns:1fr 1fr; }
+      #clock { display:none; }
     }
 
-    .hero p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      opacity: 0.9;
-    }
-
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      margin-top: 2rem;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 700;
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-
-    /* SECTIONS */
-    section {
-      padding: 80px 2rem;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    h2 {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      text-align: center;
-      color: #1e293b;
-    }
-
-    /* ABOUT */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .about-img {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 10px;
-      margin: 0 auto;
-      display: block;
-    }
-
-    .about-text h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: #1e293b;
-    }
-
-    .about-text p {
-      margin-bottom: 1rem;
-      color: #64748b;
-      line-height: 1.8;
-    }
-
-    .info-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .info-item i {
-      color: #2563eb;
-    }
-
-    /* FREELANCE BOX */
-    .freelance-box {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      padding: 2rem;
-      border-radius: 10px;
-      margin: 3rem 0;
-      text-align: center;
-    }
-
-    .freelance-box h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .freelance-info {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      margin-top: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .freelance-item {
-      text-align: center;
-    }
-
-    .freelance-item i {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    /* SKILLS */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .skill-card {
-      background: #f8fafc;
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .skill-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-    .skill-icon {
-      font-size: 3rem;
-      color: #2563eb;
-      margin-bottom: 1rem;
-    }
-
-    .skill-name {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .skill-level {
-      color: #64748b;
-      font-size: 0.9rem;
-    }
-
-    /* PROJECTS */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-    }
-
-    .project-card {
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .project-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-    }
-
-    .project-img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      background: #e2e8f0;
-    }
-
-    .project-content {
-      padding: 1.5rem;
-    }
-
-    .project-category {
-      color: #2563eb;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .project-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #1e293b;
-    }
-
-    .project-desc {
-      color: #64748b;
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .tag {
-      background: #e0e7ff;
-      color: #2563eb;
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-
-    .project-link {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .project-link:hover {
-      text-decoration: underline;
-    }
-
-    /* CONTACT */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .contact-card {
-      background: #f8fafc;
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .contact-icon {
-      font-size: 2.5rem;
-      color: #2563eb;
-      margin-bottom: 1rem;
-    }
-
-    .contact-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: #1e293b;
-    }
-
-    .contact-card p {
-      color: #64748b;
-    }
-
-    .contact-card a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .social-link {
-      width: 50px;
-      height: 50px;
-      background: #f8fafc;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #64748b;
-      font-size: 1.5rem;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    .social-link:hover {
-      background: #2563eb;
-      color: white;
-      transform: translateY(-5px);
-    }
-
-    /* FOOTER */
-    footer {
-      background: #1e293b;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      nav ul {
-        display: none;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero h2 {
-        font-size: 1.2rem;
-      }
-
-      .hero-stats {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .info-list {
-        grid-template-columns: 1fr;
-      }
-
-      .freelance-info {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-
-      h2 {
-        font-size: 2rem;
-      }
+    /* ============ PRINT / CV PDF ============ */
+    @media print {
+      :root { --bg:#fff; --surface:#fff; --ink:#111; --muted:#444; --line:#ccc; --accent:#000; }
+      nav, #progress, .theme-btn, .nav-toggle, .hero-cta, .gh-chart, .gh-link, .socials, #clock, .portrait .frame, .sec-rule { display:none !important; }
+      body { background:#fff; color:#000; font-size:11pt; }
+      .hero { padding:0 0 1rem; }
+      .hero h1 { font-size:30pt; }
+      .hero-role { font-size:13pt; }
+      section.block { padding:1rem 0; page-break-inside:avoid; }
+      .reveal { opacity:1 !important; transform:none !important; }
+      .bar span { width:var(--w) !important; }
+      .projects { grid-template-columns:1fr 1fr; }
+      .offer { background:#fff; color:#000; border:1px solid #999; }
+      .portrait img { filter:grayscale(1); }
+      a { color:#000; }
+      .wrap { max-width:none; }
     }
   </style>
 </head>
 <body>
+  <div id="progress"></div>
 
-  <!-- NAVIGATION -->
-  <nav>
-    <div class="container">
-      <a href="#" class="logo">Nabil OT</a>
-      <ul>
-        <li><a href="#about">À propos</a></li>
-        <li><a href="#skills">Compétences</a></li>
-        <li><a href="#projects">Projets</a></li>
-        <li><a href="#contact">Contact</a></li>
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#top" class="brand"><span class="dot"></span>Nabil OULD-TERKI</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">01 — Profil</a></li>
+        <li><a href="#skills">02 — Stack</a></li>
+        <li><a href="#work">03 — Projets</a></li>
+        <li><a href="#contact">04 — Contact</a></li>
+        <li>
+          <button class="theme-btn" id="themeBtn" aria-label="Basculer thème clair/sombre">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
       </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <span class="badge">
-        <i class="fas fa-check-circle"></i> Disponible en Freelance - Mars 2025
-      </span>
-      <h1>Nabil OULD-TERKI</h1>
-      <h2>Ingénieur Full Stack | .NET Core • Angular • Flutter</h2>
-      <p>Je conçois des applications web et mobiles performantes, scalables et modernes. Spécialisé en solutions SaaS de A à Z.</p>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-number">2+</span>
-          <span class="stat-label">Ans d'expérience</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">500€</span>
-          <span class="stat-label">TJM à partir de</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">100%</span>
-          <span class="stat-label">Remote possible</span>
-        </div>
+  <header class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-meta reveal">
+        <span class="avail"><span class="pulse"></span> Disponible pour mission</span>
+        <span>Paris · France — Remote / Hybride</span>
+        <span id="clock">—</span>
+      </div>
+      <h1 class="reveal">Ingénieur<br>Full&nbsp;Stack<span class="accent">.</span></h1>
+      <div class="hero-role reveal"><span id="typed"></span><span class="cursor">▌</span></div>
+      <p class="hero-lede reveal">Je conçois et développe des applications web & mobiles SaaS de A à Z — de la maquette Figma au déploiement cloud. Code propre, produits scalables, livraison au cordeau.</p>
+      <div class="hero-cta reveal">
+        <button class="btn primary" onclick="window.print()"><i class="fas fa-arrow-down"></i> Télécharger le CV (PDF)</button>
+        <a class="btn ghost" href="#contact"><i class="fas fa-paper-plane"></i> Me contacter</a>
+      </div>
+
+      <div class="stats reveal">
+        <div class="stat"><div class="n" data-count="3" data-suffix="+">0</div><div class="l">Ans d'expérience</div></div>
+        <div class="stat"><div class="n" data-count="6" data-suffix="+">0</div><div class="l">Produits livrés</div></div>
+        <div class="stat"><div class="n" data-count="500" data-prefix="" data-suffix="€">0</div><div class="l">TJM à partir de</div></div>
+        <div class="stat"><div class="n" data-count="100" data-suffix="%">0</div><div class="l">Remote possible</div></div>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="container">
-      <h2>À propos</h2>
-      <div class="about-grid">
-        <img src="assets/img/hero-bg.jpeg" alt="Nabil OULD-TERKI" class="about-img">
-        <div class="about-text">
-          <h3>Designer UI/UX & Développeur Full Stack</h3>
-          <p>Ingénieur informatique spécialisé en développement full stack, je suis à l'aise tant sur le front-end que sur le back-end, avec une expertise particulière dans les technologies .NET et Angular.</p>
-          <p>Je possède également une solide expérience en développement mobile avec Flutter, ce qui me permet de créer des applications cross-platforms performantes et élégantes.</p>
-          <div class="info-list">
-            <div class="info-item">
-              <i class="fas fa-user"></i>
-              <span><strong>Âge:</strong> 29 ans</span>
+  <main>
+    <!-- 01 — PROFIL -->
+    <section class="block" id="about">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">01</span>
+          <h2 class="sec-title">Profil</h2>
+          <span class="sec-rule"></span>
+        </div>
+        <div class="about">
+          <div class="portrait reveal">
+            <img src="assets/img/profile-img.jpg" alt="Portrait de Nabil OULD-TERKI">
+            <span class="frame"></span>
+          </div>
+          <div class="about-text reveal">
+            <p><strong>Ingénieur informatique</strong> spécialisé en développement full stack, aussi à l'aise sur le front-end que sur le back-end, avec une expertise forte sur l'écosystème <strong>.NET</strong> et <strong>Angular</strong>.</p>
+            <p>Solide expérience en <strong>développement mobile avec Flutter</strong> pour des applications cross-platform performantes et élégantes, et une vraie sensibilité <strong>UI/UX</strong> (conception Figma complète) qui me permet de porter un produit du besoin métier jusqu'à l'utilisateur final.</p>
+            <div class="facts">
+              <div class="fact"><span class="k">Rôle</span><span class="v">Full Stack / Mobile</span></div>
+              <div class="fact"><span class="k">Base</span><span class="v">Paris, Île-de-France</span></div>
+              <div class="fact"><span class="k">Formation</span><span class="v">Ingénieur informatique</span></div>
+              <div class="fact"><span class="k">Anglais</span><span class="v">TOEIC 795</span></div>
+              <div class="fact"><span class="k">Statut</span><span class="v">Freelance / Portage</span></div>
+              <div class="fact"><span class="k">Modalité</span><span class="v">Remote / Hybride</span></div>
             </div>
-            <div class="info-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <span><strong>Localisation:</strong> Paris, France</span>
+          </div>
+        </div>
+
+        <!-- GITHUB LIVE -->
+        <div class="gh reveal" style="margin-top:3rem;">
+          <div class="gh-top">
+            <span class="label"><i class="fab fa-github"></i> Activité GitHub en temps réel — @UserNabil</span>
+            <div class="gh-nums">
+              <div><div class="n" id="ghRepos">—</div><div class="l">Dépôts publics</div></div>
+              <div><div class="n" id="ghFollowers">—</div><div class="l">Followers</div></div>
+              <div><div class="n" id="ghGists">—</div><div class="l">Gists</div></div>
             </div>
-            <div class="info-item">
-              <i class="fas fa-graduation-cap"></i>
-              <span><strong>Diplôme:</strong> Ingénieur informatique</span>
-            </div>
-            <div class="info-item">
-              <i class="fas fa-envelope"></i>
-              <span><strong>Email:</strong> n.ouldterki@gmail.com</span>
-            </div>
-            <div class="info-item">
-              <i class="fas fa-phone"></i>
-              <span><strong>Tél:</strong> +33 6 41 40 52 37</span>
-            </div>
-            <div class="info-item">
-              <i class="fas fa-language"></i>
-              <span><strong>Anglais:</strong> TOEIC 795</span>
-            </div>
+          </div>
+          <div class="gh-chart">
+            <img id="ghChart" alt="Graphe de contributions GitHub de Nabil OULD-TERKI" loading="lazy">
+          </div>
+          <a class="gh-link" href="https://github.com/UserNabil?tab=repositories" target="_blank" rel="noopener">Voir tous les dépôts <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 — STACK -->
+    <section class="block" id="skills" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">02</span>
+          <h2 class="sec-title">Stack technique</h2>
+          <span class="sec-rule"></span>
+        </div>
+        <div class="skills">
+          <div class="skill reveal"><div class="skill-row"><span class="name">.NET Core / C#</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="95%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Angular</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="90%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Flutter / Dart</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">UI/UX · Figma</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="92%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">React / Node.js</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">SQL Server</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="82%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Azure · Cloud</span><span class="lvl">Intermédiaire+</span></div><div class="bar"><span data-w="75%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Firebase</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="80%"></span></div></div>
+        </div>
+        <div class="stack-tags reveal">
+          <span class="chip">ASP.NET Core</span><span class="chip">Entity Framework</span><span class="chip">REST API</span>
+          <span class="chip">TypeScript</span><span class="chip">RxJS</span><span class="chip">SCSS</span>
+          <span class="chip">Git</span><span class="chip">CI/CD</span><span class="chip">Azure DevOps</span>
+          <span class="chip">Stripe</span><span class="chip">Push Notifications</span><span class="chip">Clean Architecture</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02b — PARCOURS (dynamic CV) -->
+    <section class="block" id="path">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">—</span>
+          <h2 class="sec-title">Parcours</h2>
+          <span class="sec-rule"></span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item reveal">
+            <div class="tl-when">2024 — Aujourd'hui</div>
+            <div class="tl-role">Ingénieur Full Stack & Mobile</div>
+            <div class="tl-org">My Office Apps — SaaS</div>
+            <div class="tl-desc">Conception et développement de l'écosystème Utrav (app mobile Flutter + back-office Angular/.NET) : réservation de voyages, paiements, fidélité, notifications push. Produit du design à la mise en production.</div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-when">2024 — 2025</div>
+            <div class="tl-role">Développeur Full Stack</div>
+            <div class="tl-org">ADD Associés — Gestion de patrimoine</div>
+            <div class="tl-desc">Application de suivi de portefeuilles clients et génération automatisée de rapports (React / .NET Core / Azure).</div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-when">2023 — 2024</div>
+            <div class="tl-role">Développeur Full Stack & UI/UX</div>
+            <div class="tl-org">My Office — CRM</div>
+            <div class="tl-desc">CRM from scratch : contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma complète puis implémentation Angular / .NET Core.</div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- FREELANCE BOX -->
-      <div class="freelance-box">
-        <h3><i class="fas fa-bolt"></i> Disponible en Freelance dès Mars 2025</h3>
-        <p>Missions longues durées • Remote ou hybride Paris • Portage salarial</p>
-        <div class="freelance-info">
-          <div class="freelance-item">
-            <i class="fas fa-euro-sign"></i>
-            <strong>TJM: 500-650€</strong>
-            <small>Selon mission</small>
+    <!-- 03 — PROJETS -->
+    <section class="block" id="work" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">03</span>
+          <h2 class="sec-title">Projets sélectionnés</h2>
+          <span class="sec-rule"></span>
+        </div>
+        <div class="projects reveal">
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">📱 App mobile SaaS · 2024–25</span><span class="p-idx">01</span></div>
+            <h3>Utrav — Application mobile</h3>
+            <p class="p-desc">App voyageurs : recherche & réservation de voyages, paiements sécurisés, programme de fidélité à 4 niveaux, notifications push Firebase.</p>
+            <div class="p-tags"><span>Flutter</span><span>.NET Core</span><span>Firebase</span><span>REST API</span></div>
+            <a class="p-link" href="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav" target="_blank" rel="noopener">Play Store <i class="fas fa-arrow-right"></i></a>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">💻 Back-office SaaS · 2024–25</span><span class="p-idx">02</span></div>
+            <h3>Utrav — Back-office</h3>
+            <p class="p-desc">Plateforme de gestion pour agences : création & publication de voyages, gestion des réservations et paiements, statistiques temps réel, envoi de notifications.</p>
+            <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>SQL Server</span><span>Azure</span></div>
+            <a class="p-link" href="https://utrav-bo.my-officeapps.com/" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">💼 CRM · 2023–24</span><span class="p-idx">03</span></div>
+            <h3>My Office</h3>
+            <p class="p-desc">CRM développé from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma de bout en bout.</p>
+            <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>Figma</span><span>Azure</span></div>
+            <a class="p-link" href="https://my-officeapps.com" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">🏦 Gestion de patrimoine · 2024–25</span><span class="p-idx">04</span></div>
+            <h3>ADD Associés</h3>
+            <p class="p-desc">Application de gestion de patrimoine : suivi des portefeuilles clients et génération de rapports automatisés.</p>
+            <div class="p-tags"><span>React</span><span>.NET Core</span><span>Azure</span></div>
+            <span class="p-link disabled">Projet privé <i class="fas fa-lock"></i></span>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">🌐 Site web médical</span><span class="p-idx">05</span></div>
+            <h3>Santelac</h3>
+            <p class="p-desc">Site web médical avec système de prise de rendez-vous en ligne.</p>
+            <div class="p-tags"><span>ASP.NET</span><span>Azure</span></div>
+            <a class="p-link" href="https://devsantelacweb.azurewebsites.net" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">🌐 Plateforme de réservation</span><span class="p-idx">06</span></div>
+            <h3>Vacanciel</h3>
+            <p class="p-desc">Plateforme de réservation de vacances avec galerie photos.</p>
+            <div class="p-tags"><span>.NET</span><span>Azure</span></div>
+            <a class="p-link" href="https://devvacancielweb.azurewebsites.net/" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 — CONTACT + OFFER -->
+    <section class="block" id="contact">
+      <div class="wrap">
+        <div class="offer reveal">
+          <h3>Disponible en freelance.</h3>
+          <p class="sub">Missions longues · Remote ou hybride Paris · Portage salarial possible.</p>
+          <div class="offer-grid">
+            <div class="offer-cell"><div class="k">TJM</div><div class="v">500 – 650 €</div></div>
+            <div class="offer-cell"><div class="k">Disponibilité</div><div class="v">Immédiate</div></div>
+            <div class="offer-cell"><div class="k">Durée idéale</div><div class="v">6 mois +</div></div>
+            <div class="offer-cell"><div class="k">Modalités</div><div class="v">100% Remote</div></div>
           </div>
-          <div class="freelance-item">
-            <i class="fas fa-calendar"></i>
-            <strong>Disponibilité</strong>
-            <small>Mars 2025</small>
+        </div>
+
+        <div class="sec-head reveal" style="margin-top:4rem;">
+          <span class="sec-num">04</span>
+          <h2 class="sec-title">Contact</h2>
+          <span class="sec-rule"></span>
+        </div>
+
+        <div class="contact-grid">
+          <div class="reveal">
+            <h3>Un projet&nbsp;?<br>Écrivons-le&nbsp;: <a href="mailto:n.ouldterki@gmail.com">parlons-en</a>.</h3>
+            <div class="socials">
+              <a href="https://www.linkedin.com/in/nabil-ould-terki/" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://github.com/UserNabil?tab=repositories" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://malt.fr/profile/nabilouldterki" target="_blank" rel="noopener" title="Malt"><i class="fas fa-briefcase"></i></a>
+              <a href="https://twitter.com/nabil_ot5" target="_blank" rel="noopener" title="Twitter / X"><i class="fab fa-x-twitter"></i></a>
+              <a href="https://www.instagram.com/nabil_ot5/" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
           </div>
-          <div class="freelance-item">
-            <i class="fas fa-clock"></i>
-            <strong>Durée</strong>
-            <small>6+ mois idéalement</small>
-          </div>
-          <div class="freelance-item">
-            <i class="fas fa-laptop"></i>
-            <strong>Modalités</strong>
-            <small>100% remote possible</small>
+          <div class="contact-list reveal">
+            <div class="row"><span class="k">Email</span><a href="mailto:n.ouldterki@gmail.com">n.ouldterki@gmail.com</a></div>
+            <div class="row"><span class="k">Téléphone</span><a href="tel:+33641405237">+33 6 41 40 52 37</a></div>
+            <div class="row"><span class="k">Localisation</span><span>Paris, Île-de-France</span></div>
+            <div class="row"><span class="k">Malt</span><a href="https://malt.fr/profile/nabilouldterki" target="_blank" rel="noopener">malt.fr/nabilouldterki</a></div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- SKILLS -->
-  <section id="skills" style="background: #f8fafc;">
-    <div class="container">
-      <h2>Compétences Techniques</h2>
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fab fa-microsoft"></i></div>
-          <div class="skill-name">.NET Core</div>
-          <div class="skill-level">Expert • 95%</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fab fa-angular"></i></div>
-          <div class="skill-name">Angular</div>
-          <div class="skill-level">Expert • 90%</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div>
-          <div class="skill-name">Flutter</div>
-          <div class="skill-level">Avancé • 85%</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fas fa-database"></i></div>
-          <div class="skill-name">SQL Server</div>
-          <div class="skill-level">Avancé • 80%</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fab fa-microsoft"></i></div>
-          <div class="skill-name">Azure</div>
-          <div class="skill-level">Intermédiaire • 75%</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fab fa-react"></i></div>
-          <div class="skill-name">React</div>
-          <div class="skill-level">Avancé • 85%</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fab fa-node-js"></i></div>
-          <div class="skill-name">Node.js</div>
-          <div class="skill-level">Avancé • 85%</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon"><i class="fas fa-paint-brush"></i></div>
-          <div class="skill-name">Figma / UI/UX</div>
-          <div class="skill-level">Expert • 95%</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="container">
-      <h2>Mes Réalisations</h2>
-      <div class="projects-grid">
-        
-         <!-- UTRAV MOBILE -->
-        <div class="project-card">
-          <img src="https://i.imgur.com/5Y3KjvZ.gif" alt="Utrav Mobile" class="project-img" onerror="this.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'">
-          <div class="project-content">
-            <div class="project-category">📱 Application Mobile SaaS • 2024-2025</div>
-            <h3 class="project-title">Utrav - Application Mobile</h3>
-            <p class="project-desc">Application mobile pour voyageurs : recherche et réservation de voyages, paiements sécurisés, programme de fidélité avec 4 niveaux, notifications push Firebase.</p>
-            <div class="project-tags">
-              <span class="tag">Flutter</span>
-              <span class="tag">.NET Core</span>
-              <span class="tag">Firebase</span>
-              <span class="tag">API REST</span>
-            </div>
-            <a href="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav" class="project-link" target="_blank">
-              Voir sur Play Store <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- UTRAV BACK-OFFICE -->
-        <div class="project-card">
-          <img src="https://i.imgur.com/zDwfQnd.gif" alt="Utrav Back-office" class="project-img" onerror="this.style.background='linear-gradient(135deg, #764ba2 0%, #667eea 100%)'">
-          <div class="project-content">
-            <div class="project-category">💻 Back-office SaaS • 2024-2025</div>
-            <h3 class="project-title">Utrav - Back-office</h3>
-            <p class="project-desc">Plateforme de gestion pour agences : création et publication de voyages, gestion des réservations et paiements, statistiques en temps réel, envoi de notifications push.</p>
-            <div class="project-tags">
-              <span class="tag">Angular</span>
-              <span class="tag">.NET Core</span>
-              <span class="tag">SQL Server</span>
-              <span class="tag">Azure</span>
-            </div>
-              <a href="https://utrav-bo.my-officeapps.com/" class="project-link" target="_blank">
-              Voir le site <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- MY OFFICE -->
-        <div class="project-card">
-          <img src="https://i.imgur.com/XiLO1mv.gif" alt="My Office" class="project-img" onerror="this.style.background='linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'">
-          <div class="project-content">
-            <div class="project-category">💼 Application CRM • 2023-2024</div>
-            <h3 class="project-title">My Office</h3>
-            <p class="project-desc">CRM from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma complète.</p>
-            <div class="project-tags">
-              <span class="tag">Angular</span>
-              <span class="tag">.NET Core</span>
-              <span class="tag">Figma</span>
-              <span class="tag">Azure</span>
-            </div>
-            <a href="https://my-officeapps.com" class="project-link" target="_blank">
-              Voir le site <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- GRANITE -->
-        <div class="project-card">
-          <img src="https://i.imgur.com/KqJS31K.gif" alt="Granite" class="project-img" onerror="this.style.background='linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'">
-          <div class="project-content">
-            <div class="project-category">🏦 Gestion de Patrimoine • 2024-2025</div>
-            <h3 class="project-title">Application ADD Associés</h3>
-            <p class="project-desc">Application de gestion de patrimoine : suivi portefeuilles clients, génération de rapports automatisés.</p>
-            <div class="project-tags">
-              <span class="tag">React</span>
-              <span class="tag">.NET Core</span>
-              <span class="tag">Azure</span>
-            </div>
-          </div>
-        </div>
-
- 
-
-        <!-- SANTELAC -->
-        <div class="project-card">
-          <img src="assets/img/portfolio/santelac.gif" alt="Santelac" class="project-img">
-          <div class="project-content">
-            <div class="project-category">🌐 Site Web</div>
-            <h3 class="project-title">Santelac</h3>
-            <p class="project-desc">Site web médical avec système de rendez-vous en ligne.</p>
-            <div class="project-tags">
-              <span class="tag">Azure</span>
-              <span class="tag">ASP.NET</span>
-            </div>
-            <a href="https://devsantelacweb.azurewebsites.net" class="project-link" target="_blank">
-              Voir le site <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- VACANCIEL -->
-        <div class="project-card">
-          <img src="assets/img/portfolio/vacanciel.gif" alt="Vacanciel" class="project-img">
-          <div class="project-content">
-            <div class="project-category">🌐 Site Web</div>
-            <h3 class="project-title">Vacanciel</h3>
-            <p class="project-desc">Plateforme de réservation de vacances avec galerie photos.</p>
-            <div class="project-tags">
-              <span class="tag">Azure</span>
-              <span class="tag">.NET</span>
-            </div>
-            <a href="https://devvacancielweb.azurewebsites.net/" class="project-link" target="_blank">
-              Voir le site <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" style="background: #f8fafc;">
-    <div class="container">
-      <h2>Contactez-moi</h2>
-      <div class="contact-grid">
-        <div class="contact-card">
-          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-          <h3>Localisation</h3>
-          <p>Paris, Île-de-France<br>100% Remote possible</p>
-        </div>
-        <div class="contact-card">
-          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-          <h3>Email</h3>
-          <p><a href="mailto:n.ouldterki@gmail.com">n.ouldterki@gmail.com</a></p>
-        </div>
-        <div class="contact-card">
-          <div class="contact-icon"><i class="fas fa-phone"></i></div>
-          <h3>Téléphone</h3>
-          <p><a href="tel:+33641405237">+33 6 41 40 52 37</a></p>
-        </div>
-      </div>
-
-      <div class="social-links">
-        <a href="https://www.linkedin.com/in/nabil-ould-terki/" class="social-link" target="_blank" title="LinkedIn">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="https://github.com/nabilot5?tab=repositories" class="social-link" target="_blank" title="GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="https://malt.fr/profile/nabilouldterki" class="social-link" target="_blank" title="Malt">
-          <i class="fas fa-briefcase"></i>
-        </a>
-        <a href="https://twitter.com/nabil_ot5" class="social-link" target="_blank" title="Twitter">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="https://www.instagram.com/nabil_ot5/" class="social-link" target="_blank" title="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <p>&copy; 2025 Nabil OULD-TERKI - Tous droits réservés</p>
-    <p>Ingénieur Full Stack Freelance • .NET Core • Angular • Flutter</p>
+    <div class="wrap foot-inner">
+      <span>© <span id="year"></span> Nabil OULD-TERKI</span>
+      <span>Ingénieur Full Stack · .NET Core · Angular · Flutter</span>
+      <span>Conçu & codé à Paris</span>
+    </div>
   </footer>
 
   <script>
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          window.scrollTo({
-            top: target.offsetTop - 70,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-  </script>
+    (function(){
+      "use strict";
+      var root = document.documentElement;
 
+      /* ---- THEME ---- */
+      var themeBtn = document.getElementById('themeBtn');
+      function applyTheme(t){
+        root.setAttribute('data-theme', t);
+        if(themeBtn) themeBtn.innerHTML = t === 'dark'
+          ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      }
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch(e){}
+      if(!saved){
+        saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      applyTheme(saved);
+      if(themeBtn){
+        themeBtn.addEventListener('click', function(){
+          var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+          try { localStorage.setItem('theme', next); } catch(e){}
+        });
+      }
+
+      /* ---- MOBILE NAV ---- */
+      var navToggle = document.getElementById('navToggle');
+      var navLinks = document.getElementById('navLinks');
+      if(navToggle){
+        navToggle.addEventListener('click', function(){ navLinks.classList.toggle('open'); });
+        navLinks.querySelectorAll('a').forEach(function(a){
+          a.addEventListener('click', function(){ navLinks.classList.remove('open'); });
+        });
+      }
+
+      /* ---- NAV SHADOW + PROGRESS ---- */
+      var nav = document.getElementById('nav');
+      var progress = document.getElementById('progress');
+      function onScroll(){
+        var h = document.documentElement;
+        var sc = h.scrollTop || document.body.scrollTop;
+        var max = (h.scrollHeight - h.clientHeight) || 1;
+        progress.style.width = (sc / max * 100) + '%';
+        nav.classList.toggle('scrolled', sc > 10);
+      }
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+
+      /* ---- CLOCK (Paris) ---- */
+      var clock = document.getElementById('clock');
+      function tick(){
+        if(!clock) return;
+        try {
+          var t = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit', timeZone:'Europe/Paris'});
+          clock.textContent = 'Paris · ' + t;
+        } catch(e){ clock.textContent = ''; }
+      }
+      tick(); setInterval(tick, 15000);
+
+      /* ---- YEAR ---- */
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      /* ---- TYPED ROLES ---- */
+      var roles = ['.NET Core · C#', 'Angular · TypeScript', 'Flutter · Mobile', 'UI/UX · Figma', 'SaaS de A à Z'];
+      var typed = document.getElementById('typed');
+      var ri = 0, ci = 0, deleting = false;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function type(){
+        if(!typed) return;
+        var word = roles[ri];
+        typed.textContent = word.substring(0, ci);
+        if(!deleting){
+          if(ci < word.length){ ci++; setTimeout(type, 70); }
+          else { deleting = true; setTimeout(type, 1600); }
+        } else {
+          if(ci > 0){ ci--; setTimeout(type, 35); }
+          else { deleting = false; ri = (ri+1)%roles.length; setTimeout(type, 300); }
+        }
+      }
+      if(reduce){ if(typed) typed.textContent = roles[0]; }
+      else { type(); }
+
+      /* ---- REVEAL + COUNTERS + BARS ---- */
+      function animateCount(el){
+        var target = parseFloat(el.getAttribute('data-count'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var prefix = el.getAttribute('data-prefix') || '';
+        var dur = 1200, start = null;
+        function step(ts){
+          if(!start) start = ts;
+          var p = Math.min((ts - start)/dur, 1);
+          var eased = 1 - Math.pow(1-p, 3);
+          var val = Math.round(target * eased);
+          el.textContent = prefix + val + suffix;
+          if(p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(!e.isIntersecting) return;
+          var el = e.target;
+          el.classList.add('in');
+          el.querySelectorAll && el.querySelectorAll('[data-count]').forEach(animateCount);
+          if(el.matches && el.matches('[data-count]')) animateCount(el);
+          el.querySelectorAll && el.querySelectorAll('.bar span').forEach(function(s){
+            s.style.width = s.getAttribute('data-w');
+          });
+          io.unobserve(el);
+        });
+      }, {threshold:0.18});
+      document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+      /* ---- GITHUB LIVE ---- */
+      var USER = 'UserNabil';
+      var chart = document.getElementById('ghChart');
+      if(chart){
+        var accent = getComputedStyle(root).getPropertyValue('--accent').trim().replace('#','') || 'e4482a';
+        chart.src = 'https://ghchart.rshah.org/' + accent + '/' + USER;
+      }
+      function setNum(id, v){ var el=document.getElementById(id); if(el) el.textContent = (v==null?'—':v); }
+      fetch('https://api.github.com/users/' + USER)
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(d){
+          if(!d) return;
+          setNum('ghRepos', d.public_repos);
+          setNum('ghFollowers', d.followers);
+          setNum('ghGists', d.public_gists);
+        })
+        .catch(function(){ /* silencieux : fallback visuel '—' */ });
+    })();
+  </script>
 </body>
 </html>
-
-
