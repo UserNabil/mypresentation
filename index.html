@@ -280,6 +280,28 @@
       #clock { display:none; }
     }
 
+    /* ============ PREVIEW MODAL ============ */
+    button.p-link { background:none; border:none; font:inherit; }
+    .modal { position:fixed; inset:0; z-index:3000; display:none; }
+    .modal.open { display:grid; place-items:center; }
+    .modal-backdrop { position:absolute; inset:0; background:color-mix(in srgb, var(--ink) 58%, transparent); backdrop-filter:blur(4px); }
+    .modal-panel { position:relative; width:min(1100px,94vw); height:min(80vh,780px); background:var(--surface); border:1px solid var(--line); border-radius:8px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 30px 90px rgba(0,0,0,.4); transform:translateY(14px) scale(.985); opacity:0; transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .35s; }
+    .modal.open .modal-panel { transform:none; opacity:1; }
+    .modal-bar { display:flex; align-items:center; gap:.9rem; padding:.7rem 1rem; border-bottom:1px solid var(--line); background:var(--bg); flex-shrink:0; }
+    .modal-dots { display:flex; gap:.4rem; flex-shrink:0; }
+    .modal-dots i { width:11px; height:11px; border-radius:50%; background:var(--line); display:block; }
+    .modal-dots i:first-child { background:var(--accent); }
+    .modal-url { font-family:var(--ff-mono); font-size:.76rem; color:var(--muted); background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:.38rem .8rem; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .modal-open { font-family:var(--ff-mono); font-size:.76rem; color:var(--accent); display:inline-flex; gap:.45rem; align-items:center; white-space:nowrap; }
+    .modal-open:hover { text-decoration:underline; }
+    .modal-close { border:none; background:none; color:var(--ink); font-size:1.4rem; line-height:1; cursor:pointer; width:34px; height:34px; border-radius:4px; display:grid; place-items:center; }
+    .modal-close:hover { color:var(--accent); }
+    .modal-body { flex:1; position:relative; overflow:auto; background:var(--bg); }
+    .modal-body iframe { width:100%; height:100%; border:0; display:block; background:#fff; }
+    .modal-body img { width:100%; display:block; }
+    .modal-hint { font-family:var(--ff-mono); font-size:.68rem; color:var(--faint); text-align:center; padding:.55rem; border-top:1px solid var(--line); background:var(--bg); flex-shrink:0; }
+    @media (max-width:560px){ .modal-panel{ height:88vh; width:94vw; } .modal-url{ display:none; } }
+
     /* ============ PRINT / CV PDF ============ */
     @media print {
       :root { --bg:#fff; --surface:#fff; --ink:#111; --muted:#444; --line:#ccc; --accent:#000; }
@@ -331,7 +353,7 @@
       </div>
       <h1 class="reveal">Ingénieur<br>Full&nbsp;Stack<span class="accent">.</span></h1>
       <div class="hero-role reveal"><span id="typed"></span><span class="cursor">▌</span></div>
-      <p class="hero-lede reveal">Je conçois et développe des applications web & mobiles SaaS de A à Z — de la maquette Figma au déploiement cloud. Code propre, produits scalables, livraison au cordeau.</p>
+      <p class="hero-lede reveal">Je conçois et développe des produits de A à Z — SaaS web, apps mobiles, jeux cross-platform et outils métier. De la maquette Figma au déploiement cloud, en passant par le reverse-engineering quand il le faut. Code propre, architecture solide, livraison au cordeau.</p>
       <div class="hero-cta reveal">
         <button class="btn primary" onclick="window.print()"><i class="fas fa-arrow-down"></i> Télécharger le CV (PDF)</button>
         <a class="btn ghost" href="#contact"><i class="fas fa-paper-plane"></i> Me contacter</a>
@@ -339,7 +361,7 @@
 
       <div class="stats reveal">
         <div class="stat"><div class="n" data-count="3" data-suffix="+">0</div><div class="l">Ans d'expérience</div></div>
-        <div class="stat"><div class="n" data-count="6" data-suffix="+">0</div><div class="l">Produits livrés</div></div>
+        <div class="stat"><div class="n" data-count="10" data-suffix="+">0</div><div class="l">Produits livrés</div></div>
         <div class="stat"><div class="n" data-count="500" data-prefix="" data-suffix="€">0</div><div class="l">TJM à partir de</div></div>
         <div class="stat"><div class="n" data-count="100" data-suffix="%">0</div><div class="l">Remote possible</div></div>
       </div>
@@ -357,7 +379,7 @@
         </div>
         <div class="about">
           <div class="portrait reveal">
-            <img src="assets/img/profile-img.jpg" alt="Portrait de Nabil OULD-TERKI">
+            <img src="assets/img/portrait.png" alt="Portrait de Nabil OULD-TERKI">
             <span class="frame"></span>
           </div>
           <div class="about-text reveal">
@@ -404,17 +426,20 @@
           <div class="skill reveal"><div class="skill-row"><span class="name">.NET Core / C#</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="95%"></span></div></div>
           <div class="skill reveal"><div class="skill-row"><span class="name">Angular</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="90%"></span></div></div>
           <div class="skill reveal"><div class="skill-row"><span class="name">Flutter / Dart</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Next.js / React 19</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">TypeScript / Node</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Python / FastAPI</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="80%"></span></div></div>
           <div class="skill reveal"><div class="skill-row"><span class="name">UI/UX · Figma</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="92%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">React / Node.js</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">SQL Server</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="82%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Azure · Cloud</span><span class="lvl">Intermédiaire+</span></div><div class="bar"><span data-w="75%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Firebase</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="80%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">SQL · Prisma · EF</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="82%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Game Dev · C#/.NET</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="80%"></span></div></div>
+          <div class="skill reveal"><div class="skill-row"><span class="name">Azure · Cloud · CI/CD</span><span class="lvl">Intermédiaire+</span></div><div class="bar"><span data-w="75%"></span></div></div>
         </div>
         <div class="stack-tags reveal">
-          <span class="chip">ASP.NET Core</span><span class="chip">Entity Framework</span><span class="chip">REST API</span>
-          <span class="chip">TypeScript</span><span class="chip">RxJS</span><span class="chip">SCSS</span>
-          <span class="chip">Git</span><span class="chip">CI/CD</span><span class="chip">Azure DevOps</span>
-          <span class="chip">Stripe</span><span class="chip">Push Notifications</span><span class="chip">Clean Architecture</span>
+          <span class="chip">ASP.NET Core</span><span class="chip">Entity Framework</span><span class="chip">Prisma</span>
+          <span class="chip">REST API</span><span class="chip">RxJS</span><span class="chip">Tailwind</span>
+          <span class="chip">Firebase</span><span class="chip">Capacitor</span><span class="chip">i18n / RTL</span>
+          <span class="chip">Reverse Engineering</span><span class="chip">pywebview</span><span class="chip">Stripe</span>
+          <span class="chip">Git</span><span class="chip">Azure DevOps</span><span class="chip">Clean Architecture</span>
         </div>
       </div>
     </section>
@@ -428,6 +453,12 @@
           <span class="sec-rule"></span>
         </div>
         <div class="timeline">
+          <div class="tl-item reveal">
+            <div class="tl-when">2025 — Aujourd'hui</div>
+            <div class="tl-role">Projets indépendants & R&D</div>
+            <div class="tl-org">Game dev · Outils · Reverse-engineering</div>
+            <div class="tl-desc">Conception de jeux cross-platform en C#/.NET (Pavillon Noir, The Pirate's Dice) avec chaîne de publication mobile automatisée, outils desktop métier et reverse-engineering (Eden Ultimate Tool), marketplace full-stack trilingue (Pravia, Next.js 16 / React 19).</div>
+          </div>
           <div class="tl-item reveal">
             <div class="tl-when">2024 — Aujourd'hui</div>
             <div class="tl-role">Ingénieur Full Stack & Mobile</div>
@@ -461,51 +492,67 @@
         <div class="projects reveal">
 
           <article class="project">
-            <div class="p-top"><span class="p-cat">📱 App mobile SaaS · 2024–25</span><span class="p-idx">01</span></div>
-            <h3>Utrav — Application mobile</h3>
-            <p class="p-desc">App voyageurs : recherche & réservation de voyages, paiements sécurisés, programme de fidélité à 4 niveaux, notifications push Firebase.</p>
-            <div class="p-tags"><span>Flutter</span><span>.NET Core</span><span>Firebase</span><span>REST API</span></div>
-            <a class="p-link" href="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav" target="_blank" rel="noopener">Play Store <i class="fas fa-arrow-right"></i></a>
+            <div class="p-top"><span class="p-cat">🎮 Jeu cross-platform · 2025–26</span><span class="p-idx">01</span></div>
+            <h3>Pavillon Noir</h3>
+            <p class="p-desc">Roguelite naval en 3D, moteur maison en C#/.NET. Un seul <em>RunController</em> piloté par le terminal, le banc 3D et un simulateur sans affichage ; zéro asset acheté, aucune règle de jeu dans la couche graphique. Campagne, classement par primes, interface peinte.</p>
+            <div class="p-tags"><span>C# / .NET</span><span>Cross-platform</span><span>iOS · Android · Desktop</span><span>3D</span></div>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://usernabil.github.io/pavillon-noir-site/" data-prev-url="https://usernabil.github.io/pavillon-noir-site/">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
           </article>
 
           <article class="project">
-            <div class="p-top"><span class="p-cat">💻 Back-office SaaS · 2024–25</span><span class="p-idx">02</span></div>
+            <div class="p-top"><span class="p-cat">🎲 Jeu mobile publié · 2025–26</span><span class="p-idx">02</span></div>
+            <h3>The Pirate's Dice</h3>
+            <p class="p-desc">Jeu de dés pirate porté sur mobile, avec chaîne de publication automatisée (APK signé en une commande, incrément de version, workflow CI). Une seule base de code partagée entre l'outil web et l'app — un correctif arrive dans le téléphone au build suivant.</p>
+            <div class="p-tags"><span>JavaScript</span><span>Capacitor</span><span>Android · iOS</span><span>CI/CD</span></div>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://usernabil.github.io/piratesdice-site/" data-prev-url="https://usernabil.github.io/piratesdice-site/">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">🛠️ Outil desktop · Reverse-engineering</span><span class="p-idx">03</span></div>
+            <h3>Eden Ultimate Tool</h3>
+            <p class="p-desc">Console Game Master desktop (fenêtre native) pour éditer monstres, objets et sorts d'un MMORPG — stats, loot, descriptions — avec aperçu 3D. Reverse-engineering et crack du codec serveur chiffré, écriture atomique double couche (client + serveur) vérifiée byte-identique, avec backups.</p>
+            <div class="p-tags"><span>Python</span><span>FastAPI</span><span>pywebview</span><span>Reverse Eng.</span></div>
+            <span class="p-link disabled">Projet privé · R&D <i class="fas fa-lock"></i></span>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">🛒 Marketplace full-stack · 2026</span><span class="p-idx">04</span></div>
+            <h3>Pravia</h3>
+            <p class="p-desc">Marketplace de matériel tech : boutique + back-office complet (40 références, 9 catégories, 15 marques), panier, commande, avis clients. Trilingue français / anglais / arabe, avec affichage droite-à-gauche. Aucune base externe à installer.</p>
+            <div class="p-tags"><span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Prisma</span></div>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pravia.png" data-prev-url="https://pravia-dz.com/fr">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">📱 App mobile SaaS · 2024–25</span><span class="p-idx">05</span></div>
+            <h3>Jeto — Application mobile</h3>
+            <p class="p-desc">App voyageurs (plateforme Utrav), publiée sur le Play Store : recherche & réservation de voyages, paiements sécurisés, programme de fidélité à 4 niveaux, notifications push Firebase.</p>
+            <div class="p-tags"><span>Flutter</span><span>.NET Core</span><span>Firebase</span><span>REST API</span></div>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/utrav-mobile.png" data-prev-url="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+          </article>
+
+          <article class="project">
+            <div class="p-top"><span class="p-cat">💻 Back-office SaaS · 2024–25</span><span class="p-idx">06</span></div>
             <h3>Utrav — Back-office</h3>
             <p class="p-desc">Plateforme de gestion pour agences : création & publication de voyages, gestion des réservations et paiements, statistiques temps réel, envoi de notifications.</p>
             <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>SQL Server</span><span>Azure</span></div>
-            <a class="p-link" href="https://utrav-bo.my-officeapps.com/" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://utrav-bo.my-officeapps.com/" data-prev-url="https://utrav-bo.my-officeapps.com/">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
           </article>
 
           <article class="project">
-            <div class="p-top"><span class="p-cat">💼 CRM · 2023–24</span><span class="p-idx">03</span></div>
+            <div class="p-top"><span class="p-cat">💼 CRM · 2023–24</span><span class="p-idx">07</span></div>
             <h3>My Office</h3>
             <p class="p-desc">CRM développé from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma de bout en bout.</p>
             <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>Figma</span><span>Azure</span></div>
-            <a class="p-link" href="https://my-officeapps.com" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://my-officeapps.com" data-prev-url="https://my-officeapps.com">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
           </article>
 
           <article class="project">
-            <div class="p-top"><span class="p-cat">🏦 Gestion de patrimoine · 2024–25</span><span class="p-idx">04</span></div>
+            <div class="p-top"><span class="p-cat">🏦 Gestion de patrimoine · 2024–25</span><span class="p-idx">08</span></div>
             <h3>ADD Associés</h3>
-            <p class="p-desc">Application de gestion de patrimoine : suivi des portefeuilles clients et génération de rapports automatisés.</p>
+            <p class="p-desc">Application de gestion de patrimoine : suivi des portefeuilles clients et génération de rapports automatisés. Projet antérieur : Santelac & Vacanciel (sites web ASP.NET / Azure).</p>
             <div class="p-tags"><span>React</span><span>.NET Core</span><span>Azure</span></div>
             <span class="p-link disabled">Projet privé <i class="fas fa-lock"></i></span>
-          </article>
-
-          <article class="project">
-            <div class="p-top"><span class="p-cat">🌐 Site web médical</span><span class="p-idx">05</span></div>
-            <h3>Santelac</h3>
-            <p class="p-desc">Site web médical avec système de prise de rendez-vous en ligne.</p>
-            <div class="p-tags"><span>ASP.NET</span><span>Azure</span></div>
-            <a class="p-link" href="https://devsantelacweb.azurewebsites.net" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
-          </article>
-
-          <article class="project">
-            <div class="p-top"><span class="p-cat">🌐 Plateforme de réservation</span><span class="p-idx">06</span></div>
-            <h3>Vacanciel</h3>
-            <p class="p-desc">Plateforme de réservation de vacances avec galerie photos.</p>
-            <div class="p-tags"><span>.NET</span><span>Azure</span></div>
-            <a class="p-link" href="https://devvacancielweb.azurewebsites.net/" target="_blank" rel="noopener">Voir le site <i class="fas fa-arrow-right"></i></a>
           </article>
 
         </div>
@@ -553,6 +600,21 @@
       </div>
     </section>
   </main>
+
+  <!-- PREVIEW MODAL -->
+  <div class="modal" id="previewModal" role="dialog" aria-modal="true" aria-label="Aperçu du projet">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <div class="modal-bar">
+        <span class="modal-dots"><i></i><i></i><i></i></span>
+        <span class="modal-url" id="modalUrl">—</span>
+        <a class="modal-open" id="modalOpen" href="#" target="_blank" rel="noopener">Ouvrir le site <i class="fas fa-arrow-up-right-from-square"></i></a>
+        <button class="modal-close" data-close aria-label="Fermer l'aperçu">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-hint" id="modalHint"></div>
+    </div>
+  </div>
 
   <footer>
     <div class="wrap foot-inner">
@@ -626,7 +688,7 @@
       document.getElementById('year').textContent = new Date().getFullYear();
 
       /* ---- TYPED ROLES ---- */
-      var roles = ['.NET Core · C#', 'Angular · TypeScript', 'Flutter · Mobile', 'UI/UX · Figma', 'SaaS de A à Z'];
+      var roles = ['.NET Core · C#', 'Angular · TypeScript', 'Flutter · Mobile', 'Next.js · React 19', 'Game Dev · C#/.NET', 'Python · Tooling', 'UI/UX · Figma'];
       var typed = document.getElementById('typed');
       var ri = 0, ci = 0, deleting = false;
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -694,6 +756,46 @@
           setNum('ghGists', d.public_gists);
         })
         .catch(function(){ /* silencieux : fallback visuel '—' */ });
+
+      /* ---- PREVIEW MODAL ---- */
+      var modal = document.getElementById('previewModal');
+      var mBody = document.getElementById('modalBody');
+      var mUrl  = document.getElementById('modalUrl');
+      var mOpen = document.getElementById('modalOpen');
+      var mHint = document.getElementById('modalHint');
+      function openPreview(btn){
+        var type = btn.getAttribute('data-prev-type');
+        var src  = btn.getAttribute('data-prev-src');
+        var url  = btn.getAttribute('data-prev-url');
+        mUrl.textContent = url.replace(/^https?:\/\//,'');
+        mOpen.href = url;
+        mBody.innerHTML = '';
+        if(type === 'image'){
+          var img = document.createElement('img');
+          img.src = src; img.alt = 'Aperçu du site en ligne';
+          mBody.appendChild(img);
+          mHint.textContent = "Capture du site en ligne — cliquez sur « Ouvrir le site » pour la version interactive.";
+        } else {
+          var fr = document.createElement('iframe');
+          fr.src = src; fr.setAttribute('loading','lazy'); fr.setAttribute('title','Aperçu en direct');
+          mBody.appendChild(fr);
+          mHint.textContent = "Aperçu interactif en direct — défilez et cliquez à l'intérieur du cadre.";
+        }
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closePreview(){
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(function(){ mBody.innerHTML = ''; }, 360);
+      }
+      document.querySelectorAll('[data-prev-type]').forEach(function(btn){
+        btn.addEventListener('click', function(e){ e.preventDefault(); openPreview(btn); });
+      });
+      if(modal){
+        modal.addEventListener('click', function(e){ if(e.target.hasAttribute('data-close')) closePreview(); });
+        document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && modal.classList.contains('open')) closePreview(); });
+      }
     })();
   </script>
 </body>
