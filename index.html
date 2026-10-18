@@ -299,6 +299,8 @@
     .modal-body { flex:1; position:relative; overflow:auto; background:var(--bg); }
     .modal-body iframe { width:100%; height:100%; border:0; display:block; background:#fff; }
     .modal-body img { width:100%; display:block; }
+    .modal-body.media { display:flex; align-items:center; justify-content:center; padding:1rem; background:#0b0a08; }
+    .modal-body.media img { width:auto; max-width:100%; max-height:100%; border-radius:4px; box-shadow:0 10px 40px rgba(0,0,0,.5); }
     .modal-hint { font-family:var(--ff-mono); font-size:.68rem; color:var(--faint); text-align:center; padding:.55rem; border-top:1px solid var(--line); background:var(--bg); flex-shrink:0; }
     @media (max-width:560px){ .modal-panel{ height:88vh; width:94vw; } .modal-url{ display:none; } }
 
@@ -496,7 +498,7 @@
             <h3>Pavillon Noir</h3>
             <p class="p-desc">Roguelite naval en 3D, moteur maison en C#/.NET. Un seul <em>RunController</em> piloté par le terminal, le banc 3D et un simulateur sans affichage ; zéro asset acheté, aucune règle de jeu dans la couche graphique. Campagne, classement par primes, interface peinte.</p>
             <div class="p-tags"><span>C# / .NET</span><span>Cross-platform</span><span>iOS · Android · Desktop</span><span>3D</span></div>
-            <button class="p-link" data-prev-type="iframe" data-prev-src="https://usernabil.github.io/pavillon-noir-site/" data-prev-url="https://usernabil.github.io/pavillon-noir-site/">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pavillon.gif" data-prev-url="https://usernabil.github.io/pavillon-noir-site/">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
           <article class="project">
@@ -504,7 +506,7 @@
             <h3>The Pirate's Dice</h3>
             <p class="p-desc">Jeu de dés pirate porté sur mobile, avec chaîne de publication automatisée (APK signé en une commande, incrément de version, workflow CI). Une seule base de code partagée entre l'outil web et l'app — un correctif arrive dans le téléphone au build suivant.</p>
             <div class="p-tags"><span>JavaScript</span><span>Capacitor</span><span>Android · iOS</span><span>CI/CD</span></div>
-            <button class="p-link" data-prev-type="iframe" data-prev-src="https://usernabil.github.io/piratesdice-site/" data-prev-url="https://usernabil.github.io/piratesdice-site/">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://usernabil.github.io/piratesdice-site/" data-prev-url="https://usernabil.github.io/piratesdice-site/">Visite live <i class="fas fa-tower-broadcast"></i></button>
           </article>
 
           <article class="project">
@@ -520,7 +522,7 @@
             <h3>Pravia</h3>
             <p class="p-desc">Marketplace de matériel tech : boutique + back-office complet (40 références, 9 catégories, 15 marques), panier, commande, avis clients. Trilingue français / anglais / arabe, avec affichage droite-à-gauche. Aucune base externe à installer.</p>
             <div class="p-tags"><span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Prisma</span></div>
-            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pravia.png" data-prev-url="https://pravia-dz.com/fr">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pravia.gif" data-prev-url="https://pravia-dz.com/fr">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
           <article class="project">
@@ -528,7 +530,7 @@
             <h3>Jeto — Application mobile</h3>
             <p class="p-desc">App voyageurs (plateforme Utrav), publiée sur le Play Store : recherche & réservation de voyages, paiements sécurisés, programme de fidélité à 4 niveaux, notifications push Firebase.</p>
             <div class="p-tags"><span>Flutter</span><span>.NET Core</span><span>Firebase</span><span>REST API</span></div>
-            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/utrav-mobile.png" data-prev-url="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/jeto.gif" data-prev-url="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
           <article class="project">
@@ -536,7 +538,7 @@
             <h3>Utrav — Back-office</h3>
             <p class="p-desc">Plateforme de gestion pour agences : création & publication de voyages, gestion des réservations et paiements, statistiques temps réel, envoi de notifications.</p>
             <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>SQL Server</span><span>Azure</span></div>
-            <button class="p-link" data-prev-type="iframe" data-prev-src="https://utrav-bo.my-officeapps.com/" data-prev-url="https://utrav-bo.my-officeapps.com/">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://utrav-bo.my-officeapps.com/" data-prev-url="https://utrav-bo.my-officeapps.com/">Visite live <i class="fas fa-tower-broadcast"></i></button>
           </article>
 
           <article class="project">
@@ -544,7 +546,7 @@
             <h3>My Office</h3>
             <p class="p-desc">CRM développé from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma de bout en bout.</p>
             <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>Figma</span><span>Azure</span></div>
-            <button class="p-link" data-prev-type="iframe" data-prev-src="https://my-officeapps.com" data-prev-url="https://my-officeapps.com">Aperçu <i class="fas fa-up-right-and-down-left-from-center"></i></button>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://my-officeapps.com" data-prev-url="https://my-officeapps.com">Visite live <i class="fas fa-tower-broadcast"></i></button>
           </article>
 
           <article class="project">
@@ -770,16 +772,20 @@
         mUrl.textContent = url.replace(/^https?:\/\//,'');
         mOpen.href = url;
         mBody.innerHTML = '';
-        if(type === 'image'){
-          var img = document.createElement('img');
-          img.src = src; img.alt = 'Aperçu du site en ligne';
-          mBody.appendChild(img);
-          mHint.textContent = "Capture du site en ligne — cliquez sur « Ouvrir le site » pour la version interactive.";
-        } else {
+        if(type === 'iframe'){
+          mBody.classList.remove('media');
           var fr = document.createElement('iframe');
           fr.src = src; fr.setAttribute('loading','lazy'); fr.setAttribute('title','Aperçu en direct');
           mBody.appendChild(fr);
           mHint.textContent = "Aperçu interactif en direct — défilez et cliquez à l'intérieur du cadre.";
+        } else {
+          mBody.classList.add('media');
+          var img = document.createElement('img');
+          img.src = src; img.alt = 'Démo du projet';
+          mBody.appendChild(img);
+          mHint.textContent = /\.gif(\?|$)/i.test(src)
+            ? "Démo animée — cliquez sur « Ouvrir le site » pour la version complète."
+            : "Capture du site en ligne — cliquez sur « Ouvrir le site » pour la version interactive.";
         }
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
