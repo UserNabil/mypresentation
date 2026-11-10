@@ -10,6 +10,14 @@ python -m http.server 8765 --bind 127.0.0.1
 
 Ouvrir <http://127.0.0.1:8765/>. La bibliothèque se trouve à `/#documents`.
 
+## Variante locale pour le recrutement
+
+La branche locale `preview/recrutement` prépare une évolution du site : positionnement .NET / Angular et Flutter dès l’accueil, projets métier présentés en premier, trois études de cas (Jeto/Utrav, My Office, ADD Associés), compétences reliées à ces réalisations et préavis d’un mois.
+
+Les études s’ouvrent depuis les cartes ou directement avec `/#case-jeto`, `/#case-my-office` et `/#case-add-associes`. Elles comprennent le besoin, la contribution, les choix de réalisation, les fonctionnalités et les liens disponibles. Le contenu est dans `index.html`, l’apparence dans `assets/css/recruitment.css` et le lecteur dans `assets/js/case-studies.js`.
+
+Le commit `96fc218` sur `main` correspond à la version publiée avant cette évolution. Cette variante doit être relue localement avant une éventuelle publication.
+
 ## Documents
 
 Les téléchargements sont de vrais PDF dédiés ; le site ne transforme pas sa page en CV.

@@ -24,6 +24,7 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="assets/css/documents.css">
+  <link rel="stylesheet" href="assets/css/recruitment.css">
 
   <style>
     /* ============ DESIGN TOKENS ============ */
@@ -131,8 +132,6 @@
       font-size: clamp(1.15rem, 3.2vw, 1.9rem);
       margin-top:1.4rem; color:var(--ink); min-height:1.5em;
     }
-    .hero-role .cursor { color:var(--accent); font-weight:400; animation:blink 1s steps(1) infinite; }
-    @keyframes blink { 50%{opacity:0} }
     .hero-lede { max-width:46ch; color:var(--muted); font-size:1.08rem; margin-top:1.6rem; }
 
     .hero-cta { display:flex; flex-wrap:wrap; gap:1rem; margin-top:2.4rem; }
@@ -341,9 +340,9 @@
     <div class="nav-inner">
       <a href="#top" class="brand"><span class="dot"></span>Nabil OULD-TERKI</a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#about">01 — Profil</a></li>
-        <li><a href="#skills">02 — Stack</a></li>
-        <li><a href="#work">03 — Projets</a></li>
+        <li><a href="#work">01 — Réalisations</a></li>
+        <li><a href="#about">02 — Profil</a></li>
+        <li><a href="#path">03 — Parcours</a></li>
         <li><a href="#documents">04 — Documents</a></li>
         <li><a href="#contact">05 — Contact</a></li>
         <li>
@@ -365,29 +364,125 @@
         <span id="clock">—</span>
       </div>
       <h1 class="reveal">Ingénieur<br>Full&nbsp;Stack<span class="accent">.</span></h1>
-      <div class="hero-role reveal"><span id="typed"></span><span class="cursor">▌</span></div>
-      <p class="hero-lede reveal">Je conçois et développe des produits de A à Z — SaaS web, apps mobiles, jeux cross-platform et outils métier. De la maquette Figma au déploiement cloud, en passant par le reverse-engineering quand il le faut. Code propre, architecture solide, livraison au cordeau.</p>
+      <p class="hero-role reveal">.NET / Angular <span class="hero-role-divider">·</span> Flutter / Mobile</p>
+      <p class="hero-lede reveal">Je transforme les besoins métier en applications web et mobiles. De la conception sur Figma aux API .NET, des interfaces Angular aux apps Flutter, j’accompagne le produit jusqu’à sa mise en production.</p>
       <div class="hero-cta reveal">
-        <button class="btn primary" data-document="cv"><i class="fas fa-file-lines" aria-hidden="true"></i> Voir le CV</button>
-        <a class="btn ghost" href="#documents"><i class="fas fa-layer-group" aria-hidden="true"></i> Mes documents</a>
-        <a class="btn ghost" href="#contact"><i class="fas fa-paper-plane"></i> Me contacter</a>
+        <a class="btn primary" href="#work"><i class="fas fa-arrow-down" aria-hidden="true"></i> Découvrir mes réalisations</a>
+        <button class="btn ghost" data-document="cv"><i class="fas fa-file-lines" aria-hidden="true"></i> Voir le CV</button>
+        <a class="hero-contact" href="mailto:n.ouldterki@gmail.com">Échangeons <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
       </div>
 
       <div class="stats reveal">
-        <div class="stat"><div class="n" data-count="3" data-suffix="+">0</div><div class="l">Ans d'expérience</div></div>
-        <div class="stat"><div class="n" data-count="10" data-suffix="+">0</div><div class="l">Produits livrés</div></div>
-        <div class="stat"><div class="n" data-count="3">0</div><div class="l">Domaines : web, mobile & outils</div></div>
-        <div class="stat"><div class="n" data-count="100" data-suffix="%">0</div><div class="l">Remote possible</div></div>
+        <div class="stat"><div class="n">3+</div><div class="l">Ans d'expérience</div></div>
+        <div class="stat"><div class="n">.NET</div><div class="l">Applications métier</div></div>
+        <div class="stat"><div class="n">Flutter</div><div class="l">Mobile iOS / Android</div></div>
+        <div class="stat"><div class="n">1 mois</div><div class="l">Préavis · Actuellement en CDI</div></div>
       </div>
     </div>
   </header>
 
   <main>
+    <!-- 01 — RÉALISATIONS -->
+    <section class="block" id="work" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">01</span>
+          <h2 class="sec-title">Du métier au produit.</h2>
+          <span class="sec-rule"></span>
+        </div>
+        <div class="case-intro reveal"><p>Trois réalisations pour découvrir ma façon de travailler :<br><span>le besoin, ma contribution et le produit livré.</span></p><span class="doc-eyebrow">Web · Mobile · SaaS</span></div>
+        <div class="case-grid">
+          <article class="case-card reveal" id="case-jeto">
+            <button class="case-cover case-cover-mobile" data-case="jeto" aria-label="Lire l’étude de cas Jeto / Utrav"><img src="assets/img/case-studies/jeto.webp" alt="Fiche Google Play de l’application Jeto" width="960" height="540" loading="lazy"><span class="case-cover-caption">Application publiée · Google Play</span></button>
+            <div class="case-card-body"><span class="doc-eyebrow">01 / Mobile & SaaS</span><h3>Jeto / Utrav</h3><p>Un parcours de réservation côté voyageurs. Un back-office pour les agences.</p><div class="case-card-tags"><span>Flutter</span><span>Angular</span><span>.NET</span></div><button class="case-read" data-case="jeto">Comprendre le projet <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></button></div>
+          </article>
+          <article class="case-card reveal" id="case-my-office">
+            <button class="case-cover case-cover-crm" data-case="my-office" aria-label="Lire l’étude de cas My Office"><span class="case-cover-mark">My Office<span>.</span></span><span class="case-cover-flow">Contact <span aria-hidden="true">→</span> Opportunité <span aria-hidden="true">→</span> Suivi</span><span class="case-cover-caption">CRM · Conception Figma & développement</span></button>
+            <div class="case-card-body"><span class="doc-eyebrow">02 / CRM & UX/UI</span><h3>My Office</h3><p>Du prototype Figma à un outil de gestion des relations et des opportunités commerciales.</p><div class="case-card-tags"><span>Angular</span><span>.NET</span><span>Figma</span></div><button class="case-read" data-case="my-office">Comprendre le projet <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></button></div>
+          </article>
+          <article class="case-card reveal" id="case-add-associes">
+            <button class="case-cover case-cover-finance" data-case="add-associes" aria-label="Lire l’étude de cas ADD Associés"><span class="case-cover-monogram">ADD<span> / </span></span><span class="case-cover-flow">Données <span aria-hidden="true">→</span> Portefeuilles <span aria-hidden="true">→</span> Rapports</span><span class="case-cover-caption">Gestion de patrimoine · CDI GRANITE</span></button>
+            <div class="case-card-body"><span class="doc-eyebrow">03 / Application métier</span><h3>ADD Associés</h3><p>Intégration de données financières, analyse de portefeuilles et rapports personnalisés.</p><div class="case-card-tags"><span>React</span><span>.NET</span><span>Azure</span></div><button class="case-read" data-case="add-associes">Comprendre le projet <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></button></div>
+          </article>
+        </div>
+        <div class="more-projects-heading reveal" id="moreProjects"><h3>Les réalisations en détail</h3><p>Applications, jeux et outils. Les démonstrations restent accessibles.</p></div>
+        <div class="projects reveal" id="projectList">
+
+          <article class="project" id="project-jeto">
+            <div class="p-top"><span class="p-cat">📱 App mobile SaaS · 2024–25</span><span class="p-idx">01</span></div>
+            <h3>Jeto — Application mobile</h3>
+            <p class="p-desc">App voyageurs (plateforme Utrav), publiée sur le Play Store : recherche & réservation de voyages, paiements sécurisés, programme de fidélité à 4 niveaux, notifications push Firebase.</p>
+            <div class="p-tags"><span>Flutter</span><span>.NET Core</span><span>Firebase</span><span>REST API</span></div>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/jeto.gif" data-prev-url="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav">Voir la démo <i class="fas fa-circle-play"></i></button>
+          </article>
+
+          <article class="project" id="project-utrav">
+            <div class="p-top"><span class="p-cat">💻 Back-office SaaS · 2024–25</span><span class="p-idx">02</span></div>
+            <h3>Utrav — Back-office</h3>
+            <p class="p-desc">Plateforme de gestion pour agences : création & publication de voyages, gestion des réservations et paiements, statistiques temps réel, envoi de notifications.</p>
+            <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>SQL Server</span><span>Azure</span></div>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://utrav-bo.my-officeapps.com/" data-prev-url="https://utrav-bo.my-officeapps.com/">Visite live <i class="fas fa-tower-broadcast"></i></button>
+          </article>
+
+          <article class="project" id="project-my-office">
+            <div class="p-top"><span class="p-cat">💼 CRM · 2023–24</span><span class="p-idx">03</span></div>
+            <h3>My Office</h3>
+            <p class="p-desc">CRM développé from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma de bout en bout.</p>
+            <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>Figma</span><span>Azure</span></div>
+            <button class="p-link" data-prev-type="iframe" data-prev-src="https://my-officeapps.com" data-prev-url="https://my-officeapps.com">Visite live <i class="fas fa-tower-broadcast"></i></button>
+          </article>
+
+          <article class="project" id="project-add-associes">
+            <div class="p-top"><span class="p-cat">🏦 Gestion de patrimoine · GRANITE</span><span class="p-idx">04</span></div>
+            <h3>ADD Associés</h3>
+            <p class="p-desc">Projet réalisé dans le cadre de mon CDI chez GRANITE : intégration de données financières, analyse de portefeuilles clients et génération de rapports personnalisés.</p>
+            <div class="p-tags"><span>React</span><span>.NET Core</span><span>Azure</span></div>
+            <span class="p-link disabled">Projet privé <i class="fas fa-lock"></i></span>
+          </article>
+
+          <article class="project" id="project-pravia">
+            <div class="p-top"><span class="p-cat">🛒 Marketplace full-stack · 2026</span><span class="p-idx">05</span></div>
+            <h3>Pravia</h3>
+            <p class="p-desc">Marketplace de matériel tech : boutique + back-office complet (40 références, 9 catégories, 15 marques), panier, commande, avis clients. Trilingue français / anglais / arabe, avec affichage droite-à-gauche. Aucune base externe à installer.</p>
+            <div class="p-tags"><span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Prisma</span></div>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pravia.gif" data-prev-url="https://pravia-dz.com/fr">Voir la démo <i class="fas fa-circle-play"></i></button>
+          </article>
+
+          <article class="project" id="project-pavillon-noir">
+            <div class="p-top"><span class="p-cat">🎮 Jeu cross-platform · 2025–26</span><span class="p-idx">06</span></div>
+            <h3>Pavillon Noir</h3>
+            <p class="p-desc">Roguelite naval en 3D, moteur maison en C#/.NET. Un seul <em>RunController</em> piloté par le terminal, le banc 3D et un simulateur sans affichage ; zéro asset acheté, aucune règle de jeu dans la couche graphique. Campagne, classement par primes, interface peinte.</p>
+            <div class="p-tags"><span>C# / .NET</span><span>Cross-platform</span><span>iOS · Android · Desktop</span><span>3D</span></div>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pavillon.gif" data-prev-url="https://usernabil.github.io/pavillon-noir-site/">Voir la démo <i class="fas fa-circle-play"></i></button>
+          </article>
+
+          <article class="project" id="project-pirates-dice">
+            <div class="p-top"><span class="p-cat">🎲 Jeu mobile publié · 2025–26</span><span class="p-idx">07</span></div>
+            <h3>The Pirate's Dice</h3>
+            <p class="p-desc">Jeu de dés pirate porté sur mobile, avec chaîne de publication automatisée (APK signé en une commande, incrément de version, workflow CI). Une seule base de code partagée entre l'outil web et l'app — un correctif arrive dans le téléphone au build suivant.</p>
+            <div class="p-tags"><span>JavaScript</span><span>Capacitor</span><span>Android · iOS</span><span>CI/CD</span></div>
+            <div class="p-links">
+              <a class="p-link" href="https://play.google.com/store/apps/details?id=com.nabil.piratesdice" target="_blank" rel="noopener"><i class="fab fa-google-play"></i> Google Play</a>
+              <a class="p-link" href="https://apps.apple.com/app/id6804324160" target="_blank" rel="noopener"><i class="fab fa-app-store-ios"></i> App Store</a>
+            </div>
+          </article>
+
+          <article class="project" id="project-eden">
+            <div class="p-top"><span class="p-cat">🛠️ Outil desktop · Reverse-engineering</span><span class="p-idx">08</span></div>
+            <h3>Eden Ultimate Tool</h3>
+            <p class="p-desc">Console d'opérations complète pour MMORPG (fenêtre desktop native) : santé des serveurs en temps réel, déploiement multi-environnements (DEV/PREPROD/PROD), édition de 90 000+ entités — créatures, objets, sorts, enchantements — avec aperçu in-game live. Reverse-engineering du codec serveur chiffré, écriture atomique double couche client + serveur vérifiée byte-identique.</p>
+            <div class="p-tags"><span>Python</span><span>FastAPI</span><span>pywebview</span><span>Reverse Eng.</span></div>
+            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/eden.gif" data-prev-url="" data-prev-label="Eden Ultimate Tool — console privée (R&D)">Voir la démo <i class="fas fa-circle-play"></i></button>
+          </article>
+
+        </div>
+      </div>
+    </section>
     <!-- 01 — PROFIL -->
     <section class="block" id="about">
       <div class="wrap">
         <div class="sec-head reveal">
-          <span class="sec-num">01</span>
+          <span class="sec-num">02</span>
           <h2 class="sec-title">Profil</h2>
           <span class="sec-rule"></span>
         </div>
@@ -407,6 +502,8 @@
               <div class="fact"><span class="k">Anglais</span><span class="v">TOEIC validé</span></div>
               <div class="fact"><span class="k">Statut</span><span class="v">CDI · GRANITE</span></div>
               <div class="fact"><span class="k">Modalité</span><span class="v">Remote / Hybride</span></div>
+              <div class="fact"><span class="k">Préavis</span><span class="v">1 mois</span></div>
+              <div class="fact"><span class="k">Détails</span><a class="v profile-skills-link" href="#skills">Compétences appliquées ↗</a></div>
             </div>
           </div>
         </div>
@@ -433,21 +530,17 @@
     <section class="block" id="skills" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
       <div class="wrap">
         <div class="sec-head reveal">
-          <span class="sec-num">02</span>
-          <h2 class="sec-title">Stack technique</h2>
+          <span class="sec-num">—</span>
+          <h2 class="sec-title">Des compétences appliquées</h2>
           <span class="sec-rule"></span>
         </div>
-        <div class="skills">
-          <div class="skill reveal"><div class="skill-row"><span class="name">.NET Core / C#</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="95%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Angular</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="90%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Flutter / Dart</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Next.js / React 19</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">TypeScript / Node</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="85%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Python / FastAPI</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="80%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">UI/UX · Figma</span><span class="lvl">Expert</span></div><div class="bar"><span data-w="92%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">SQL · Prisma · EF</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="82%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Game Dev · C#/.NET</span><span class="lvl">Avancé</span></div><div class="bar"><span data-w="80%"></span></div></div>
-          <div class="skill reveal"><div class="skill-row"><span class="name">Azure · Cloud · CI/CD</span><span class="lvl">Intermédiaire+</span></div><div class="bar"><span data-w="75%"></span></div></div>
+        <div class="skill-proof-grid">
+          <article class="skill-proof reveal"><span class="doc-eyebrow">Back-end & données</span><h3>.NET Core / C#</h3><p>API, authentification, données métier et rapports. SQL Server et déploiement Azure.</p><button class="doc-text-link" data-case="add-associes">En pratique : ADD Associés <span aria-hidden="true">↗</span></button></article>
+          <article class="skill-proof reveal"><span class="doc-eyebrow">Interfaces métier</span><h3>Angular / TypeScript</h3><p>CRM, back-office et tableaux de bord, de la conception des écrans à leur intégration.</p><button class="doc-text-link" data-case="my-office">En pratique : My Office <span aria-hidden="true">↗</span></button></article>
+          <article class="skill-proof reveal"><span class="doc-eyebrow">Mobile</span><h3>Flutter / Dart</h3><p>Applications iOS et Android : réservation, fidélité et notifications push Firebase.</p><button class="doc-text-link" data-case="jeto">En pratique : Jeto / Utrav <span aria-hidden="true">↗</span></button></article>
+          <article class="skill-proof reveal"><span class="doc-eyebrow">Front-end</span><h3>React / Redux</h3><p>Interfaces de gestion de patrimoine et analyse de portefeuilles dans le cadre de mon CDI.</p><button class="doc-text-link" data-case="add-associes">En pratique : ADD Associés <span aria-hidden="true">↗</span></button></article>
+          <article class="skill-proof reveal"><span class="doc-eyebrow">Conception produit</span><h3>UX / UI · Figma</h3><p>Prototypage et conception des parcours avant le développement des applications.</p><button class="doc-text-link" data-case="my-office">En pratique : My Office <span aria-hidden="true">↗</span></button></article>
+          <article class="skill-proof reveal"><span class="doc-eyebrow">Exploration & outillage</span><h3>Python / Next.js / C#</h3><p>Console desktop, marketplace trilingue et jeux cross-platform : des réalisations à explorer.</p><a class="doc-text-link" href="#moreProjects">Voir les autres réalisations <span aria-hidden="true">↗</span></a></article>
         </div>
         <div class="stack-tags reveal">
           <span class="chip">ASP.NET Core</span><span class="chip">Entity Framework</span><span class="chip">Prisma</span>
@@ -463,7 +556,7 @@
     <section class="block" id="path">
       <div class="wrap">
         <div class="sec-head reveal">
-          <span class="sec-num">—</span>
+          <span class="sec-num">03</span>
           <h2 class="sec-title">Parcours</h2>
           <span class="sec-rule"></span>
         </div>
@@ -567,86 +660,7 @@
       </div>
     </section>
 
-    <!-- 03 — PROJETS -->
-    <section class="block" id="work" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
-      <div class="wrap">
-        <div class="sec-head reveal">
-          <span class="sec-num">03</span>
-          <h2 class="sec-title">Projets sélectionnés</h2>
-          <span class="sec-rule"></span>
-        </div>
-        <div class="projects reveal">
 
-          <article class="project" id="project-pavillon-noir">
-            <div class="p-top"><span class="p-cat">🎮 Jeu cross-platform · 2025–26</span><span class="p-idx">01</span></div>
-            <h3>Pavillon Noir</h3>
-            <p class="p-desc">Roguelite naval en 3D, moteur maison en C#/.NET. Un seul <em>RunController</em> piloté par le terminal, le banc 3D et un simulateur sans affichage ; zéro asset acheté, aucune règle de jeu dans la couche graphique. Campagne, classement par primes, interface peinte.</p>
-            <div class="p-tags"><span>C# / .NET</span><span>Cross-platform</span><span>iOS · Android · Desktop</span><span>3D</span></div>
-            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pavillon.gif" data-prev-url="https://usernabil.github.io/pavillon-noir-site/">Voir la démo <i class="fas fa-circle-play"></i></button>
-          </article>
-
-          <article class="project" id="project-pirates-dice">
-            <div class="p-top"><span class="p-cat">🎲 Jeu mobile publié · 2025–26</span><span class="p-idx">02</span></div>
-            <h3>The Pirate's Dice</h3>
-            <p class="p-desc">Jeu de dés pirate porté sur mobile, avec chaîne de publication automatisée (APK signé en une commande, incrément de version, workflow CI). Une seule base de code partagée entre l'outil web et l'app — un correctif arrive dans le téléphone au build suivant.</p>
-            <div class="p-tags"><span>JavaScript</span><span>Capacitor</span><span>Android · iOS</span><span>CI/CD</span></div>
-            <div class="p-links">
-              <a class="p-link" href="https://play.google.com/store/apps/details?id=com.nabil.piratesdice" target="_blank" rel="noopener"><i class="fab fa-google-play"></i> Google Play</a>
-              <a class="p-link" href="https://apps.apple.com/app/id6804324160" target="_blank" rel="noopener"><i class="fab fa-app-store-ios"></i> App Store</a>
-            </div>
-          </article>
-
-          <article class="project" id="project-eden">
-            <div class="p-top"><span class="p-cat">🛠️ Outil desktop · Reverse-engineering</span><span class="p-idx">03</span></div>
-            <h3>Eden Ultimate Tool</h3>
-            <p class="p-desc">Console d'opérations complète pour MMORPG (fenêtre desktop native) : santé des serveurs en temps réel, déploiement multi-environnements (DEV/PREPROD/PROD), édition de 90 000+ entités — créatures, objets, sorts, enchantements — avec aperçu in-game live. Reverse-engineering du codec serveur chiffré, écriture atomique double couche client + serveur vérifiée byte-identique.</p>
-            <div class="p-tags"><span>Python</span><span>FastAPI</span><span>pywebview</span><span>Reverse Eng.</span></div>
-            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/eden.gif" data-prev-url="" data-prev-label="Eden Ultimate Tool — console privée (R&D)">Voir la démo <i class="fas fa-circle-play"></i></button>
-          </article>
-
-          <article class="project" id="project-pravia">
-            <div class="p-top"><span class="p-cat">🛒 Marketplace full-stack · 2026</span><span class="p-idx">04</span></div>
-            <h3>Pravia</h3>
-            <p class="p-desc">Marketplace de matériel tech : boutique + back-office complet (40 références, 9 catégories, 15 marques), panier, commande, avis clients. Trilingue français / anglais / arabe, avec affichage droite-à-gauche. Aucune base externe à installer.</p>
-            <div class="p-tags"><span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Prisma</span></div>
-            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pravia.gif" data-prev-url="https://pravia-dz.com/fr">Voir la démo <i class="fas fa-circle-play"></i></button>
-          </article>
-
-          <article class="project" id="project-jeto">
-            <div class="p-top"><span class="p-cat">📱 App mobile SaaS · 2024–25</span><span class="p-idx">05</span></div>
-            <h3>Jeto — Application mobile</h3>
-            <p class="p-desc">App voyageurs (plateforme Utrav), publiée sur le Play Store : recherche & réservation de voyages, paiements sécurisés, programme de fidélité à 4 niveaux, notifications push Firebase.</p>
-            <div class="p-tags"><span>Flutter</span><span>.NET Core</span><span>Firebase</span><span>REST API</span></div>
-            <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/jeto.gif" data-prev-url="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav">Voir la démo <i class="fas fa-circle-play"></i></button>
-          </article>
-
-          <article class="project" id="project-utrav">
-            <div class="p-top"><span class="p-cat">💻 Back-office SaaS · 2024–25</span><span class="p-idx">06</span></div>
-            <h3>Utrav — Back-office</h3>
-            <p class="p-desc">Plateforme de gestion pour agences : création & publication de voyages, gestion des réservations et paiements, statistiques temps réel, envoi de notifications.</p>
-            <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>SQL Server</span><span>Azure</span></div>
-            <button class="p-link" data-prev-type="iframe" data-prev-src="https://utrav-bo.my-officeapps.com/" data-prev-url="https://utrav-bo.my-officeapps.com/">Visite live <i class="fas fa-tower-broadcast"></i></button>
-          </article>
-
-          <article class="project" id="project-my-office">
-            <div class="p-top"><span class="p-cat">💼 CRM · 2023–24</span><span class="p-idx">07</span></div>
-            <h3>My Office</h3>
-            <p class="p-desc">CRM développé from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma de bout en bout.</p>
-            <div class="p-tags"><span>Angular</span><span>.NET Core</span><span>Figma</span><span>Azure</span></div>
-            <button class="p-link" data-prev-type="iframe" data-prev-src="https://my-officeapps.com" data-prev-url="https://my-officeapps.com">Visite live <i class="fas fa-tower-broadcast"></i></button>
-          </article>
-
-          <article class="project" id="project-add-associes">
-            <div class="p-top"><span class="p-cat">🏦 Gestion de patrimoine · GRANITE</span><span class="p-idx">08</span></div>
-            <h3>ADD Associés</h3>
-            <p class="p-desc">Projet réalisé dans le cadre de mon CDI chez GRANITE : intégration de données financières, analyse de portefeuilles clients et génération de rapports personnalisés.</p>
-            <div class="p-tags"><span>React</span><span>.NET Core</span><span>Azure</span></div>
-            <span class="p-link disabled">Projet privé <i class="fas fa-lock"></i></span>
-          </article>
-
-        </div>
-      </div>
-    </section>
 
     <!-- 04 — DOCUMENTS -->
     <section class="block documents-section" id="documents" aria-labelledby="documentsTitle">
@@ -673,11 +687,11 @@
     <section class="block" id="contact">
       <div class="wrap">
         <div class="offer reveal">
-          <h3>En CDI. Et toujours des idées.</h3>
-          <p class="sub">Chez GRANITE au quotidien. Pour échanger autour d'un projet, d'une collaboration ou de mes réalisations, parlons-en.</p>
+          <h3>Parlons de votre prochain produit.</h3>
+          <p class="sub">Actuellement en CDI chez GRANITE, avec un préavis d’un mois. Pour échanger autour d’une opportunité Full Stack .NET / Angular ou Mobile Flutter, contactez-moi directement.</p>
           <div class="offer-grid">
             <div class="offer-cell"><div class="k">Aujourd'hui</div><div class="v">CDI · GRANITE</div></div>
-            <div class="offer-cell"><div class="k">Approche</div><div class="v">Du design au code</div></div>
+            <div class="offer-cell"><div class="k">Préavis</div><div class="v">1 mois</div></div>
             <div class="offer-cell"><div class="k">Domaines</div><div class="v">Web & Mobile</div></div>
             <div class="offer-cell"><div class="k">Basé à</div><div class="v">Paris, France</div></div>
           </div>
@@ -726,6 +740,63 @@
     </div>
   </div>
 
+  <dialog class="case-dialog" id="caseDialog" aria-labelledby="caseDialogTitle">
+    <div class="case-viewer">
+      <header class="case-toolbar">
+        <div><span class="doc-eyebrow">Étude de cas</span><h2 id="caseDialogTitle">Jeto / Utrav</h2></div>
+        <button class="doc-icon-button" id="caseClose" aria-label="Fermer l’étude de cas"><i class="fas fa-xmark" aria-hidden="true"></i></button>
+      </header>
+      <div class="case-scroll" id="caseScroll">
+        <article class="case-study" data-case-content="jeto" data-case-title="Jeto / Utrav" hidden>
+          <div class="study-intro"><span class="study-status">Application mobile publiée</span><h3>Une expérience de voyage.<br>Deux usages complémentaires.</h3><p>Une application pour les voyageurs, un back-office pour les agences : un produit qui relie la réservation et sa gestion au quotidien.</p></div>
+          <div class="study-layout">
+            <div class="study-narrative">
+              <section><h4>Le besoin</h4><p>Permettre aux voyageurs de rechercher et réserver un voyage, et donner aux agences les outils pour publier leurs offres, suivre les réservations et gérer les paiements.</p></section>
+              <section><h4>Ma contribution</h4><p>Conception et développement de l’écosystème : application mobile Flutter, back-office Angular et services .NET. Un travail qui couvre le design, les parcours utilisateur et la mise en production.</p></section>
+              <section><h4>Les choix de réalisation</h4><dl class="study-decisions"><dt>Flutter pour le mobile</dt><dd>Une application pensée pour les parcours voyageurs sur iOS et Android.</dd><dt>Angular & .NET pour la gestion</dt><dd>Des écrans métier pour la publication des voyages, les réservations, les paiements et les statistiques.</dd><dt>Firebase pour les notifications</dt><dd>Des notifications push intégrées au parcours mobile.</dd></dl></section>
+              <section><h4>Ce qui a été livré</h4><ul class="study-deliverables"><li>Application voyageurs publiée sur Google Play.</li><li>Recherche et réservation de voyages, paiements et programme de fidélité à quatre niveaux.</li><li>Back-office de gestion des voyages, réservations et paiements.</li></ul></section>
+            </div>
+            <aside class="study-evidence" aria-label="Démonstrations et technologies Jeto">
+              <figure><img src="assets/img/case-studies/jeto.webp" alt="Présentation de l’application Jeto sur Google Play" width="960" height="540" loading="lazy"><figcaption>La fiche de l’application sur Google Play.</figcaption></figure>
+              <div class="study-evidence-content"><span class="doc-eyebrow">À consulter</span><a href="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav" target="_blank" rel="noopener">L’application sur Google Play <span aria-hidden="true">↗</span></a><a href="https://utrav-bo.my-officeapps.com/" target="_blank" rel="noopener">Le back-office Utrav <span aria-hidden="true">↗</span></a><div class="study-tech"><span>Flutter / Dart</span><span>Angular</span><span>.NET Core</span><span>Firebase</span><span>Azure</span></div></div>
+            </aside>
+          </div>
+        </article>
+        <article class="case-study" data-case-content="my-office" data-case-title="My Office" hidden>
+          <div class="study-intro"><span class="study-status">CRM & conception UX/UI</span><h3>Du premier contact<br>au suivi commercial.</h3><p>Un CRM développé de A à Z, avec une attention portée aux parcours et à la lisibilité de l’information métier.</p></div>
+          <div class="study-layout">
+            <div class="study-narrative">
+              <section><h4>Le besoin</h4><p>Réunir les contacts, les opportunités et le pipeline de ventes dans un même outil, avec des tableaux de bord pour suivre l’activité commerciale.</p></section>
+              <section><h4>Ma contribution</h4><p>Conception des interfaces sur Figma, puis développement du CRM avec Angular et .NET Core. Une continuité entre le prototype, les écrans et les fonctionnalités de gestion.</p></section>
+              <section><h4>Les choix de réalisation</h4><dl class="study-decisions"><dt>Figma avant l’implémentation</dt><dd>Concevoir les écrans et les parcours pour structurer le produit avant son développement.</dd><dt>Angular pour les interfaces</dt><dd>Développer les vues de gestion des contacts, des opportunités et des tableaux de bord.</dd><dt>.NET Core & SQL Server</dt><dd>Porter la logique métier et les données de l’application.</dd></dl></section>
+              <section><h4>Ce qui a été livré</h4><ul class="study-deliverables"><li>Gestion des contacts et des opportunités commerciales.</li><li>Pipeline de ventes et tableaux de bord d’analyse.</li><li>Conception Figma et implémentation du produit.</li></ul></section>
+            </div>
+            <aside class="study-evidence" aria-label="Parcours et technologies My Office">
+              <div class="study-flow"><span class="doc-eyebrow">Parcours fonctionnel</span><span>Contacts</span><span aria-hidden="true">↓</span><span>Opportunités</span><span aria-hidden="true">↓</span><span>Pipeline & tableaux de bord</span></div>
+              <div class="study-evidence-content"><span class="doc-eyebrow">À consulter</span><a href="https://my-officeapps.com/" target="_blank" rel="noopener">Ouvrir My Office <span aria-hidden="true">↗</span></a><div class="study-tech"><span>Angular</span><span>.NET Core</span><span>SQL Server</span><span>Figma</span><span>Azure</span></div></div>
+            </aside>
+          </div>
+        </article>
+        <article class="case-study" data-case-content="add-associes" data-case-title="ADD Associés" hidden>
+          <div class="study-intro"><span class="study-status">CDI · GRANITE · Application privée</span><h3>Des données financières<br>aux rapports personnalisés.</h3><p>Une application de gestion de patrimoine sur laquelle j’interviens dans le cadre de mon poste chez GRANITE.</p></div>
+          <div class="study-layout">
+            <div class="study-narrative">
+              <section><h4>Le besoin</h4><p>Intégrer des sources de données financières externes pour permettre l’analyse des portefeuilles clients et la production de rapports personnalisés.</p></section>
+              <section><h4>Ma contribution</h4><p>Développement full stack de l’application : interfaces React, intégration avec les services .NET Core, exploitation des données financières et génération de rapports.</p></section>
+              <section><h4>L’environnement de réalisation</h4><dl class="study-decisions"><dt>React, Redux & React Router</dt><dd>Les interfaces, leur état et la navigation dans l’application.</dd><dt>.NET Core</dt><dd>Les services métier, l’intégration des données externes et les rapports personnalisés.</dd><dt>Azure</dt><dd>L’environnement cloud du projet.</dd></dl></section>
+              <section><h4>Le périmètre réalisé</h4><ul class="study-deliverables"><li>Intégration de sources de données financières externes.</li><li>Analyse des portefeuilles clients.</li><li>Génération de rapports personnalisés.</li></ul></section>
+            </div>
+            <aside class="study-evidence" aria-label="Périmètre et technologies ADD Associés">
+              <div class="study-flow study-flow-finance"><span class="doc-eyebrow">Périmètre métier</span><span>Données financières</span><span aria-hidden="true">↓</span><span>Analyse des portefeuilles</span><span aria-hidden="true">↓</span><span>Rapports personnalisés</span></div>
+              <div class="study-evidence-content"><span class="doc-eyebrow">Contexte</span><p>Projet réalisé chez GRANITE.<br>Application privée.</p><div class="study-tech"><span>React</span><span>Redux</span><span>React Router</span><span>.NET Core</span><span>Azure</span></div></div>
+            </aside>
+          </div>
+        </article>
+      </div>
+      <footer class="case-actions"><a class="btn primary" href="mailto:n.ouldterki@gmail.com?subject=%C3%89change%20autour%20de%20votre%20parcours">Échanger avec moi <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a><a class="doc-text-link" href="assets/documents/Nabil-OULD-TERKI-CV.pdf" download>Télécharger mon CV <i class="fas fa-arrow-down" aria-hidden="true"></i></a><button class="doc-text-link" id="caseShare">Copier le lien <i class="fas fa-link" aria-hidden="true"></i></button><span id="caseFeedback" role="status" aria-live="polite"></span></footer>
+    </div>
+  </dialog>
+
   <dialog class="document-dialog" id="documentDialog" aria-labelledby="documentDialogTitle">
     <div class="document-viewer">
       <header class="document-toolbar">
@@ -760,6 +831,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/case-studies.js"></script>
   <script src="assets/documents/catalog.js"></script>
   <script src="assets/js/documents.js"></script>
   <script>
@@ -825,53 +897,12 @@
       /* ---- YEAR ---- */
       document.getElementById('year').textContent = new Date().getFullYear();
 
-      /* ---- TYPED ROLES ---- */
-      var roles = ['.NET Core · C#', 'Angular · TypeScript', 'Flutter · Mobile', 'Next.js · React 19', 'Game Dev · C#/.NET', 'Python · Tooling', 'UI/UX · Figma'];
-      var typed = document.getElementById('typed');
-      var ri = 0, ci = 0, deleting = false;
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      function type(){
-        if(!typed) return;
-        var word = roles[ri];
-        typed.textContent = word.substring(0, ci);
-        if(!deleting){
-          if(ci < word.length){ ci++; setTimeout(type, 70); }
-          else { deleting = true; setTimeout(type, 1600); }
-        } else {
-          if(ci > 0){ ci--; setTimeout(type, 35); }
-          else { deleting = false; ri = (ri+1)%roles.length; setTimeout(type, 300); }
-        }
-      }
-      if(reduce){ if(typed) typed.textContent = roles[0]; }
-      else { type(); }
-
-      /* ---- REVEAL + COUNTERS + BARS ---- */
-      function animateCount(el){
-        var target = parseFloat(el.getAttribute('data-count'));
-        var suffix = el.getAttribute('data-suffix') || '';
-        var prefix = el.getAttribute('data-prefix') || '';
-        var dur = 1200, start = null;
-        function step(ts){
-          if(!start) start = ts;
-          var p = Math.min((ts - start)/dur, 1);
-          var eased = 1 - Math.pow(1-p, 3);
-          var val = Math.round(target * eased);
-          el.textContent = prefix + val + suffix;
-          if(p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      }
-
+      /* ---- REVEAL ---- */
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
           if(!e.isIntersecting) return;
           var el = e.target;
           el.classList.add('in');
-          el.querySelectorAll && el.querySelectorAll('[data-count]').forEach(animateCount);
-          if(el.matches && el.matches('[data-count]')) animateCount(el);
-          el.querySelectorAll && el.querySelectorAll('.bar span').forEach(function(s){
-            s.style.width = s.getAttribute('data-w');
-          });
           io.unobserve(el);
         });
       }, {threshold:0.18});
