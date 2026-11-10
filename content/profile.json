@@ -8,6 +8,13 @@
   "linkedin": "https://www.linkedin.com/in/nabil-ould-terki/",
   "github": "https://github.com/UserNabil",
   "status": "En CDI chez GRANITE depuis mai 2024.",
+  "recruitment": {
+    "headline": "Ingénieur Full Stack .NET / Angular",
+    "mobile": "Développement mobile Flutter",
+    "experience": "3+ ans d’expérience",
+    "notice": "1 mois",
+    "pitch": "Je conçois et développe des applications métier, des API et des applications mobiles, du prototype à la mise en production."
+  },
   "pricing": {
     "daily_rate_min_eur": 500,
     "daily_rate_max_eur": 650,
@@ -20,8 +27,8 @@
       "role": "Ingénieur logiciel Full Stack · CDI",
       "company": "GRANITE · Interne",
       "details": [
-        "ADD Associés : application de gestion de patrimoine, intégration de données financières externes, analyse de portefeuilles et rapports personnalisés.",
-        "CRM interne : conception UX/UI sur Figma, développement full stack, authentification et autorisations."
+        "ADD Associés : développement d’une application de gestion de patrimoine, intégration de données financières externes, analyse de portefeuilles et rapports personnalisés.",
+        "CRM interne : conception des interfaces sur Figma, implémentation Angular / .NET Core, authentification et autorisations."
       ],
       "stack": "React · Redux · Angular · .NET Core · SQL Server · Azure"
     },
@@ -30,9 +37,9 @@
       "role": "Ingénieur logiciel Full Stack",
       "company": "TREND-IT · Paris",
       "details": [
-        "Queney Informatique (6 mois) : application Flutter iOS/Android, API .NET Core, design Figma, architecture BLoC/Provider, notifications push et authentification.",
-        "Essilor (6 mois) : applications Angular / .NET Core pour la gestion des praticiens, plannings et dossiers patients.",
-        "Vacanciel (4 mois) : back-office Angular / .NET Core pour la gestion de vacanciers en situation de handicap."
+        "Queney Informatique (6 mois) : développement Flutter iOS/Android, API .NET, design Figma, architecture BLoC/Provider, notifications push et authentification.",
+        "Essilor (6 mois) : développement Angular / .NET pour la gestion des praticiens, des plannings et des dossiers patients.",
+        "Vacanciel (4 mois) : réalisation du back-office Angular / .NET dédié aux vacanciers en situation de handicap."
       ],
       "stack": "Flutter · Angular · .NET Core · Figma"
     },
@@ -41,7 +48,7 @@
       "role": "Stagiaire développeur Full Stack",
       "company": "HDM · Charleroi",
       "details": [
-        "Portail d’administration React / PHP pour la gestion des employés et de leur temps de travail.",
+        "Développement du portail d’administration React / PHP pour la gestion des employés et de leur temps de travail.",
         "Développement d’un jeu de dés de pirates avec NestJS / PHP."
       ],
       "stack": "React · PHP · NestJS"
@@ -64,6 +71,155 @@
       "school": "LGT Rempart · Marseille"
     }
   ],
+  "case_studies": [
+    {
+      "id": "jeto",
+      "name": "Jeto / Utrav",
+      "status": "Application mobile publiée",
+      "headline": "Une expérience de voyage.\nDeux usages complémentaires.",
+      "summary": "Une application pour les voyageurs, un back-office pour les agences : un produit qui relie la réservation et sa gestion au quotidien.",
+      "context": "Permettre aux voyageurs de rechercher et réserver un voyage, et donner aux agences les outils pour publier leurs offres, suivre les réservations et gérer les paiements.",
+      "contribution": "Conception et développement de l’écosystème : application mobile Flutter, back-office Angular et services .NET. Un travail qui couvre le design, les parcours utilisateur et la mise en production.",
+      "decisions": [
+        {
+          "title": "Flutter pour le mobile",
+          "description": "Une application pensée pour les parcours voyageurs sur iOS et Android."
+        },
+        {
+          "title": "Angular & .NET pour la gestion",
+          "description": "Des écrans métier pour la publication des voyages, les réservations, les paiements et les statistiques."
+        },
+        {
+          "title": "Firebase pour les notifications",
+          "description": "Des notifications push intégrées au parcours mobile."
+        }
+      ],
+      "deliverables": [
+        "Application voyageurs publiée sur Google Play.",
+        "Recherche et réservation de voyages, paiements et programme de fidélité à quatre niveaux.",
+        "Back-office de gestion des voyages, réservations et paiements."
+      ],
+      "technologies": [
+        "Flutter / Dart",
+        "Angular",
+        ".NET Core",
+        "Firebase",
+        "Azure"
+      ],
+      "screenshots": [
+        {
+          "file": "assets/img/case-studies/jeto-explorer.webp",
+          "label": "Explorer les voyages"
+        },
+        {
+          "file": "assets/img/case-studies/jeto-reservation.webp",
+          "label": "Consulter et réserver"
+        },
+        {
+          "file": "assets/img/case-studies/jeto-notifications.webp",
+          "label": "Suivre les notifications"
+        }
+      ],
+      "screenshot_source": "https://play.google.com/store/apps/details?id=com.myofficeapps.utrav",
+      "links": [
+        {
+          "label": "L’application sur Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.myofficeapps.utrav"
+        },
+        {
+          "label": "Le back-office Utrav",
+          "url": "https://utrav-bo.my-officeapps.com/"
+        }
+      ]
+    },
+    {
+      "id": "my-office",
+      "name": "My Office",
+      "status": "CRM & conception UX/UI",
+      "headline": "Du premier contact\nau suivi commercial.",
+      "summary": "Un CRM développé de A à Z, avec une attention portée aux parcours et à la lisibilité de l’information métier.",
+      "context": "Réunir les contacts, les opportunités et le pipeline de ventes dans un même outil, avec des tableaux de bord pour suivre l’activité commerciale.",
+      "contribution": "Conception des interfaces sur Figma, puis développement du CRM avec Angular et .NET Core. Une continuité entre le prototype, les écrans et les fonctionnalités de gestion.",
+      "decisions": [
+        {
+          "title": "Figma avant l’implémentation",
+          "description": "Concevoir les écrans et les parcours pour structurer le produit avant son développement."
+        },
+        {
+          "title": "Angular pour les interfaces",
+          "description": "Développer les vues de gestion des contacts, des opportunités et des tableaux de bord."
+        },
+        {
+          "title": ".NET Core & SQL Server",
+          "description": "Porter la logique métier et les données de l’application."
+        }
+      ],
+      "deliverables": [
+        "Gestion des contacts et des opportunités commerciales.",
+        "Pipeline de ventes et tableaux de bord d’analyse.",
+        "Conception Figma et implémentation du produit."
+      ],
+      "technologies": [
+        "Angular",
+        ".NET Core",
+        "SQL Server",
+        "Figma",
+        "Azure"
+      ],
+      "flow": [
+        "Contacts",
+        "Opportunités",
+        "Pipeline & tableaux de bord"
+      ],
+      "links": [
+        {
+          "label": "Ouvrir My Office",
+          "url": "https://my-officeapps.com/"
+        }
+      ]
+    },
+    {
+      "id": "add-associes",
+      "name": "ADD Associés",
+      "status": "CDI · GRANITE · Application privée",
+      "headline": "Des données financières\naux rapports personnalisés.",
+      "summary": "Une application de gestion de patrimoine sur laquelle j’interviens dans le cadre de mon poste chez GRANITE.",
+      "context": "Intégrer des sources de données financières externes pour permettre l’analyse des portefeuilles clients et la production de rapports personnalisés.",
+      "contribution": "Développement full stack de l’application : interfaces React, intégration avec les services .NET Core, exploitation des données financières et génération de rapports.",
+      "decisions": [
+        {
+          "title": "React, Redux & React Router",
+          "description": "Les interfaces, leur état et la navigation dans l’application."
+        },
+        {
+          "title": ".NET Core",
+          "description": "Les services métier, l’intégration des données externes et les rapports personnalisés."
+        },
+        {
+          "title": "Azure",
+          "description": "L’environnement cloud du projet."
+        }
+      ],
+      "deliverables": [
+        "Intégration de sources de données financières externes.",
+        "Analyse des portefeuilles clients.",
+        "Génération de rapports personnalisés."
+      ],
+      "technologies": [
+        "React",
+        "Redux",
+        "React Router",
+        ".NET Core",
+        "Azure"
+      ],
+      "flow": [
+        "Données financières",
+        "Analyse des portefeuilles",
+        "Rapports personnalisés"
+      ],
+      "links": []
+    }
+  ],
   "certifications": [
     {
       "id": "UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf",
@@ -74,7 +230,8 @@
       "hours": 10,
       "category": "Back-end · .NET / C#",
       "url": "https://www.udemy.com/certificate/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf/",
-      "file": "assets/certificates/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf.pdf"
+      "file": "assets/certificates/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf.pdf",
+      "cv_title": "ASP.NET Core 5 / C#"
     },
     {
       "id": "UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b",
@@ -85,7 +242,8 @@
       "hours": 14,
       "category": "Web · Symfony / PHP",
       "url": "https://www.udemy.com/certificate/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b/",
-      "file": "assets/certificates/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b.pdf"
+      "file": "assets/certificates/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b.pdf",
+      "cv_title": "Symfony 5 / E-commerce"
     },
     {
       "id": "UC-3b6b1230-b10a-46a6-bc90-043e725a8734",
@@ -96,7 +254,8 @@
       "hours": 6.5,
       "category": "Design · Web / UI / UX",
       "url": "https://www.udemy.com/certificate/UC-3b6b1230-b10a-46a6-bc90-043e725a8734/",
-      "file": "assets/certificates/UC-3b6b1230-b10a-46a6-bc90-043e725a8734.pdf"
+      "file": "assets/certificates/UC-3b6b1230-b10a-46a6-bc90-043e725a8734.pdf",
+      "cv_title": "Web design / UI-UX"
     },
     {
       "id": "UC-9e123746-18f0-4d73-8033-9c4fe6198c6c",
@@ -107,7 +266,8 @@
       "hours": 14.5,
       "category": "Front-end · React / Redux",
       "url": "https://www.udemy.com/certificate/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c/",
-      "file": "assets/certificates/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c.pdf"
+      "file": "assets/certificates/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c.pdf",
+      "cv_title": "React / Hooks / Redux"
     },
     {
       "id": "UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6",
@@ -118,7 +278,8 @@
       "hours": 18,
       "category": "Game dev · Unity / C#",
       "url": "https://www.udemy.com/certificate/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6/",
-      "file": "assets/certificates/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6.pdf"
+      "file": "assets/certificates/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6.pdf",
+      "cv_title": "Unity / C# / RPG 2D"
     }
   ],
   "skills": [

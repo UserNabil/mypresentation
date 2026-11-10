@@ -59,16 +59,33 @@
   var previousOverflow = '';
   var pageImage = document.getElementById('documentPage');
   var stage = document.getElementById('documentStage');
+  var sheet = document.getElementById('documentSheet');
+  var hotspots = document.getElementById('documentHotspots');
   var prev = document.getElementById('documentPrev');
   var next = document.getElementById('documentNext');
   var zoom = document.getElementById('documentZoom');
   var feedback = document.getElementById('documentFeedback');
+
+  function fitSheet() {
+    if (!current || !dialog.open) return;
+    var page = current.pages[pageIndex];
+    var style = getComputedStyle(stage);
+    var width = stage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    var height = stage.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+    if (width <= 0 || height <= 0) return;
+    var scale = zoom.getAttribute('aria-pressed') === 'true'
+      ? width / page.width
+      : Math.min(width / page.width, height / page.height, current.id === 'carte' ? 610 / page.width : Infinity);
+    sheet.style.width = page.width * scale + 'px';
+    sheet.style.height = page.height * scale + 'px';
+  }
 
   function setZoom(enabled) {
     stage.classList.toggle('is-zoomed', enabled);
     zoom.setAttribute('aria-pressed', String(enabled));
     zoom.querySelector('span').textContent = enabled ? 'Ajuster' : 'Agrandir';
     zoom.querySelector('i').className = 'fas fa-magnifying-glass-' + (enabled ? 'minus' : 'plus');
+    fitSheet();
   }
   function showPage(index) {
     if (!current || index < 0 || index >= current.pages.length) return;
@@ -78,11 +95,27 @@
     pageImage.width = page.width;
     pageImage.height = page.height;
     pageImage.alt = current.title + (current.id === 'carte' ? (index === 0 ? ' — recto' : ' — verso') : ' — page ' + (index + 1));
+    hotspots.replaceChildren();
+    (page.links || []).forEach(function (item) {
+      if (!/^(https?:|mailto:|tel:)/i.test(item.url)) return;
+      var anchor = element('a');
+      anchor.href = item.url;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener';
+      anchor.setAttribute('aria-label', item.label);
+      anchor.title = item.label;
+      anchor.style.left = item.rect[0] + '%';
+      anchor.style.top = item.rect[1] + '%';
+      anchor.style.width = item.rect[2] + '%';
+      anchor.style.height = item.rect[3] + '%';
+      hotspots.appendChild(anchor);
+    });
     document.getElementById('documentPageLabel').textContent = current.id === 'carte' ? (index === 0 ? 'Recto · 1 / 2' : 'Verso · 2 / 2') : 'Page ' + (index + 1) + ' / ' + current.pages.length;
     prev.disabled = index === 0;
     next.disabled = index === current.pages.length - 1;
     stage.scrollTop = 0;
     stage.scrollLeft = 0;
+    fitSheet();
   }
   function openDocument(id) {
     current = documents.find(function (doc) { return doc.id === id; });
@@ -101,6 +134,7 @@
     dialog.showModal();
     document.body.style.overflow = 'hidden';
     document.getElementById('documentClose').focus();
+    requestAnimationFrame(fitSheet);
   }
   document.querySelectorAll('[data-document]').forEach(function (button) {
     button.addEventListener('click', function () { openDocument(button.dataset.document); });
@@ -124,6 +158,8 @@
   prev.addEventListener('click', function () { showPage(pageIndex - 1); });
   next.addEventListener('click', function () { showPage(pageIndex + 1); });
   zoom.addEventListener('click', function () { setZoom(zoom.getAttribute('aria-pressed') !== 'true'); });
+  if (window.ResizeObserver) new ResizeObserver(fitSheet).observe(stage);
+  else window.addEventListener('resize', fitSheet);
 
   document.getElementById('documentShare').addEventListener('click', async function () {
     var url = new URL(current.file, window.location.href).href;

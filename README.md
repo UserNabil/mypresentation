@@ -1,6 +1,6 @@
 # Portfolio de Nabil OULD-TERKI
 
-Site statique compatible avec GitHub Pages. Aucun build ni serveur applicatif requis.
+Site statique compatible avec GitHub Pages. Aucun build ni serveur applicatif requis. Le fichier `.nojekyll` permet la publication directe des fichiers statiques.
 
 ## Aperçu local
 
@@ -10,22 +10,22 @@ python -m http.server 8765 --bind 127.0.0.1
 
 Ouvrir <http://127.0.0.1:8765/>. La bibliothèque se trouve à `/#documents`.
 
-## Variante locale pour le recrutement
+## Présentation pour le recrutement
 
-La branche locale `preview/recrutement` prépare une évolution du site : positionnement .NET / Angular et Flutter dès l’accueil, projets métier présentés en premier, trois études de cas (Jeto/Utrav, My Office, ADD Associés), compétences reliées à ces réalisations et préavis d’un mois.
+Le site présente le positionnement .NET / Angular et Flutter dès l’accueil, les projets métier en premier, trois études de cas (Jeto/Utrav, My Office, ADD Associés), les compétences reliées à ces réalisations et le préavis d’un mois.
 
-Les études s’ouvrent depuis les cartes ou directement avec `/#case-jeto`, `/#case-my-office` et `/#case-add-associes`. Elles comprennent le besoin, la contribution, les choix de réalisation, les fonctionnalités et les liens disponibles. Le contenu est dans `index.html`, l’apparence dans `assets/css/recruitment.css` et le lecteur dans `assets/js/case-studies.js`.
+Les études s’ouvrent depuis les cartes ou directement avec `/#case-jeto`, `/#case-my-office` et `/#case-add-associes`. Elles comprennent le besoin, la contribution, les choix de réalisation, les fonctionnalités et les liens disponibles. Leur contenu commun au site et au PDF est dans `case_studies` dans `content/profile.json`. Le générateur actualise leur HTML dans `index.html`. L’apparence est dans `assets/css/recruitment.css` et le lecteur dans `assets/js/case-studies.js`.
 
-Le commit `96fc218` sur `main` correspond à la version publiée avant cette évolution. Cette variante doit être relue localement avant une éventuelle publication.
+Les trois captures de Jeto (exploration, réservation, notifications) proviennent de sa [fiche officielle Google Play](https://play.google.com/store/apps/details?id=com.myofficeapps.utrav) et sont conservées dans `assets/img/case-studies/`. Le contexte professionnel, les dates et les contributions proviennent du CV et des informations fournies par Nabil.
 
 ## Documents
 
 Les téléchargements sont de vrais PDF dédiés ; le site ne transforme pas sa page en CV.
 
-- CV : deux pages A4, avec expériences, compétences, cinq certificats Udemy et liens des réalisations.
+- CV : deux pages A4, avec titre .NET / Angular, Flutter, préavis, contributions professionnelles et réalisations avant les certificats.
 - Fiche de présentation : une page A4.
 - Carte de visite : deux pages au format fini de 85 × 55 mm, recto puis verso. Pour une impression professionnelle avec fond perdu, demander les spécifications à l’imprimeur.
-- Portfolio illustré : cinq pages A4, dont une page consacrée aux certificats de formation.
+- Portfolio illustré : six pages A4, dont trois études de cas, une sélection complémentaire et une page de certificats de formation.
 - Fiche contact vCard et archive ZIP réunissant les documents.
 
 Le générateur lit `content/profile.json` et produit les PDF, leurs aperçus WebP, le catalogue JavaScript et l’archive dans `assets/documents/`.
@@ -41,7 +41,7 @@ Les polices Arial et Consolas sont incorporées et sous-ensemblées quand elles 
 
 Pour modifier les informations, mettre à jour `content/profile.json`, régénérer les documents, puis reporter les changements nécessaires dans les sections correspondantes de `index.html`. Les images d’aperçu sont rendues directement depuis les PDF pour conserver la même mise en page.
 
-Le lecteur du site propose les pages précédentes et suivantes, le zoom, l’ouverture du PDF, son téléchargement et son partage (ou la copie du lien). Il fonctionne aussi sur mobile sans extension PDF. Le téléchargement direct reste disponible sur chaque carte.
+Le lecteur du site propose les pages précédentes et suivantes, le zoom, l’ouverture du PDF, son téléchargement et son partage (ou la copie du lien). Les liens sont cliquables directement dans les aperçus : leurs zones sont extraites des annotations des PDF et mises à l’échelle avec la page. Il fonctionne aussi sur mobile sans extension PDF. Le téléchargement direct reste disponible sur chaque carte.
 
 Dans le CV et le portfolio PDF, chaque réalisation possède un lien cliquable : son URL publique si elle est renseignée dans `content/profile.json`, sinon `#project-<id>` sur le site. Ces liens directs ouvrent automatiquement l’aperçu du projet lorsqu’il existe. Pour un projet privé sans démonstration, le lien mène à sa présentation. Les nouveaux liens d’aperçu nécessitent que cette version du site soit publiée sur GitHub Pages pour fonctionner sur l’adresse publique.
 

@@ -11,6 +11,8 @@
 .case-cover-mobile { background: #eae6dc; }
 .case-cover-mobile img { max-width: 100%; width: 100%; height: 140px; object-fit: contain; filter: drop-shadow(0 5px 8px #16140f20); transition: transform .3s; }
 .case-cover-mobile:hover img { transform: translateY(-4px); }
+.case-cover-phones { display: flex; align-items: center; justify-content: center; gap: .6rem; width: 100%; height: 151px; }
+.case-cover-mobile .case-cover-phones img { width: auto; height: 100%; max-width: 31%; object-fit: contain; }
 .case-cover-crm { background: #16140f; color: #f7f5f0; }
 .case-cover-finance { background: #eee8dc; color: #16140f; }
 .case-cover-mark { font: 700 clamp(1.7rem, 3vw, 2.3rem)/1.1 var(--ff-display); letter-spacing: -.05em; }
@@ -57,6 +59,11 @@
 .study-evidence figure { padding: 1rem; background: #eae6dc; color: #6b655a; }
 .study-evidence figure img { width: 100%; height: auto; }
 .study-evidence figcaption { font: .58rem/1.6 var(--ff-mono); margin-top: .7rem; }
+.study-screenshots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; padding: .9rem; background: #eae6dc; }
+.study-screenshots figure { padding: 0; background: transparent; min-width: 0; }
+.study-screenshots figure a { display: block; }
+.study-screenshots figure img { height: 170px; object-fit: contain; object-position: top; }
+.study-screenshots figcaption { color: #6b655a; font-size: .5rem; }
 .study-evidence-content { padding: 1.3rem; }
 .study-evidence-content > a { display: flex; justify-content: space-between; gap: 1rem; font-size: .75rem; line-height: 1.6; padding: .85rem 0; border-bottom: 1px solid var(--line); }
 .study-evidence-content > a:hover { color: var(--accent); }

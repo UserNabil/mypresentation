@@ -128,6 +128,55 @@ def prepare_certifications():
     index.write_text(before + start + '\n' + html + '\n        ' + end + after, encoding='utf-8')
 
 
+def prepare_case_studies():
+    """Keep the website stories and PDF stories on the same content source."""
+    from PIL import Image
+    articles = []
+    for case in DATA.get('case_studies', []):
+        decisions = ''.join('<dt>' + escape(d['title']) + '</dt><dd>' + escape(d['description']) + '</dd>' for d in case['decisions'])
+        deliverables = ''.join('<li>' + escape(item) + '</li>' for item in case['deliverables'])
+        if case.get('screenshots'):
+            shots = []
+            for shot in case['screenshots']:
+                with Image.open(ROOT / shot['file']) as original:
+                    w, h = original.size
+                shots.append(f'<figure><a href="{escape(shot["file"])}" target="_blank" rel="noopener" aria-label="Agrandir : {escape(shot["label"])}"><img src="{escape(shot["file"])}" alt="{escape(shot["label"])} — application Jeto" width="{w}" height="{h}" loading="lazy"></a><figcaption>{escape(shot["label"])}</figcaption></figure>')
+            visual = '<div class="study-screenshots">' + ''.join(shots) + '</div>'
+        else:
+            nodes = '<span aria-hidden="true">↓</span>'.join('<span>' + escape(node) + '</span>' for node in case['flow'])
+            style = ' study-flow-finance' if case['id'] == 'add-associes' else ''
+            visual = '<div class="study-flow' + style + '"><span class="doc-eyebrow">Parcours fonctionnel</span>' + nodes + '</div>'
+        evidence = ''.join(f'<a href="{escape(item["url"])}" target="_blank" rel="noopener">{escape(item["label"])} <span aria-hidden="true">↗</span></a>' for item in case['links'])
+        if not case['links']:
+            evidence = '<p>Projet réalisé chez GRANITE.<br>Application privée.</p>'
+        tech = ''.join('<span>' + escape(item) + '</span>' for item in case['technologies'])
+        headline = '<br>'.join(escape(line) for line in case['headline'].split('\n'))
+        articles.append(f'''        <article class="case-study" data-case-content="{case['id']}" data-case-title="{escape(case['name'])}" hidden>
+          <div class="study-intro"><span class="study-status">{escape(case['status'])}</span><h3>{headline}</h3><p>{escape(case['summary'])}</p></div>
+          <div class="study-layout">
+            <div class="study-narrative">
+              <section><h4>Le besoin</h4><p>{escape(case['context'])}</p></section>
+              <section><h4>Ma contribution</h4><p>{escape(case['contribution'])}</p></section>
+              <section><h4>Les choix de réalisation</h4><dl class="study-decisions">{decisions}</dl></section>
+              <section><h4>Les fonctionnalités livrées</h4><ul class="study-deliverables">{deliverables}</ul></section>
+            </div>
+            <aside class="study-evidence" aria-label="Preuves et technologies : {escape(case['name'])}">
+              {visual}
+              <div class="study-evidence-content"><span class="doc-eyebrow">À consulter</span>{evidence}<div class="study-tech">{tech}</div></div>
+            </aside>
+          </div>
+        </article>''')
+    if not articles:
+        return
+    index = ROOT / 'index.html'
+    source = index.read_text(encoding='utf-8')
+    start = '<div class="case-scroll" id="caseScroll">'
+    end = '\n      </div>\n      <footer class="case-actions">'
+    before, remaining = source.split(start, 1)
+    _, after = remaining.split(end, 1)
+    index.write_text(before + start + '\n' + '\n'.join(articles) + end + after, encoding='utf-8')
+
+
 def project_link(project):
     """Prefer a project's live URL, otherwise open its own site preview."""
     if project.get('url'):
@@ -192,54 +241,54 @@ def contacts(page, y, x=40, width=515):
 def build_cv():
     doc = fitz.open()
     p = new_page(doc, 'CV', 1)
-    label(p, 40, 81, 'Ingénieur logiciel / Web & Mobile')
-    text(p, 40, 108, 'Nabil\nOULD-TERKI.', 35, font='bold', leading=1.1)
-    portrait(p, 479, 105, 76)
-    box(p, 40, 204, 515, 29, INK)
-    text(p, 52, 212, 'En CDI chez GRANITE depuis mai 2024', 9, 495, 'mono', PAPER)
-    contacts(p, 248)
-    link(p, 40, 270, 'LinkedIn', DATA['linkedin'], 8)
-    link(p, 105, 270, 'GitHub / UserNabil', DATA['github'], 8)
-    y = section(p, 40, 288, '01 / Expériences', 324)
+    rec = DATA['recruitment']
+    text(p, 40, 80, DATA['name'], 17, font='bold')
+    text(p, 40, 111, 'Ingénieur Full Stack\n.NET / Angular', 29, 425, 'bold', leading=1.08)
+    portrait(p, 479, 106, 76)
+    text(p, 40, 181, rec['mobile'] + ' · ' + rec['experience'], 10.5, 515, color=MUTED)
+    box(p, 40, 211, 515, 28, INK)
+    text(p, 52, 219, 'Paris · CDI chez GRANITE · Préavis : ' + rec['notice'], 9, 491, 'mono', PAPER)
+    text(p, 40, 254, rec['pitch'], 10.2, 515)
+    contacts(p, 286)
+    link(p, 40, 306, 'LinkedIn', DATA['linkedin'], 8)
+    link(p, 105, 306, 'GitHub / UserNabil', DATA['github'], 8)
+    link(p, 215, 306, 'Portfolio & études de cas', DATA['website'] + '#work', 8)
+    y = section(p, 40, 322, '01 / Expériences professionnelles')
     for exp in DATA['experience']:
-        y = label(p, 40, y, exp['dates'], 324)
-        y = text(p, 40, y + 4, exp['company'], 13, 324, 'bold')
-        y = text(p, 40, y + 1, exp['role'], 9.2, 324, color=MUTED)
+        y = label(p, 40, y, exp['dates'])
+        y = text(p, 40, y + 4, exp['company'], 13, 515, 'bold')
+        y = text(p, 40, y + 1, exp['role'], 9.4, 515, color=MUTED)
         for detail in exp['details']:
-            y = text(p, 40, y + 7, detail, 9.1, 324)
-        y = text(p, 40, y + 7, exp['stack'], 8, 324, 'mono', RED) + 20
-    x, w = 391, 164
-    y = section(p, x, 288, 'Profil', w)
-    y = text(p, x, y, DATA['summary'], 9.2, w, color=MUTED)
-    y = section(p, x, y + 25, 'Formation', w)
-    for edu in DATA['education']:
-        y = label(p, x, y, edu['dates'], w)
-        y = text(p, x, y + 4, edu['title'], 9.5, w, 'bold')
-        y = text(p, x, y + 3, edu['school'], 8.8, w, color=MUTED) + 15
-    y = section(p, x, y + 7, 'Langues', w)
-    text(p, x, y, 'Français\nAnglais · TOEIC validé', 9.2, w, color=MUTED)
+            y = text(p, 40, y + 6, detail, 9.6, 515)
+        y = text(p, 40, y + 6, exp['stack'], 8, 515, 'mono', RED) + 8
+    if y > 760:
+        raise ValueError(f'CV experience section needs more space: {y}')
+    text(p, 40, 766, 'Langues : français · anglais professionnel (TOEIC validé)', 8.5, color=MUTED)
 
-    p = new_page(doc, 'CV', 2, 'Du produit au code.', 'Compétences, formation continue et réalisations sélectionnées.')
-    y = section(p, 40, 168, '02 / Compétences')
-    for i, skill in enumerate(DATA['skills']):
-        x = 40 + (i % 2) * 272
-        sy = y + (i // 2) * 48
-        text(p, x, sy, skill['label'], 11, 245, 'bold')
-        text(p, x, sy + 20, skill['value'], 9.3, 240, color=MUTED)
-    y = section(p, 40, 350, '03 / Certificats de formation · Udemy')
-    for i, cert in enumerate(DATA.get('certifications', [])):
-        x = 40 + (i % 2) * 272
-        sy = y + (i // 2) * 56
-        end = link(p, x, sy, cert['title'], cert['url'], 9, width=240, font='bold')
-        text(p, x, end + 3, certificate_date(cert) + ' · ' + certificate_hours(cert), 8, 240, 'mono', MUTED)
-    y = section(p, 40, 550, '04 / Réalisations · Liens cliquables')
+    p = new_page(doc, 'CV', 2, 'Réalisations & compétences.', 'Des produits livrés, des compétences appliquées et une formation continue.')
+    y = section(p, 40, 184, '02 / Réalisations sélectionnées · Liens cliquables')
     for i, project in enumerate(DATA['projects']):
         x = 40 + (i % 2) * 272
-        sy = y + (i // 2) * 55
+        sy = y + (i // 2) * 66
         _, uri = project_link(project)
         link(p, x, sy, project['name'], uri, 11.5, width=245, font='bold')
-        text(p, x, sy + 21, project['cv_summary'], 8.7, 240)
-    link(p, 40, 768, 'Démos, liens et portfolio complet sur mon site', DATA['website'], 9)
+        text(p, x, sy + 21, project['cv_summary'], 9.2, 240)
+    y = section(p, 40, 429, '03 / Compétences')
+    for i, skill in enumerate(DATA['skills']):
+        x = 40 + (i % 2) * 272
+        sy = y + (i // 2) * 44
+        text(p, x, sy, skill['label'], 11, 245, 'bold')
+        text(p, x, sy + 18, skill['value'], 9, 240, color=MUTED)
+    y = section(p, 40, 621, '04 / Formation', 245)
+    for i, edu in enumerate(DATA['education']):
+        sy = y + i * 43
+        end = text(p, 40, sy, edu['title'], 9.2, 245, 'bold')
+        text(p, 40, end + 3, edu['dates'] + ' · ' + edu['school'], 8, 245, color=MUTED)
+    y = section(p, 312, 621, '05 / Certificats · Udemy', 243)
+    for i, cert in enumerate(DATA.get('certifications', [])):
+        sy = y + i * 25
+        link(p, 312, sy, cert['cv_title'], cert['url'], 8.7, width=243, font='bold')
+        text(p, 312, sy + 13, certificate_date(cert) + ' · ' + certificate_hours(cert), 7.3, 243, 'mono', MUTED)
     return doc
 
 
@@ -290,7 +339,7 @@ def build_card():
     return doc
 
 
-def portfolio_card(p, project, x, y, w, image_height=132):
+def portfolio_card(p, project, x, y, w, image_height=132, compact=False):
     box(p, x, y, w, image_height, '#e9e4da')
     if project['image']:
         image(p, project['image'], (x + 6, y + 6, x + w - 6, y + image_height - 6))
@@ -300,47 +349,81 @@ def portfolio_card(p, project, x, y, w, image_height=132):
         text(p, x + 18, y + 64, project['name'] + '.', 29, w - 36, 'bold', PAPER)
         box(p, x + 18, y + image_height - 30, 32, 3, RED)
     sy = label(p, x, y + image_height + 14, project['category'], w)
-    sy = text(p, x, sy + 7, project['name'], 19, w, 'bold')
-    sy = text(p, x, sy + 10, project['description'], 10, w)
-    sy = text(p, x, sy + 12, project['stack'], 8.2, w, 'mono', RED)
+    sy = text(p, x, sy + 7, project['name'], 15 if compact else 19, w, 'bold')
+    sy = text(p, x, sy + 8, project['description'], 8.7 if compact else 10, w)
+    sy = text(p, x, sy + 8, project['stack'], 7.3 if compact else 8.2, w, 'mono', RED)
     title, uri = project_link(project)
-    link(p, x, sy + 12, title, uri, 9, width=w)
+    link(p, x, sy + 8, title, uri, 8 if compact else 9, width=w)
+
+
+def case_page(doc, case, number):
+    p = new_page(doc, 'PORTFOLIO', number, case['name'], case['summary'])
+    label(p, 40, 177, case['status'])
+    if case.get('screenshots'):
+        box(p, 40, 204, 515, 180, '#e9e4da')
+        for i, shot in enumerate(case['screenshots']):
+            x = 76 + i * 162
+            image(p, shot['file'], (x, 212, x + 120, 368))
+        text(p, 52, 373, 'Captures de l’application publiées sur Google Play', 7, 490, color=MUTED)
+    else:
+        box(p, 40, 204, 515, 180, INK)
+        label(p, 58, 224, 'Parcours fonctionnel', color='#b9b2a6')
+        for i, node in enumerate(case['flow']):
+            x = 58 + i * 167
+            text(p, x, 267, str(i + 1).zfill(2), 10, 145, 'mono', RED)
+            text(p, x, 296, node, 14, 140, 'bold', PAPER)
+        rule(p, 58, 357, 479, '#484339')
+    x, w = 40, 309
+    y = section(p, x, 411, 'Le besoin', w)
+    y = text(p, x, y, case['context'], 9.4, w, color=MUTED)
+    y = section(p, x, y + 16, 'Ma contribution', w)
+    y = text(p, x, y, case['contribution'], 9.4, w)
+    y = section(p, x, y + 16, 'Choix de réalisation', w)
+    for decision in case['decisions']:
+        y = text(p, x, y, decision['title'], 9.2, w, 'bold')
+        y = text(p, x, y + 2, decision['description'], 8.7, w, color=MUTED) + 8
+    if y > 754:
+        raise ValueError(f'Case study {case["id"]} overflows narrative column: {y}')
+    x, w = 380, 175
+    y = section(p, x, 411, 'Fonctionnalités livrées', w)
+    for item in case['deliverables']:
+        y = text(p, x, y, item, 9.2, w) + 12
+    y = section(p, x, y + 9, 'Technologies', w)
+    text(p, x, y, ' · '.join(case['technologies']), 8.2, w, 'mono', MUTED)
+    link(p, 40, 758, 'Lire l’étude sur le site', DATA['website'] + '#case-' + case['id'], 9, width=230)
+    if case['links']:
+        link(p, 312, 758, 'Voir le projet en ligne', case['links'][0]['url'], 9, width=243)
+    return p
 
 
 def build_portfolio():
     doc = fitz.open()
     p = new_page(doc, 'PORTFOLIO', 1)
-    label(p, 40, 91, 'Nabil Ould-Terki / Sélection de réalisations')
-    text(p, 40, 132, 'Des interfaces.\nDes systèmes.\nDes expériences.', 42, font='bold', leading=1.12)
-    portrait(p, 479, 193, 76)
-    text(p, 40, 309, 'Du besoin métier à un produit utilisé.', 15, font='bold')
-    text(p, 40, 348, DATA['summary'], 12, 495)
-    y = section(p, 40, 462, 'Expérience & réalisations')
-    text(p, 40, y, 'En entreprise', 17, 245, 'bold')
-    text(p, 40, y + 34, 'CDI chez GRANITE depuis mai 2024. Applications métier, gestion de patrimoine, CRM et expérience full stack.', 11, 235, color=MUTED)
-    text(p, 312, y, 'Produits & R&D', 17, 245, 'bold')
-    text(p, 312, y + 34, 'Applications, jeux mobiles, moteur 3D, marketplace et outils de R&D.', 11, 243, color=MUTED)
-    box(p, 40, 667, 515, 62, INK)
-    text(p, 55, 681, '.NET / C#   ·   Angular / React   ·   Flutter', 11, 485, 'bold', PAPER)
-    text(p, 55, 705, 'Architecture · UX/UI · API · Cloud · Livraison', 9, 485, 'mono', '#b9b2a6')
+    rec = DATA['recruitment']
+    label(p, 40, 89, 'Nabil Ould-Terki / Portfolio de réalisations')
+    text(p, 40, 123, 'Du besoin métier\nau produit livré.', 38, font='bold', leading=1.12)
+    portrait(p, 479, 135, 76)
+    text(p, 40, 236, rec['headline'], 17, font='bold')
+    text(p, 40, 268, rec['mobile'] + ' · ' + rec['experience'], 11, color=MUTED)
+    text(p, 40, 314, rec['pitch'], 12, 500)
+    y = section(p, 40, 406, 'Trois études de cas pour découvrir mon travail')
+    for i, case in enumerate(DATA['case_studies']):
+        sy = y + i * 58
+        label(p, 40, sy, str(i + 2).zfill(2), 35)
+        link(p, 85, sy - 2, case['name'], DATA['website'] + '#case-' + case['id'], 15, width=470, font='bold')
+        text(p, 85, sy + 23, case['status'], 9, 470, color=MUTED)
+    box(p, 40, 663, 515, 65, INK)
+    text(p, 55, 677, 'Paris · CDI chez GRANITE · Préavis : ' + rec['notice'], 10, 485, 'bold', PAPER)
+    text(p, 55, 701, 'UX/UI · Web · API · Mobile · Cloud', 9, 485, 'mono', '#b9b2a6')
     contacts(p, 756)
-    for number, title, subtitle, ids in [
-        (2, 'Applications & métier.', 'Des interfaces pensées pour les usages quotidiens.', (0, 1)),
-        (3, 'Le jeu comme terrain.', 'Une sélection de jeux cross-platform et mobiles.', (2, 3)),
-        (4, 'Explorer & construire.', 'Outils, reverse-engineering et commerce en ligne.', (4, 5))
-    ]:
-        p = new_page(doc, 'PORTFOLIO', number, title, subtitle)
-        for col, index in enumerate(ids):
-            portfolio_card(p, DATA['projects'][index], 40 + col * 272, 200, 243, 183)
-        if number == 2:
-            y = section(p, 40, 661, 'Également / ADD Associés')
-            end = text(p, 40, y, 'Chez GRANITE : gestion de patrimoine, intégration de données financières et rapports personnalisés. React / Redux / .NET Core / Azure. Application privée.', 10, 515, color=MUTED)
-            link(p, 40, end + 10, 'Voir la présentation sur le site', DATA['website'] + '#project-add-associes', 9)
-        else:
-            rule(p, 40, 713, 515)
-            link(p, 40, 732, 'Retrouvez les démonstrations et les liens sur mon site', DATA['website'], 10)
+    for number, case in enumerate(DATA['case_studies'], 2):
+        case_page(doc, case, number)
+    p = new_page(doc, 'PORTFOLIO', len(doc) + 1, 'Explorer & construire.', 'Jeux cross-platform, outillage et marketplace : une sélection complémentaire.')
+    other_projects = [project for project in DATA['projects'] if project['id'] not in {'jeto', 'my-office'}]
+    for i, project in enumerate(other_projects):
+        portfolio_card(p, project, 40 + i % 2 * 272, 185 + i // 2 * 299, 243, 91, compact=True)
     if DATA.get('certifications'):
-        p = new_page(doc, 'PORTFOLIO', 5, 'Apprendre & pratiquer.', 'Cinq certificats de fin de formation Udemy, avec leurs attestations et liens.')
+        p = new_page(doc, 'PORTFOLIO', len(doc) + 1, 'Apprendre & pratiquer.', 'Cinq certificats de fin de formation Udemy, avec leurs attestations et liens.')
         for i, cert in enumerate(DATA['certifications']):
             y = 188 + i * 114
             image(p, cert['preview'], (40, y, 170, y + 96))
@@ -364,7 +447,17 @@ def save_document(doc, identifier, filename, title, description, format_label):
         from PIL import Image
         im = Image.frombytes('RGB', (pixmap.width, pixmap.height), pixmap.samples)
         im.save(OUT / name, format='WEBP', quality=88)
-        pages.append({'src': 'assets/documents/' + name, 'width': pixmap.width, 'height': pixmap.height})
+        links = []
+        for item in page.get_links():
+            if item.get('kind') != fitz.LINK_URI:
+                continue
+            rect = item['from']
+            link_label = page.get_textbox(rect).strip().replace('\n', ' ').replace('\u00a0', ' ')
+            links.append({'url': item['uri'], 'label': link_label or item['uri'], 'rect': [
+                round(rect.x0 / page.rect.width * 100, 5), round(rect.y0 / page.rect.height * 100, 5),
+                round(rect.width / page.rect.width * 100, 5), round(rect.height / page.rect.height * 100, 5)
+            ]})
+        pages.append({'src': 'assets/documents/' + name, 'width': pixmap.width, 'height': pixmap.height, 'links': links})
     item = {'id': identifier, 'title': title, 'description': description, 'format': format_label, 'file': 'assets/documents/' + filename, 'filename': filename, 'pageCount': len(doc), 'size': pdf_path.stat().st_size, 'pages': pages}
     doc.close()
     return item
@@ -372,11 +465,12 @@ def save_document(doc, identifier, filename, title, description, format_label):
 
 def main():
     prepare_certifications()
+    prepare_case_studies()
     documents = [
         save_document(build_cv(), 'cv', 'Nabil-OULD-TERKI-CV.pdf', 'Le CV', 'Expériences, formation, compétences et réalisations. Le parcours complet.', 'A4 · 2 pages'),
         save_document(build_profile(), 'presentation', 'Nabil-OULD-TERKI-Presentation.pdf', 'La présentation', 'Une page pour comprendre mon profil, mon approche et mes domaines d’intervention.', 'A4 · 1 page'),
         save_document(build_card(), 'carte', 'Nabil-OULD-TERKI-Carte-de-visite.pdf', 'La carte de visite', 'Un format compact, recto verso, pour garder le contact.', '85 × 55 mm · Recto / verso'),
-        save_document(build_portfolio(), 'portfolio', 'Nabil-OULD-TERKI-Portfolio.pdf', 'Le portfolio', 'Réalisations illustrées et certificats : applications métier, mobile, jeux et R&D.', 'A4 · 5 pages')
+        save_document(build_portfolio(), 'portfolio', 'Nabil-OULD-TERKI-Portfolio.pdf', 'Le portfolio', 'Trois études de cas, des réalisations illustrées et les certificats de formation.', 'A4 · 6 pages')
     ]
     (OUT / 'manifest.json').write_text(json.dumps(documents, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     # A normal script (no fetch dependency) makes the viewer work from file:// too.

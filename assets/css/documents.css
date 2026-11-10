@@ -68,6 +68,11 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .document-actions .btn { font-size: .75rem; padding: .8rem 1.2rem; }
 .document-feedback { font: .68rem/1.4 var(--ff-mono); color: var(--accent); }
 .document-dialog i { line-height: 1; }
+.document-sheet { position: relative; flex-shrink: 0; line-height: 0; box-shadow: 0 8px 35px #16140f26; }
+#documentPage { display: block; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: fill; box-shadow: none; }
+.document-hotspots { position: absolute; inset: 0; pointer-events: none; }
+.document-hotspots a { position: absolute; display: block; pointer-events: auto; border-radius: 2px; }
+.document-hotspots a:hover, .document-hotspots a:focus-visible { outline: 2px solid #e4482a; outline-offset: 2px; background: #e4482a12; }
 @media (max-width: 960px) {
   .document-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .document-cover { height: 290px; padding: 30px; }
