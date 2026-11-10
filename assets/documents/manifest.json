@@ -1,0 +1,100 @@
+[
+  {
+    "id": "cv",
+    "title": "Le CV",
+    "description": "Expériences, formation, compétences et réalisations. Le parcours complet.",
+    "format": "A4 · 2 pages",
+    "file": "assets/documents/Nabil-OULD-TERKI-CV.pdf",
+    "filename": "Nabil-OULD-TERKI-CV.pdf",
+    "pageCount": 2,
+    "size": 274580,
+    "pages": [
+      {
+        "src": "assets/documents/cv-1.webp",
+        "width": 1012,
+        "height": 1432
+      },
+      {
+        "src": "assets/documents/cv-2.webp",
+        "width": 1012,
+        "height": 1432
+      }
+    ]
+  },
+  {
+    "id": "presentation",
+    "title": "La présentation",
+    "description": "Une page pour comprendre mon profil, mon approche et mes domaines d’intervention.",
+    "format": "A4 · 1 page",
+    "file": "assets/documents/Nabil-OULD-TERKI-Presentation.pdf",
+    "filename": "Nabil-OULD-TERKI-Presentation.pdf",
+    "pageCount": 1,
+    "size": 238768,
+    "pages": [
+      {
+        "src": "assets/documents/presentation-1.webp",
+        "width": 1012,
+        "height": 1432
+      }
+    ]
+  },
+  {
+    "id": "carte",
+    "title": "La carte de visite",
+    "description": "Un format compact, recto verso, pour garder le contact.",
+    "format": "85 × 55 mm · Recto / verso",
+    "file": "assets/documents/Nabil-OULD-TERKI-Carte-de-visite.pdf",
+    "filename": "Nabil-OULD-TERKI-Carte-de-visite.pdf",
+    "pageCount": 2,
+    "size": 221317,
+    "pages": [
+      {
+        "src": "assets/documents/carte-1.webp",
+        "width": 410,
+        "height": 266
+      },
+      {
+        "src": "assets/documents/carte-2.webp",
+        "width": 410,
+        "height": 266
+      }
+    ]
+  },
+  {
+    "id": "portfolio",
+    "title": "Le portfolio",
+    "description": "Réalisations illustrées et certificats : applications métier, mobile, jeux et R&D.",
+    "format": "A4 · 5 pages",
+    "file": "assets/documents/Nabil-OULD-TERKI-Portfolio.pdf",
+    "filename": "Nabil-OULD-TERKI-Portfolio.pdf",
+    "pageCount": 5,
+    "size": 1406040,
+    "pages": [
+      {
+        "src": "assets/documents/portfolio-1.webp",
+        "width": 1012,
+        "height": 1432
+      },
+      {
+        "src": "assets/documents/portfolio-2.webp",
+        "width": 1012,
+        "height": 1432
+      },
+      {
+        "src": "assets/documents/portfolio-3.webp",
+        "width": 1012,
+        "height": 1432
+      },
+      {
+        "src": "assets/documents/portfolio-4.webp",
+        "width": 1012,
+        "height": 1432
+      },
+      {
+        "src": "assets/documents/portfolio-5.webp",
+        "width": 1012,
+        "height": 1432
+      }
+    ]
+  }
+]

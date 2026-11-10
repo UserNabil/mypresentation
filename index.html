@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nabil OULD-TERKI — Ingénieur Full Stack Freelance</title>
-  <meta name="description" content="Nabil OULD-TERKI, ingénieur full stack freelance à Paris. Conception d'applications web & mobiles SaaS de A à Z : .NET Core, Angular, Flutter. Disponible en mission.">
+  <title>Nabil OULD-TERKI — Ingénieur Full Stack & Mobile</title>
+  <meta name="description" content="Nabil OULD-TERKI, ingénieur logiciel Full Stack et Mobile à Paris. En CDI chez GRANITE. Parcours, réalisations et documents PDF.">
   <meta name="author" content="Nabil OULD-TERKI">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Nabil OULD-TERKI — Ingénieur Full Stack Freelance">
-  <meta property="og:description" content="Applications web & mobiles SaaS de A à Z. .NET Core · Angular · Flutter. Disponible en freelance à Paris / Remote.">
+  <meta property="og:title" content="Nabil OULD-TERKI — Ingénieur Full Stack & Mobile">
+  <meta property="og:description" content="En CDI chez GRANITE. Applications web & mobiles, jeux et R&D. Parcours et documents à découvrir.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://usernabil.github.io/mypresentation/">
 
@@ -23,6 +23,7 @@
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/documents.css">
 
   <style>
     /* ============ DESIGN TOKENS ============ */
@@ -274,7 +275,7 @@
       .portrait { max-width:340px; }
       .gh-nums { margin-left:0; }
     }
-    @media (max-width:560px) {
+    @media (max-width:960px) {
       .nav-links { display:none; }
       .nav-toggle { display:block; }
       .nav-links.open { display:flex; position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:1.2rem; padding:1.5rem var(--gut); background:var(--bg); border-bottom:1px solid var(--line); }
@@ -284,7 +285,7 @@
 
     /* ============ ICON CENTERING / ALIGNMENT ============ */
     .theme-btn, .socials a, .social-link { display:flex; align-items:center; justify-content:center; }
-    .theme-btn i { display:block; }
+    .theme-btn i { display:block; line-height:0 !important; }
     .socials a i, .social-link i { display:block; line-height:1; }
     .btn i, .p-link i, .modal-open i, .gh-link i, .avail i, .nav-links a i, .sec-num i { line-height:1; vertical-align:middle; }
     .p-link { align-items:center; }
@@ -343,7 +344,8 @@
         <li><a href="#about">01 — Profil</a></li>
         <li><a href="#skills">02 — Stack</a></li>
         <li><a href="#work">03 — Projets</a></li>
-        <li><a href="#contact">04 — Contact</a></li>
+        <li><a href="#documents">04 — Documents</a></li>
+        <li><a href="#contact">05 — Contact</a></li>
         <li>
           <button class="theme-btn" id="themeBtn" aria-label="Basculer thème clair/sombre">
             <i class="fas fa-moon"></i>
@@ -358,7 +360,7 @@
   <header class="hero" id="top">
     <div class="wrap">
       <div class="hero-meta reveal">
-        <span class="avail"><span class="pulse"></span> Disponible pour mission</span>
+        <span class="avail"><span class="pulse"></span> En CDI chez GRANITE</span>
         <span>Paris · France — Remote / Hybride</span>
         <span id="clock">—</span>
       </div>
@@ -366,14 +368,15 @@
       <div class="hero-role reveal"><span id="typed"></span><span class="cursor">▌</span></div>
       <p class="hero-lede reveal">Je conçois et développe des produits de A à Z — SaaS web, apps mobiles, jeux cross-platform et outils métier. De la maquette Figma au déploiement cloud, en passant par le reverse-engineering quand il le faut. Code propre, architecture solide, livraison au cordeau.</p>
       <div class="hero-cta reveal">
-        <button class="btn primary" onclick="window.print()"><i class="fas fa-arrow-down"></i> Télécharger le CV (PDF)</button>
+        <button class="btn primary" data-document="cv"><i class="fas fa-file-lines" aria-hidden="true"></i> Voir le CV</button>
+        <a class="btn ghost" href="#documents"><i class="fas fa-layer-group" aria-hidden="true"></i> Mes documents</a>
         <a class="btn ghost" href="#contact"><i class="fas fa-paper-plane"></i> Me contacter</a>
       </div>
 
       <div class="stats reveal">
         <div class="stat"><div class="n" data-count="3" data-suffix="+">0</div><div class="l">Ans d'expérience</div></div>
         <div class="stat"><div class="n" data-count="10" data-suffix="+">0</div><div class="l">Produits livrés</div></div>
-        <div class="stat"><div class="n" data-count="500" data-prefix="" data-suffix="€">0</div><div class="l">TJM à partir de</div></div>
+        <div class="stat"><div class="n" data-count="3">0</div><div class="l">Domaines : web, mobile & outils</div></div>
         <div class="stat"><div class="n" data-count="100" data-suffix="%">0</div><div class="l">Remote possible</div></div>
       </div>
     </div>
@@ -396,12 +399,13 @@
           <div class="about-text reveal">
             <p><strong>Ingénieur informatique</strong> spécialisé en développement full stack, aussi à l'aise sur le front-end que sur le back-end, avec une expertise forte sur l'écosystème <strong>.NET</strong> et <strong>Angular</strong>.</p>
             <p>Solide expérience en <strong>développement mobile avec Flutter</strong> pour des applications cross-platform performantes et élégantes, et une vraie sensibilité <strong>UI/UX</strong> (conception Figma complète) qui me permet de porter un produit du besoin métier jusqu'à l'utilisateur final.</p>
+            <p>Actuellement <strong>en CDI chez GRANITE depuis mai 2024</strong>, je travaille sur des applications métier, de la conception à la mise en production.</p>
             <div class="facts">
               <div class="fact"><span class="k">Rôle</span><span class="v">Full Stack / Mobile</span></div>
               <div class="fact"><span class="k">Base</span><span class="v">Paris, Île-de-France</span></div>
               <div class="fact"><span class="k">Formation</span><span class="v">Ingénieur informatique</span></div>
               <div class="fact"><span class="k">Anglais</span><span class="v">TOEIC validé</span></div>
-              <div class="fact"><span class="k">Statut</span><span class="v">Freelance / Portage</span></div>
+              <div class="fact"><span class="k">Statut</span><span class="v">CDI · GRANITE</span></div>
               <div class="fact"><span class="k">Modalité</span><span class="v">Remote / Hybride</span></div>
             </div>
           </div>
@@ -465,30 +469,101 @@
         </div>
         <div class="timeline">
           <div class="tl-item reveal">
-            <div class="tl-when">2025 — Aujourd'hui</div>
-            <div class="tl-role">Projets indépendants & R&D</div>
-            <div class="tl-org">Game dev · Outils · Reverse-engineering</div>
-            <div class="tl-desc">Conception de jeux cross-platform en C#/.NET (Pavillon Noir, The Pirate's Dice) avec chaîne de publication mobile automatisée, outils desktop métier et reverse-engineering (Eden Ultimate Tool), marketplace full-stack trilingue (Pravia, Next.js 16 / React 19).</div>
+            <div class="tl-when">Mai 2024 — Aujourd'hui · CDI</div>
+            <div class="tl-role">Ingénieur logiciel Full Stack</div>
+            <div class="tl-org">GRANITE · Interne</div>
+            <div class="tl-desc">Application de gestion de patrimoine pour ADD Associés : intégration de données financières, analyse de portefeuilles et rapports personnalisés (React, Redux, .NET Core, Azure). Conception et développement d'un CRM interne : UX/UI sur Figma, Angular / .NET Core / SQL Server, authentification et autorisations.</div>
           </div>
           <div class="tl-item reveal">
-            <div class="tl-when">2024 — Aujourd'hui</div>
-            <div class="tl-role">Ingénieur Full Stack & Mobile</div>
-            <div class="tl-org">My Office Apps — SaaS</div>
-            <div class="tl-desc">Conception et développement de l'écosystème Utrav (app mobile Flutter + back-office Angular/.NET) : réservation de voyages, paiements, fidélité, notifications push. Produit du design à la mise en production.</div>
+            <div class="tl-when">Sélection de réalisations</div>
+            <div class="tl-role">Produits & R&D</div>
+            <div class="tl-org">Web · Mobile · Game dev · Outillage</div>
+            <div class="tl-desc">Écosystème Jeto / Utrav (Flutter, Angular, .NET), jeux cross-platform Pavillon Noir et The Pirate's Dice, console desktop Eden Ultimate Tool et marketplace trilingue Pravia.</div>
           </div>
           <div class="tl-item reveal">
-            <div class="tl-when">2024 — 2025</div>
-            <div class="tl-role">Développeur Full Stack</div>
-            <div class="tl-org">ADD Associés — Gestion de patrimoine</div>
-            <div class="tl-desc">Application de suivi de portefeuilles clients et génération automatisée de rapports (React / .NET Core / Azure).</div>
+            <div class="tl-when">Janvier 2023 — Avril 2024</div>
+            <div class="tl-role">Ingénieur logiciel Full Stack</div>
+            <div class="tl-org">TREND-IT · Paris</div>
+            <div class="tl-desc">Queney Informatique (6 mois) : application Flutter iOS/Android, API .NET, Figma, BLoC/Provider et notifications push. Essilor (6 mois) : applications Angular / .NET pour la gestion des praticiens, des plannings et des dossiers patients. Vacanciel (4 mois) : back-office pour la gestion de vacanciers en situation de handicap.</div>
           </div>
           <div class="tl-item reveal">
-            <div class="tl-when">2023 — 2024</div>
-            <div class="tl-role">Développeur Full Stack & UI/UX</div>
-            <div class="tl-org">My Office — CRM</div>
-            <div class="tl-desc">CRM from scratch : contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma complète puis implémentation Angular / .NET Core.</div>
+            <div class="tl-when">Mai — Août 2022</div>
+            <div class="tl-role">Stage développeur Full Stack</div>
+            <div class="tl-org">HDM · Charleroi</div>
+            <div class="tl-desc">Portail d'administration en React / PHP : gestion des employés et de leur temps de travail. Développement d'un jeu de dés de pirates avec NestJS / PHP.</div>
           </div>
         </div>
+        <div class="education-strip reveal">
+          <span class="doc-eyebrow">Formation</span>
+          <p><strong>2020–2023 · EILCO, Calais</strong> — Diplôme d'ingénieur en informatique (Bac+5)</p>
+          <p><strong>2019–2020 · LGT Rempart, Marseille</strong> — Prépa ATS</p>
+          <p><strong>2017–2019 · LGT Rempart, Marseille</strong> — BTS Assistant ingénieur</p>
+        </div>
+        <!-- CERTIFICATIONS:START -->
+        <div class="certifications" id="certifications" aria-labelledby="certificationsTitle">
+          <div class="certifications-heading">
+            <h3 id="certificationsTitle">Certifications & formation continue</h3>
+            <p>5 certificats de fin de formation · 63 h de cours · Udemy</p>
+          </div>
+          <div class="certificate-grid">
+            <article class="certificate-card" id="certificate-UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf">
+              <span class="doc-eyebrow">Back-end · .NET / C#</span>
+              <h4>Apprendre ASP.NET Core 5 et C# pour le développement WEB</h4>
+              <p class="certificate-meta">Udemy · <time datetime="2023-06-26">26/06/2023</time> · 10 h</p>
+              <p class="certificate-instructor">Formateur : Anthony Cardinale</p>
+              <div class="certificate-actions">
+                <button class="doc-text-link" data-certificate data-prev-type="image" data-prev-src="assets/certificates/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf.webp" data-prev-url="https://www.udemy.com/certificate/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf/" data-prev-action="Vérifier sur Udemy"><i class="fas fa-eye" aria-hidden="true"></i> Aperçu</button>
+                <a class="doc-text-link" href="assets/certificates/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf.pdf" download><i class="fas fa-arrow-down" aria-hidden="true"></i> PDF</a>
+                <a class="doc-text-link" href="https://www.udemy.com/certificate/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf/" target="_blank" rel="noopener">Vérifier sur Udemy <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              </div>
+            </article>
+            <article class="certificate-card" id="certificate-UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b">
+              <span class="doc-eyebrow">Web · Symfony / PHP</span>
+              <h4>Apprendre Symfony 5 par la création d&#x27;un site e-commerce</h4>
+              <p class="certificate-meta">Udemy · <time datetime="2023-01-03">03/01/2023</time> · 14 h</p>
+              <p class="certificate-instructor">Formateur : Mikael Houdoux</p>
+              <div class="certificate-actions">
+                <button class="doc-text-link" data-certificate data-prev-type="image" data-prev-src="assets/certificates/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b.webp" data-prev-url="https://www.udemy.com/certificate/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b/" data-prev-action="Vérifier sur Udemy"><i class="fas fa-eye" aria-hidden="true"></i> Aperçu</button>
+                <a class="doc-text-link" href="assets/certificates/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b.pdf" download><i class="fas fa-arrow-down" aria-hidden="true"></i> PDF</a>
+                <a class="doc-text-link" href="https://www.udemy.com/certificate/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b/" target="_blank" rel="noopener">Vérifier sur Udemy <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              </div>
+            </article>
+            <article class="certificate-card" id="certificate-UC-3b6b1230-b10a-46a6-bc90-043e725a8734">
+              <span class="doc-eyebrow">Design · Web / UI / UX</span>
+              <h4>Devenir Web Designer - Le cours complet</h4>
+              <p class="certificate-meta">Udemy · <time datetime="2023-01-03">03/01/2023</time> · 6,5 h</p>
+              <p class="certificate-instructor">Formateur : Axel Paris</p>
+              <div class="certificate-actions">
+                <button class="doc-text-link" data-certificate data-prev-type="image" data-prev-src="assets/certificates/UC-3b6b1230-b10a-46a6-bc90-043e725a8734.webp" data-prev-url="https://www.udemy.com/certificate/UC-3b6b1230-b10a-46a6-bc90-043e725a8734/" data-prev-action="Vérifier sur Udemy"><i class="fas fa-eye" aria-hidden="true"></i> Aperçu</button>
+                <a class="doc-text-link" href="assets/certificates/UC-3b6b1230-b10a-46a6-bc90-043e725a8734.pdf" download><i class="fas fa-arrow-down" aria-hidden="true"></i> PDF</a>
+                <a class="doc-text-link" href="https://www.udemy.com/certificate/UC-3b6b1230-b10a-46a6-bc90-043e725a8734/" target="_blank" rel="noopener">Vérifier sur Udemy <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              </div>
+            </article>
+            <article class="certificate-card" id="certificate-UC-9e123746-18f0-4d73-8033-9c4fe6198c6c">
+              <span class="doc-eyebrow">Front-end · React / Redux</span>
+              <h4>React de A à Z (Hooks, Redux, Contexte inclus)</h4>
+              <p class="certificate-meta">Udemy · <time datetime="2022-06-01">01/06/2022</time> · 14,5 h</p>
+              <p class="certificate-instructor">Formateur : Enzo Ustariz</p>
+              <div class="certificate-actions">
+                <button class="doc-text-link" data-certificate data-prev-type="image" data-prev-src="assets/certificates/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c.webp" data-prev-url="https://www.udemy.com/certificate/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c/" data-prev-action="Vérifier sur Udemy"><i class="fas fa-eye" aria-hidden="true"></i> Aperçu</button>
+                <a class="doc-text-link" href="assets/certificates/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c.pdf" download><i class="fas fa-arrow-down" aria-hidden="true"></i> PDF</a>
+                <a class="doc-text-link" href="https://www.udemy.com/certificate/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c/" target="_blank" rel="noopener">Vérifier sur Udemy <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              </div>
+            </article>
+            <article class="certificate-card" id="certificate-UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6">
+              <span class="doc-eyebrow">Game dev · Unity / C#</span>
+              <h4>UNITY : Développer un RPG 2D avec C# - Formation complète</h4>
+              <p class="certificate-meta">Udemy · <time datetime="2023-01-03">03/01/2023</time> · 18 h</p>
+              <p class="certificate-instructor">Formateur : Anthony Cardinale</p>
+              <div class="certificate-actions">
+                <button class="doc-text-link" data-certificate data-prev-type="image" data-prev-src="assets/certificates/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6.webp" data-prev-url="https://www.udemy.com/certificate/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6/" data-prev-action="Vérifier sur Udemy"><i class="fas fa-eye" aria-hidden="true"></i> Aperçu</button>
+                <a class="doc-text-link" href="assets/certificates/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6.pdf" download><i class="fas fa-arrow-down" aria-hidden="true"></i> PDF</a>
+                <a class="doc-text-link" href="https://www.udemy.com/certificate/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6/" target="_blank" rel="noopener">Vérifier sur Udemy <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              </div>
+            </article>
+          </div>
+        </div>
+        <!-- CERTIFICATIONS:END -->
       </div>
     </section>
 
@@ -502,7 +577,7 @@
         </div>
         <div class="projects reveal">
 
-          <article class="project">
+          <article class="project" id="project-pavillon-noir">
             <div class="p-top"><span class="p-cat">🎮 Jeu cross-platform · 2025–26</span><span class="p-idx">01</span></div>
             <h3>Pavillon Noir</h3>
             <p class="p-desc">Roguelite naval en 3D, moteur maison en C#/.NET. Un seul <em>RunController</em> piloté par le terminal, le banc 3D et un simulateur sans affichage ; zéro asset acheté, aucune règle de jeu dans la couche graphique. Campagne, classement par primes, interface peinte.</p>
@@ -510,7 +585,7 @@
             <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pavillon.gif" data-prev-url="https://usernabil.github.io/pavillon-noir-site/">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
-          <article class="project">
+          <article class="project" id="project-pirates-dice">
             <div class="p-top"><span class="p-cat">🎲 Jeu mobile publié · 2025–26</span><span class="p-idx">02</span></div>
             <h3>The Pirate's Dice</h3>
             <p class="p-desc">Jeu de dés pirate porté sur mobile, avec chaîne de publication automatisée (APK signé en une commande, incrément de version, workflow CI). Une seule base de code partagée entre l'outil web et l'app — un correctif arrive dans le téléphone au build suivant.</p>
@@ -521,7 +596,7 @@
             </div>
           </article>
 
-          <article class="project">
+          <article class="project" id="project-eden">
             <div class="p-top"><span class="p-cat">🛠️ Outil desktop · Reverse-engineering</span><span class="p-idx">03</span></div>
             <h3>Eden Ultimate Tool</h3>
             <p class="p-desc">Console d'opérations complète pour MMORPG (fenêtre desktop native) : santé des serveurs en temps réel, déploiement multi-environnements (DEV/PREPROD/PROD), édition de 90 000+ entités — créatures, objets, sorts, enchantements — avec aperçu in-game live. Reverse-engineering du codec serveur chiffré, écriture atomique double couche client + serveur vérifiée byte-identique.</p>
@@ -529,7 +604,7 @@
             <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/eden.gif" data-prev-url="" data-prev-label="Eden Ultimate Tool — console privée (R&D)">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
-          <article class="project">
+          <article class="project" id="project-pravia">
             <div class="p-top"><span class="p-cat">🛒 Marketplace full-stack · 2026</span><span class="p-idx">04</span></div>
             <h3>Pravia</h3>
             <p class="p-desc">Marketplace de matériel tech : boutique + back-office complet (40 références, 9 catégories, 15 marques), panier, commande, avis clients. Trilingue français / anglais / arabe, avec affichage droite-à-gauche. Aucune base externe à installer.</p>
@@ -537,7 +612,7 @@
             <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/pravia.gif" data-prev-url="https://pravia-dz.com/fr">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
-          <article class="project">
+          <article class="project" id="project-jeto">
             <div class="p-top"><span class="p-cat">📱 App mobile SaaS · 2024–25</span><span class="p-idx">05</span></div>
             <h3>Jeto — Application mobile</h3>
             <p class="p-desc">App voyageurs (plateforme Utrav), publiée sur le Play Store : recherche & réservation de voyages, paiements sécurisés, programme de fidélité à 4 niveaux, notifications push Firebase.</p>
@@ -545,7 +620,7 @@
             <button class="p-link" data-prev-type="image" data-prev-src="assets/img/previews/jeto.gif" data-prev-url="https://play.google.com/store/apps/details?id=com.myofficeapps.utrav">Voir la démo <i class="fas fa-circle-play"></i></button>
           </article>
 
-          <article class="project">
+          <article class="project" id="project-utrav">
             <div class="p-top"><span class="p-cat">💻 Back-office SaaS · 2024–25</span><span class="p-idx">06</span></div>
             <h3>Utrav — Back-office</h3>
             <p class="p-desc">Plateforme de gestion pour agences : création & publication de voyages, gestion des réservations et paiements, statistiques temps réel, envoi de notifications.</p>
@@ -553,7 +628,7 @@
             <button class="p-link" data-prev-type="iframe" data-prev-src="https://utrav-bo.my-officeapps.com/" data-prev-url="https://utrav-bo.my-officeapps.com/">Visite live <i class="fas fa-tower-broadcast"></i></button>
           </article>
 
-          <article class="project">
+          <article class="project" id="project-my-office">
             <div class="p-top"><span class="p-cat">💼 CRM · 2023–24</span><span class="p-idx">07</span></div>
             <h3>My Office</h3>
             <p class="p-desc">CRM développé from scratch : gestion contacts, opportunités, pipeline de ventes, dashboard analytics. Conception Figma de bout en bout.</p>
@@ -561,10 +636,10 @@
             <button class="p-link" data-prev-type="iframe" data-prev-src="https://my-officeapps.com" data-prev-url="https://my-officeapps.com">Visite live <i class="fas fa-tower-broadcast"></i></button>
           </article>
 
-          <article class="project">
-            <div class="p-top"><span class="p-cat">🏦 Gestion de patrimoine · 2024–25</span><span class="p-idx">08</span></div>
+          <article class="project" id="project-add-associes">
+            <div class="p-top"><span class="p-cat">🏦 Gestion de patrimoine · GRANITE</span><span class="p-idx">08</span></div>
             <h3>ADD Associés</h3>
-            <p class="p-desc">Application de gestion de patrimoine : suivi des portefeuilles clients et génération de rapports automatisés. Projet antérieur : Santelac & Vacanciel (sites web ASP.NET / Azure).</p>
+            <p class="p-desc">Projet réalisé dans le cadre de mon CDI chez GRANITE : intégration de données financières, analyse de portefeuilles clients et génération de rapports personnalisés.</p>
             <div class="p-tags"><span>React</span><span>.NET Core</span><span>Azure</span></div>
             <span class="p-link disabled">Projet privé <i class="fas fa-lock"></i></span>
           </article>
@@ -573,22 +648,43 @@
       </div>
     </section>
 
-    <!-- 04 — CONTACT + OFFER -->
+    <!-- 04 — DOCUMENTS -->
+    <section class="block documents-section" id="documents" aria-labelledby="documentsTitle">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">04</span>
+          <h2 class="sec-title" id="documentsTitle">À emporter.</h2>
+          <span class="sec-rule"></span>
+        </div>
+        <div class="documents-intro reveal">
+          <p>Mon parcours, mes projets, mes coordonnées.<br><span>Le bon format pour chaque échange.</span></p>
+          <a class="doc-text-link" href="assets/documents/Nabil-OULD-TERKI-Kit.zip" download><i class="fas fa-arrow-down" aria-hidden="true"></i> Tout télécharger <span>ZIP</span></a>
+        </div>
+        <div class="document-grid" id="documentGrid"></div>
+        <noscript><p>Les documents sont disponibles directement : <a href="assets/documents/Nabil-OULD-TERKI-CV.pdf">CV</a>, <a href="assets/documents/Nabil-OULD-TERKI-Presentation.pdf">présentation</a>, <a href="assets/documents/Nabil-OULD-TERKI-Carte-de-visite.pdf">carte de visite</a>, <a href="assets/documents/Nabil-OULD-TERKI-Portfolio.pdf">portfolio</a>.</p></noscript>
+        <div class="documents-footer reveal">
+          <p><span class="doc-status-dot"></span> Des PDF dédiés, prêts à partager.</p>
+          <a class="doc-text-link" href="assets/documents/Nabil-OULD-TERKI.vcf" download><i class="fas fa-address-card" aria-hidden="true"></i> Ajouter à mes contacts <span>VCF</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 — CONTACT -->
     <section class="block" id="contact">
       <div class="wrap">
         <div class="offer reveal">
-          <h3>Disponible en freelance.</h3>
-          <p class="sub">Missions longues · Remote ou hybride Paris · Portage salarial possible.</p>
+          <h3>En CDI. Et toujours des idées.</h3>
+          <p class="sub">Chez GRANITE au quotidien. Pour échanger autour d'un projet, d'une collaboration ou de mes réalisations, parlons-en.</p>
           <div class="offer-grid">
-            <div class="offer-cell"><div class="k">TJM</div><div class="v">500 – 650 €</div></div>
-            <div class="offer-cell"><div class="k">Disponibilité</div><div class="v">Immédiate</div></div>
-            <div class="offer-cell"><div class="k">Durée idéale</div><div class="v">6 mois +</div></div>
-            <div class="offer-cell"><div class="k">Modalités</div><div class="v">100% Remote</div></div>
+            <div class="offer-cell"><div class="k">Aujourd'hui</div><div class="v">CDI · GRANITE</div></div>
+            <div class="offer-cell"><div class="k">Approche</div><div class="v">Du design au code</div></div>
+            <div class="offer-cell"><div class="k">Domaines</div><div class="v">Web & Mobile</div></div>
+            <div class="offer-cell"><div class="k">Basé à</div><div class="v">Paris, France</div></div>
           </div>
         </div>
 
         <div class="sec-head reveal" style="margin-top:4rem;">
-          <span class="sec-num">04</span>
+          <span class="sec-num">05</span>
           <h2 class="sec-title">Contact</h2>
           <span class="sec-rule"></span>
         </div>
@@ -630,6 +726,32 @@
     </div>
   </div>
 
+  <dialog class="document-dialog" id="documentDialog" aria-labelledby="documentDialogTitle">
+    <div class="document-viewer">
+      <header class="document-toolbar">
+        <div><span class="doc-eyebrow">Aperçu du document</span><h2 id="documentDialogTitle">Le CV</h2></div>
+        <button class="doc-icon-button" id="documentClose" aria-label="Fermer l'aperçu"><i class="fas fa-xmark" aria-hidden="true"></i></button>
+      </header>
+      <div class="document-stage" id="documentStage">
+        <img id="documentPage" src="assets/documents/cv-1.webp" alt="" width="1012" height="1432">
+      </div>
+      <div class="document-controls">
+        <div class="document-pagination">
+          <button class="doc-icon-button" id="documentPrev" aria-label="Page précédente"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
+          <span id="documentPageLabel" role="status" aria-live="polite">Page 1 / 2</span>
+          <button class="doc-icon-button" id="documentNext" aria-label="Page suivante"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+        </div>
+        <button class="doc-text-link" id="documentZoom" aria-pressed="false"><i class="fas fa-magnifying-glass-plus" aria-hidden="true"></i> <span>Agrandir</span></button>
+      </div>
+      <footer class="document-actions">
+        <a class="btn primary" id="documentDownload" href="assets/documents/Nabil-OULD-TERKI-CV.pdf" download><i class="fas fa-arrow-down" aria-hidden="true"></i> Télécharger le PDF</a>
+        <a class="doc-text-link" id="documentOpen" href="assets/documents/Nabil-OULD-TERKI-CV.pdf" target="_blank" rel="noopener">Ouvrir le PDF <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+        <button class="doc-text-link" id="documentShare"><i class="fas fa-share-nodes" aria-hidden="true"></i> Partager</button>
+        <span class="document-feedback" id="documentFeedback" role="status" aria-live="polite"></span>
+      </footer>
+    </div>
+  </dialog>
+
   <footer>
     <div class="wrap foot-inner">
       <span>© <span id="year"></span> Nabil OULD-TERKI</span>
@@ -638,6 +760,8 @@
     </div>
   </footer>
 
+  <script src="assets/documents/catalog.js"></script>
+  <script src="assets/js/documents.js"></script>
   <script>
     (function(){
       "use strict";
@@ -777,10 +901,16 @@
       var mUrl  = document.getElementById('modalUrl');
       var mOpen = document.getElementById('modalOpen');
       var mHint = document.getElementById('modalHint');
+      var previewCleanup = null;
       function openPreview(btn){
+        clearTimeout(previewCleanup);
         var type = btn.getAttribute('data-prev-type');
         var src  = btn.getAttribute('data-prev-src');
         var url  = btn.getAttribute('data-prev-url');
+        var previewCard = btn.closest('.project, .certificate-card');
+        var projectTitle = previewCard.querySelector('h3, h4').textContent;
+        modal.setAttribute('aria-label', 'Aperçu : ' + projectTitle);
+        mOpen.firstChild.textContent = (btn.getAttribute('data-prev-action') || 'Ouvrir le site') + ' ';
         if(url){
           mOpen.style.display = '';
           mOpen.href = url;
@@ -799,9 +929,13 @@
         } else {
           mBody.classList.add('media');
           var img = document.createElement('img');
-          img.src = src; img.alt = 'Démo du projet';
+          img.src = src; img.alt = 'Démo : ' + projectTitle;
           mBody.appendChild(img);
-          mHint.textContent = /\.gif(\?|$)/i.test(src)
+          mHint.textContent = btn.hasAttribute('data-certificate')
+            ? "Certificat de fin de formation — consultez l’attestation ou vérifiez-la sur Udemy."
+            : !url
+            ? "Aperçu du projet — la démonstration est disponible ici."
+            : /\.gif(\?|$)/i.test(src)
             ? "Démo animée — cliquez sur « Ouvrir le site » pour la version complète."
             : "Capture du site en ligne — cliquez sur « Ouvrir le site » pour la version interactive.";
         }
@@ -811,7 +945,7 @@
       function closePreview(){
         modal.classList.remove('open');
         document.body.style.overflow = '';
-        setTimeout(function(){ mBody.innerHTML = ''; }, 360);
+        previewCleanup = setTimeout(function(){ mBody.innerHTML = ''; }, 360);
       }
       document.querySelectorAll('[data-prev-type]').forEach(function(btn){
         btn.addEventListener('click', function(e){ e.preventDefault(); openPreview(btn); });
@@ -820,6 +954,19 @@
         modal.addEventListener('click', function(e){ if(e.target.hasAttribute('data-close')) closePreview(); });
         document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && modal.classList.contains('open')) closePreview(); });
       }
+      function openLinkedProject(){
+        if(location.hash.indexOf('#project-') !== 0) return;
+        var project = document.getElementById(location.hash.slice(1));
+        if(!project || !project.classList.contains('project')) return;
+        var group = project.closest('.reveal');
+        if(group) group.classList.add('in');
+        project.scrollIntoView({behavior:'instant', block:'center'});
+        var preview = project.querySelector('[data-prev-type]');
+        if(preview) openPreview(preview);
+        else if(modal.classList.contains('open')) closePreview();
+      }
+      window.addEventListener('hashchange', openLinkedProject);
+      openLinkedProject();
     })();
   </script>
 </body>

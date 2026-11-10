@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:OULD-TERKI;Nabil;;;
+FN:Nabil OULD-TERKI
+TITLE:Ingénieur logiciel Full Stack & Mobile
+EMAIL;TYPE=INTERNET:n.ouldterki@gmail.com
+TEL;TYPE=CELL:+33641405237
+ADR;TYPE=WORK:;;;Paris;;;France
+URL:https://usernabil.github.io/mypresentation/
+NOTE:En CDI chez GRANITE.
+END:VCARD

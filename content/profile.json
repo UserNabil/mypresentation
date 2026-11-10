@@ -1,0 +1,212 @@
+{
+  "name": "Nabil OULD-TERKI",
+  "role": "Ingénieur logiciel Full Stack & Mobile",
+  "email": "n.ouldterki@gmail.com",
+  "phone": "+33 6 41 40 52 37",
+  "location": "Paris, France",
+  "website": "https://usernabil.github.io/mypresentation/",
+  "linkedin": "https://www.linkedin.com/in/nabil-ould-terki/",
+  "github": "https://github.com/UserNabil",
+  "status": "En CDI chez GRANITE depuis mai 2024.",
+  "pricing": {
+    "daily_rate_min_eur": 500,
+    "daily_rate_max_eur": 650,
+    "currency": "EUR"
+  },
+  "summary": "Ingénieur informatique diplômé de l’EILCO, je conçois des applications web et mobiles, du besoin métier à la mise en production. Mon socle : .NET / C#, Angular, React et Flutter, avec une attention particulière à l’architecture, à l’expérience utilisateur et à la livraison.",
+  "experience": [
+    {
+      "dates": "Mai 2024 — aujourd’hui",
+      "role": "Ingénieur logiciel Full Stack · CDI",
+      "company": "GRANITE · Interne",
+      "details": [
+        "ADD Associés : application de gestion de patrimoine, intégration de données financières externes, analyse de portefeuilles et rapports personnalisés.",
+        "CRM interne : conception UX/UI sur Figma, développement full stack, authentification et autorisations."
+      ],
+      "stack": "React · Redux · Angular · .NET Core · SQL Server · Azure"
+    },
+    {
+      "dates": "Janvier 2023 — avril 2024",
+      "role": "Ingénieur logiciel Full Stack",
+      "company": "TREND-IT · Paris",
+      "details": [
+        "Queney Informatique (6 mois) : application Flutter iOS/Android, API .NET Core, design Figma, architecture BLoC/Provider, notifications push et authentification.",
+        "Essilor (6 mois) : applications Angular / .NET Core pour la gestion des praticiens, plannings et dossiers patients.",
+        "Vacanciel (4 mois) : back-office Angular / .NET Core pour la gestion de vacanciers en situation de handicap."
+      ],
+      "stack": "Flutter · Angular · .NET Core · Figma"
+    },
+    {
+      "dates": "Mai — août 2022",
+      "role": "Stagiaire développeur Full Stack",
+      "company": "HDM · Charleroi",
+      "details": [
+        "Portail d’administration React / PHP pour la gestion des employés et de leur temps de travail.",
+        "Développement d’un jeu de dés de pirates avec NestJS / PHP."
+      ],
+      "stack": "React · PHP · NestJS"
+    }
+  ],
+  "education": [
+    {
+      "dates": "2020 — 2023",
+      "title": "Diplôme d’ingénieur en informatique",
+      "school": "EILCO · Calais · Bac+5"
+    },
+    {
+      "dates": "2019 — 2020",
+      "title": "Classe préparatoire ATS",
+      "school": "LGT Rempart · Marseille"
+    },
+    {
+      "dates": "2017 — 2019",
+      "title": "BTS Assistant ingénieur",
+      "school": "LGT Rempart · Marseille"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf",
+      "title": "Apprendre ASP.NET Core 5 et C# pour le développement WEB",
+      "issuer": "Udemy",
+      "instructor": "Anthony Cardinale",
+      "date": "2023-06-26",
+      "hours": 10,
+      "category": "Back-end · .NET / C#",
+      "url": "https://www.udemy.com/certificate/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf/",
+      "file": "assets/certificates/UC-1f85f368-e2a3-451a-b15a-7102b5c21fbf.pdf"
+    },
+    {
+      "id": "UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b",
+      "title": "Apprendre Symfony 5 par la création d'un site e-commerce",
+      "issuer": "Udemy",
+      "instructor": "Mikael Houdoux",
+      "date": "2023-01-03",
+      "hours": 14,
+      "category": "Web · Symfony / PHP",
+      "url": "https://www.udemy.com/certificate/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b/",
+      "file": "assets/certificates/UC-3a8cd5cc-feb0-43db-9513-8a1cef54510b.pdf"
+    },
+    {
+      "id": "UC-3b6b1230-b10a-46a6-bc90-043e725a8734",
+      "title": "Devenir Web Designer - Le cours complet",
+      "issuer": "Udemy",
+      "instructor": "Axel Paris",
+      "date": "2023-01-03",
+      "hours": 6.5,
+      "category": "Design · Web / UI / UX",
+      "url": "https://www.udemy.com/certificate/UC-3b6b1230-b10a-46a6-bc90-043e725a8734/",
+      "file": "assets/certificates/UC-3b6b1230-b10a-46a6-bc90-043e725a8734.pdf"
+    },
+    {
+      "id": "UC-9e123746-18f0-4d73-8033-9c4fe6198c6c",
+      "title": "React de A à Z (Hooks, Redux, Contexte inclus)",
+      "issuer": "Udemy",
+      "instructor": "Enzo Ustariz",
+      "date": "2022-06-01",
+      "hours": 14.5,
+      "category": "Front-end · React / Redux",
+      "url": "https://www.udemy.com/certificate/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c/",
+      "file": "assets/certificates/UC-9e123746-18f0-4d73-8033-9c4fe6198c6c.pdf"
+    },
+    {
+      "id": "UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6",
+      "title": "UNITY : Développer un RPG 2D avec C# - Formation complète",
+      "issuer": "Udemy",
+      "instructor": "Anthony Cardinale",
+      "date": "2023-01-03",
+      "hours": 18,
+      "category": "Game dev · Unity / C#",
+      "url": "https://www.udemy.com/certificate/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6/",
+      "file": "assets/certificates/UC-740f8e8e-fd9d-43d7-aa95-2b76a35fa9f6.pdf"
+    }
+  ],
+  "skills": [
+    {
+      "label": "Web",
+      "value": "Angular, React, Next.js, TypeScript, Blazor"
+    },
+    {
+      "label": "Back-end",
+      "value": ".NET Core, C#, API REST, Python, Java, Node.js"
+    },
+    {
+      "label": "Mobile",
+      "value": "Flutter, Dart, iOS, Android, Capacitor"
+    },
+    {
+      "label": "Données",
+      "value": "SQL Server, PostgreSQL, Entity Framework, Prisma"
+    },
+    {
+      "label": "Cloud & livraison",
+      "value": "Azure, App Services, Azure DevOps, Git, CI/CD"
+    },
+    {
+      "label": "Conception",
+      "value": "Figma, UX/UI, prototypage, architecture applicative"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Jeto / Utrav",
+      "category": "Mobile & SaaS",
+      "description": "Application voyageurs Flutter et back-office Angular / .NET : recherche et réservation de voyages, paiements, fidélité, notifications push et gestion des agences.",
+      "stack": "Flutter · Angular · .NET Core · Firebase · Azure",
+      "image": "assets/img/previews/jeto.gif",
+      "url": "https://play.google.com/store/apps/details?id=com.myofficeapps.utrav",
+      "id": "jeto",
+      "cv_summary": "Voyages, réservation et back-office SaaS."
+    },
+    {
+      "name": "My Office",
+      "category": "CRM & UX/UI",
+      "description": "CRM conçu de A à Z : contacts, opportunités commerciales, pipeline de ventes et tableaux de bord. Design Figma puis implémentation Angular / .NET Core.",
+      "stack": "Angular · .NET Core · SQL Server · Figma",
+      "image": "",
+      "url": "https://my-officeapps.com/",
+      "id": "my-office",
+      "cv_summary": "CRM, pipeline commercial et tableaux de bord."
+    },
+    {
+      "name": "Pavillon Noir",
+      "category": "Jeu indépendant",
+      "description": "Roguelite naval 3D en C#/.NET : moteur maison, logique partagée entre terminal, banc 3D et simulateur, campagne et classement par primes.",
+      "stack": "C# · .NET · 3D · Cross-platform",
+      "image": "assets/img/previews/pavillon.gif",
+      "url": "https://usernabil.github.io/pavillon-noir-site/",
+      "id": "pavillon-noir",
+      "cv_summary": "Roguelite naval 3D et moteur C#/.NET."
+    },
+    {
+      "name": "The Pirate’s Dice",
+      "category": "Jeu mobile publié",
+      "description": "Jeu de dés pirate sur mobile. Base de code partagée, publication Android automatisée et distribution sur Google Play et l’App Store.",
+      "stack": "JavaScript · Capacitor · Android · iOS · CI/CD",
+      "image": "assets/img/portfolio/pirate.gif",
+      "url": "https://play.google.com/store/apps/details?id=com.nabil.piratesdice",
+      "id": "pirates-dice",
+      "cv_summary": "Jeu de dés mobile Android / iOS."
+    },
+    {
+      "name": "Eden Ultimate Tool",
+      "category": "Outillage & R&D",
+      "description": "Console desktop pour MMORPG : supervision des serveurs, déploiement multi-environnements et édition de plus de 90 000 entités. Reverse-engineering des formats client et serveur.",
+      "stack": "Python · FastAPI · pywebview · Reverse-engineering",
+      "image": "assets/img/previews/eden.gif",
+      "url": "",
+      "id": "eden",
+      "cv_summary": "Console desktop MMORPG et reverse-engineering."
+    },
+    {
+      "name": "Pravia",
+      "category": "Marketplace",
+      "description": "Boutique et back-office de matériel tech : catalogue, panier, commandes et avis. Interface en français, anglais et arabe, avec prise en charge du RTL.",
+      "stack": "Next.js · React · TypeScript · Prisma",
+      "image": "assets/img/previews/pravia.gif",
+      "url": "https://pravia-dz.com/fr",
+      "id": "pravia",
+      "cv_summary": "Marketplace trilingue et back-office e-commerce."
+    }
+  ]
+}
