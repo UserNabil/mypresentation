@@ -19,6 +19,9 @@
      mountSpeedTest(el)                    -> bouton + resultat dans el.
    ============================================================================ */
 
+import { lineIcon } from '../ui/line_icons.js';
+import { beeLoaderHtml } from '../ui/bee.js';
+
 let H = null;
 
 export function initUpdateWindow(host) { H = host; }
@@ -38,18 +41,41 @@ const SLOW_BPS = MB;
 
 function el(id) { return document.getElementById(id); }
 
+const isModern = () => document.documentElement.dataset.ui === 'modern';
+
+const STEPS = [['download', 'Download'], ['verify', 'Verify'], ['install', 'Install'], ['done', 'Done']];
+
+function setLogo(kind) {
+  const logo = el('upd-logo'); if (!logo) return;
+  logo.dataset.kind = kind;
+  if (!isModern()) {
+    logo.textContent = kind === 'err' ? '✕' : kind === 'pause' ? '⏸' : '⟳';
+    logo.style.animation = kind === 'run' ? '' : 'none';
+    logo.style.color = kind === 'err' ? 'var(--crimson)' : '';
+    return;
+  }
+  const ic = { ok: 'check', err: 'x', pause: 'pause' }[kind];
+  logo.innerHTML = kind === 'run' ? beeLoaderHtml({ size: 96 }) : '<span class="upd-badge">' + lineIcon(ic, 30) + '</span>';
+}
+
+function setStats(bits) {
+  const st = el('upd-stats'); if (!st) return;
+  if (!isModern()) { st.textContent = bits.join(' · '); return; }
+  st.classList.toggle('one', bits.length === 1);
+  st.innerHTML = [0, 1, 2].map(i => '<span>' + (bits[i] ? esc(bits[i]) : '') + '</span>').join('');
+}
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
 function openWin(version) {
   let o = el('upd-anim');
   if (!o) { o = document.createElement('div'); o.id = 'upd-anim'; document.body.appendChild(o); }
-  o.innerHTML = '<div class="upd-card">'
-    + '<div class="upd-logo" id="upd-logo">⟳</div>'
+  const modern = isModern();
+  const steps = STEPS.map(([k, t]) => '<span class="upd-s" data-s="' + k + '">'
+    + (modern ? '<i class="upd-dot">' + lineIcon('check', 12) + '</i><b>' + t + '</b>' : t) + '</span>').join('');
+  o.innerHTML = '<div class="upd-card" data-stage="download">'
+    + '<div class="upd-logo" id="upd-logo"></div>'
     + '<div class="upd-title">Updating Eden Ultimate Tool</div>'
-    + '<div class="upd-steps">'
-    + '<span class="upd-s" data-s="download">Download</span>'
-    + '<span class="upd-s" data-s="verify">Verify</span>'
-    + '<span class="upd-s" data-s="install">Install</span>'
-    + '<span class="upd-s" data-s="done">Done</span>'
-    + '</div>'
+    + '<div class="upd-steps">' + steps + '</div>'
     + '<div class="upd-label" id="upd-label"></div>'
     + '<div class="upd-src" id="upd-src"></div>'
     + '<div class="upd-file" id="upd-file"></div>'
@@ -59,12 +85,14 @@ function openWin(version) {
     + '<div class="upd-btns" id="upd-btns"></div>'
     + '<div class="upd-speed" id="upd-speed"></div>'
     + '</div>';
+  setLogo('run');
   o.style.display = 'flex'; requestAnimationFrame(() => o.classList.add('show'));
   setStage('download', 'Downloading v' + (version || '') + '…');
 }
 
 function setStage(stage, label) {
   const order = ['download', 'verify', 'install', 'done'], idx = order.indexOf(stage);
+  const card = document.querySelector('#upd-anim .upd-card'); if (card) card.dataset.stage = stage;
   document.querySelectorAll('#upd-anim .upd-s').forEach(s => {
     const i = order.indexOf(s.dataset.s);
     s.classList.toggle('on', i <= idx); s.classList.toggle('cur', i === idx);
@@ -115,13 +143,10 @@ function render(p, version) {
   setStage('download', 'Downloading v' + (p.version || version || '') + '…');
   const total = p.total || 0, got = p.got || 0;
   setBar(total ? got / total : 0, !total);
-  const st = el('upd-stats');
-  if (st) {
-    const bits = [total ? fmtMB(got) + ' of ' + fmtMB(total) : fmtMB(got) + ' received'];
-    if (p.speed_bps > 0) bits.push(fmtSpeed(p.speed_bps));
-    if (p.eta_s != null) bits.push('about ' + fmtDur(p.eta_s) + ' left');
-    st.textContent = bits.join(' · ');
-  }
+  const bits = [total ? fmtMB(got) + ' of ' + fmtMB(total) : fmtMB(got) + ' received'];
+  if (p.speed_bps > 0) bits.push(fmtSpeed(p.speed_bps));
+  if (p.eta_s != null) bits.push('about ' + fmtDur(p.eta_s) + ' left');
+  setStats(bits);
   if (p.stalled || (p.note && /retry|Cancel/i.test(p.note))) setNote(p.note, 'warn');
   else if ((p.idle_s || 0) >= 10) setNote('No data received for ' + Math.round(p.idle_s) + ' s… (retries automatically after 30 s)', 'warn');
   else if ((p.elapsed_s || 0) > 6 && p.speed_bps > 0 && p.speed_bps < SLOW_BPS)
@@ -158,10 +183,10 @@ export async function runToolUpdate(opts) {
   if (!res.applied) { closeUpdateWindow(); H.toast(res.message || 'already up to date', 'info', 4000); return res; }
   const tgt = res.web || res.code || version;
   setBar(1); setNote(''); setButtons([]);
-  const stats = el('upd-stats'); const p = await fetchProgress();
-  if (stats && p && p.total) stats.textContent = fmtMB(p.total) + ' downloaded in ' + fmtDur((p.started ? Date.now() / 1000 - p.started : 0));
-  setStage('done', 'Updated to v' + tgt + ' ✓');
-  const logo = el('upd-logo'); if (logo) logo.style.animation = 'none';
+  const p = await fetchProgress();
+  if (p && p.total) setStats([fmtMB(p.total) + ' downloaded in ' + fmtDur((p.started ? Date.now() / 1000 - p.started : 0))]);
+  setStage('done', 'Updated to v' + tgt + (isModern() ? '' : ' ✓'));
+  setLogo('ok');
   await new Promise(r => setTimeout(r, 900));
   if (res.code_restart_required && opts.onRestart) { closeUpdateWindow(); opts.onRestart(res, tgt); return res; }
   if (opts.onDone) opts.onDone(res, tgt);
@@ -171,9 +196,8 @@ export async function runToolUpdate(opts) {
 function showError(msg, opts) {
   const cancelled = /cancel/i.test(msg);
   setStage('download', cancelled ? 'Update cancelled' : 'Update failed');
-  const L = el('upd-label'); if (L) L.style.color = cancelled ? '' : 'var(--crimson)';
-  const logo = el('upd-logo');
-  if (logo) { logo.textContent = cancelled ? '⏸' : '✕'; logo.style.animation = 'none'; logo.style.color = cancelled ? '' : 'var(--crimson)'; }
+  const L = el('upd-label'); if (L) L.style.color = cancelled ? '' : (isModern() ? 'var(--ui-bad)' : 'var(--crimson)');
+  setLogo(cancelled ? 'pause' : 'err');
   setNote(cancelled ? 'Nothing was installed. Retry continues from where the download stopped.'
     : msg + ' — Retry continues from where the download stopped.', cancelled ? '' : 'err');
   const speedBox = el('upd-speed');

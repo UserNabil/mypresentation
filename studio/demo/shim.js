@@ -202,6 +202,12 @@
 
   var GET_ROUTES = [
     [/^\/api\/auth\/me$/, function () { return ok(meBody()); }],
+    [/^\/api\/features\/server\/deploy-targets$/, function () {
+      var names = [];
+      Object.keys(FX).forEach(function (k) { var m = /^\/api\/features\/detail\/([a-z0-9_]+)\/server\?nowait=1$/.exec(k); if (m && m[1].charAt(0) !== '_' && names.indexOf(m[1]) < 0) names.push(m[1]); });
+      names.sort();
+      return ok({ targets: names.map(function (n, i) { var up = !!pushed(n).server || i % 9 !== 2; return { name: n, deployed: true, version: '', up_to_date: up, mode: 'in memory', reason: up ? 'same bytes as the repo manifest' : 'newer manifest in the repo', warn: '', blocked: false }; }) });
+    }],
     [/^\/api\/app-context$/, function () {
       var m = meBody();
       var base = fxGet('/api/app-context', new URLSearchParams());
@@ -284,6 +290,12 @@
   }
 
   var POST_ROUTES = [
+    [/^\/api\/features\/server\/deploy-all$/, function (c) {
+      var q = c.q || new URLSearchParams(); var names = String((q.get && q.get('names')) || '').split(',').filter(Boolean);
+      names.forEach(function (f) { ST.kv['feat:' + f] = Object.assign(pushed(f), { server: true }); });
+      noteJournal('features', 'deploy on DEV servers', names.join(', ') || 'all out of date', { simulated: true });
+      return ok({ ok: true, count: names.length, message: 'Deployed ' + (names.length || 'the out-of-date') + ' feature(s) on DEV and restarted once (simulated)' });
+    }],
     [/^\/api\/features\/server\/native\/preflight$/, function (c) {
       return ok({ ok: true, env: 'dev', machine: { user: 'demo-admin', host: 'DEMO-PC' }, checks: [
         { label: 'Server reachable', detail: 'node-01.demo.invalid answers in 41 ms', ok: true },
