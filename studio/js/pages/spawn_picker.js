@@ -50,7 +50,7 @@ function construire() {
 
   const modale = el('div', { class: 'modal', id: 'spawnpicker' },
     el('div', { class: 'sheet', style: { width: 'min(520px,92vw)' } },
-      el('h2', {}, '<img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Add spawn — pick a scene / dungeon'),
+      el('h2', {}, '<img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /studio/icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Add spawn — pick a scene / dungeon'),
       el('div', { class: 'body' },
         champ('Search scene (name or code)', q),
         liste,
@@ -76,7 +76,7 @@ function construire() {
 function ligneScene(s, liste) {
   const choisie = scene === s.code;
   const r = el('div', { class: 'pickrow' + (choisie ? ' sel' : ''), dataset: { code: s.code } },
-    el('span', { class: 'lootslot' }, '<img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'),
+    el('span', { class: 'lootslot' }, '<img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /studio/icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'),
     el('div', { style: { flex: '1', minWidth: '0' } },
       el('div', { style: { color: 'var(--ink)', fontWeight: '600' } }, String(s.name == null ? '' : s.name)),
       el('div', { style: { fontSize: '11px', color: 'var(--faint)' } }, String(s.code == null ? '' : s.code))),

@@ -27,7 +27,7 @@ import { fmChip } from './feature_manager_views.js';
 // fmDeployNative pour que les deux partagent exactement le meme affichage et le meme poller.
 async function fmWatchNativeLog(feature,title,opts){
   opts=opts||{};
-  H.showThemedDialog(title,'<div class="fmload"><span class="fmspin" id="fmnat-spin"></span> <span id="fmnat-msg">starting…</span> <button class="mini" id="fmnat-copy" style="margin-left:auto" title="copy the full deploy output"><img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /icons/icons/64/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Copy</button></div><pre id="fmnat-out" style="max-height:340px;overflow:auto;font-size:11px;white-space:pre-wrap;margin-top:8px;background:rgba(0,0,0,.05);padding:8px;border-radius:6px"></pre>');
+  H.showThemedDialog(title,'<div class="fmload"><span class="fmspin" id="fmnat-spin"></span> <span id="fmnat-msg">starting…</span> <button class="mini" id="fmnat-copy" style="margin-left:auto" title="copy the full deploy output"><img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /studio/icons/icons/64/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Copy</button></div><pre id="fmnat-out" style="max-height:340px;overflow:auto;font-size:11px;white-space:pre-wrap;margin-top:8px;background:rgba(0,0,0,.05);padding:8px;border-radius:6px"></pre>');
   { const cb=H.$('#fmnat-copy'); if(cb)cb.onclick=async()=>{ try{ await navigator.clipboard.writeText((H.$('#fmnat-out')||{}).textContent||''); cb.textContent='✓ Copied'; setTimeout(()=>cb.textContent='Copy',1500);}catch(e){} }; }
   let done=false;
   for(let i=0;i<(opts.max||600) && !done;i++){          // batch : jusqu'a 10 min (12 deploys a la suite)
@@ -294,11 +294,11 @@ export async function fmInstallClient(names, cb){
         await H.barRepack();        // le staging peut etre a jour alors que le PKG, lui, est perime.
       }
       H.showThemedDialog((r.errors&&r.errors.length)?'Installed with errors':(sel?'✔ Client assets installed':'✔ All client assets installed'),
-        '<div class="esub">'+H.esc(sum)+(r.staged?(fmPackedReady()?' — repacked.':' — <img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> repack to apply.'):'')+'</div>'
+        '<div class="esub">'+H.esc(sum)+(r.staged?(fmPackedReady()?' — repacked.':' — <img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /studio/icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> repack to apply.'):'')+'</div>'
         +((r.errors&&r.errors.length)?'<pre style="max-height:220px;overflow:auto;font-size:11px;white-space:pre-wrap;color:var(--crimson)">'+H.esc(r.errors.join('\n'))+'</pre>':'')
         +'<div style="max-height:240px;overflow:auto;margin-top:6px">'+(r.features||[]).map(f=>
             '<div class="fm-tgt"><code>'+H.esc(f.name)+'</code> <span style="opacity:.6">'
-            +[f.copied.length?f.copied.length+' file(s)':'',f.installed.length?f.installed.length+' record(s)':'',f.replaced.length?f.replaced.length+' fixed':'',f.error?('<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+H.esc(f.error)):''].filter(Boolean).join(' · ')
+            +[f.copied.length?f.copied.length+' file(s)':'',f.installed.length?f.installed.length+' record(s)':'',f.replaced.length?f.replaced.length+' fixed':'',f.error?('<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+H.esc(f.error)):''].filter(Boolean).join(' · ')
             +'</span></div>').join('')+'</div>');
       await openFeatures();
     }catch(e){ H.toast(H.errMessage(e),'error'); }
@@ -416,11 +416,11 @@ export async function fmDeployServerPick(preselect, sb){
 // layout livre est-il celui que le client charge, les widgets du code existent-ils, le DLL qui a
 // tourne porte-t-il la version de la source, les records data sont-ils dans le pkg. C'est ce qui
 // manquait quand voice_chat et effect_filter etaient verts avec 0 widget en jeu (audit 2026-08-01).
-const _DOC_ICON={fail:'✗',warn:'<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',ok:'✓',na:'–'};
+const _DOC_ICON={fail:'✗',warn:'<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',ok:'✓',na:'–'};
 const _DOC_COL ={fail:'#d9242f',warn:'#b8860b',ok:'#2ea043',na:'#8a8175'};
 export async function fmRenderDoctor(name){
   const box=H.$('#fm-doctor'); if(!box)return;
-  box.innerHTML='<div class="esub" style="opacity:.55;padding:4px 0"><img src="/studio/icons/icons/24/ini_doctor.png" srcset="/studio/icons/icons/24/ini_doctor.png 1x, /icons/icons/48/ini_doctor.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> running health checks…</div>';
+  box.innerHTML='<div class="esub" style="opacity:.55;padding:4px 0"><img src="/studio/icons/icons/24/ini_doctor.png" srcset="/studio/icons/icons/24/ini_doctor.png 1x, /studio/icons/icons/48/ini_doctor.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> running health checks…</div>';
   let d; try{ d=await H.fmGet('/api/features/doctor/'+encodeURIComponent(name)); }
   catch(e){ box.innerHTML='<div class="esub" style="color:var(--crimson)">doctor: '+H.esc(e.message)+'</div>'; return; }
   const shown=(d.checks||[]).filter(c=>c.level!=='ok');

@@ -33,7 +33,7 @@ export function fmEmptyMsg(status){
     return box('No features yet. Click <b>Pull latest features</b> above — the tool downloads the shared feature repo (and, if you don\'t have Git, a small portable Git the first time). No install needed.');
   if(status==='empty-clone')
     return box('The feature repo was pulled but is <b>empty</b> — the pull didn\'t complete. Click <b>Pull latest features</b> again (check your internet connection).');
-  return box('No features to show. Try <b>Pull latest features</b>, or <img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> rescan.');
+  return box('No features to show. Try <b>Pull latest features</b>, or <img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> rescan.');
 }
 export function fmLoader(part,name){
   return `<div class="fm-detail"><div class="fm-title">${H.esc(name||'')}</div>
@@ -65,7 +65,7 @@ export function fmPreviewHtml(urls){
   if(!list.length)return '<div class="fm-noprev">no preview yet — paste one or more GIF/MP4 URLs below (one per line)</div>';
   const i=Math.min(fm()._pv||0, list.length-1);
   const thumbs=list.length>1?('<div class="fm-thumbs">'+list.map((u,k)=>`<div class="fm-thumb${k===i?' on':''}" data-fmpv="${k}" title="view ${k+1}/${list.length}">${fmMediaTag(u,false)}</div>`).join('')+'</div>'):'';
-  return `<div class="fm-carousel"><div class="fm-cmain" data-fmfull="${H.esc(list[i])}" title="click to view fullscreen">${fmMediaTag(list[i],true)}<span class="fm-full"><img src="/studio/icons/icons/24/expand.png" srcset="/studio/icons/icons/24/expand.png 1x, /icons/icons/48/expand.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span></div>${thumbs}</div>`;
+  return `<div class="fm-carousel"><div class="fm-cmain" data-fmfull="${H.esc(list[i])}" title="click to view fullscreen">${fmMediaTag(list[i],true)}<span class="fm-full"><img src="/studio/icons/icons/24/expand.png" srcset="/studio/icons/icons/24/expand.png 1x, /studio/icons/icons/48/expand.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span></div>${thumbs}</div>`;
   // (layout: main left, thumbnails column right — see .fm-carousel CSS)
 }
 // ── Readiness / test checklist: tells devs which feature is 100% functional (ready to install) vs WIP ──

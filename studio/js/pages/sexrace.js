@@ -41,19 +41,19 @@ export async function openSexRace(){
   SEXRACE.sel=null;
   c.innerHTML=`<div class="sexracepage" style="max-width:1080px;margin:0 auto">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
-      <h2 style="margin:0"><img src="/studio/icons/icons/24/sex_race.png" srcset="/studio/icons/icons/24/sex_race.png 1x, /icons/icons/48/sex_race.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Sex / Race Change</h2>
+      <h2 style="margin:0"><img src="/studio/icons/icons/24/sex_race.png" srcset="/studio/icons/icons/24/sex_race.png 1x, /studio/icons/icons/48/sex_race.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Sex / Race Change</h2>
       <span class="hc-badge" style="background:#6a2b4d;color:#fff;padding:2px 8px;border-radius:9px;font-size:11px">GM+ · apply: CM · DEV</span>
     </div>
     <div class="esub" style="margin:0 0 12px">Change a character's sex and/or race. The heroic trait (and its advanced abilities, permanent enchants, familiars) is <b>preserved</b>. Equipment is mailed back to the player; appearance is reset. Use <b>Preview</b> (read-only) to see the exact impact before <b>Apply</b>.</div>
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
       <input id="sr-q" placeholder="Search character by name, id or account…" style="flex:1;padding:8px;border-radius:7px;border:1px solid rgba(122,92,30,.3);font-size:13px">
-      <button id="sr-search" class="sbtn" style="padding:8px 16px"><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /icons/icons/64/search.png 2x" class="ui-icon" width="24" height="24" alt=""> Search</button>
+      <button id="sr-search" class="sbtn" style="padding:8px 16px"><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /studio/icons/icons/64/search.png 2x" class="ui-icon" width="24" height="24" alt=""> Search</button>
     </div>
     <div id="sr-results" class="esub" style="margin:0 0 12px;max-height:200px;overflow:auto"></div>
     <div id="sr-panel"></div>
     <div style="margin-top:18px">
       <div class="esub" style="margin:0 0 6px;display:flex;align-items:center;gap:8px">Apply history
-        <button id="sr-reload-log" class="sbtn ghost" style="padding:2px 8px;font-size:11px"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /icons/icons/64/refresh.png 2x" class="ui-icon" width="24" height="24" alt=""></button></div>
+        <button id="sr-reload-log" class="sbtn ghost" style="padding:2px 8px;font-size:11px"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/64/refresh.png 2x" class="ui-icon" width="24" height="24" alt=""></button></div>
       <div id="sr-log" class="esub" style="margin:0;max-height:200px;overflow:auto"></div>
     </div>
   </div>`;
@@ -92,8 +92,8 @@ function srSelect(id){
       <label class="esub" style="margin:0">New race<br><select id="sr-race" style="padding:6px;border-radius:6px;font-size:13px">${races}</select></label>
       <label class="esub" style="margin:0" id="sr-gender-wrap">New gender<br><select id="sr-gender" style="padding:6px;border-radius:6px;font-size:13px">
         <option value="1">Male</option><option value="0">Female</option></select></label>
-      <button id="sr-preview" class="sbtn" style="padding:8px 16px"><img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /icons/icons/64/preview.png 2x" class="ui-icon" width="24" height="24" alt=""> Preview (read-only)</button>
-      ${can('char.sexrace.apply')?`<button id="sr-rollback2" class="sbtn ghost" style="padding:8px 16px;display:none"><img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Roll back last change</button>`:''}
+      <button id="sr-preview" class="sbtn" style="padding:8px 16px"><img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /studio/icons/icons/64/preview.png 2x" class="ui-icon" width="24" height="24" alt=""> Preview (read-only)</button>
+      ${can('char.sexrace.apply')?`<button id="sr-rollback2" class="sbtn ghost" style="padding:8px 16px;display:none"><img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /studio/icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Roll back last change</button>`:''}
     </div>
     <div id="sr-impact" style="margin-top:14px"></div>
   </div>`;
@@ -133,14 +133,14 @@ async function srPreview(){
   const race=srInt($('#sr-race').value),gender=srInt($('#sr-gender').value);
   const box=$('#sr-impact');box.innerHTML='computing impact (read-only)…';
   let j;try{j=await(await fetch(`/api/sexrace/preview/${SEXRACE.sel}?race=${race}&gender=${gender}`)).json();}catch(e){j=null;}
-  if(!j||j.ok===false){box.innerHTML='<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+esc((j&&j.detail)||'preview failed')+'</span>';return;}
+  if(!j||j.ok===false){box.innerHTML='<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+esc((j&&j.detail)||'preview failed')+'</span>';return;}
   const cur=j.current,tgt=j.target,pre=j.preserved,mig=j.migrated;
   const traitKept=`<b style="color:#2e7d32">${esc(pre.heroic_trait)}</b> (preserved)`;
   box.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
     <div><div class="esub" style="margin:0 0 4px;font-weight:600">Current</div>
       Race: <b>${esc(cur.race)}</b> · Gender: <b>${esc(cur.gender)}</b><br>
       Heroic trait: <b>${esc(cur.heroic_trait)}</b> · Lv${cur.level} · AA ${cur.aa_point}<br>
-      ${j.online?'<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> character is ONLINE — will be disconnected</span>':'<span class="esub" style="margin:0">offline</span>'}</div>
+      ${j.online?'<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> character is ONLINE — will be disconnected</span>':'<span class="esub" style="margin:0">offline</span>'}</div>
     <div><div class="esub" style="margin:0 0 4px;font-weight:600">After change</div>
       Race: <b>${esc(tgt.race)}</b> · Gender: <b>${esc(tgt.gender)}</b>${tgt.forced_gender?' <span class="esub" style="margin:0">(forced by race)</span>':''}<br>
       Heroic trait: ${traitKept}<br>
@@ -158,11 +158,11 @@ async function srPreview(){
     <pre style="white-space:pre-wrap;font-size:11px;background:rgba(0,0,0,.04);padding:8px;border-radius:6px">${esc(Object.values(j.queries).join('\n'))}</pre></details>
   <div style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
     ${can('char.sexrace.apply')
-      ? `<button id="sr-apply" class="sbtn" style="padding:9px 20px;background:var(--crimson,#8a2030)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Apply change</button>
-    <button id="sr-rollback" class="sbtn ghost" style="padding:9px 16px;display:none"><img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Roll back last change</button>
-    ${j.online?`<button id="sr-disconnect" class="sbtn ghost" style="padding:9px 16px"><img src="/studio/icons/icons/24/logout.png" srcset="/studio/icons/icons/24/logout.png 1x, /icons/icons/48/logout.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Disconnect / clean session</button>`:''}
+      ? `<button id="sr-apply" class="sbtn" style="padding:9px 20px;background:var(--crimson,#8a2030)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Apply change</button>
+    <button id="sr-rollback" class="sbtn ghost" style="padding:9px 16px;display:none"><img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /studio/icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Roll back last change</button>
+    ${j.online?`<button id="sr-disconnect" class="sbtn ghost" style="padding:9px 16px"><img src="/studio/icons/icons/24/logout.png" srcset="/studio/icons/icons/24/logout.png 1x, /studio/icons/icons/48/logout.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Disconnect / clean session</button>`:''}
     <span class="esub" style="margin:0">This rewrites the character${j.online?'. Disconnect it first if it shows ONLINE.':'.'}</span>`
-      : `<button class="sbtn" style="padding:9px 20px;opacity:.5;cursor:not-allowed" disabled><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Apply — CM only</button>
+      : `<button class="sbtn" style="padding:9px 20px;opacity:.5;cursor:not-allowed" disabled><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Apply — CM only</button>
     <span class="esub" style="margin:0">Preview is GM+; only a CM can Apply (server-side enforced).</span>`}
   </div>
   <div id="sr-progress" style="display:none;margin-top:12px">
@@ -222,7 +222,7 @@ async function srApply(race,gender,impact){
   $('#sr-progress').style.display='';
   let j;try{j=await(await fetch('/api/sexrace/apply/'+SEXRACE.sel,{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({race,gender,confirm:true})})).json();}catch(e){j=null;}
-  if(!j||j.ok===false){$('#sr-result').innerHTML='<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+esc((j&&j.detail)||'apply failed')+'</span>';if(btn)btn.disabled=false;return;}
+  if(!j||j.ok===false){$('#sr-result').innerHTML='<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+esc((j&&j.detail)||'apply failed')+'</span>';if(btn)btn.disabled=false;return;}
   srPollApply();
 }
 

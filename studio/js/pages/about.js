@@ -98,7 +98,7 @@ export async function openAbout() {
   const row = (k, v) => `<div class="abrow"><span class="abk">${esc(k)}</span><span class="abv">${v}</span></div>`;
   const verPill = (v, ok) => `<span class="abpill${ok ? ' ok' : ''}">v${esc(v)}</span>`;
   let updHtml;
-  if (latest) updHtml = `<span class="abpill upd">v${esc(latest)} available</span> <button class="mini gold" id="about-update"><img src="/studio/icons/icons/24/export.png" srcset="/studio/icons/icons/24/export.png 1x, /icons/icons/64/export.png 2x" class="ui-icon" width="24" height="24" alt=""> Update now (live)</button>`;
+  if (latest) updHtml = `<span class="abpill upd">v${esc(latest)} available</span> <button class="mini gold" id="about-update"><img src="/studio/icons/icons/24/export.png" srcset="/studio/icons/icons/24/export.png 1x, /studio/icons/icons/64/export.png 2x" class="ui-icon" width="24" height="24" alt=""> Update now (live)</button>`;
   else if (upToDate) updHtml = '<span class="abpill ok">up to date ✓</span>';
   else updHtml = '<span class="esub">update state unknown (manifest unreachable)</span>';
   body.innerHTML = `
@@ -113,7 +113,7 @@ export async function openAbout() {
     ${row('Back-end (engine)', verPill(beVer))}
     ${row('Update', updHtml)}
     ${row('Download', DL_URL
-      ? `<a class="ab-dl" href="${esc(DL_URL)}" download title="Download the latest full installer (.exe)"><img src="/studio/icons/icons/24/get_latest_client.png" srcset="/studio/icons/icons/24/get_latest_client.png 1x, /icons/icons/48/get_latest_client.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> latest ${esc(dlVer || cur)}</a> <button class="mini" id="about-copydl" title="Copy the download link">⧉ copy link</button>`
+      ? `<a class="ab-dl" href="${esc(DL_URL)}" download title="Download the latest full installer (.exe)"><img src="/studio/icons/icons/24/get_latest_client.png" srcset="/studio/icons/icons/24/get_latest_client.png 1x, /studio/icons/icons/48/get_latest_client.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> latest ${esc(dlVer || cur)}</a> <button class="mini" id="about-copydl" title="Copy the download link">⧉ copy link</button>`
       : `<span class="esub">— (no download link published for this studio yet)</span>`)}
     ${row('Download speed', '<div id="about-speed" class="ab-speed"></div>')}
     <div class="absec">Environment</div>

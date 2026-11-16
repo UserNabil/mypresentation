@@ -325,11 +325,11 @@ export function imgLine(src, gmLabel) {
     if (g) return { n: g, tone: '' };
   }
   const s = String(src || '');
-  const a = /^\/icons\/icons\/\d+\/([a-z0-9_]+)\.png/.exec(s);
+  const a = /^(?:\/[\w-]+)?\/icons\/icons\/\d+\/([a-z0-9_]+)\.png/.exec(s);
   if (a) return { n: OLD_TO_LINE[a[1]] || FILE_TO_LINE[a[1]] || resolve(a[1]) || FILE[a[1]] || 'circle-dot', tone: '' };
-  const f = /^\/icons\/fx\/(?:\d+\/)?([a-z0-9_]+)\.png/.exec(s);
+  const f = /^(?:\/[\w-]+)?\/icons\/fx\/(?:\d+\/)?([a-z0-9_]+)\.png/.exec(s);
   if (f) return { n: FX_TO_LINE[f[1]] || FX[f[1]] || 'circle-dot', tone: TONE[f[1]] || '' };
-  const b = /^\/icons\/([A-Za-z_]+)\.png(\?|$)/.exec(s);
+  const b = /^(?:\/[\w-]+)?\/icons\/([A-Za-z_]+)\.png(\?|$)/.exec(s);
   return { n: b ? (FILE_TO_LINE[b[1]] || FILE[b[1]] || '') : '', tone: '' };
 }
 

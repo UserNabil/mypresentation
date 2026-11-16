@@ -24,11 +24,12 @@
     (PATHIDX[p] = PATHIDX[p] || []).push(k);
   });
 
-  var ST = { user: null, edits: {}, journal: [], jobs: {}, kv: {}, pw: 'demo', notifRead: false, done: {}, seq: 9000 };
+  var ST = { user: 'demo', edits: {}, journal: [], jobs: {}, kv: {}, pw: 'demo', notifRead: false, done: {}, seq: 9000 };
   try {
     var raw = sessionStorage.getItem(SKEY);
     if (raw) ST = Object.assign(ST, JSON.parse(raw));
   } catch (e) { }
+  ST.user = 'demo';
   function save() { try { sessionStorage.setItem(SKEY, JSON.stringify(ST)); } catch (e) { } }
 
   var T0 = Date.now();
@@ -309,7 +310,7 @@
       return [401, { detail: 'Wrong username or password. This demo accepts demo / demo.' }];
     }],
     [/^\/api\/environments\/active$/, function () { return [403, { detail: 'Switching environment is disabled in the demo.' }]; }],
-    [/^\/api\/auth\/logout$/, function () { ST.user = null; save(); return ok({ ok: true }); }],
+    [/^\/api\/auth\/logout$/, function () { setTimeout(function () { location.reload(); }, 60); return ok({ ok: true }); }],
     [/^\/api\/auth\/password$/, function (c) {
       var o = String((c.body && c.body.old_password) || ''), n = String((c.body && c.body.new_password) || '');
       if (o !== ST.pw) return [401, { detail: 'The current password is not right.' }];

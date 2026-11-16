@@ -20,9 +20,9 @@ export function tileHtml(n, size = 40, ratio = 0.55, cls = '') {
 }
 
 export function featureFileLine(src) {
-  const m = /^\/icons\/features\/(parts\/)?([^/?#]+)\.png/.exec(String(src || ''));
+  const m = /^(?:\/[\w-]+)?\/icons\/features\/(parts\/)?([^/?#]+)\.png/.exec(String(src || ''));
   if (m) return m[1] ? partLine(decodeURIComponent(m[2])) : featureLine(decodeURIComponent(m[2]));
-  const a = /^\/api\/features\/icon\/([^/?#]+)/.exec(String(src || ''));
+  const a = /^(?:\/[\w-]+)?\/api\/features\/icon\/([^/?#]+)/.exec(String(src || ''));
   return a ? featureLine(decodeURIComponent(a[1])) : '';
 }
 

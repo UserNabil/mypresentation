@@ -48,7 +48,7 @@ export function openPackaging(){
   kidsOnOpen().catch(()=>{});
   $('#pkg-info').textContent='Reading archive…';
   fetch('/api/pkg/info').then(r=>r.json()).then(j=>{
-    if(j.detail){$('#pkg-info').innerHTML='<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+esc(j.detail)+'</span> — set the Packed game dir in Settings.';return;}
+    if(j.detail){$('#pkg-info').innerHTML='<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> '+esc(j.detail)+'</span> — set the Packed game dir in Settings.';return;}
     $('#pkg-info').innerHTML=`Archive: <b>${j.count.toLocaleString()}</b> files across <b>${j.pkgs}</b> pkg part(s). Unpacked client root: <code>${esc(j.out_dir||'(not set)')}</code>`;
   }).catch(()=>{$('#pkg-info').textContent='Could not read the archive (is the Packed game dir configured?).';});
 }

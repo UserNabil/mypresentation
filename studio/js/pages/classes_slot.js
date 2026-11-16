@@ -76,8 +76,8 @@ function clsSlotRender(){
   const scope=S.group?'all 5 races':'this race';
   const has=CLSSLOT.curId&&CLSSLOT.curId!=='0';
   // viewonly : SEUL l'onglet Details (lecture) — pas de Change/Edit (aucune colonne a ecrire)
-  const tabs=CLSSLOT.viewonly?[['details','<img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /icons/icons/48/preview.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Details']]
-    :[['details','<img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /icons/icons/48/preview.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Details'],['change','<img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Change'],['edit','<img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Edit '+CLSSLOT.kind]];
+  const tabs=CLSSLOT.viewonly?[['details','<img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /studio/icons/icons/48/preview.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Details']]
+    :[['details','<img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /studio/icons/icons/48/preview.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Details'],['change','<img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /studio/icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Change'],['edit','<img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Edit '+CLSSLOT.kind]];
   const tabbar=tabs.map(([k,l])=>`<button class="clsslottab${k===CLSSLOT_TAB?' on':''}" data-sst="${k}"${(k!=='change'&&!has)?' disabled':''}>${l}</button>`).join('');
   let body='';
   if(CLSSLOT_TAB==='change'){
@@ -145,7 +145,7 @@ function clsSlotEditHtml(){
   const quick=CLSSLOT_QUICK[CLSSLOT.kind]||[];
   const gv=i=>{const v=(f&&f[i]!=null)?f[i]:'';return String(v);};
   const iconCol=CLSSLOT_ICONCOL[CLSSLOT.kind]; const iconCode=iconCol!=null?gv(iconCol):'';
-  const iconImgTag=clsIconTag(CLSSLOT.kind==='item'?'item':(CLSSLOT.kind==='enchant'?'spell':'spell'),iconCode,'clsslotic')||'<span class="clsslotic ph"><img src="/studio/icons/icons/24/generation_3d.png" srcset="/studio/icons/icons/24/generation_3d.png 1x, /icons/icons/48/generation_3d.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>';
+  const iconImgTag=clsIconTag(CLSSLOT.kind==='item'?'item':(CLSSLOT.kind==='enchant'?'spell':'spell'),iconCode,'clsslotic')||'<span class="clsslotic ph"><img src="/studio/icons/icons/24/generation_3d.png" srcset="/studio/icons/icons/24/generation_3d.png 1x, /studio/icons/icons/48/generation_3d.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>';
   // NOM ANGLAIS editable (T_*), PAS le Big5 (le champ Name Big5 reste dans le repli 'raw' si besoin)
   const nameRow=`<div class="fld"><label>Name (English) <i class="esub">T_${CLSSLOT.kind}</i></label>
     <input id="clsslot-name" value="${esc(e.name_en||'')}"></div>`;
@@ -159,7 +159,7 @@ function clsSlotEditHtml(){
   const iconRow=iconCol!=null?`<div class="fld"><label>Icon <i class="esub">#${iconCol} (${esc(iconCode||'—')})</i></label>
     <div class="clsslotico-row">${iconImgTag}
       <input class="clsslotf" data-fi="${iconCol}" id="clsslot-iconcode" value="${esc(iconCode)}" style="flex:1">
-      <button class="mini" id="clsslot-iconpick" type="button" title="pick or upload a new icon in the client"><img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /icons/icons/64/preview.png 2x" class="ui-icon" width="24" height="24" alt=""> Replace…</button>
+      <button class="mini" id="clsslot-iconpick" type="button" title="pick or upload a new icon in the client"><img src="/studio/icons/icons/24/preview.png" srcset="/studio/icons/icons/24/preview.png 1x, /studio/icons/icons/64/preview.png 2x" class="ui-icon" width="24" height="24" alt=""> Replace…</button>
     </div></div>`:'';
   // SECTION EFFECT : l'enchant lie (params editables — ex bonus 5 -> 10)
   const effHtml=`<div id="clsslot-eff">${CLSSLOT_EFF===null?'<div class="esub" style="padding:6px 0">loading effect…</div>':clsSlotEffectHtml()}</div>`;
@@ -178,9 +178,9 @@ function clsSlotEffectHtml(){
     const params=(s.params||[]).filter(p=>p.value!==''||p.label).map(p=>
       `<div class="clseffp"><span class="clseffl">${esc(p.label||('param'+p.i))}</span>
         <input class="clseffv" data-effcol="${p.i}" value="${esc(p.value||'')}" inputmode="numeric"></div>`).join('');
-    return `<div class="clseffslot"><div class="clseffop"><img src="/studio/icons/icons/24/settings.png" srcset="/studio/icons/icons/24/settings.png 1x, /icons/icons/48/settings.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> ${esc(s.name||('opcode '+s.opcode))} <i class="esub">op ${s.opcode}</i></div>${params}</div>`;
+    return `<div class="clseffslot"><div class="clseffop"><img src="/studio/icons/icons/24/settings.png" srcset="/studio/icons/icons/24/settings.png 1x, /studio/icons/icons/48/settings.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> ${esc(s.name||('opcode '+s.opcode))} <i class="esub">op ${s.opcode}</i></div>${params}</div>`;
   }).join('');
-  return `<div class="clseffbox"><div class="clseffh"><img src="/studio/icons/icons/24/objectives.png" srcset="/studio/icons/icons/24/objectives.png 1x, /icons/icons/48/objectives.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Effect <span class="esub">enchant #${enchId} — edit a value (e.g. 5 → 10)</span></div>${slots}</div>`;
+  return `<div class="clseffbox"><div class="clseffh"><img src="/studio/icons/icons/24/objectives.png" srcset="/studio/icons/icons/24/objectives.png 1x, /studio/icons/icons/48/objectives.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Effect <span class="esub">enchant #${enchId} — edit a value (e.g. 5 → 10)</span></div>${slots}</div>`;
 }
 
 function clsSlotWireEdit(){

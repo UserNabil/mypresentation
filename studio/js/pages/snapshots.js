@@ -36,10 +36,10 @@ let H = null;
 // = etat sain declare par l'admin, les deux « pre-* » sont poses AUTOMATIQUEMENT
 // par le back avant un deploy / avant un rollback : c'est le filet de securite.
 const SNAPKIND = {
-  manual: ['<img src="/studio/icons/icons/24/snapshots.png" srcset="/studio/icons/icons/24/snapshots.png 1x, /icons/icons/48/snapshots.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#8a7a4a'],
-  working: ['<img src="/studio/icons/icons/24/success.png" srcset="/studio/icons/icons/24/success.png 1x, /icons/icons/48/success.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#4a8a3a'],
-  'pre-deploy': ['<img src="/studio/icons/icons/24/launch_game.png" srcset="/studio/icons/icons/24/launch_game.png 1x, /icons/icons/48/launch_game.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#cf9b2a'],
-  'pre-rollback': ['<img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#9a8a6a'],
+  manual: ['<img src="/studio/icons/icons/24/snapshots.png" srcset="/studio/icons/icons/24/snapshots.png 1x, /studio/icons/icons/48/snapshots.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#8a7a4a'],
+  working: ['<img src="/studio/icons/icons/24/success.png" srcset="/studio/icons/icons/24/success.png 1x, /studio/icons/icons/48/success.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#4a8a3a'],
+  'pre-deploy': ['<img src="/studio/icons/icons/24/launch_game.png" srcset="/studio/icons/icons/24/launch_game.png 1x, /studio/icons/icons/48/launch_game.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#cf9b2a'],
+  'pre-rollback': ['<img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /studio/icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', '#9a8a6a'],
 };
 
 export function initSnapshots(host) {
@@ -72,7 +72,7 @@ async function renderSnapshots() {
   const sv = j.server || {};
   $('#snap-srv').innerHTML = sv.available
     ? `${iconMarkup('restart_server', 24)} Server data: <b>${esc(sv.source)}</b> <span style="color:var(--faint)">${esc(sv.path || '')}</span>`
-    : `<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> No server Data/db configured — connect a server in Settings to use snapshots.</span>`;
+    : `<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> No server Data/db configured — connect a server in Settings to use snapshots.</span>`;
   $('#snap-save').disabled = $('#snap-savework').disabled = !sv.available;
   // cf. en-tete : le boot-test stage un ZoneServer jetable SUR le serveur distant.
   const remote = sv.source === 'remote';
@@ -87,9 +87,9 @@ async function renderSnapshots() {
         <div class="chtitle"><span class="chtag" style="color:${col};border-color:${col}">${esc(s.kind)}</span>
           <b style="color:var(--ink)">${esc(s.name)}</b></div>
         <div class="chmeta">${esc(s.ts)} · ${esc(s.author || '?')} · env ${esc(s.env || '?')} · ${(s.size / 1048576).toFixed(1)} MB${s.boot_test && s.boot_test !== 'none' ? ' · boot-test ' + esc(s.boot_test) : ''}${s.note ? ' · ' + esc(s.note) : ''}</div></div>
-      ${remote ? `<button class="addbtn" data-snapbt="${esc(s.id)}" title="Boot-test this snapshot in a throwaway ZoneServer"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></button>` : ''}
-      <button class="addbtn" data-snaprestore="${esc(s.id)}" title="Restore the server Data/db to this state (auto-backs up current first)"><img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restore</button>
-      <span class="chundo" data-snapdel="${esc(s.id)}" title="delete this snapshot" style="color:var(--crimson)"><img src="/studio/icons/icons/24/delete.png" srcset="/studio/icons/icons/24/delete.png 1x, /icons/icons/48/delete.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>
+      ${remote ? `<button class="addbtn" data-snapbt="${esc(s.id)}" title="Boot-test this snapshot in a throwaway ZoneServer"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /studio/icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></button>` : ''}
+      <button class="addbtn" data-snaprestore="${esc(s.id)}" title="Restore the server Data/db to this state (auto-backs up current first)"><img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /studio/icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restore</button>
+      <span class="chundo" data-snapdel="${esc(s.id)}" title="delete this snapshot" style="color:var(--crimson)"><img src="/studio/icons/icons/24/delete.png" srcset="/studio/icons/icons/24/delete.png 1x, /studio/icons/icons/48/delete.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>
     </div>`;
   }).join('') : '<div class="esub" style="padding:18px">No snapshot yet. Click <b>Save working state</b> once the server is in a good state.</div>';
   // recablage a CHAQUE rendu : innerHTML ci-dessus a detruit les anciens noeuds.
@@ -154,7 +154,7 @@ function bootTestResultHTML(j) {
   const { esc } = H;
   const R = j.result;
   const col = R === 'PASS' ? '#4a8a3a' : (R === 'FAIL' ? 'var(--crimson)' : '#cf9b2a');
-  const ic = R === 'PASS' ? '<img src="/studio/icons/icons/24/success.png" srcset="/studio/icons/icons/24/success.png 1x, /icons/icons/48/success.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">' : (R === 'FAIL' ? '<img src="/studio/icons/icons/24/error.png" srcset="/studio/icons/icons/24/error.png 1x, /icons/icons/48/error.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">' : '<img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">');
+  const ic = R === 'PASS' ? '<img src="/studio/icons/icons/24/success.png" srcset="/studio/icons/icons/24/success.png 1x, /studio/icons/icons/48/success.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">' : (R === 'FAIL' ? '<img src="/studio/icons/icons/24/error.png" srcset="/studio/icons/icons/24/error.png 1x, /studio/icons/icons/48/error.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">' : '<img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /studio/icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">');
   const head = R === 'PASS' ? 'PASS — the ZoneServer loads this data cleanly. Safe to restart/deploy.'
     : R === 'FAIL' ? 'FAIL — this data triggers "Database Error!!" → the ZoneServer would refuse to start. DO NOT restart/deploy.'
       : 'TIMEOUT — no verdict (staging ZoneServer never reached the data-load check).';

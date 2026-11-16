@@ -204,7 +204,7 @@ function renderFeaturesShell(){
           <button class="mini fm2-iconbtn" id="fm-knowledge" title="Knowledge: reference guides shipped with the tool, searchable, copy or download as markdown"><img class="fx-i" src="/studio/icons/fx/file_details.png" width="20" height="20" alt="" aria-hidden="true"></button>
           <button class="mini fm2-iconbtn" id="fm-more" title="tools: sync, client folders, log source, legend" aria-haspopup="true">⋯</button>
           ${fmReactKnown()?'<button class="mini fm2-iconbtn" id="fm-react" title="Preview: the new Features page">New page</button>':''}
-          <button class="mini fm2-iconbtn" id="fm-refresh" title="rescan"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /icons/icons/64/refresh.png 2x" width="22" height="22" alt=""></button>
+          <button class="mini fm2-iconbtn" id="fm-refresh" title="rescan"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/64/refresh.png 2x" width="22" height="22" alt=""></button>
         </span>
       </div>
       <div class="fm2-rule" aria-hidden="true"><span>✧</span></div>
@@ -232,7 +232,7 @@ function renderFeaturesShell(){
         <div class="fm-legend">${fmBadge('C','ok')} client ${fmBadge('S','ok')} server · <span style="color:#2ea043">green</span> ok · <span style="color:#b8860b">orange</span> missing · <span style="color:#c2410c">rust</span> repack · <span style="color:#d1242f">red</span> off · <span style="color:#caa24a">gold</span> update · <span style="color:#9a8f78">dashed grey</span> not checked yet</div>
         <div class="fm-legend"><span class="fm-rbadge done">✓</span> tests confirmed · <span class="fm-rbadge left">N</span> tests left · <span class="fm-rbadge none">–</span> no tests</div>
       </div>
-      <div class="fm-search"><div class="mapcombo" id="fm-searchcombo"><span class="pin"><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><input id="fm-search" placeholder="Filter features…" autocomplete="off" spellcheck="false"><span class="clr" id="fm-search-x">✕</span></div><button class="mini fm2-iconbtn fm2-fbtn" id="fm-fbtn" title="show / hide the filters window">⛃</button></div>
+      <div class="fm-search"><div class="mapcombo" id="fm-searchcombo"><span class="pin"><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /studio/icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><input id="fm-search" placeholder="Filter features…" autocomplete="off" spellcheck="false"><span class="clr" id="fm-search-x">✕</span></div><button class="mini fm2-iconbtn fm2-fbtn" id="fm-fbtn" title="show / hide the filters window">⛃</button></div>
       <div class="fm2-fbox" id="fm-fbox" hidden>
       <div class="fm2-fboxh" id="fm-fboxh"><span>Filters</span><button class="fm2-fx" id="fm-fbox-x" title="close">✕</button></div>
       <div class="fm-fchips fm2-chips" id="fm-fchips">
@@ -433,17 +433,17 @@ async function fmRenderGit(){
   if(g.checking&&nb==null)  upd='<span style="font-size:10.5px;color:var(--faint)">checking for updates…</span>';
   else if(g.error)          upd=`<span style="font-size:10.5px;color:var(--faint)" title="${H.esc(g.error)}">update check unavailable</span>`;
   else if(nb==null)         upd='';
-  else if(nb>0)             upd=`<span style="font-size:11px;font-weight:800;color:#b8860b" title="${H.esc(g.remote_commit||'')}"><img src="/studio/icons/icons/24/get_latest_client.png" srcset="/studio/icons/icons/24/get_latest_client.png 1x, /icons/icons/48/get_latest_client.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> new commits to pull</span>`;
+  else if(nb>0)             upd=`<span style="font-size:11px;font-weight:800;color:#b8860b" title="${H.esc(g.remote_commit||'')}"><img src="/studio/icons/icons/24/get_latest_client.png" srcset="/studio/icons/icons/24/get_latest_client.png 1x, /studio/icons/icons/48/get_latest_client.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> new commits to pull</span>`;
   else                      upd='<span style="font-size:10.5px;color:#3f8b3f;font-weight:700">✓ up to date</span>';
   // le controle distant tourne en fond : on repolle brievement au lieu de laisser « checking… »
   // affiche jusqu'au prochain rechargement de page (c'est ce qui donnait l'impression d'un git lent).
   if(g.checking&&nb==null){ clearTimeout(_fmGitT); _fmGitT=setTimeout(fmRenderGit,1500); }
   if(g.auto_pulling||g.pulling) fmPollEnrich();          // pull de fond lance : la liste suivra seule
   box.innerHTML=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-    <b style="color:var(--gold2);font-size:13px"><img src="/studio/icons/icons/24/get_latest_client.png" srcset="/studio/icons/icons/24/get_latest_client.png 1x, /icons/icons/48/get_latest_client.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> feature_ee</b>
+    <b style="color:var(--gold2);font-size:13px"><img src="/studio/icons/icons/24/get_latest_client.png" srcset="/studio/icons/icons/24/get_latest_client.png 1x, /studio/icons/icons/48/get_latest_client.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> feature_ee</b>
     <button class="mini${nb>0?' gold':''}" id="fm-git-pull"${nb===0?' title="already up to date — click to re-check"':''}>Pull latest features</button>
     ${upd}
-    ${g.has_key?'':'<span style="color:var(--crimson);font-size:11px"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> key missing</span>'}
+    ${g.has_key?'':'<span style="color:var(--crimson);font-size:11px"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> key missing</span>'}
     <button class="mini" id="fm-git-adv" title="advanced: replace the embedded deploy key" style="opacity:.6;padding:3px 7px">${H.iconMarkup('settings',24)}</button>${commit}</div>`;
   const sg=H.$('#fm-status-git');
   if(sg){ const short=g.commit?g.commit.split(/\s+/)[0].slice(0,7):'';

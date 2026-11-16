@@ -66,11 +66,11 @@ export function renderClasses(){
   const races=(t.races||[]).map(r=>`<button class="clsrace${r.id===g.race()?' on':''}" data-clsrace="${r.id}" title="${esc(r.name)}"><img class="clsraceic" src="/studio/race/${r.icon??r.id}.png" alt="" onerror="this.style.display='none'"><span>${esc(r.name)}</span></button>`).join('');
   $('#content').innerHTML=`<div class="clspage">
     <div class="clstoolbar">
-      <div class="clstitle">${navLen()?'<span class="backbtn" id="cls-navback">← Back</span> ':''}<img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Classes</div>
+      <div class="clstitle">${navLen()?'<span class="backbtn" id="cls-navback">← Back</span> ':''}<img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Classes</div>
       <div class="clsraces" title="Race — the same class exists per race; pick a race then a class to load its variant.">${races}</div>
       <span class="grow"></span>
-      <div class="clsfind"><span><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><input id="cls-q" placeholder="Filter class…" value="${esc(S.q)}"></div>
-      ${canEditData()?`<button class="clseditbtn" id="cls-new" title="Create a brand-new base class (dev only). Adds 5 race records to C_Class + S_Class; the class becomes playable after the ZoneServer is binary-patched + restarted."><img src="/studio/icons/icons/24/add.png" srcset="/studio/icons/icons/24/add.png 1x, /icons/icons/48/add.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> New class</button>`:''}
+      <div class="clsfind"><span><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /studio/icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><input id="cls-q" placeholder="Filter class…" value="${esc(S.q)}"></div>
+      ${canEditData()?`<button class="clseditbtn" id="cls-new" title="Create a brand-new base class (dev only). Adds 5 race records to C_Class + S_Class; the class becomes playable after the ZoneServer is binary-patched + restarted."><img src="/studio/icons/icons/24/add.png" srcset="/studio/icons/icons/24/add.png 1x, /studio/icons/icons/48/add.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> New class</button>`:''}
       <span class="clsmeta">${t.count} families</span>
     </div>
     <div class="clsbody">
@@ -105,11 +105,11 @@ export async function loadClassDetail(id){
 function renderClassDetail(){
   const {$,esc}=host();
   const d=S.detail; if(!d)return; const box=$('#cls-right'); if(!box)return;
-  const tabs=[['news','<img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /icons/icons/48/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Overview'],['knowledge','<img src="/studio/icons/icons/24/spellbook.png" srcset="/studio/icons/icons/24/spellbook.png 1x, /icons/icons/48/spellbook.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Licenses & Knowledge'],['skills','<img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Skills (active / passive)']];
+  const tabs=[['news','<img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /studio/icons/icons/48/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Overview'],['knowledge','<img src="/studio/icons/icons/24/spellbook.png" srcset="/studio/icons/icons/24/spellbook.png 1x, /studio/icons/icons/48/spellbook.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Licenses & Knowledge'],['skills','<img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Skills (active / passive)']];
   const tiers=(d.tiers||[]);
   const tierbar=`<div class="clstiers">
     <div class="clstierrow">${tiers.map(t=>`<button class="clstier${t.current?' on':''}" data-clstier="${t.id}" title="${esc(t.name)} #${t.id}">
-        ${host().iconImg('uiicon',t.icon,'clstieric')||'<span class="clstieric ph"><img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>'}
+        ${host().iconImg('uiicon',t.icon,'clstieric')||'<span class="clstieric ph"><img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>'}
         <span class="clstierlv">${t.is_base?'Lv.1':'Lv.—'}</span></button>`).join('')}</div>
     <div class="clstierinfo">
       <div class="clstiername">${esc(d.name_en)}</div>
@@ -117,12 +117,12 @@ function renderClassDetail(){
     </div>
     <span class="grow"></span>
     ${S.edit?`<div class="clsscope" title="A class exists as 5 race variants sharing one runtime id. Group = apply to all 5 races (recommended, keeps them consistent). This race = only the currently selected variant.">
-      <button class="clsscopebtn${S.group?' on':''}" id="cls-scope-all"><img src="/studio/icons/icons/24/links.png" srcset="/studio/icons/icons/24/links.png 1x, /icons/icons/48/links.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> All 5 races</button>
+      <button class="clsscopebtn${S.group?' on':''}" id="cls-scope-all"><img src="/studio/icons/icons/24/links.png" srcset="/studio/icons/icons/24/links.png 1x, /studio/icons/icons/48/links.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> All 5 races</button>
       <button class="clsscopebtn${S.group?'':' on'}" id="cls-scope-one">◇ This race only</button>
     </div>`:''}
-    ${S.edit?`<button class="clseditbtn" id="cls-info" title="Edit this class' identity: name, family, icon, description, unlock text, required levels — in one modal, client + server."><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Class info</button>`:''}
+    ${S.edit?`<button class="clseditbtn" id="cls-info" title="Edit this class' identity: name, family, icon, description, unlock text, required levels — in one modal, client + server."><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Class info</button>`:''}
     ${d.race===5?'<span class="clsmeta" title="Turtle class rows 501-561 are generated by turtle_race from the Anura rows (features/turtle_race/tools/gen_class_rows.py): edit the Anura class, then regenerate the Turtle rows and install turtle_race again.">Turtle rows: generated by turtle_race</span>':''}
-    ${canEditData()?`<button class="clseditbtn${S.edit?' on':''}" id="cls-edit"${d.race===5?' disabled':''} title="Edit this class TOTAL client + server (C_Class.ini + S_Class.ini, byte-exact). Skills/certs/knowledge are edited by clicking them.">${S.edit?'✓ Done':'<img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Edit'}</button>`:''}
+    ${canEditData()?`<button class="clseditbtn${S.edit?' on':''}" id="cls-edit"${d.race===5?' disabled':''} title="Edit this class TOTAL client + server (C_Class.ini + S_Class.ini, byte-exact). Skills/certs/knowledge are edited by clicking them.">${S.edit?'✓ Done':'<img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Edit'}</button>`:''}
   </div>`;
   box.innerHTML=`<div class="clsdetail">
     ${tierbar}

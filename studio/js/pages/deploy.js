@@ -62,7 +62,7 @@ async function cdLoadConfig(){
   $('#cd-s-ak').value=''; $('#cd-s-ak').placeholder=j.has_access_key?'●●●●●●  set — blank to keep':'(not set)';
   $('#cd-s-sc').value=''; $('#cd-s-sc').placeholder=j.has_secret?'●●●●●●  set — blank to keep':'(not set)';
   $('#cd-s-perenv').checked=!!j.creds_per_env;
-  $('#cd-creds').innerHTML=j.creds_ok?'<img src="/studio/icons/icons/24/password.png" srcset="/studio/icons/icons/24/password.png 1x, /icons/icons/48/password.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> R2 creds set'+(j.creds_per_env?' (per-env)':''):'<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> R2 creds NOT set — fill the credentials card below</span>';
+  $('#cd-creds').innerHTML=j.creds_ok?'<img src="/studio/icons/icons/24/password.png" srcset="/studio/icons/icons/24/password.png 1x, /studio/icons/icons/48/password.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> R2 creds set'+(j.creds_per_env?' (per-env)':''):'<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> R2 creds NOT set — fill the credentials card below</span>';
   $('#cd-config-res').innerHTML=j.published_version?('Published: <b>v'+esc(j.published_version)+'</b> ('+j.published_files+' files)'):(j.staging_ok?'Nothing published yet on this env.':'<span style="color:var(--crimson)">staging folder not set/found</span>');
   const pb=$('#cd-publish-btn'); pb.disabled=true; pb.textContent='Publish (scan first)';
 }
@@ -96,7 +96,7 @@ async function cdScan(){
   res.innerHTML=`<div style="font-size:12px;line-height:1.6">
     <b>${esc(j.mode)}</b> mode · version <b>v${esc(j.version)}</b>${j.published_version?(' (was v'+esc(j.published_version)+')'):''} · channel ${esc(j.channel)}<br>
     <b>${d.total_count}</b> files (${mb(d.total_bytes)} MB) · <b style="color:${d.upload_count?'#c98a2f':'#7bc96f'}">${d.upload_count}</b> to upload (${mb(d.upload_bytes)} MB) · ${d.unchanged} unchanged${d.removed.length?(' · '+d.removed.length+' removed (kept on CDN)'):''}<br>
-    ${!j.creds_ok?'<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> R2 creds not set — preview only, cannot publish</span>':''}</div>
+    ${!j.creds_ok?'<span style="color:var(--crimson)"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> R2 creds not set — preview only, cannot publish</span>':''}</div>
   <div style="max-height:220px;overflow:auto;margin-top:8px;font-family:monospace;font-size:11px;border-top:1px solid var(--edge);padding-top:6px">
     ${changed.length?changed.map(([s,p])=>`<div><span style="color:${s==='+'?'#7bc96f':'#e2b93d'}">${s}</span> ${esc(p)}</div>`).join(''):'<span style="color:var(--faint)">no changes vs published — nothing to upload</span>'}
     ${(d.removed||[]).map(p=>`<div><span style="color:#e06c75">−</span> ${esc(p)}</div>`).join('')}</div>`;
@@ -106,7 +106,7 @@ async function cdScan(){
 async function cdPublish(){
   const {$,esc,uiConfirm}=H;
   if(!CD_LAST_SCAN)return;
-  if(CD_LAST_SCAN.env==='prod'&&!await uiConfirm('Publish client v'+CD_LAST_SCAN.version+' to PROD — every player will patch to it. Continue?','<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> PROD client deploy','Publish to PROD'))return;
+  if(CD_LAST_SCAN.env==='prod'&&!await uiConfirm('Publish client v'+CD_LAST_SCAN.version+' to PROD — every player will patch to it. Continue?','<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> PROD client deploy','Publish to PROD'))return;
   const res=$('#cd-publish-res'); res.innerHTML=''; cdProg('publish',-1,'starting…'); $('#cd-publish-btn').disabled=true;
   const r=await fetch('/api/deploy/client/publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({version:CD_LAST_SCAN.version})});
   const j=await r.json().catch(()=>({}));
@@ -124,7 +124,7 @@ async function cdPollDeploy(key){
   cdProg(key, e.part<0?-1:e.part*100,
          e.part<0 ? (j.step||'working…') : (e.pct+(j.step?' · '+j.step:'')));
   const res=$('#cd-'+key+'-res');
-  if(res)res.innerHTML=(j.steps||[]).map(s=>`<div style="font-size:11.5px">${s.status==='ok'?'✔':s.status==='error'?'✗':s.status==='warn'?'<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">':s.status==='skip'?'·':'…'} <b>${esc(s.name)}</b> ${esc(s.detail||'')}</div>`).join('');
+  if(res)res.innerHTML=(j.steps||[]).map(s=>`<div style="font-size:11.5px">${s.status==='ok'?'✔':s.status==='error'?'✗':s.status==='warn'?'<img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">':s.status==='skip'?'·':'…'} <b>${esc(s.name)}</b> ${esc(s.detail||'')}</div>`).join('');
   if(j.running){ setTimeout(()=>cdPollDeploy(key),700); return; }
   delete _cdEta[key];
   cdProg(key,null);
@@ -138,14 +138,14 @@ async function cdLoadHistory(){
   const h=j.history||[];
   res.innerHTML=h.length?h.map(v=>`<div style="display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed var(--edge);font-size:12px">
     <b>v${esc(v.version||'?')}</b> <span style="color:var(--faint)">${esc(v.channel||'')} · ${v.files} files · ${esc(v.stamp||'')}</span>
-    <button class="sbtn ghost xs" style="margin-left:auto" data-cdroll="${esc(v.file)}" data-cdver="${esc(v.version||'')}"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /icons/icons/64/refresh.png 2x" class="ui-icon" width="24" height="24" alt=""> Roll back to this</button></div>`).join('')
+    <button class="sbtn ghost xs" style="margin-left:auto" data-cdroll="${esc(v.file)}" data-cdver="${esc(v.version||'')}"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/64/refresh.png 2x" class="ui-icon" width="24" height="24" alt=""> Roll back to this</button></div>`).join('')
     :'<span style="color:var(--faint)">no published versions yet</span>';
   res.querySelectorAll('[data-cdroll]').forEach(b=>b.onclick=()=>cdRollback(b.getAttribute('data-cdroll'),b.getAttribute('data-cdver')));
 }
 async function cdRollback(file,ver){
   const {$,esc,uiConfirm}=H;
   const local=$('#cd-rollback-local').checked;
-  if(!await uiConfirm('Roll the CDN back to v'+ver+'? Every client re-verifies and reverts to it.'+(local?' The local pkg backup will also be restored.':''),'<img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Rollback client',' Roll back'))return;
+  if(!await uiConfirm('Roll the CDN back to v'+ver+'? Every client re-verifies and reverts to it.'+(local?' The local pkg backup will also be restored.':''),'<img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Rollback client',' Roll back'))return;
   const res=$('#cd-publish-res'); res.innerHTML=''; cdProg('publish',-1,'rolling back…');
   const r=await fetch('/api/deploy/client/rollback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({file:file,local_pkg:local})});
   const j=await r.json().catch(()=>({}));

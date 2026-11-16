@@ -95,7 +95,7 @@ async function previewRequest(rid){
       <span style="flex:1"></span>
       ${gmReview&&live?`<button class="sbtn ghost" id="rq-review" style="padding:4px 9px">Mark reviewed</button>`:''}
       ${gmReview&&live?`<button class="sbtn ghost" id="rq-reject" style="padding:4px 9px;color:#8a241b">Reject</button>`:''}
-      ${gmDeploy&&live?`<button class="sbtn" id="rq-deploy" style="padding:4px 11px"><img src="/studio/icons/icons/24/deploy_to_server.png" srcset="/studio/icons/icons/24/deploy_to_server.png 1x, /icons/icons/48/deploy_to_server.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Deploy</button>`:''}
+      ${gmDeploy&&live?`<button class="sbtn" id="rq-deploy" style="padding:4px 11px"><img src="/studio/icons/icons/24/deploy_to_server.png" srcset="/studio/icons/icons/24/deploy_to_server.png 1x, /studio/icons/icons/48/deploy_to_server.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Deploy</button>`:''}
     </div>
     <div style="font-size:12px;color:var(--faint);margin-bottom:8px">by ${esc(q.author)} · env ${esc(q.env)} · ${esc(q.ts)} · ${cells.length} cells · ${p.count||0} entries</div>
     <div style="border:1px solid var(--edge);border-radius:8px;padding:8px;max-height:30vh;overflow:auto;background:#fbf6e8">

@@ -42,7 +42,7 @@ export function renderClassLeft(){
     for(const f of fams){
       const sub=(f.name_fr&&f.name_fr!==f.name_en)?f.name_fr:'';
       html+=`<div class="clsrow${f.family===g.fam()?' on':''}" data-clsfam="${f.family}" style="--rc:${grp.color}">
-        ${iconImg('uiicon',f.icon,'clsrowic')||'<span class="clsrowic ph"><img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>'}
+        ${iconImg('uiicon',f.icon,'clsrowic')||'<span class="clsrowic ph"><img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>'}
         <div class="clsrowtx"><div class="clsrowname">${esc(f.name_en)}</div>
           <div class="clsrowsub">${esc(sub)}</div></div></div>`;
     }
@@ -64,7 +64,7 @@ function clsStatBars(d){
     return `<div class="igstat"><span class="igstatk" style="color:${col}">${s.key}</span>
       <div class="igstatbar"><div class="igstatfill" style="width:${w}%;background:${col}"></div></div>
       <span class="igstatv" style="color:${col}">${s.pct}%</span></div>`;}).join('');
-  return `<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/readiness.png" srcset="/studio/icons/icons/24/readiness.png 1x, /icons/icons/48/readiness.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Class Stat Bonus</div><div class="clspanelb">${bars}</div></div>`;
+  return `<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/readiness.png" srcset="/studio/icons/icons/24/readiness.png 1x, /studio/icons/icons/48/readiness.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Class Stat Bonus</div><div class="clspanelb">${bars}</div></div>`;
 }
 
 function clsStatEdit(d){
@@ -72,9 +72,9 @@ function clsStatEdit(d){
     return `<div class="igstat"><span class="igstatk" style="color:${col}">${s.key}</span>
       <input class="clsstatinput" type="number" data-sidx="${s.idx}" value="${s.pct}" min="0" max="500">
       <span class="clsstatpc">%</span></div>`;}).join('');
-  return `<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/readiness.png" srcset="/studio/icons/icons/24/readiness.png 1x, /icons/icons/48/readiness.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Class Stat Bonus <span class="clsn">editing</span></div>
+  return `<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/readiness.png" srcset="/studio/icons/icons/24/readiness.png 1x, /studio/icons/icons/48/readiness.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Class Stat Bonus <span class="clsn">editing</span></div>
     <div class="clspanelb">${rows}
-      <div class="clsstatsave"><button class="hbtn gold" id="cls-savestats"><img src="/studio/icons/icons/24/save.png" srcset="/studio/icons/icons/24/save.png 1x, /icons/icons/64/save.png 2x" class="ui-icon" width="24" height="24" alt=""> Save stats</button>
+      <div class="clsstatsave"><button class="hbtn gold" id="cls-savestats"><img src="/studio/icons/icons/24/save.png" srcset="/studio/icons/icons/24/save.png 1x, /studio/icons/icons/64/save.png 2x" class="ui-icon" width="24" height="24" alt=""> Save stats</button>
         <span class="clsstathint">base = 100% · client + server (stats ARE applied server-side) · restart ZS to apply</span></div></div></div>`;
 }
 
@@ -84,8 +84,8 @@ function renderClassNews(d){
     <div class="clscols">
       ${S.edit?clsStatEdit(d):clsStatBars(d)}
       <div class="clscolside">
-        ${d.branch?`<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/creatures.png" srcset="/studio/icons/icons/24/creatures.png 1x, /icons/icons/48/creatures.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Branch</div><div class="clspanelb"><div class="clsbranchn">${esc(d.branch)}</div>${d.branch_desc?`<div class="clsbranchd">${esc(d.branch_desc)}</div>`:''}</div></div>`:''}
-        ${d.unlock?`<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/lock.png" srcset="/studio/icons/icons/24/lock.png 1x, /icons/icons/48/lock.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Unlock</div><div class="clspanelb"><div class="clsunlockt">${esc(d.unlock)}</div></div></div>`:''}
+        ${d.branch?`<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/creatures.png" srcset="/studio/icons/icons/24/creatures.png 1x, /studio/icons/icons/48/creatures.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Branch</div><div class="clspanelb"><div class="clsbranchn">${esc(d.branch)}</div>${d.branch_desc?`<div class="clsbranchd">${esc(d.branch_desc)}</div>`:''}</div></div>`:''}
+        ${d.unlock?`<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/lock.png" srcset="/studio/icons/icons/24/lock.png 1x, /studio/icons/icons/48/lock.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Unlock</div><div class="clspanelb"><div class="clsunlockt">${esc(d.unlock)}</div></div></div>`:''}
         <div class="clspanel"><div class="clspanelh">ℹ️ Info</div><div class="clspanelb">
           <div class="clsinfo">ID <b>${d.id}</b> · Race <b>${esc(d.race_name)}</b> · ${esc(d.fam_name)}</div>
           <div class="clsinfo">Role <span class="clsbadge sm" style="background:${d.role_color}">${esc(d.role_label)}</span>${d.is_base?' <span class="clschip base">★ starting</span>':''}</div>
@@ -112,26 +112,26 @@ function clsRawEditor(d){
       return `<div class="clsrawrow"><span class="clsrawlbl">${esc(f.label)} <i>#${f.i}</i></span>${inp}${f.hint?`<span class="clsrawhint">→ ${esc(f.hint)}</span>`:''}</div>`;
     }).join('');
   }
-  return `<details class="clspanel clsrawwrap"><summary class="clspanelh"><img src="/studio/icons/icons/24/dna.png" srcset="/studio/icons/icons/24/dna.png 1x, /icons/icons/48/dna.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> All fields <span class="clsn">advanced — edit any of the 66 columns</span></summary>
+  return `<details class="clspanel clsrawwrap"><summary class="clspanelh"><img src="/studio/icons/icons/24/dna.png" srcset="/studio/icons/icons/24/dna.png 1x, /studio/icons/icons/48/dna.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> All fields <span class="clsn">advanced — edit any of the 66 columns</span></summary>
     <div class="clspanelb">${body}
-      <div class="clsstatsave"><button class="hbtn gold" id="cls-saveraw"><img src="/studio/icons/icons/24/save.png" srcset="/studio/icons/icons/24/save.png 1x, /icons/icons/64/save.png 2x" class="ui-icon" width="24" height="24" alt=""> Save all fields</button>
+      <div class="clsstatsave"><button class="hbtn gold" id="cls-saveraw"><img src="/studio/icons/icons/24/save.png" srcset="/studio/icons/icons/24/save.png 1x, /studio/icons/icons/64/save.png 2x" class="ui-icon" width="24" height="24" alt=""> Save all fields</button>
         <span class="clsstathint">writes C_Class.ini (client) + S_Class.ini (server) byte-exact · a value with '|' or a newline is refused by the guard · a server edit needs a ZoneServer restart to apply</span></div></div></details>`;
 }
 
 function renderClassKnowledge(d){
   // 3 natures d'effet DISTINCTES : certificats (items->enchant), connaissances (enchant direct),
   // bonus de palier (arbre de talents). Chacune sa section, editable independamment.
-  return clsCertPanel('<img src="/studio/icons/icons/24/medal.png" srcset="/studio/icons/icons/24/medal.png 1x, /icons/icons/48/medal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Certificates (license items)',d.certificates,'item')
-       + clsCertPanel('<img src="/studio/icons/icons/24/spellbook.png" srcset="/studio/icons/icons/24/spellbook.png 1x, /icons/icons/48/spellbook.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Knowledge (enchant effects)',d.knowledge,'enchant')
+  return clsCertPanel('<img src="/studio/icons/icons/24/medal.png" srcset="/studio/icons/icons/24/medal.png 1x, /studio/icons/icons/48/medal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Certificates (license items)',d.certificates,'item')
+       + clsCertPanel('<img src="/studio/icons/icons/24/spellbook.png" srcset="/studio/icons/icons/24/spellbook.png 1x, /studio/icons/icons/48/spellbook.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Knowledge (enchant effects)',d.knowledge,'enchant')
        + clsTalentPanel(d.talent_tree);
 }
 
 function renderClassSkills(d){
   //  Active skills (C_Spell 34-44) · Passives (C_Spell 30-33) · Reg. skills (arme, si dispo)
-  const reg=(d.reg_skills&&d.reg_skills.length)?clsSkillPanel('<img src="/studio/icons/icons/24/skillbook.png" srcset="/studio/icons/icons/24/skillbook.png 1x, /icons/icons/48/skillbook.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Weapon skills',d.reg_skills,'spell',true):'';
+  const reg=(d.reg_skills&&d.reg_skills.length)?clsSkillPanel('<img src="/studio/icons/icons/24/skillbook.png" srcset="/studio/icons/icons/24/skillbook.png 1x, /studio/icons/icons/48/skillbook.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Weapon skills',d.reg_skills,'spell',true):'';
   return `<div class="clsskillcols">
-    ${clsSkillPanel('<img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Active skills',d.class_skills,'spell',true)}
-    ${clsSkillPanel('<img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Passive skills',d.passives,'spell',true)}
+    ${clsSkillPanel('<img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /studio/icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Active skills',d.class_skills,'spell',true)}
+    ${clsSkillPanel('<img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /studio/icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Passive skills',d.passives,'spell',true)}
     ${reg}
   </div>`;
 }
@@ -145,10 +145,10 @@ function clsSlotAttr(kind,s){
 
 function clsSkillCell(s,kind){
   const {esc}=host();
-  const icon=clsIconTag(kind,s.icon,'clsskic')||`<span class="clsskic ph"><img src="/studio/icons/icons/24/generation_3d.png" srcset="/studio/icons/icons/24/generation_3d.png 1x, /icons/icons/48/generation_3d.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>`;
+  const icon=clsIconTag(kind,s.icon,'clsskic')||`<span class="clsskic ph"><img src="/studio/icons/icons/24/generation_3d.png" srcset="/studio/icons/icons/24/generation_3d.png 1x, /studio/icons/icons/48/generation_3d.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>`;
   const lv=s.max_level?`<div class="clscelll">Lv.${s.max_level}</div>`:'';
   return `<button class="clscell${s.exists===false?' missing':''}${S.edit?' editing':''}" ${clsSlotAttr(kind,s)} title="${S.edit?'click to change this slot':''}">
-    ${icon}<div class="clscellx"><div class="clscelln">${esc(s.name)}</div>${lv}</div>${S.edit?'<span class="clsslotpen"><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>':''}</button>`;
+    ${icon}<div class="clscellx"><div class="clscelln">${esc(s.name)}</div>${lv}</div>${S.edit?'<span class="clsslotpen"><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>':''}</button>`;
 }
 
 function clsSkillPanel(title,arr,kind,oneCol){
@@ -158,10 +158,10 @@ function clsSkillPanel(title,arr,kind,oneCol){
 
 function clsCertCell(c,kind){
   const {esc}=host();
-  const icon=clsIconTag(kind,c.icon,'clsskic')||`<span class="clsskic ph"><img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /icons/icons/48/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>`;
+  const icon=clsIconTag(kind,c.icon,'clsskic')||`<span class="clsskic ph"><img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /studio/icons/icons/48/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>`;
   const eff=(c.effects&&c.effects.length)?`<div class="clscelleff">${c.effects.map(esc).join(' · ')}</div>`:'';
   return `<button class="clscell wide${c.exists===false?' missing':''}${S.edit?' editing':''}" ${clsSlotAttr(kind,c)} title="${S.edit?'click to change this slot':''}">
-    ${icon}<div class="clscellx"><div class="clscelln">${esc(c.name)}</div>${eff}</div>${S.edit?'<span class="clsslotpen"><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>':''}</button>`;
+    ${icon}<div class="clscellx"><div class="clscelln">${esc(c.name)}</div>${eff}</div>${S.edit?'<span class="clsslotpen"><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>':''}</button>`;
 }
 
 function clsCertPanel(title,arr,kind){
@@ -184,5 +184,5 @@ function clsTalentPanel(tree){
     }).join('');
     return `<div class="clsbranch"><div class="clsbranchh">Row ${br.branch}</div><div class="clsbranchnodes">${nodes}</div></div>`;
   }).join('');
-  return `<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/tree.png" srcset="/studio/icons/icons/24/tree.png 1x, /icons/icons/48/tree.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Talent Tree</div><div class="clspanelb">${branches}</div></div>`;
+  return `<div class="clspanel"><div class="clspanelh"><img src="/studio/icons/icons/24/tree.png" srcset="/studio/icons/icons/24/tree.png 1x, /studio/icons/icons/48/tree.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Talent Tree</div><div class="clspanelb">${branches}</div></div>`;
 }

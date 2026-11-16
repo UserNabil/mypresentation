@@ -51,7 +51,7 @@ function gmRender()     /* interne : appele par openGmCmds */ {
     h += `<div class="gm-row" data-t="${esc(c.prefix + c.template)}" style="display:flex;gap:8px;align-items:baseline;padding:2px 4px;border-radius:5px;cursor:pointer">`
       + `<code style="font-family:ui-monospace,monospace;white-space:nowrap">${esc(c.prefix + c.template)}</code>${SRC[c.src] || ''}`
       + (c.note ? `<span class="cur" style="font-size:11px">${esc(c.note)}</span>` : '')
-      + `<a href="#" class="gm-cp" data-t="${esc(c.prefix + c.template)}" style="margin-left:auto;text-decoration:none" title="copy"><img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /icons/icons/48/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></a></div>`;
+      + `<a href="#" class="gm-cp" data-t="${esc(c.prefix + c.template)}" style="margin-left:auto;text-decoration:none" title="copy"><img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /studio/icons/icons/48/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></a></div>`;
   }
   if (list.length > 400) h += `<div class="warn">… ${list.length - 400} more — refine the search.</div>`;
   if (!list.length) h = '<div class="cur">No command matches.</div>';

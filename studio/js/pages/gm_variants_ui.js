@@ -12,7 +12,7 @@ const CAT_ICON = {
 
 const snap = n => [48, 64, 128, 256].find(x => x >= n) || 256;
 
-export const ic = (name, px) => `<img class="gi" src="/studio/icons/icons/${snap(px * 2)}/${name}.png" srcset="/studio/icons/icons/${snap(px * 2)}/${name}.png 1x, /icons/icons/${snap(px * 4)}/${name}.png 2x" width="${px}" height="${px}" alt="">`;
+export const ic = (name, px) => `<img class="gi" src="/studio/icons/icons/${snap(px * 2)}/${name}.png" srcset="/studio/icons/icons/${snap(px * 2)}/${name}.png 1x, /studio/icons/icons/${snap(px * 4)}/${name}.png 2x" width="${px}" height="${px}" alt="">`;
 export const catIcon = (c, px) => ic(CAT_ICON[c] || 'gm_commands', px);
 export const short = c => c.split(/[ &]/)[0];
 export const key = c => c.src + ':' + c.name;

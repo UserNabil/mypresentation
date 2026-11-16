@@ -63,7 +63,7 @@ function renderServers(j){
   if(j&&j.refreshing&&!srv.length){
     const u=$('#srv-updated');if(u){u.textContent='· polling server…';u.style.color='var(--faint)';}
     if(!grid.querySelector('[data-srv]'))
-      grid.innerHTML=`<div class="note" style="grid-column:1/-1;color:var(--faint)"><img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> polling live server state…</div>`;
+      grid.innerHTML=`<div class="note" style="grid-column:1/-1;color:var(--faint)"><img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /studio/icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> polling live server state…</div>`;
     return;}
   if(j&&j.error&&!srv.length){
     // échec SSH transitoire (OVH lent) : NE PAS effacer le dernier bon état — juste le flagger figé
@@ -135,7 +135,7 @@ function renderServers(j){
     const serversDown=!(_tot&&_up>=_tot);
     const dataErr=serversDown&&/item_id\s*\(\d+\)\s*invalid|data size \d+ invalid|Database Error/i.test(reason);
     const warnOnly=!serversDown&&/item_id\s*\(\d+\)\s*invalid|data size \d+ invalid/i.test(reason);
-    rs.innerHTML=reason?`<div style="padding:8px 11px;border:1px solid ${dataErr?'#d9242f':'#cf9b2a'};border-radius:8px;background:${dataErr?'rgba(217,36,47,.07)':'rgba(207,155,42,.08)'};font-size:11.5px"><b>${warnOnly?'Last data warning':'Last server error'}:</b> <code style="font-size:11px">${esc(reason)}</code>${dataErr?'<div style="margin-top:5px;color:#b23a2e"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> This is a server DATA problem — the game references an item/record that\'s missing or malformed, so World/Zone can\'t boot. Restarting won\'t fix it. Click <b><img src="/studio/icons/icons/24/lifering.png" srcset="/studio/icons/icons/24/lifering.png 1x, /icons/icons/48/lifering.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restore clean data</b> above to reset the data to your baseline, then restart.</div>':(warnOnly?'<div style="margin-top:5px;opacity:.8">All servers are up — this is a load-time <b>warning</b> (a record references a missing id), not a boot failure. Nothing to restore.</div>':'')}</div>`:'';
+    rs.innerHTML=reason?`<div style="padding:8px 11px;border:1px solid ${dataErr?'#d9242f':'#cf9b2a'};border-radius:8px;background:${dataErr?'rgba(217,36,47,.07)':'rgba(207,155,42,.08)'};font-size:11.5px"><b>${warnOnly?'Last data warning':'Last server error'}:</b> <code style="font-size:11px">${esc(reason)}</code>${dataErr?'<div style="margin-top:5px;color:#b23a2e"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> This is a server DATA problem — the game references an item/record that\'s missing or malformed, so World/Zone can\'t boot. Restarting won\'t fix it. Click <b><img src="/studio/icons/icons/24/lifering.png" srcset="/studio/icons/icons/24/lifering.png 1x, /studio/icons/icons/48/lifering.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restore clean data</b> above to reset the data to your baseline, then restart.</div>':(warnOnly?'<div style="margin-top:5px;opacity:.8">All servers are up — this is a load-time <b>warning</b> (a record references a missing id), not a boot failure. Nothing to restore.</div>':'')}</div>`:'';
   }
   if(j&&j.progress){const w=$('#srv-progress-wrap');if(w)w.style.display='';const p=$('#srv-progress');if(p)p.textContent=j.progress;}
 }
@@ -148,14 +148,14 @@ async function pollServers(){
   catch(_){const u=$('#srv-updated');if(u){u.textContent='· network down — state frozen';u.style.color='var(--crimson)';}}
   finally{_srvInflight=false;}
 }
-const _PENDIC={clone:'<img src="/studio/icons/icons/24/dna.png" srcset="/studio/icons/icons/24/dna.png 1x, /icons/icons/48/dna.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',push:'<img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',create:'<img src="/studio/icons/icons/24/add.png" srcset="/studio/icons/icons/24/add.png 1x, /icons/icons/48/add.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'};
+const _PENDIC={clone:'<img src="/studio/icons/icons/24/dna.png" srcset="/studio/icons/icons/24/dna.png 1x, /studio/icons/icons/48/dna.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',push:'<img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',create:'<img src="/studio/icons/icons/24/add.png" srcset="/studio/icons/icons/24/add.png 1x, /studio/icons/icons/48/add.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'};
 function renderPending(items){
   const {$,esc}=H;
   const el=$('#srv-pending');if(!el)return;
   items=items||[];
   if(!items.length){el.innerHTML='';return;}
   el.innerHTML=`<div style="border:1px solid #bcd6a8;background:rgba(63,139,63,.06);border-radius:8px;padding:10px 12px">
-    <div style="font-size:11.5px;font-weight:700;color:#3f6e2a;margin-bottom:6px"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> ${items.length} saved change(s) this restart will apply in-game:</div>
+    <div style="font-size:11.5px;font-weight:700;color:#3f6e2a;margin-bottom:6px"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> ${items.length} saved change(s) this restart will apply in-game:</div>
     ${items.map(i=>`<div style="font-size:11px;color:var(--ink);padding:4px 0;border-top:1px solid rgba(0,0,0,.06)">
       <b>${_PENDIC[i.action]||'•'} ${esc(i.action||'')} ${esc(i.target||'')}</b>
       <div style="font-size:10.5px;color:var(--faint);margin-top:1px">${esc(i.detail||'server data file reloaded at boot')}</div></div>`).join('')}
@@ -167,9 +167,9 @@ function renderJournal(j){
   const {$,esc}=H;
   const el=$('#srv-journal');if(!el)return;
   const n=(j&&j.entries)||0;
-  if(!n){el.innerHTML='<div style="font-size:11px;color:var(--faint)"><img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Vaccine active — 0 pending edit. Your server changes are journaled and replayed byte-exact after any re-extraction.</div>';return;}
+  if(!n){el.innerHTML='<div style="font-size:11px;color:var(--faint)"><img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /studio/icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Vaccine active — 0 pending edit. Your server changes are journaled and replayed byte-exact after any re-extraction.</div>';return;}
   el.innerHTML=`<div style="border:1px solid #b9c9e0;background:rgba(58,110,165,.06);border-radius:8px;padding:9px 11px;font-size:11.5px;color:var(--ink)">
-    <img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> <b>${n}</b> journaled edit(s)${j.added_records?` (incl. <b>${j.added_records}</b> record addition(s))`:''} — replayed automatically byte-exact on every server re-extraction (your changes can no longer be swallowed).${j.last_replay?`<div style="font-size:10.5px;color:var(--faint);margin-top:3px">last replay: ${esc(j.last_replay)}</div>`:''}</div>`;
+    <img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /studio/icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> <b>${n}</b> journaled edit(s)${j.added_records?` (incl. <b>${j.added_records}</b> record addition(s))`:''} — replayed automatically byte-exact on every server re-extraction (your changes can no longer be swallowed).${j.last_replay?`<div style="font-size:10.5px;color:var(--faint);margin-top:3px">last replay: ${esc(j.last_replay)}</div>`:''}</div>`;
 }
 function stopSrvPoll(){if(SRV_POLL){clearInterval(SRV_POLL);SRV_POLL=null;}}
 function startSrvPoll(ms){stopSrvPoll();SRV_POLL=setInterval(pollServers,ms||4000);}
@@ -194,8 +194,8 @@ async function fireRestart(clean){
     const j=await r.json().catch(()=>({ok:false,message:'no response'}));
     toast(j.ok?('✔ '+(j.message||'restart launched')):(''+(j.message||'see status')),j.ok?'ok':'warn',{sticky:!j.ok});
   }catch(e){toast(errMessage(e),'error');}
-  if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restart (safe, auto-heal)';}
-  if(rb){rb.disabled=false;rb.innerHTML='<img src="/studio/icons/icons/24/lifering.png" srcset="/studio/icons/icons/24/lifering.png 1x, /icons/icons/48/lifering.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restore clean data';}
+  if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restart (safe, auto-heal)';}
+  if(rb){rb.disabled=false;rb.innerHTML='<img src="/studio/icons/icons/24/lifering.png" srcset="/studio/icons/icons/24/lifering.png 1x, /studio/icons/icons/48/lifering.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Restore clean data';}
   pollServers();pollPending();try{H.checkPendingRestart();}catch(_){}  // the restart cleared the pending list
   setTimeout(()=>{if(SRV_POLL)startSrvPoll(4000);},90000);  // keep 2.5s polling ~90s through the boot, then ease off
 }
@@ -239,7 +239,7 @@ export function initServerStatus(host){
       const j=await(await fetch('/api/server/regenerate-baseline',{method:'POST'})).json();
       toast(j.ok?('✔ '+(j.message||'baseline saved')):(''+(j.message||'refused')),j.ok?'ok':'warn',{sticky:true});
     }catch(e){toast(errMessage(e),'error');}
-    if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Save as baseline';}
+    if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /studio/icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Save as baseline';}
   });
   $('#srv-reclaim-btn')&&($('#srv-reclaim-btn').onclick=async()=>{
     if(!await uiConfirm('Delete every per-version ROLLBACK backup piled up on the server (feature/S_ install backups, timestamped binary backups, old data-folder copies, stray /tmp uploads). Your single BASELINE (Save as baseline) is KEPT as the one point of return, and the live data is untouched. This frees disk space.','Reclaim disk — purge old rollbacks?','Reclaim disk'))return;
@@ -248,7 +248,7 @@ export function initServerStatus(host){
       const j=await(await fetch('/api/server/reclaim-disk',{method:'POST'})).json();
       toast(j.ok?(''+(j.message||'disk reclaimed')):(''+(j.message||j.detail||'failed')),j.ok?'ok':'warn',{sticky:true});
     }catch(e){toast(errMessage(e),'error');}
-    if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/clear_cache_restart.png" srcset="/studio/icons/icons/24/clear_cache_restart.png 1x, /icons/icons/48/clear_cache_restart.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Reclaim disk';}
+    if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/clear_cache_restart.png" srcset="/studio/icons/icons/24/clear_cache_restart.png 1x, /studio/icons/icons/48/clear_cache_restart.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Reclaim disk';}
   });
 
   $('#srv-journal-btn')&&($('#srv-journal-btn').onclick=async()=>{
@@ -259,7 +259,7 @@ export function initServerStatus(host){
       if(r.ok)toast(`Replay: ${(j.applied||0)} edit(s) + ${(j.added||0)} record(s) re-applied${j.failed?(', '+j.failed+' failure(s)'):''}`,j.failed?'warn':'ok',{sticky:!!j.failed});
       else toast(''+(j.detail||'replay failed'),'warn',{sticky:true});
     }catch(e){toast(errMessage(e),'error');}
-    if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Replay my edits';}
+    if(b){b.disabled=false;b.innerHTML='<img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /studio/icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Replay my edits';}
     pollJournal();
   });
 }

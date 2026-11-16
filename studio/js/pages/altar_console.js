@@ -131,8 +131,8 @@ function awcResultHTML(cat){
   const r=AWC.resBy[cat];
   if(!r||!r.item)return `<div class="awcslot r"></div><span class="awrn awmini">no result yet — Roll to spin the altar</span>`;
   const b=r.bonus_item;
-  return `<div class="awcslot r has">${r.item.icon?iconImg('item',r.item.icon):'<img src="/studio/icons/icons/24/rewards.png" srcset="/studio/icons/icons/24/rewards.png 1x, /icons/icons/48/rewards.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'}</div>
-    <span class="awrn">${esc(r.item.name)} ×${r.count||1}${b?` <span title="bonus: ${esc(b.name)}"><img src="/studio/icons/icons/24/generation_3d.png" srcset="/studio/icons/icons/24/generation_3d.png 1x, /icons/icons/48/generation_3d.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>`:''}${r.tier>0?` <span class="awmini">· tier ${r.tier}</span>`:''}</span>`;
+  return `<div class="awcslot r has">${r.item.icon?iconImg('item',r.item.icon):'<img src="/studio/icons/icons/24/rewards.png" srcset="/studio/icons/icons/24/rewards.png 1x, /studio/icons/icons/48/rewards.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'}</div>
+    <span class="awrn">${esc(r.item.name)} ×${r.count||1}${b?` <span title="bonus: ${esc(b.name)}"><img src="/studio/icons/icons/24/generation_3d.png" srcset="/studio/icons/icons/24/generation_3d.png 1x, /studio/icons/icons/48/generation_3d.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>`:''}${r.tier>0?` <span class="awmini">· tier ${r.tier}</span>`:''}</span>`;
 }
 function renderAltarConsole(){
   const cat=AWC.cat, A=AB()[cat];
@@ -154,22 +154,22 @@ function renderAltarConsole(){
           return `<button class="awcslot cur${c.item_id===curId?' sel':''}${cnt===0?' empty-stock':''}" data-curid="${c.item_id}" title="${esc(c.item.name)} (#${c.item_id})${cnt!=null?' — you have '+cnt:''}">${c.item.icon?iconImg('item',c.item.icon):'◆'}${cnt!=null?`<span class="q${cnt===0?' z':''}">${cnt>9999?'9999+':cnt}</span>`:''}</button>`;}).join('')
           :'<span class="awmini">no currency config</span>'}
           <label class="awmini" style="margin-left:8px">custom id <input class="awin" id="awc-custom" value="" placeholder="#" style="width:74px" title="override: type any currency item id to insert"></label></div>
-        <div id="awc-curwarn" class="awmini" style="color:var(--crimson);margin-top:6px;display:${awcCount(curId)===0?'':'none'}"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> you have 0 of the selected currency in-game — pick one you own (rolling with 0 does nothing).</div>
+        <div id="awc-curwarn" class="awmini" style="color:var(--crimson);margin-top:6px;display:${awcCount(curId)===0?'':'none'}"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> you have 0 of the selected currency in-game — pick one you own (rolling with 0 does nothing).</div>
         <div class="awcresult"><span class="awtag">Result</span><span id="awc-result">${awcResultHTML(cat)}</span></div>
         <div class="awcact">
           <button class="sbtn" id="awc-roll" ${ok?'':'disabled'} title="${ok?'Transform: spend 1 insert + roll, in-game':'open the altar in-game first (dot must be green)'}">✨ Roll</button>
           <button class="sbtn ghost" id="awc-take" ${ok?'':'disabled'} title="Take the current result into your in-game bag">Take</button>
-          <button class="sbtn ghost" id="awc-claim" ${ok?'':'disabled'} title="Claim energy rewards in-game"><img src="/studio/icons/icons/24/rewards.png" srcset="/studio/icons/icons/24/rewards.png 1x, /icons/icons/48/rewards.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Claim</button>
+          <button class="sbtn ghost" id="awc-claim" ${ok?'':'disabled'} title="Claim energy rewards in-game"><img src="/studio/icons/icons/24/rewards.png" srcset="/studio/icons/icons/24/rewards.png 1x, /studio/icons/icons/48/rewards.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Claim</button>
         </div>
-        <div id="awc-livehint" class="awmini" style="color:var(--gold-d);margin-top:8px;display:${ok?'none':''}"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Open the altar in-game to enable Roll/Take (status dot must be green). Needs eden_patch.ini [Features] altar_remote = 1 or 2 and the game running.</div>
+        <div id="awc-livehint" class="awmini" style="color:var(--gold-d);margin-top:8px;display:${ok?'none':''}"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Open the altar in-game to enable Roll/Take (status dot must be green). Needs eden_patch.ini [Features] altar_remote = 1 or 2 and the game running.</div>
       </div>
       <div class="awccard">
-        <h3><img src="/studio/icons/icons/24/objectives.png" srcset="/studio/icons/icons/24/objectives.png 1x, /icons/icons/48/objectives.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Target items <span class="sub">auto-Take when one of these is rolled</span></h3>
+        <h3><img src="/studio/icons/icons/24/objectives.png" srcset="/studio/icons/icons/24/objectives.png 1x, /studio/icons/icons/48/objectives.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Target items <span class="sub">auto-Take when one of these is rolled</span></h3>
         <div class="awctgtsearch"><input id="awc-tq" placeholder="search item by name or id…" autocomplete="off"><div id="awc-tlist" class="aelist"></div></div>
         <div id="awc-chips"></div>
         <div class="awcauto">
           <label class="awmini">max inserts <input class="awin" id="awc-n" value="${A.inserts}" style="width:64px"></label>
-          <span id="awc-autobtns">${A.running?`<button class="awbtn" id="awc-auto-stop"><img src="/studio/icons/icons/24/stop.png" srcset="/studio/icons/icons/24/stop.png 1x, /icons/icons/48/stop.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Stop · ${A.used}/${A.inserts} · ${A.got} taken${A.paused?' · <img src="/studio/icons/icons/24/pause.png" srcset="/studio/icons/icons/24/pause.png 1x, /icons/icons/48/pause.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> paused':''}</button>`
+          <span id="awc-autobtns">${A.running?`<button class="awbtn" id="awc-auto-stop"><img src="/studio/icons/icons/24/stop.png" srcset="/studio/icons/icons/24/stop.png 1x, /studio/icons/icons/48/stop.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Stop · ${A.used}/${A.inserts} · ${A.got} taken${A.paused?' · <img src="/studio/icons/icons/24/pause.png" srcset="/studio/icons/icons/24/pause.png 1x, /studio/icons/icons/48/pause.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> paused':''}</button>`
             :`<button class="awbtn gold" id="awc-auto-go" ${ok?'':'disabled'}>▶ Start Auto</button>`}</span>
         </div>
       </div>
@@ -214,7 +214,7 @@ function awcWireSearch(cat){
     if(!q){lst.innerHTML='';return;}
     let list=[]; try{list=await (await fetch('/api/search?types=item&limit=40&q='+enc(q))).json();}catch(e){}
     lst.innerHTML=(list||[]).map(i=>`<div class="aerow" data-id="${i.id}" data-nm="${esc(i.name)}" data-ic="${esc(i.icon||'')}">
-      <span class="ic">${i.icon?iconImg('item',i.icon):'<img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'}</span><span class="nm">${esc(i.name)}</span><span class="id">#${i.id}</span></div>`).join('');
+      <span class="ic">${i.icon?iconImg('item',i.icon):'<img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /studio/icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'}</span><span class="nm">${esc(i.name)}</span><span class="id">#${i.id}</span></div>`).join('');
     lst.querySelectorAll('.aerow').forEach(r=>r.onclick=()=>{const id=+r.dataset.id;
       TGTCACHE[id]={name:r.dataset.nm,icon:r.dataset.ic};
       AB()[cat].targets.add(id); inp.value='';lst.innerHTML='';awcRenderChips();awcSave();
@@ -254,7 +254,7 @@ function awcRenderStatus(){
 function awcRenderAutoBtn(){
   const A=AB()[AWC.cat], ok=altarLiveOk(), wrap=$('#awc-autobtns'); if(!wrap)return;
   wrap.innerHTML=A.running
-    ?`<button class="awbtn" id="awc-auto-stop"><img src="/studio/icons/icons/24/stop.png" srcset="/studio/icons/icons/24/stop.png 1x, /icons/icons/48/stop.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Stop · ${A.used}/${A.inserts} · ${A.got} taken${A.paused?' · <img src="/studio/icons/icons/24/pause.png" srcset="/studio/icons/icons/24/pause.png 1x, /icons/icons/48/pause.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> paused':''}</button>`
+    ?`<button class="awbtn" id="awc-auto-stop"><img src="/studio/icons/icons/24/stop.png" srcset="/studio/icons/icons/24/stop.png 1x, /studio/icons/icons/48/stop.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Stop · ${A.used}/${A.inserts} · ${A.got} taken${A.paused?' · <img src="/studio/icons/icons/24/pause.png" srcset="/studio/icons/icons/24/pause.png 1x, /studio/icons/icons/48/pause.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> paused':''}</button>`
     :`<button class="awbtn gold" id="awc-auto-go" ${ok?'':'disabled'}>▶ Start Auto</button>`;
   const go=$('#awc-auto-go'); if(go)go.onclick=()=>altarConsoleAuto(AWC.cat);
   const st=$('#awc-auto-stop'); if(st)st.onclick=()=>{A.running=false;awcRenderAutoBtn();};

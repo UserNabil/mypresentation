@@ -35,7 +35,7 @@ async function aiEditorHTML(d){
   const opts=keys.map(k=>{const lb=labels[k]||labels[String(k)]||'';
     return `<option value="${H.esc(k)}"${k===curBeh?' selected':''}>${H.esc(k)}${lb?' — '+H.esc(lb):''}</option>`;}).join('');
   const sharedWarn=d.shared_by>1
-    ? `<div class="aiwarn"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> This AI row (#${H.esc(d.ai_id)}) is shared by ${H.esc(d.shared_by)} monsters. Changing this monster's AI id is safe; do NOT edit the shared c_ai.ini row.</div>`
+    ? `<div class="aiwarn"><img src="/studio/icons/icons/24/warning.png" srcset="/studio/icons/icons/24/warning.png 1x, /studio/icons/icons/48/warning.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> This AI row (#${H.esc(d.ai_id)}) is shared by ${H.esc(d.shared_by)} monsters. Changing this monster's AI id is safe; do NOT edit the shared c_ai.ini row.</div>`
     : '';
   const behBlock=hasLabels
     ? `<div class="aied-row"><label class="aied-l">Element (attack attribute) (field 13)</label>
@@ -81,11 +81,11 @@ function bindAiEditor(mid){
 async function loadAiDef(){
   const host=H.$('#ai-def'); if(!host||!cur())return; const mid=cur().id;
   let d; try{d=await(await fetch('/api/monster/'+mid+'/ai')).json();}
-  catch(e){host.innerHTML='<div class="dtblhead"><img src="/studio/icons/icons/24/ai_definition.png" srcset="/studio/icons/icons/24/ai_definition.png 1x, /icons/icons/64/ai_definition.png 2x" class="ui-icon" width="24" height="24" alt="" aria-hidden="true"> AI definition</div><div class="esub">failed to load AI</div>';return;}
+  catch(e){host.innerHTML='<div class="dtblhead"><img src="/studio/icons/icons/24/ai_definition.png" srcset="/studio/icons/icons/24/ai_definition.png 1x, /studio/icons/icons/64/ai_definition.png 2x" class="ui-icon" width="24" height="24" alt="" aria-hidden="true"> AI definition</div><div class="esub">failed to load AI</div>';return;}
   if(!cur()||cur().id!==mid)return;            // user switched entity meanwhile
   if(d.ai_id===null){
     // No AI yet: still let the user assign one (writes field 38) + tune behavior (field 13).
-    host.innerHTML='<div class="dtblhead"><img src="/studio/icons/icons/24/ai_definition.png" srcset="/studio/icons/icons/24/ai_definition.png 1x, /icons/icons/64/ai_definition.png 2x" class="ui-icon" width="24" height="24" alt="" aria-hidden="true"> AI definition</div>'+
+    host.innerHTML='<div class="dtblhead"><img src="/studio/icons/icons/24/ai_definition.png" srcset="/studio/icons/icons/24/ai_definition.png 1x, /studio/icons/icons/64/ai_definition.png 2x" class="ui-icon" width="24" height="24" alt="" aria-hidden="true"> AI definition</div>'+
       '<div class="esub">This monster has no AI (field 38 empty). Assign an AI id below.</div>'+
       await aiEditorHTML({ai_id:'',shared_by:0});
     bindAiEditor(mid);return;
@@ -107,7 +107,7 @@ async function loadAiDef(){
     const cd=byIdx[CD_FOR[si]], cdv=cd&&cd.value&&cd.value!=='0'?cd.value:'';
     skillRows+=`<tr><td class="aik">Skill ${SKILL_IDX[si]}</td><td class="aiv">`+
       (has?`<span class="aiskill">${H.esc(sf.skill_name||('#'+sf.value))}</span> <span class="sb">#${H.esc(sf.value)}</span>`+
-            (cdv?` <span class="sb"><img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> cooldown ${H.esc(cdv)}s</span>`:''):'<span class="aimute">— empty —</span>')+
+            (cdv?` <span class="sb"><img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /studio/icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> cooldown ${H.esc(cdv)}s</span>`:''):'<span class="aimute">— empty —</span>')+
       `</td></tr>`;
   });
   // Behavior flags decoded chips.
@@ -124,7 +124,7 @@ async function loadAiDef(){
     (d.shared_by>1?` <span class="sb" title="this AI row is shared by several monsters">shared by ${H.esc(d.shared_by)}</span>`:'')+`</div>`+
     editor+
     `<div class="aicards">`+
-      `<div class="acard"><div class="acard-h"><img src="/studio/icons/icons/24/objectives.png" srcset="/studio/icons/icons/24/objectives.png 1x, /icons/icons/48/objectives.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> AI skill slots</div><table class="aitbl">${skillRows}</table></div>`+
+      `<div class="acard"><div class="acard-h"><img src="/studio/icons/icons/24/objectives.png" srcset="/studio/icons/icons/24/objectives.png 1x, /studio/icons/icons/48/objectives.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> AI skill slots</div><table class="aitbl">${skillRows}</table></div>`+
       `<div class="acard"><div class="acard-h">🚩 Behavior flags</div><div style="padding:2px 0">${flagChips}</div></div>`+
     `</div>`+
     `<table class="aitbl aigen">${genRows}</table>`+
@@ -136,7 +136,7 @@ async function loadAiDef(){
 async function loadMonAnims(){
   const host=H.$('#mon-anims'); if(!host||!cur())return; const mid=cur().id;
   let d; try{d=await(await fetch('/api/monster/'+mid+'/animations')).json();}
-  catch(e){host.innerHTML='<div class="dtblhead"><img src="/studio/icons/icons/24/animations.png" srcset="/studio/icons/icons/24/animations.png 1x, /icons/icons/64/animations.png 2x" class="ui-icon" width="24" height="24" alt="" aria-hidden="true"> Animations</div><div class="esub">failed to load animations</div>';return;}
+  catch(e){host.innerHTML='<div class="dtblhead"><img src="/studio/icons/icons/24/animations.png" srcset="/studio/icons/icons/24/animations.png 1x, /studio/icons/icons/64/animations.png 2x" class="ui-icon" width="24" height="24" alt="" aria-hidden="true"> Animations</div><div class="esub">failed to load animations</div>';return;}
   if(!cur()||cur().id!==mid)return;
   const head=`<div class="dtblhead">${H.iconMarkup('animations',24)} Animations${d.model?' <span class="sb">'+H.esc(d.model)+'.kf</span>':''}</div>`;
   if(!d.animations||!d.animations.length){host.innerHTML=head+`<div class="esub">${H.esc(d.message||'No animations.')}</div>`;return;}

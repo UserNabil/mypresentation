@@ -44,12 +44,12 @@ function decodedEffectsHTML(decoded,flagBits){
 function enchantExtras(m){
   if(m.etype==='enchant'){
     const dec=decodedEffectsHTML(m.decoded,m.flag_bits);
-    return dec?`<div class="ench-box"><div class="ench-title"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Decoded effects <span class="ench-hint">(team opcode catalog)</span></div>${dec}</div>`:'';
+    return dec?`<div class="ench-box"><div class="ench-title"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /studio/icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Decoded effects <span class="ench-hint">(team opcode catalog)</span></div>${dec}</div>`:'';
   }
   if(m.etype==='item'){
     const el=m.enchant_link;
-    if(el)return `<div class="ench-box"><div class="ench-title"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Enchant <span class="ench-chip" id="ench-open" title="open enchant #${el.id}">#${el.id} ${H.esc(el.name||'')}</span><span class="editpen" id="ench-change" title="apply a different enchant"><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><span class="editpen" id="ench-clear" title="remove the enchant (clear field 23)" style="color:var(--crimson)">✕</span></div>${decodedEffectsHTML(el.decoded)}</div>`;
-    return `<div class="ench-box"><button class="hbtn" id="ench-apply" title="apply an enchant to this item (field 23)"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Apply an enchant</button></div>`;
+    if(el)return `<div class="ench-box"><div class="ench-title"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /studio/icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Enchant <span class="ench-chip" id="ench-open" title="open enchant #${el.id}">#${el.id} ${H.esc(el.name||'')}</span><span class="editpen" id="ench-change" title="apply a different enchant"><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><span class="editpen" id="ench-clear" title="remove the enchant (clear field 23)" style="color:var(--crimson)">✕</span></div>${decodedEffectsHTML(el.decoded)}</div>`;
+    return `<div class="ench-box"><button class="hbtn" id="ench-apply" title="apply an enchant to this item (field 23)"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /studio/icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Apply an enchant</button></div>`;
   }
   return '';
 }
@@ -59,7 +59,7 @@ function spawnBox(m){
   const sp=m.spawns||[];
   if(!sp.length&&!ed())return '';
   const badge=s=>`<span class="ebadge map" title="${H.esc(s.scene)}">${H.esc(s.map)}${ed()?` <span class="delx" data-rmspawn="${s.scene}" title="remove from this scene">✕</span>`:''}</span>`;
-  return `<div class="spawnbox"><div class="lbl"><img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Appears in (${sp.length})${ed()?` <span class="addbtn" id="add-spawn" style="margin-left:8px">+ Add to scene</span>`:''}</div>
+  return `<div class="spawnbox"><div class="lbl"><img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /studio/icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Appears in (${sp.length})${ed()?` <span class="addbtn" id="add-spawn" style="margin-left:8px">+ Add to scene</span>`:''}</div>
     <div class="ebadges">${sp.slice(0,20).map(badge).join('')||'<span class="esub">Not placed in any scene.</span>'}</div>
     ${sp.length?`<div id="respawn-editor" style="margin-top:8px"></div>`:''}</div>`;
 }
@@ -83,7 +83,7 @@ function resistIconPanel(){
     return `<div class="rescell big${weak?' weak':''}" title="${name} resist${weak?' — WEAKNESS (negative)':''}">
       <img class="resico" src="/studio/icons/${ic}.png${H.ICONV}" alt="${H.esc(name)}" onerror="this.style.visibility='hidden'">
       ${ed()?`<input class="resin" data-fi="${i}" value="${H.esc(v)}" title="${name} resist (negative = weak)">`:`<span class="resval">${H.esc(v||'0')}</span>`}</div>`;};
-  return `<div class="dtblhead"><img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Resistances <span style="color:var(--faint);font-size:11px;font-weight:400">(scale -100..500 · negative = weakness)</span></div>
+  return `<div class="dtblhead"><img src="/studio/icons/icons/24/integrity.png" srcset="/studio/icons/icons/24/integrity.png 1x, /studio/icons/icons/48/integrity.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Resistances <span style="color:var(--faint);font-size:11px;font-weight:400">(scale -100..500 · negative = weakness)</span></div>
     <div class="resgrp">Elemental</div><div class="resrow big">${R.slice(3).map(cell).join('')}</div>
     <div class="resgrp" style="margin-top:10px">Physical</div><div class="resrow big">${R.slice(0,3).map(cell).join('')}</div>
     <div style="height:14px"></div>`;}
@@ -113,7 +113,7 @@ function radarChart(m){
     <span class="bv" style="color:${col(a.ratio)}">${fv(a,a.value)}</span>
     <span class="bm">med ${fv(a,a.median||0)}</span>
     <span class="br" style="color:${col(a.ratio)}">×${a.ratio} <small>${tag(a.ratio)}</small></span></div>`).join('');
-  return `<div class="radarbox"><div class="radar-title"><img src="/studio/icons/icons/24/compare.png" srcset="/studio/icons/icons/24/compare.png 1x, /icons/icons/48/compare.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Balance · Lv ${b.level} <span>(vs ${b.sample} same-level mobs)</span></div>
+  return `<div class="radarbox"><div class="radar-title"><img src="/studio/icons/icons/24/compare.png" srcset="/studio/icons/icons/24/compare.png 1x, /studio/icons/icons/48/compare.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Balance · Lv ${b.level} <span>(vs ${b.sample} same-level mobs)</span></div>
     <svg viewBox="0 0 ${S} ${S}" width="${S}" height="${S}">${rings}${spokes}
       <polygon points="${valPts}" fill="rgba(154,106,43,.22)" stroke="#9a6a2b" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>
     <div class="baldetail">${rows}</div>
@@ -150,9 +150,9 @@ function bpChanged(){if(!cur())return false;
 function weakBar(m){
   if(!m||m.etype!=='monster')return '';
   const bpv=S.bpValSel!==null?S.bpValSel:(m.bp_value||0), hp=m.bp_hp||0, sugg=Math.round(hp*0.4);
-  return `<div class="weakbar"><div class="weakbar-h"><img src="/studio/icons/icons/24/break_point.png" srcset="/studio/icons/icons/24/break_point.png 1x, /icons/icons/48/break_point.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Break Point <span>${ed()?'orbs = which elements break it · BP bar = its size':'lit = breaks the BP bar'}</span></div>
+  return `<div class="weakbar"><div class="weakbar-h"><img src="/studio/icons/icons/24/break_point.png" srcset="/studio/icons/icons/24/break_point.png 1x, /studio/icons/icons/48/break_point.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Break Point <span>${ed()?'orbs = which elements break it · BP bar = its size':'lit = breaks the BP bar'}</span></div>
     <div class="bpvalrow"><span class="bpvlbl">BP bar</span><input id="bp-value" type="number" min="0" value="${bpv}" ${ed()?'':'readonly'} title="Break Point bar value (field 12) — an HP-like pool you fill to break the bar, usually ≈40% of HP">${ed()&&hp?`<span class="bpvhint" id="bp-sugg" title="set to ≈40% of HP" style="cursor:url(/studio/cursors/glove.png?7) 10 3,pointer">use ≈40% HP: ${sugg.toLocaleString()}</span>`:`<span class="bpvhint">${hp?'≈40% HP = '+sugg.toLocaleString():'HP-like pool'}</span>`}</div>
-    ${ed()?`<button class="addbtn" id="bp-save-mini" style="width:100%;margin-top:6px" ${bpChanged()?'':'disabled'}><img src="/studio/icons/icons/24/save.png" srcset="/studio/icons/icons/24/save.png 1x, /icons/icons/48/save.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Save Break Point</button>`:''}</div>`;}
+    ${ed()?`<button class="addbtn" id="bp-save-mini" style="width:100%;margin-top:6px" ${bpChanged()?'':'disabled'}><img src="/studio/icons/icons/24/save.png" srcset="/studio/icons/icons/24/save.png 1x, /studio/icons/icons/48/save.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Save Break Point</button>`:''}</div>`;}
 
 // ---------- in-game tooltip LIVE PREVIEW ----------
 // $NN$ colour palette = the GAME'S OWN data/db/color.ini (exact RGB; index N -> R,G,B). Authoritative.
@@ -180,7 +180,7 @@ function gradeSelect(f,v){
   return `<div style="display:flex;gap:7px;align-items:center"><span style="width:18px;height:18px;border-radius:3px;border:3px solid ${gradeColor(v)};flex:none" title="item outline color"></span><select data-fi="${f.i}" style="flex:1">${extra}${opts}</select></div>`;}
 function fval(m,i){if(m===cur()){const dv=draftVal(i);if(dv!==null)return String(dv).trim();}const f=(m.fields||[]).find(x=>x.i===i);return f?String(f.value).trim():'';}
 function renderTipText(txt){
-  if(!txt)return '<div style="color:#7a7363">(empty — click <img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> on “In-game tooltip” to add)</div>';
+  if(!txt)return '<div style="color:#7a7363">(empty — click <img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> on “In-game tooltip” to add)</div>';
   return H.esc(txt).split('\n').map(line=>{
     let html='',color=TIP_DEFAULT;
     for(const p of line.split(/(\$\d+\$)/)){
