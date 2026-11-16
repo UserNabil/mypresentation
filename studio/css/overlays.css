@@ -1,0 +1,129 @@
+/* overlays.css — perte de connexion, ecran de connexion, accueil.
+   Extrait du 3e et dernier bloc <style> d'index.html, qui vivait DANS le <body>
+   (R.2 lot 0). Dernier dans la cascade, comme avant. */
+/* Perte de connexion : fond #160e09 (fond du mp4) au centre → rectangle vidéo fondu ; le contenu vient de .eden-splash. */
+#conn-lost{position:fixed;inset:0;z-index:99999;display:none;opacity:0;overflow:hidden;
+  background:radial-gradient(circle at 50% 42%,#160e09 0%,#160e09 36%,#120a04 74%,#0d0703 100%);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);transition:opacity .4s ease}
+#conn-lost.on{opacity:1;display:flex}
+#conn-lost .es-dots{display:inline-block;width:1.2em;text-align:left;animation:clpulse 1.4s ease-in-out infinite}
+@keyframes clpulse{0%,100%{opacity:.4}50%{opacity:1}}
+.view-in{animation:viewIn .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* ---- P3 auth: login gate, role badge ---- */
+#loginGate{position:fixed;inset:0;z-index:100000;display:none;place-items:center;
+  background:radial-gradient(120% 90% at 50% 0%, rgba(233,220,189,.96), rgba(206,189,150,.99));
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+/* motifs en filigrane SUR le gate (son dégradé quasi-opaque masquait le body::before) */
+#loginGate::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:url('/studio/motifs.png');background-repeat:repeat;background-size:340px 340px;
+  opacity:.10;mix-blend-mode:multiply;z-index:-1}
+#loginGate.on{display:grid}
+#loginGate .lg-card{width:min(380px,92vw);background:#f3e9cf;border:1px solid #cbb583;border-radius:14px;
+  padding:30px 28px 22px;box-shadow:0 18px 50px rgba(90,61,24,.32);text-align:center}
+#loginGate .lg-sig img{width:auto;height:62px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+#loginGate .lg-title{font:700 19px "Cinzel",Georgia,serif;color:#5a3d18;margin:10px 0 2px;letter-spacing:.5px}
+/* badge du TENANT (Reforged / Dawnbreak) sous le titre — pour voir d'un coup d'œil sur quel build on est */
+#loginGate .lg-tenant{display:inline-block;font:700 11px "Cinzel",Georgia,serif;letter-spacing:.6px;
+  text-transform:uppercase;padding:2px 10px;border-radius:10px;margin:2px 0 4px;border:1px solid}
+#loginGate .lg-tenant.reforged{color:#8a5a1a;background:#f3e6c9;border-color:#c8a05a}
+#loginGate .lg-tenant.dawnbreak{color:#2f5f8a;background:#dfeaf5;border-color:#5a86b8}
+#loginGate .lg-sub{color:#7a6336;font-size:13px;margin-bottom:18px}
+#loginGate .fld{text-align:left;margin-bottom:12px}
+#loginGate .fld label{display:block;font-size:11px;color:#7a6336;margin-bottom:3px;font-weight:600}
+#loginGate input{width:100%;padding:9px 11px;border:1px solid #cbb583;border-radius:8px;background:#fbf6e8;
+  font-size:14px;color:#3a2c12;box-sizing:border-box}
+#loginGate input:focus{outline:none;border-color:#9a6a2b;box-shadow:0 0 0 2px rgba(154,106,43,.18)}
+#loginGate .lg-envseg{display:flex;gap:6px}
+#loginGate .lg-env{flex:1;padding:8px 6px;border:1px solid #cbb583;border-radius:8px;background:#fbf6e8;
+  font:600 12px "Cinzel",Georgia,serif;color:#7a6336;cursor:pointer;transition:border-color .12s,background .12s}
+#loginGate .lg-env:hover{border-color:#9a6a2b}
+#loginGate .lg-env.on{background:#9a6a2b;color:#fff;border-color:#9a6a2b}
+#loginGate .lg-err{color:#a02818;font-size:12.5px;min-height:16px;margin:2px 0 4px;font-weight:600}
+#loginGate .lg-hint{margin-top:16px;font-size:11.5px;color:#8a7448;line-height:1.5}
+.userchip{display:flex;align-items:center;gap:6px;background:#efe4c6;border:1px solid #cbb583;border-radius:8px;
+  padding:4px 9px;font-size:12px;color:#5a3d18;cursor:pointer;white-space:nowrap}
+.userchip:hover{border-color:#9a6a2b}
+.userchip .rolebadge{font:700 10px "Cascadia Code",monospace;padding:1px 6px;border-radius:5px;color:#fff}
+/* role colours (GS<CM<GM<SA). SA = super-admin (gold). */
+.rolebadge.GS{background:#5b8a4a}.rolebadge.CM{background:#8a241b}.rolebadge.GM{background:#9a6a2b}.rolebadge.SA{background:#b8860b;color:#231402}
+/* Read-only role (GS/CM): hide every game-data edit affordance. Server still 403s; this removes the
+   pencils / add / delete / edit-toggle so a tester never sees an edit control that would just fail. */
+body.role-readonly .editpen,
+body.role-readonly .addbtn,
+body.role-readonly .delx,
+body.role-readonly #toggle-edit,
+body.role-readonly #q-additem,
+body.role-readonly [id$="-add"].addbtn,
+/* GS/CM = lecture seule PARTOUT (sauf altar + tests feature, qui n'utilisent AUCUNE de ces classes) :
+   on masque tous les boutons d'édition/save/suppression des pages Classes, Crafting, Quests, Scenes. */
+body.role-readonly .clseditbtn,           /* Classes+Crafting : ✎ Edit, 📝 Class info, 💾 Save stats/all, ➕/🗑, scope */
+body.role-readonly .clsslotpen,           /* crayons d'édition de slot dans les classes */
+body.role-readonly #cls-savestats,
+body.role-readonly #cls-saveraw,
+body.role-readonly #q-toggle2,            /* Quests : ✎ Edit rewards */
+body.role-readonly #s-toggle{display:none !important}   /* Scenes : ✎ Edit spawns */
+/* Racial Crafting — recipe kind badges, item/recipe cells, refine arrow */
+/* edit-item-in-recipe modal picker */
+.crslot-results{margin-top:6px;max-height:220px;overflow:auto;display:flex;flex-direction:column;gap:2px}
+.crslot-opt{text-align:left;background:var(--paper);border:1px solid var(--edge);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:13px;color:var(--ink)}
+.crslot-opt:hover{background:#efe2c2;border-color:var(--gold)}
+/* View-as role radios (Accounts modal, SA only) */
+/* tuiles "View as" : crest + label, avec un ÉTAT ACTIF clair (plus de radios) */
+.viewas-tiles .vtile{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-family:"Cinzel";
+  font-weight:600;font-size:12.5px;color:var(--ink);padding:6px 13px 6px 8px;border:1px solid var(--edge);
+  border-radius:22px;background:var(--paper);transition:border-color .14s,background .14s,box-shadow .14s,transform .1s}
+.viewas-tiles .vtile img{height:24px;width:auto;display:block;filter:grayscale(.55) opacity(.8);transition:filter .14s}
+.viewas-tiles .vtile:hover{border-color:var(--gold);background:#f3ead2}
+.viewas-tiles .vtile:hover img{filter:none}
+.viewas-tiles .vtile.on{border-color:var(--gold2);background:linear-gradient(180deg,#f2e6c4,#e7d3a0);
+  color:var(--gold2);box-shadow:0 2px 10px rgba(154,106,43,.28), inset 0 0 0 1px rgba(154,106,43,.25)}
+.viewas-tiles .vtile.on img{filter:none;transform:scale(1.06)}
+.usermenu{position:absolute;top:100%;right:0;margin-top:6px;background:#f3e9cf;border:1px solid #cbb583;border-radius:9px;
+  box-shadow:0 12px 30px rgba(90,61,24,.28);min-width:170px;z-index:500;overflow:hidden;display:none}
+.usermenu.open{display:block}
+.usermenu .umi{display:block;width:100%;text-align:left;padding:9px 13px;background:none;border:none;font-size:12.5px;
+  color:#4a3a1a;cursor:pointer}
+.usermenu .umi:hover{background:#e7d9b4}
+.usermenu .umsep{border-top:1px solid var(--edge)}
+.acc-role{padding:5px 7px;border:1px solid #cbb583;border-radius:7px;background:#fbf6e8;font-size:12px}
+/* ---- P3: role-aware Home / landing dashboard ---- */
+.homepage{padding:6px 4px 30px}
+.homehero{display:flex;align-items:center;gap:16px;padding:18px 20px;margin:4px 0 22px;
+  background:linear-gradient(180deg,var(--paper),var(--paper2));border:1px solid var(--edge);
+  border-radius:14px;box-shadow:0 6px 18px rgba(90,61,24,.12)}
+.homehero .hh-sig img{width:auto;height:54px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.homehero .hh-hi{font:700 20px "Cinzel",Georgia,serif;color:var(--gold2)}
+.homehero .hh-sub{font-size:12.5px;color:var(--dim);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.homehero .hh-sub .rolebadge{font:700 10px "Cascadia Code",monospace;padding:1px 6px;border-radius:5px;color:#fff}
+.homesec{margin-bottom:22px}
+.homesec h3{font:700 12px "Cinzel",Georgia,serif;letter-spacing:1px;text-transform:uppercase;
+  color:var(--faint);margin:0 0 10px;padding-bottom:5px;border-bottom:1px dashed var(--edge)}
+.homegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.homecard{display:flex;align-items:flex-start;gap:12px;text-align:left;padding:14px 15px;cursor:pointer;
+  background:var(--paper);border:1px solid var(--edge);border-radius:12px;transition:transform .12s,box-shadow .12s,border-color .12s;
+  font-family:inherit;color:inherit}
+.homecard:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 8px 20px rgba(90,61,24,.16)}
+.homecard:active{transform:translateY(0)}
+.homecard .hc-ico{font-size:23px;line-height:1;flex:0 0 auto;margin-top:1px}
+.homecard .hc-txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.homecard .hc-ttl{font-weight:700;font-size:14px;color:var(--gold2)}
+.homecard .hc-desc{font-size:12px;color:var(--dim);line-height:1.4}
+.homecard .hc-badge{font:600 9.5px "Cascadia Code",monospace;font-style:normal;background:var(--edge2);
+  color:var(--gold2);padding:1px 6px;border-radius:5px;margin-left:5px;letter-spacing:.3px}
+.homecard.disabled{cursor:not-allowed;opacity:.5;filter:grayscale(.6)}
+.homecard.disabled:hover{transform:none;border-color:var(--edge);box-shadow:none}
+/* ── Pacha Bot ────────────────────────────────────────────────────────────────────────────────────
+   La page reprend STRICTEMENT le langage visuel du tool (mêmes tokens que .homecard/.homesec) : papier
+   + liseré, titres Cinzel dorés, intertitres en petites capitales soulignées de tirets. Avant, elle
+   utilisait des classes INEXISTANTES dans ce CSS (.ecard, .hl-k, .hl-v) → aucun style ne s'appliquait,
+   d'où son aspect « brut » hors charte. */
+/* sélecteur segmenté (source / format) — même grammaire que les puces du tool */
+.accrow{display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px dashed var(--edge)}
+.accrow .au{flex:0 0 150px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reqrow{padding:9px 10px;border:1px solid var(--edge);border-radius:8px;margin-bottom:7px;cursor:pointer;background:#fbf6e8}
+.reqrow:hover{border-color:#9a6a2b}.reqrow.sel{border-color:#9a6a2b;background:#f0e6cb}
+.reqstate{font:700 10px "Cascadia Code",monospace;padding:1px 6px;border-radius:5px;color:#fff;text-transform:uppercase}
+.reqstate.submitted{background:#9a6a2b}.reqstate.reviewed{background:#4a6f9a}.reqstate.deployed{background:#5b8a4a}.reqstate.rejected{background:#8a241b}
+.hbtn,.btn,.fchip{transition:transform .16s ease,border-color .16s ease,color .16s ease,background .16s ease}
+.hbtn:active,.btn:active,.cb-cell:active{transform:translateY(1px) scale(.99)}

@@ -1,0 +1,464 @@
+html[data-ui="modern"] h1, html[data-ui="modern"] h2, html[data-ui="modern"] h3, html[data-ui="modern"] .cinzel, html[data-ui="modern"] .empty, html[data-ui="modern"] .mcard-i .f,
+html[data-ui="modern"] .upd-title, html[data-ui="modern"] .upd-steps, html[data-ui="modern"] .fm2-title, html[data-ui="modern"] .cs-hex, html[data-ui="modern"] .cc-fldh { letter-spacing: 0; }
+html[data-ui="modern"] header:not(.ph), html[data-ui="modern"] .fpanel.open { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] #cctb, html[data-ui="modern"] .rp-t th { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); }
+html[data-ui="modern"] #cctb .cctb-name { color: var(--ui-ink); letter-spacing: 0; }
+html[data-ui="modern"] #cctb .cctb-ver, html[data-ui="modern"] .mb, html[data-ui="modern"] .aiconf.unk, html[data-ui="modern"] .fm-rbadge.left,
+html[data-ui="modern"] .fm-rbanner.wip, html[data-ui="modern"] .cda-warn { background: var(--ui-surface-2); border: 1px solid var(--ui-line); color: var(--ui-accent-text); }
+html[data-ui="modern"] #cctb .cctb-b, html[data-ui="modern"] .qhist .qh-row, html[data-ui="modern"] .qhist .qh-clear:hover, html[data-ui="modern"] .qhist .ac-row,
+html[data-ui="modern"] .chk.on::after, html[data-ui="modern"] .vtrow b, html[data-ui="modern"] .row .nm, html[data-ui="modern"] .srvdiff-srv, html[data-ui="modern"] .upd-note.slow,
+html[data-ui="modern"] .hrow .ht, html[data-ui="modern"] .altar-tip .desc, html[data-ui="modern"] .altarwin .ebar .enum, html[data-ui="modern"] .fd-sub,
+html[data-ui="modern"] .fd-dim, html[data-ui="modern"] .fd-it-d, html[data-ui="modern"] .fd-kv th, html[data-ui="modern"] .fm-rprog i, html[data-ui="modern"] .cd-card .name,
+html[data-ui="modern"] .emc-snd-pv-tabs span, html[data-ui="modern"] .emc-snd-pv-cell, html[data-ui="modern"] #loginGate .lg-title, html[data-ui="modern"] #loginGate .lg-sub,
+html[data-ui="modern"] #loginGate .fld label, html[data-ui="modern"] .usermenu .umi, html[data-ui="modern"] .pd-pct, html[data-ui="modern"] .pl-game-r { color: var(--ui-ink); }
+html[data-ui="modern"] #cctb .cctb-b:hover, html[data-ui="modern"] .qhist .qh-row:hover, html[data-ui="modern"] .qhist .ac-row:hover, html[data-ui="modern"] .qhist .ac-row.sel,
+html[data-ui="modern"] .envbadge .dot, html[data-ui="modern"] .vbdot, html[data-ui="modern"] #upd-anim, html[data-ui="modern"] .upd-title::after, html[data-ui="modern"] .bf-log,
+html[data-ui="modern"] .layer .ld, html[data-ui="modern"] .layer.na .ld, html[data-ui="modern"] .modal, html[data-ui="modern"] .pkgres pre, html[data-ui="modern"] #overlay,
+html[data-ui="modern"] #boot, html[data-ui="modern"] .awcell.empty, html[data-ui="modern"] .awslot.res-in .res-q, html[data-ui="modern"] .aw-ovl, html[data-ui="modern"] .awbtn.gold,
+html[data-ui="modern"] .awcslot .q, html[data-ui="modern"] .fx-alert.fx-info, html[data-ui="modern"] .fx-ptsw i, html[data-ui="modern"] .fx-av, html[data-ui="modern"] .fx-lp,
+html[data-ui="modern"] .fx-lp-canvas, html[data-ui="modern"] .fx-dp-log, html[data-ui="modern"] .ai-help, html[data-ui="modern"] .ai-segb.on,
+html[data-ui="modern"] .rp-t tbody tr:hover, html[data-ui="modern"] .eqwarnb code, html[data-ui="modern"] .lg-eye:hover, html[data-ui="modern"] .lg-eye.on,
+html[data-ui="modern"] .cd-note.warn, html[data-ui="modern"] .cd-board, html[data-ui="modern"] .cd-modal, html[data-ui="modern"] .cda-bar, html[data-ui="modern"] .cda-ft th,
+html[data-ui="modern"] .cda-frow:hover, html[data-ui="modern"] .cdc-tab:hover, html[data-ui="modern"] .cdc-table th, html[data-ui="modern"] .crx-bar:hover,
+html[data-ui="modern"] .crx-bar-t, html[data-ui="modern"] .crx-sig, html[data-ui="modern"] code.crx-link:hover, html[data-ui="modern"] .crx-row:hover,
+html[data-ui="modern"] .crx-alert:hover, html[data-ui="modern"] .crx-ci, html[data-ui="modern"] .emc-cv, html[data-ui="modern"] .emc-cv.emc-none,
+html[data-ui="modern"] .emc-card:hover, html[data-ui="modern"] #conn-lost, html[data-ui="modern"] .rolebadge.GM, html[data-ui="modern"] .rolebadge.SA,
+html[data-ui="modern"] .reqstate.submitted, html[data-ui="modern"] .prf-player:hover, html[data-ui="modern"] .prf-table th, html[data-ui="modern"] .prf-sortable:hover,
+html[data-ui="modern"] .prf-row:hover, html[data-ui="modern"] .prf-modal, html[data-ui="modern"] .pl-discord, html[data-ui="modern"] .pl-bars-dc .pl-bar,
+html[data-ui="modern"] .rl-leaf::before, html[data-ui="modern"] .rl-leaf:hover, html[data-ui="modern"] .rl-top:hover, html[data-ui="modern"] .rail-min .rl-fam.open > .rl-fam-h,
+html[data-ui="modern"] .hq-b:hover, html[data-ui="modern"] .fmloadbar, html[data-ui="modern"] .gmv-ib:hover, html[data-ui="modern"] .gmv-prev { background: var(--ui-surface-2); color: var(--ui-ink); }
+html[data-ui="modern"] #cctb .cctb-x:hover, html[data-ui="modern"] .envbadge.bad .dot, html[data-ui="modern"] .stpill.bad .dot, html[data-ui="modern"] .verifybadge.error .vbdot,
+html[data-ui="modern"] .layer.error .ld, html[data-ui="modern"] .dsev.error, html[data-ui="modern"] .altdot.warn, html[data-ui="modern"] .fm2-bad .fm2-dot,
+html[data-ui="modern"] .fm2-cdot.off, html[data-ui="modern"] .fx-count, html[data-ui="modern"] .fx-vote.down.on, html[data-ui="modern"] .fx-lp-verdict.fx-bad,
+html[data-ui="modern"] .fx-dp-chk.blk, html[data-ui="modern"] .fx-dp-verdict.fx-bad, html[data-ui="modern"] .eqflag.bad, html[data-ui="modern"] .cd-card .own.p1,
+html[data-ui="modern"] .cd-hp > div, html[data-ui="modern"] .crx-newrow:hover, html[data-ui="modern"] .cc-el.weak, html[data-ui="modern"] .rolebadge.CM,
+html[data-ui="modern"] .reqstate.rejected, html[data-ui="modern"] .hl-dot.off { background: var(--ui-bad); color: #fff; }
+html[data-ui="modern"] .crest .ttl, html[data-ui="modern"].art-plate main:not(.rail-min) .rl-cta { text-shadow: none; color: var(--ui-ink); }
+html[data-ui="modern"] #appver, html[data-ui="modern"] .chtag, html[data-ui="modern"] .aiflag, html[data-ui="modern"] .aiconf.prob, html[data-ui="modern"] .awwin,
+html[data-ui="modern"] .awcell, html[data-ui="modern"] .awslot, html[data-ui="modern"] .ebar, html[data-ui="modern"] .awcell .rate, html[data-ui="modern"] .cd-hp,
+html[data-ui="modern"] .userchip, html[data-ui="modern"] .pl-game, html[data-ui="modern"] .clsrestartbar { background: var(--ui-surface-2); border: 1px solid var(--ui-line); color: var(--ui-ink); }
+html[data-ui="modern"] #appver:hover, html[data-ui="modern"] .awcell.empty { border-color: var(--ui-line); color: var(--ui-ink); }
+html[data-ui="modern"] .qhist, html[data-ui="modern"] #savebar, html[data-ui="modern"] #loginGate .lg-card, html[data-ui="modern"] .usermenu { background: var(--ui-surface-2); border: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .qhist .qh-x:hover, html[data-ui="modern"] #sttip .down, html[data-ui="modern"] .tst.error .tst-ic, html[data-ui="modern"] .dcard.error .n,
+html[data-ui="modern"] .acchip .aclink, html[data-ui="modern"] .fm2-bad .fm2-dll, html[data-ui="modern"] .fm2-dllready-w, html[data-ui="modern"] .fm-pullnew-w,
+html[data-ui="modern"] .fm2-pub>summary, html[data-ui="modern"] .fx-vote.down, html[data-ui="modern"] .fx-vg-avoid ul li::marker, html[data-ui="modern"] .fx-dp-steps li.bad,
+html[data-ui="modern"] .cd-bad, html[data-ui="modern"] .cd-chip.r5, html[data-ui="modern"] .cd-card .sd.down, html[data-ui="modern"] .cda-kpi.bad b,
+html[data-ui="modern"] .cda-chk.fail, html[data-ui="modern"] .crx-kpi-crash b, html[data-ui="modern"] .crx-eden, html[data-ui="modern"] .crx-bad, html[data-ui="modern"] .crx-err,
+html[data-ui="modern"] .emc-perr, html[data-ui="modern"] #loginGate .lg-err, html[data-ui="modern"] .prf-r, html[data-ui="modern"] .pl-bad, html[data-ui="modern"] .pl-count.bad,
+html[data-ui="modern"] .pz-no b, html[data-ui="modern"] .lv-note.block { color: var(--ui-bad); }
+html[data-ui="modern"] .qhist .qh-clear, html[data-ui="modern"] .envdd-h.sep, html[data-ui="modern"] .mcard-sws, html[data-ui="modern"] .baldetail,
+html[data-ui="modern"] .sheet .foot, html[data-ui="modern"] .dgbody, html[data-ui="modern"] .ai-stats, html[data-ui="modern"] .ai-tier-cut { border-top: 1px solid var(--ui-line); }
+html[data-ui="modern"] .qhist .ac-ic, html[data-ui="modern"] .qhist .ac-nm mark, html[data-ui="modern"] .stpill, html[data-ui="modern"] .hbtn:hover,
+html[data-ui="modern"] .hmi:hover, html[data-ui="modern"] .fbar button, html[data-ui="modern"] .fbar button:hover, html[data-ui="modern"] .othertypes .seeall:hover,
+html[data-ui="modern"] .fchip, html[data-ui="modern"] .maprow:hover, html[data-ui="modern"] .maprow.kbd, html[data-ui="modern"] .spellsub .sc,
+html[data-ui="modern"] .filterreset:hover, html[data-ui="modern"] .row:hover, html[data-ui="modern"] .row .nm mark, html[data-ui="modern"] .row .meta mark,
+html[data-ui="modern"] #viewer3d, html[data-ui="modern"] .backbtn, html[data-ui="modern"] .plate .ic, html[data-ui="modern"] .loottbl tr:hover td,
+html[data-ui="modern"] .loottbl tr.lootgrp:hover td, html[data-ui="modern"] .bf-fix:hover, html[data-ui="modern"] .chancebar i, html[data-ui="modern"] .dtblhead .tg,
+html[data-ui="modern"] .envr span, html[data-ui="modern"] .pickrow:hover, html[data-ui="modern"] .np-item:hover, html[data-ui="modern"] .np-item.unread,
+html[data-ui="modern"] .ricon, html[data-ui="modern"] #infopop .ov, html[data-ui="modern"] .dghead, html[data-ui="modern"] .dghead:hover, html[data-ui="modern"] .dirow:hover,
+html[data-ui="modern"] .skillcard:hover, html[data-ui="modern"] .skillmeta .sb, html[data-ui="modern"] .sb, html[data-ui="modern"] .animchip:hover,
+html[data-ui="modern"] .animfilter:hover, html[data-ui="modern"] .animfilter.on, html[data-ui="modern"] .atab.on, html[data-ui="modern"] .aslot .wbar,
+html[data-ui="modern"] .aslot .wbar i, html[data-ui="modern"] .aerow.sel, html[data-ui="modern"] .aecur, html[data-ui="modern"] .ebar>i, html[data-ui="modern"] .altar-tip .tip-h,
+html[data-ui="modern"] .altarwin .ebar>i, html[data-ui="modern"] .bagslot.has, html[data-ui="modern"] .acrow:hover, html[data-ui="modern"] .awdistrow .bar>i,
+html[data-ui="modern"] .mini:hover, html[data-ui="modern"] .fm2-foot, html[data-ui="modern"] .fx-note, html[data-ui="modern"] .fm-pt.hit, html[data-ui="modern"] .fx-ptrow.hit,
+html[data-ui="modern"] .fx-toggle input:checked+i, html[data-ui="modern"] .fx-kn-table th, html[data-ui="modern"] .fx-dp-verdict.fx-warn, html[data-ui="modern"] .ai-row:hover,
+html[data-ui="modern"] .ai-cat:hover, html[data-ui="modern"] .ai-cat.open, html[data-ui="modern"] .ai-rank:hover, html[data-ui="modern"] .ai-mon:hover,
+html[data-ui="modern"] .eqbonn, html[data-ui="modern"] .cd-tab, html[data-ui="modern"] .cd-table th, html[data-ui="modern"] .cd-bar, html[data-ui="modern"] .cd-bar .d,
+html[data-ui="modern"] .cda-bar i, html[data-ui="modern"] .cda-chip.on, html[data-ui="modern"] .crx-count, html[data-ui="modern"] .crx-ftab, html[data-ui="modern"] .crx-code,
+html[data-ui="modern"] .crx-ln mark, html[data-ui="modern"] .crx-ln.h-lost, html[data-ui="modern"] .crx-hl.h-lost, html[data-ui="modern"] .cc-top, html[data-ui="modern"] .cc-stage,
+html[data-ui="modern"] .cc-keys i.k-new, html[data-ui="modern"] .cc-side-h, html[data-ui="modern"] .cc-existing, html[data-ui="modern"] .cc-anc .kind,
+html[data-ui="modern"] .cc-mini:hover, html[data-ui="modern"] .cc-icobox, html[data-ui="modern"] .cc-sres .it:hover, html[data-ui="modern"] .cc-foot,
+html[data-ui="modern"] .emc-drop.over, html[data-ui="modern"] .emc-snd-pv, html[data-ui="modern"] #loginGate, html[data-ui="modern"] .crslot-opt:hover,
+html[data-ui="modern"] .viewas-tiles .vtile:hover, html[data-ui="modern"] .usermenu .umi:hover, html[data-ui="modern"] .g-obj.run, html[data-ui="modern"] .prf-filters,
+html[data-ui="modern"] .prf-report, html[data-ui="modern"] #rail, html[data-ui="modern"] .rl-fam-h:hover, html[data-ui="modern"] .rl-leaf.on, html[data-ui="modern"] .rl-top.on,
+html[data-ui="modern"] #rail-toggle:hover, html[data-ui="modern"] .envchip:hover, html[data-ui="modern"] .dh-act:hover, html[data-ui="modern"] .hq-mi:hover,
+html[data-ui="modern"] .pz-no, html[data-ui="modern"] .clseffbox, html[data-ui="modern"] .gmv-bdg, html[data-ui="modern"] .gmv-f input { background: var(--ui-surface-2); }
+html[data-ui="modern"] .qhist .ac-k, html[data-ui="modern"] .envdd-h, html[data-ui="modern"] .hmenu .hsec, html[data-ui="modern"] .row .kind, html[data-ui="modern"] .qcount,
+html[data-ui="modern"] .mcard-k, html[data-ui="modern"] .spawnbox .lbl, html[data-ui="modern"] .resmini-h, html[data-ui="modern"] .resgrp, html[data-ui="modern"] .weakbar-h,
+html[data-ui="modern"] .bpvlbl, html[data-ui="modern"] .radar-title, html[data-ui="modern"] .balrow2 .bl, html[data-ui="modern"] .fld label, html[data-ui="modern"] .dcard .l,
+html[data-ui="modern"] .dsev, html[data-ui="modern"] .awtag, html[data-ui="modern"] .fm2-poph, html[data-ui="modern"] .fm2-envl, html[data-ui="modern"] .fm2-listh,
+html[data-ui="modern"] .fx-hero h1, html[data-ui="modern"] .cs-band, html[data-ui="modern"] .cc-palette h4, html[data-ui="modern"] .cc-imhead { text-transform: none; letter-spacing: 0; }
+html[data-ui="modern"] .searchbox, html[data-ui="modern"] .radarbox { background: var(--ui-surface); border: 1px solid var(--ui-line); box-shadow: none; }
+html[data-ui="modern"] .searchbox:focus-within, html[data-ui="modern"] .upd-s::before, html[data-ui="modern"] .awframe, html[data-ui="modern"] .awcell,
+html[data-ui="modern"] .awslot, html[data-ui="modern"] .awcell::after, html[data-ui="modern"] .awslot::after, html[data-ui="modern"] .bagslot,
+html[data-ui="modern"] .awinv .awcell:hover, html[data-ui="modern"] .cda-frow.stale, html[data-ui="modern"] .crx-row.crx-end-abnormal_exit td:first-child,
+html[data-ui="modern"] .crx-al-warn, html[data-ui="modern"] .emc-card.edited, html[data-ui="modern"] .emc-snd-row.edited, html[data-ui="modern"] .emc-card.replaced,
+html[data-ui="modern"] .rl-fam.has-active:not(.open) > .rl-fam-h, html[data-ui="modern"] .rl-cta:hover, html[data-ui="modern"] .rl-cta:active { box-shadow: none; }
+html[data-ui="modern"] .envbadge { border: 1px solid var(--ui-line); background: var(--ui-surface-2); text-transform: none; letter-spacing: 0; }
+html[data-ui="modern"] .envbadge:hover, html[data-ui="modern"] .ibcell:hover, html[data-ui="modern"] .ebadge.map, html[data-ui="modern"] .fm-envt.dev,
+html[data-ui="modern"] .ai-skill:hover, html[data-ui="modern"] .ai-sib:hover, html[data-ui="modern"] .reqrow.sel, html[data-ui="modern"] .gmv-row:hover { border-color: var(--ui-line); background: var(--ui-surface-2); }
+html[data-ui="modern"] .envbadge.ok .dot, html[data-ui="modern"] .stpill.ok .dot, html[data-ui="modern"] .verifybadge.ok .vbdot, html[data-ui="modern"] .layer.ok .ld,
+html[data-ui="modern"] .awslot.res-in .res-q.live, html[data-ui="modern"] .altdot.ok, html[data-ui="modern"] .fm2-dot, html[data-ui="modern"] .fm2-cdot.ok,
+html[data-ui="modern"] .fm-pt-on::after, html[data-ui="modern"] .fx-ptsw input:checked+i, html[data-ui="modern"] .fx-lp-verdict.fx-ok, html[data-ui="modern"] .fx-dp-verdict.fx-ok,
+html[data-ui="modern"] .fm-side2 .fm-row.picked, html[data-ui="modern"] .fm2-selbar, html[data-ui="modern"] .cc-keys i.k-exist, html[data-ui="modern"] .cc-el.resist,
+html[data-ui="modern"] .emc-liverow td, html[data-ui="modern"] .emc-state.ok, html[data-ui="modern"] .rolebadge.GS, html[data-ui="modern"] .reqstate.deployed { background: var(--ui-ok); color: #fff; }
+html[data-ui="modern"] .envbadge.warn .dot, html[data-ui="modern"] .stpill.warn .dot, html[data-ui="modern"] .dsev.warning, html[data-ui="modern"] .awrlbl.click:hover,
+html[data-ui="modern"] .fm2-status.fm2-pull .fm2-dot, html[data-ui="modern"] .eqchip .eqchipn { background: var(--ui-accent-soft); color: var(--ui-accent-text); }
+html[data-ui="modern"] .envbadge[data-state=idle], html[data-ui="modern"] .envbadge.warn, html[data-ui="modern"] .awcell:hover, html[data-ui="modern"] .awslot.res,
+html[data-ui="modern"] .awcell.win, html[data-ui="modern"] #loginGate input:focus { border-color: var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .envbadge.ok, html[data-ui="modern"] .clseditbtn.on { border-color: var(--ui-ok); }
+html[data-ui="modern"] .envbadge.bad { border-color: var(--ui-bad); }
+html[data-ui="modern"] .envdd, html[data-ui="modern"] #sttip, html[data-ui="modern"] .hmenu, html[data-ui="modern"] .maplist, html[data-ui="modern"] .resmini,
+html[data-ui="modern"] .weakbar, html[data-ui="modern"] #savestatus, html[data-ui="modern"] .sheet, html[data-ui="modern"] #infopop { border: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .ev-b { border: 1px solid var(--ui-line); background: var(--ui-surface); text-transform: none; }
+html[data-ui="modern"] .ev-b:hover, html[data-ui="modern"] .chk:hover, html[data-ui="modern"] .iconbrowse:hover, html[data-ui="modern"] .verifybadge:hover,
+html[data-ui="modern"] body.editing .bpchip:hover, html[data-ui="modern"] input:not([type=radio]):not([type=checkbox]):hover:not(:focus),
+html[data-ui="modern"] select:hover:not(:focus), html[data-ui="modern"] textarea:hover:not(:focus), html[data-ui="modern"] .fm-waiting.changed, html[data-ui="modern"] .fm-pt-on,
+html[data-ui="modern"] .fx-step.fx-sok .fx-step-dot, html[data-ui="modern"] .fx-step.fx-swarn .fx-step-dot, html[data-ui="modern"] .fx-test.fx-tbad,
+html[data-ui="modern"] .fx-test.fx-tok, html[data-ui="modern"] .fx-dp-steps li.run i, html[data-ui="modern"] .fm-row.picked .fm-ico, html[data-ui="modern"] .fm-ready,
+html[data-ui="modern"] .cda-kpi.bad, html[data-ui="modern"] .crx-kpi-new, html[data-ui="modern"] #loginGate .lg-env:hover, html[data-ui="modern"] .userchip:hover,
+html[data-ui="modern"] .reqrow:hover { border-color: var(--ui-line); }
+html[data-ui="modern"] .ev-b.on, html[data-ui="modern"] .hbtn.gold, html[data-ui="modern"] .awcol.sel, html[data-ui="modern"] .fx-btn.gold, html[data-ui="modern"] .crx-ftab.on,
+html[data-ui="modern"] .gmv-rb.on, html[data-ui="modern"] #lv-bar button.on { background: var(--ui-accent); border-color: var(--ui-line); color: var(--ui-accent-ink); }
+html[data-ui="modern"] .envdd-sec .stpill:hover, html[data-ui="modern"] .bpvalrow input[readonly], html[data-ui="modern"] .fx-alert.fx-warn, html[data-ui="modern"] .ai-row.on,
+html[data-ui="modern"] .ai-mon.on { background: var(--ui-surface-2); border-color: var(--ui-line); }
+html[data-ui="modern"] .stpill .dot, html[data-ui="modern"] .ai-tag.pas { background: var(--ui-surface-2); color: var(--ui-muted); }
+html[data-ui="modern"] #sttip .sr, html[data-ui="modern"] .maprow, html[data-ui="modern"] .chbar, html[data-ui="modern"] .verifytip .vtsum, html[data-ui="modern"] .srvdiff-t th,
+html[data-ui="modern"] .srvdiff-t td, html[data-ui="modern"] .loottbl td, html[data-ui="modern"] .rrtbl td, html[data-ui="modern"] .rawrow, html[data-ui="modern"] .sheet h2,
+html[data-ui="modern"] .pickrow, html[data-ui="modern"] .hrow, html[data-ui="modern"] .notifpanel .np-h, html[data-ui="modern"] .np-item, html[data-ui="modern"] .dirow,
+html[data-ui="modern"] .aitbl td, html[data-ui="modern"] .aerow, html[data-ui="modern"] .fd-tab th, html[data-ui="modern"] .fd-tab td, html[data-ui="modern"] .rp-t td,
+html[data-ui="modern"] .cd-field, html[data-ui="modern"] .cd-table td, html[data-ui="modern"] .g-qhead { border-bottom: 1px solid var(--ui-line); }
+html[data-ui="modern"] #sttip .up, html[data-ui="modern"] .srvdiff-ok, html[data-ui="modern"] .cdclass, html[data-ui="modern"] .tst.ok .tst-ic,
+html[data-ui="modern"] .altarwin .clm, html[data-ui="modern"] .fm2-ok .fm2-dll, html[data-ui="modern"] .fm-rdot.rdy, html[data-ui="modern"] .fm-ritem span.ok,
+html[data-ui="modern"] .cd-good, html[data-ui="modern"] .cd-chip.r1, html[data-ui="modern"] .cd-card .sd.up, html[data-ui="modern"] .cda-kpi.good b,
+html[data-ui="modern"] .crx-kpi-ok b, html[data-ui="modern"] .crx-good, html[data-ui="modern"] .prf-g { color: var(--ui-ok); }
+html[data-ui="modern"] .rolebadge-nav[data-label]::after, html[data-ui="modern"] .hbtn.navico[data-label]::after { border: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); color: var(--ui-ink); }
+html[data-ui="modern"] .hbtn, html[data-ui="modern"] .ibcell, html[data-ui="modern"] .pkgcard, html[data-ui="modern"] #pick-list, html[data-ui="modern"] .dgroup,
+html[data-ui="modern"] .mini, html[data-ui="modern"] .ai-phase, html[data-ui="modern"] .ai-deliv, html[data-ui="modern"] .ai-ceil, html[data-ui="modern"] .ai-tier,
+html[data-ui="modern"] .eqbigic, html[data-ui="modern"] .eqcell, html[data-ui="modern"] .eqbon, html[data-ui="modern"] .eqlink, html[data-ui="modern"] .eqchip,
+html[data-ui="modern"] .emc-editor, html[data-ui="modern"] .emc-drop, html[data-ui="modern"] .emc-snd-pick, html[data-ui="modern"] .acc-role, html[data-ui="modern"] .pl-check,
+html[data-ui="modern"] .pl-game-btn { border: 1px solid var(--ui-line); background: var(--ui-surface); }
+html[data-ui="modern"] .hbtn.play { background: var(--ui-ok-soft); border-color: var(--ui-ok); color: var(--ui-ok); }
+html[data-ui="modern"] .hbtn.navico[data-label]::before { border-bottom-color: var(--ui-line); }
+html[data-ui="modern"] .hmi.play:hover, html[data-ui="modern"] .addbtn:hover, html[data-ui="modern"] .dirow .dfix:hover, html[data-ui="modern"] .ai-tag.sk,
+html[data-ui="modern"] .ai-tag.own { background: var(--ui-ok-soft); color: var(--ui-ok); }
+html[data-ui="modern"] #side { background: var(--ui-surface-2); border-right: 1px solid var(--ui-line); box-shadow: none; }
+html[data-ui="modern"] .fbar-type { border-color: var(--ui-line) !important; background: var(--ui-surface-2) !important; color: var(--ui-ink) !important; }
+html[data-ui="modern"] .othertypes, html[data-ui="modern"] .chcard, html[data-ui="modern"] .plate, html[data-ui="modern"] .rescell, html[data-ui="modern"] .bf-err,
+html[data-ui="modern"] .bf-fix, html[data-ui="modern"] .skillcard, html[data-ui="modern"] .aigen, html[data-ui="modern"] .animgrp, html[data-ui="modern"] .aiedit,
+html[data-ui="modern"] .fm-search .mapcombo, html[data-ui="modern"] .ai-side, html[data-ui="modern"] .ai-palette, html[data-ui="modern"] .ai-share.warn,
+html[data-ui="modern"] .cd-modal-b { background: var(--ui-surface); border: 1px solid var(--ui-line); }
+html[data-ui="modern"] .othertypes .seeall, html[data-ui="modern"] .mapcombo, html[data-ui="modern"] .filterreset, html[data-ui="modern"] .monfilter input,
+html[data-ui="modern"] .plate input, html[data-ui="modern"] .rescell .resin, html[data-ui="modern"] .bpvalrow input, html[data-ui="modern"] .rrtbl tr.rrdiff td,
+html[data-ui="modern"] .loottbl input, html[data-ui="modern"] .rsp-in, html[data-ui="modern"] #respawn-editor input, html[data-ui="modern"] .rawrow input,
+html[data-ui="modern"] .fld input, html[data-ui="modern"] input:not([type=radio]):not([type=checkbox]), html[data-ui="modern"] select, html[data-ui="modern"] textarea,
+html[data-ui="modern"] select option, html[data-ui="modern"] #infopop textarea, html[data-ui="modern"] .gl-vrow input, html[data-ui="modern"] .dcard,
+html[data-ui="modern"] .aied-in, html[data-ui="modern"] .aied-sel, html[data-ui="modern"] .aslot .qty, html[data-ui="modern"] .fm-side2, html[data-ui="modern"] .fx-hero,
+html[data-ui="modern"] .fx-card, html[data-ui="modern"] .fx-grp>summary, html[data-ui="modern"] .ai-rank.open, html[data-ui="modern"] .cd-kpi, html[data-ui="modern"] .cd-in,
+html[data-ui="modern"] .cd-chip, html[data-ui="modern"] .cd-side, html[data-ui="modern"] .cd-log, html[data-ui="modern"] .cda-ctl select,
+html[data-ui="modern"] .cda-ctl input[type=text], html[data-ui="modern"] .cda-job, html[data-ui="modern"] .cda-kpi, html[data-ui="modern"] .cda-fdet>td,
+html[data-ui="modern"] .cdc-tab, html[data-ui="modern"] .cdc-filters input[type=search], html[data-ui="modern"] .cdc-filters select, html[data-ui="modern"] .cdc-scroll,
+html[data-ui="modern"] .crx-ctl select, html[data-ui="modern"] .crx-pager select, html[data-ui="modern"] .crx-kpi, html[data-ui="modern"] .crx-filters input,
+html[data-ui="modern"] .crx-filters select, html[data-ui="modern"] .crx-triage select, html[data-ui="modern"] .crx-triage textarea,
+html[data-ui="modern"] .crx-vbar input[type=search], html[data-ui="modern"] .crx-xhead, html[data-ui="modern"] .crx-cause, html[data-ui="modern"] .crx-alert,
+html[data-ui="modern"] .cc-seltype select, html[data-ui="modern"] .cc-pchip, html[data-ui="modern"] .cc-legend, html[data-ui="modern"] .cc-keys, html[data-ui="modern"] .cc-anc,
+html[data-ui="modern"] .cc-x, html[data-ui="modern"] .cc-ffilter, html[data-ui="modern"] .cc-impact, html[data-ui="modern"] .cc-mini, html[data-ui="modern"] .cc-drop,
+html[data-ui="modern"] .emc-card, html[data-ui="modern"] .emc-in, html[data-ui="modern"] .emc-cats, html[data-ui="modern"] .emc-upres, html[data-ui="modern"] .emc-stghead select,
+html[data-ui="modern"] .emc-stg, html[data-ui="modern"] .emc-pubhead, html[data-ui="modern"] .emc-sec, html[data-ui="modern"] .emc-snd-row, html[data-ui="modern"] .emc-guide,
+html[data-ui="modern"] .reqrow, html[data-ui="modern"] .k-ck, html[data-ui="modern"] .k-list, html[data-ui="modern"] .g-obj, html[data-ui="modern"] .prf-filters input,
+html[data-ui="modern"] .prf-filters select, html[data-ui="modern"] .prf-player, html[data-ui="modern"] .prf-tile, html[data-ui="modern"] .pl-in, html[data-ui="modern"] .pl-bar,
+html[data-ui="modern"] input[type=range]::-webkit-slider-runnable-track, html[data-ui="modern"] .gmv-search, html[data-ui="modern"] .gmv-row { background: var(--ui-surface); }
+html[data-ui="modern"] .fchip.on { border-color: var(--ui-line); background: var(--ui-accent-soft); box-shadow: none; color: var(--ui-accent-text); }
+html[data-ui="modern"] .ld-spin { border: 1px solid var(--ui-line); border-top-color: var(--gold2,var(--ui-line)); }
+html[data-ui="modern"] .mapcombo:focus-within, html[data-ui="modern"] .row .gem, html[data-ui="modern"] .mcard-sw.on, html[data-ui="modern"] .upd-s.on::before,
+html[data-ui="modern"] .upd-fill, html[data-ui="modern"] input:not([type=radio]):not([type=checkbox]):focus, html[data-ui="modern"] select:focus,
+html[data-ui="modern"] textarea:focus, html[data-ui="modern"] .aslot:hover, html[data-ui="modern"] .awcell:hover, html[data-ui="modern"] .altar-tip,
+html[data-ui="modern"] .awslot.res-in.sel, html[data-ui="modern"] .acpick, html[data-ui="modern"] .awbtn:hover, html[data-ui="modern"] .awcslot.cur.sel,
+html[data-ui="modern"] .awcslot.r.has, html[data-ui="modern"] .fm-search .mapcombo:focus-within, html[data-ui="modern"] .fm-icow:hover .fm-ico, html[data-ui="modern"] .cd-side.turn,
+html[data-ui="modern"] .cc-existing .cc-sres, html[data-ui="modern"] .cc-fld input:focus, html[data-ui="modern"] .homehero, html[data-ui="modern"] .homecard:hover,
+html[data-ui="modern"] .envchip.on, html[data-ui="modern"] input[type=text]:focus, html[data-ui="modern"] input[type=number]:focus, html[data-ui="modern"] input[type=search]:focus,
+html[data-ui="modern"] input[type=password]:focus, html[data-ui="modern"] input:not([type]):focus, html[data-ui="modern"] .clstier.on, html[data-ui="modern"] #fab-create:hover,
+html[data-ui="modern"] #about-link:hover { box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .spellsub .sc.on, html[data-ui="modern"] .fr-choice.on, html[data-ui="modern"] .emc-snd-icbtn:hover, html[data-ui="modern"] .emc-snd-icbtn.over,
+html[data-ui="modern"] .emc-snd-pick-c:hover, html[data-ui="modern"] .emc-snd-pick-c.on, html[data-ui="modern"] .gmv-row.on { border-color: var(--ui-line); background: var(--ui-accent); color: var(--ui-accent-ink); }
+html[data-ui="modern"] .masshdr, html[data-ui="modern"] .balbar, html[data-ui="modern"] .iconbrowse, html[data-ui="modern"] .lootslot, html[data-ui="modern"] .chancebar,
+html[data-ui="modern"] .pkgbar, html[data-ui="modern"] .skillcard .skillicon, html[data-ui="modern"] .animchip, html[data-ui="modern"] .animfilter,
+html[data-ui="modern"] .aslot .ic, html[data-ui="modern"] .aerow .ic { background: var(--ui-surface-2); border: 1px solid var(--ui-line); }
+html[data-ui="modern"] .chchip, html[data-ui="modern"] .verifybadge, html[data-ui="modern"] .fx-ver, html[data-ui="modern"] .lv-fix { border: 1px solid var(--ui-line); background: var(--ui-surface-2); color: var(--ui-ink); }
+html[data-ui="modern"] .chchip.on, html[data-ui="modern"] .emc-state.warn, html[data-ui="modern"] .clschip.base { background: var(--ui-accent-soft); border-color: var(--ui-line); color: var(--ui-accent-text); }
+html[data-ui="modern"] .chk { border: 1.1px solid var(--ui-line); background: var(--ui-surface); box-shadow: none; }
+html[data-ui="modern"] .chk.on, html[data-ui="modern"] .tab.on, html[data-ui="modern"] .mini.gold, html[data-ui="modern"] .fx-vote.up, html[data-ui="modern"] .ai-fchip.on,
+html[data-ui="modern"] #loginGate .lg-env.on { background: var(--ui-surface-2); border-color: var(--ui-line); color: var(--ui-ink); }
+html[data-ui="modern"] .chcard.sel { border-color: var(--ui-line); background: var(--ui-surface-2); box-shadow: none; }
+html[data-ui="modern"] .chstate { text-transform: none; }
+html[data-ui="modern"] .verifybadge.warn .vbdot, html[data-ui="modern"] .fm2-warn .fm2-dot { background: var(--ui-accent-soft); box-shadow: var(--ui-shadow); color: var(--ui-accent-text); }
+html[data-ui="modern"] .verifytip, html[data-ui="modern"] .notifpanel { background: var(--ui-surface); border: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .row.sel { background: var(--ui-surface-2); border-color: var(--ui-line); box-shadow: none; }
+html[data-ui="modern"] .mb i, html[data-ui="modern"] #v3-msg, html[data-ui="modern"] .awrowlbl>div, html[data-ui="modern"] .awpglbl, html[data-ui="modern"] .awcell .pc,
+html[data-ui="modern"] .awresname, html[data-ui="modern"] .ebar .star, html[data-ui="modern"] .fx-ptside-both, html[data-ui="modern"] #loginGate .lg-hint { color: var(--ui-muted); }
+html[data-ui="modern"] .portrait, html[data-ui="modern"] .upd-card, html[data-ui="modern"] .iconportrait, html[data-ui="modern"] .cs-chip, html[data-ui="modern"] .rowsw,
+html[data-ui="modern"] .eqswc { border: 1px solid var(--ui-line); box-shadow: none; }
+html[data-ui="modern"] .portrait::before, html[data-ui="modern"] .loottbl tr.saving td:first-child::after, html[data-ui="modern"] .delx,
+html[data-ui="modern"] .iconportrait::before, html[data-ui="modern"] .awgroup, html[data-ui="modern"] .fd-sec, html[data-ui="modern"] .fr-choice, html[data-ui="modern"] .fm2-pub,
+html[data-ui="modern"] .ai-search, html[data-ui="modern"] .ai-fchip, html[data-ui="modern"] .ai-seg, html[data-ui="modern"] .ai-cd, html[data-ui="modern"] .ai-skill,
+html[data-ui="modern"] .ai-sib, html[data-ui="modern"] .fm-cmt-img, html[data-ui="modern"] .fm-cprev-t, html[data-ui="modern"] .fm-media-spin, html[data-ui="modern"] .fmspin,
+html[data-ui="modern"] .eqbars, html[data-ui="modern"] .eqstage, html[data-ui="modern"] .cd-cell, html[data-ui="modern"] .dh-hi i { border: 1px solid var(--ui-line); }
+html[data-ui="modern"] #viewer3d .v3btn, html[data-ui="modern"] #loginGate input, html[data-ui="modern"] #loginGate .lg-env { border: 1px solid var(--ui-line); background: var(--ui-surface); color: var(--ui-ink); }
+html[data-ui="modern"] #viewer3d .v3btn.on, html[data-ui="modern"] #viewer3d .v3btn:hover, html[data-ui="modern"] .backbtn:hover, html[data-ui="modern"] .sbtn:hover,
+html[data-ui="modern"] .histbtn:hover, html[data-ui="modern"] .gl-save:hover, html[data-ui="modern"] .dgfixall:hover, html[data-ui="modern"] .awcol.click:hover,
+html[data-ui="modern"] .fm-row:hover, html[data-ui="modern"] .fm-row.on, html[data-ui="modern"] .fm-side2 .fm-row:hover, html[data-ui="modern"] .fm-side2 .fm-row.on,
+html[data-ui="modern"] .fd-click:hover, html[data-ui="modern"] .fx-menu-pop button:hover, html[data-ui="modern"] .fx-grp>summary:hover,
+html[data-ui="modern"] .fx-vg-item>summary:hover, html[data-ui="modern"] .fm-ritem:hover, html[data-ui="modern"] .fm-grp>summary:hover, html[data-ui="modern"] .cd-table tr:hover td { background: var(--ui-accent); color: var(--ui-accent-ink); }
+html[data-ui="modern"] .mcard, html[data-ui="modern"] .ebadge { border: 1px solid var(--ui-line); background: var(--ui-surface); box-shadow: none; }
+html[data-ui="modern"] .mcard-h { border-bottom: 1px solid var(--ui-line); background: var(--ui-surface-2); text-transform: none; letter-spacing: 0; }
+html[data-ui="modern"] .mcard-tex { border: 1px solid var(--ui-line); background: var(--ui-surface-2); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .mcard-sw, html[data-ui="modern"] .histbtn, html[data-ui="modern"] .eqediti, html[data-ui="modern"] .lm-warn { border: 1px solid var(--ui-line); background: var(--ui-surface-2); }
+html[data-ui="modern"] .ename { text-shadow: none; color: var(--ui-ink); letter-spacing: 0; }
+html[data-ui="modern"] .srvdiff-box, html[data-ui="modern"] .pd-lab, html[data-ui="modern"] .gmv-card { border: 1px solid var(--ui-line); background: var(--ui-surface); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .srvdiff-box.warn, html[data-ui="modern"] #pkgcard-guard, html[data-ui="modern"] .ai-deliv.warn { border-color: var(--ui-line); background: var(--ui-surface); }
+html[data-ui="modern"] .srvdiff-box.ok { border-color: var(--ui-line); background: var(--ui-surface); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] .srvdiff-warn, html[data-ui="modern"] .upd-note.warn, html[data-ui="modern"] .radar-leg, html[data-ui="modern"] .tst.warn .tst-ic,
+html[data-ui="modern"] .dcard.warning .n, html[data-ui="modern"] .aied-l, html[data-ui="modern"] .awcol, html[data-ui="modern"] .awrlbl, html[data-ui="modern"] .awcell.empty:hover,
+html[data-ui="modern"] .awlbl, html[data-ui="modern"] .awslot .ph, html[data-ui="modern"] .awsim, html[data-ui="modern"] .altarwin .ebar .star,
+html[data-ui="modern"] .fm2-warn .fm2-dll, html[data-ui="modern"] .fm2-dllready-h b, html[data-ui="modern"] .fm-rdot.wip, html[data-ui="modern"] .ai-rank-s,
+html[data-ui="modern"] .fm-grp>summary::before, html[data-ui="modern"] .fm-chlog-wrap>summary, html[data-ui="modern"] .lg-eye, html[data-ui="modern"] .cd-chip.r4,
+html[data-ui="modern"] .cda-notes>div, html[data-ui="modern"] .cda-kpi.warn b, html[data-ui="modern"] .cda-warnlist li, html[data-ui="modern"] .crx-kpi-abn b,
+html[data-ui="modern"] .emc-skip, html[data-ui="modern"] .emc-pwarn, html[data-ui="modern"] .prf-a, html[data-ui="modern"] .rl-star.on, html[data-ui="modern"] .ench-flags,
+html[data-ui="modern"] .clscelleff, html[data-ui="modern"] .clstneff, html[data-ui="modern"] .clsrawhint, html[data-ui="modern"] .hl-big.warn, html[data-ui="modern"] .lv-note.warn { color: var(--ui-accent-text); }
+html[data-ui="modern"] .upd-track { background: var(--ui-surface-2); border: 1px solid var(--ui-line); box-shadow: none; }
+html[data-ui="modern"] .spt-out, html[data-ui="modern"] .edesc { background: var(--ui-surface); border: 1px solid var(--ui-line); color: var(--ui-ink); }
+html[data-ui="modern"] .tabs { border-bottom: 1px solid var(--ui-line); background: var(--ui-surface-2); }
+html[data-ui="modern"] .loottbl th, html[data-ui="modern"] .rrtbl th, html[data-ui="modern"] .secline { border-bottom: 1px solid var(--ui-line); text-transform: none; letter-spacing: 0; }
+html[data-ui="modern"] .loottbl tr.lootgrp td { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); letter-spacing: 0; }
+html[data-ui="modern"] .rescell.weak { background: var(--ui-surface); border-color: var(--ui-line); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .bf-summary, html[data-ui="modern"] .cda-err { background: var(--ui-surface); border: 1px solid var(--ui-line); color: var(--ui-bad); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .bpchip { border: 1.1px solid var(--ui-line); background: var(--ui-surface-2); color: var(--ui-ink); }
+html[data-ui="modern"] .bpchip.on, html[data-ui="modern"] .fm-chip.fail { background: var(--ui-bad); border-color: var(--ui-bad); color: #fff; }
+html[data-ui="modern"] .delx:hover, html[data-ui="modern"] .hrow .hundo:hover, html[data-ui="modern"] .cc-x:hover { background: var(--ui-bad-soft); color: var(--ui-bad); }
+html[data-ui="modern"] .addbtn, html[data-ui="modern"] .tst .tst-act, html[data-ui="modern"] .dirow .dfix, html[data-ui="modern"] .claimbtn,
+html[data-ui="modern"] .altarwin .claimbtn { border: 1px solid var(--ui-ok); background: var(--ui-ok-soft); color: var(--ui-ok); }
+html[data-ui="modern"] .sbtn, html[data-ui="modern"] .fm2-copy, html[data-ui="modern"] .cd-cell.free.armed { border: 1px solid var(--ui-line); background: var(--ui-accent); color: var(--ui-accent-ink); }
+html[data-ui="modern"] select { background-color: var(--ui-surface); }
+html[data-ui="modern"] .envr input:checked+span { border-color: var(--ui-line); background: var(--ui-surface-2); box-shadow: none; color: var(--ui-ink); }
+html[data-ui="modern"] .pickrow.sel { background: var(--ui-accent); box-shadow: none; color: var(--ui-accent-ink); }
+html[data-ui="modern"] .sbtn.loading::after, html[data-ui="modern"] .spin, html[data-ui="modern"] .eden-splash .es-spin { border: 1px solid var(--ui-line); border-top-color: var(--ui-line); }
+html[data-ui="modern"] .eden-splash .es-title { text-shadow: none; color: var(--ui-muted); letter-spacing: 0; }
+html[data-ui="modern"] .eden-splash .es-msg, html[data-ui="modern"] .eden-splash .es-sub { color: var(--ui-accent-text); letter-spacing: 0; }
+html[data-ui="modern"] .hrow .htag { background: var(--ui-surface-2); text-transform: none; }
+html[data-ui="modern"] .hrow .hundo { border: 1px solid var(--ui-bad); }
+html[data-ui="modern"] .notifbell .nb-count { background: var(--ui-bad); box-shadow: var(--ui-shadow); color: #fff; }
+html[data-ui="modern"] .notifpanel .np-mark, html[data-ui="modern"] .acchip, html[data-ui="modern"] .fm-rbadge.done { background: var(--ui-ok-soft); border: 1px solid var(--ui-ok); color: var(--ui-ok); }
+html[data-ui="modern"] .tst { background: var(--ui-surface); border: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .tst.ok { border-left-color: var(--ui-ok); }
+html[data-ui="modern"] .tst.error, html[data-ui="modern"] .prf-cause-2 { border-left-color: var(--ui-bad); background: var(--ui-surface); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .tst.warn, html[data-ui="modern"] .prf-cause-1 { border-left-color: var(--ui-line); background: var(--ui-surface); }
+html[data-ui="modern"] .tst.info { border-left-color: var(--ui-info); }
+html[data-ui="modern"] .tst.info .tst-ic, html[data-ui="modern"] .dcard.info .n, html[data-ui="modern"] .awcell .fl, html[data-ui="modern"] .awsim .lnk, html[data-ui="modern"] .lnk,
+html[data-ui="modern"] .altar-tip .flags, html[data-ui="modern"] .cd-chip.r2, html[data-ui="modern"] .crx-sigcell .crx-sym, html[data-ui="modern"] .crx-kpi-hang b,
+html[data-ui="modern"] .crx-hang { color: var(--ui-info); }
+html[data-ui="modern"] .iconportrait img { background: var(--ui-surface-2); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .gl-save, html[data-ui="modern"] .dgfixall, html[data-ui="modern"] .ab-dl, html[data-ui="modern"] .fd-act { border: 1px solid var(--ui-line); background: var(--ui-accent-soft); color: var(--ui-accent-text); }
+html[data-ui="modern"] .dcard.error, html[data-ui="modern"] .cd-in.bad, html[data-ui="modern"] .cda-job.err, html[data-ui="modern"] .prf-banner-err { border-color: var(--ui-line); background: var(--ui-surface); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .dsev.info, html[data-ui="modern"] .cd-table tr.sel td, html[data-ui="modern"] .k-chip.rfg, html[data-ui="modern"] .rpk-badge.stale { background: var(--ui-info-soft); color: var(--ui-info); }
+html[data-ui="modern"] .aiwarn { background: var(--ui-surface); border: 1px solid var(--ui-line); color: var(--ui-accent-text); }
+html[data-ui="modern"] .wsum.ok { background: var(--ui-surface); border-color: var(--ui-line); color: var(--ui-ok); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] .wsum.warn, html[data-ui="modern"] #loginGate .lg-tenant.reforged, html[data-ui="modern"] .fm-chip.warn, html[data-ui="modern"] .fm-dll.warn,
+html[data-ui="modern"] .pz-warn { background: var(--ui-surface-2); border-color: var(--ui-line); color: var(--ui-accent-text); }
+html[data-ui="modern"] .awrlbl.sel { background: var(--ui-accent-soft); box-shadow: none; color: var(--ui-accent-text); }
+html[data-ui="modern"] .aseg.on, html[data-ui="modern"] .baggrid, html[data-ui="modern"] .viewas-tiles .vtile.on { background: var(--ui-surface-2); box-shadow: none; }
+html[data-ui="modern"] .awcell.lit, html[data-ui="modern"] .cda-kpi.warn { border-color: var(--ui-line); box-shadow: none; }
+html[data-ui="modern"] .awcslot { background: var(--ui-surface-2); border: 1px solid var(--aw-edge,var(--ui-line)); color: var(--ui-ink); }
+html[data-ui="modern"] .fm2-dllready, html[data-ui="modern"] .fm-pullnew { border: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); background: var(--ui-surface-2); }
+html[data-ui="modern"] .fm-envt.preprod { border-color: var(--ui-line); background: var(--ui-surface); color: var(--ui-info); border-left: 3px solid var(--ui-info); }
+html[data-ui="modern"] .fm-envt.preprod.stale, html[data-ui="modern"] .fm-envt.prod.stale { border-color: var(--ui-line); background: var(--ui-surface-2); color: var(--ui-accent-text); }
+html[data-ui="modern"] .fm-envt.prod { border-color: var(--ui-line); background: var(--ui-surface); color: var(--ui-ok); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] .fm-envt.prod.unstable { border-color: var(--ui-line); background: var(--ui-surface); color: var(--ui-bad); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .fm-mine { border: 1px solid var(--ui-info); background: var(--ui-info-soft); color: var(--ui-info); }
+html[data-ui="modern"] .fm2-minebar, html[data-ui="modern"] .fm-rbanner.rdy { background: var(--ui-ok); border: 1px solid var(--ui-line); color: #fff; }
+html[data-ui="modern"] .fm2-danger { border-color: var(--ui-line) !important; color: var(--ui-bad) !important; }
+html[data-ui="modern"] .fx-detail { --fx-okbg: var(--ui-ok); --fx-warnbg: var(--ui-surface-2); --fx-badbg: var(--ui-bad); --fx-nabg: var(--ui-surface-2); }
+html[data-ui="modern"] .fx-hero-ico { background: var(--ui-surface-2); border: 1px solid var(--ui-line); box-shadow: none; color: var(--ui-ink); }
+html[data-ui="modern"] .fx-btn.danger, html[data-ui="modern"] .fm-vb.down:hover, html[data-ui="modern"] .fm-vb.down.on { border-color: var(--ui-bad); background: var(--ui-bad); color: #fff; }
+html[data-ui="modern"] .fx-alert.fx-error, html[data-ui="modern"] .fx-dp-steps li.bad i, html[data-ui="modern"] .fm-dll.bad { background: var(--ui-bad); border-color: var(--ui-line); color: #fff; }
+html[data-ui="modern"] .fx-ptside-client { border-color: var(--ui-line); color: var(--ui-info); }
+html[data-ui="modern"] .fx-lpw, html[data-ui="modern"] .pd-ipct { border: 1px solid var(--ui-line); color: var(--ui-ink); }
+html[data-ui="modern"] .fx-lpw.off, html[data-ui="modern"] .cda-sa { border-color: var(--ui-line) !important; }
+html[data-ui="modern"] .fx-lpw:hover, html[data-ui="modern"] .cd-card.pick, html[data-ui="modern"] .emc-card.sel { outline: 1px solid var(--ui-line); }
+html[data-ui="modern"] .fx-dp-steps li.ok i, html[data-ui="modern"] .fm-row.picked .fm-pick, html[data-ui="modern"] .fm-dll.ok, html[data-ui="modern"] .pz-yes,
+html[data-ui="modern"] .gmv-copy.ok { background: var(--ui-ok); border-color: var(--ui-line); color: #fff; }
+html[data-ui="modern"] .fm-rbadge.none { background: var(--ui-surface-2); border: 1px solid var(--ui-line); color: var(--ui-muted); }
+html[data-ui="modern"] .ai-tag.fle, html[data-ui="modern"] .ai-tag.sh, html[data-ui="modern"] .eqflag.warn { background: var(--ui-surface-2); color: var(--ui-accent-text); }
+html[data-ui="modern"] .ai-slot { border: 1.1px solid var(--ui-line); }
+html[data-ui="modern"] .ai-slot.drag, html[data-ui="modern"] .lv-env button.on { border-color: var(--ui-line); background: var(--ui-surface-2); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .ai-monwrap, html[data-ui="modern"] .prf-cause { border-left: 1px solid var(--ui-line); }
+html[data-ui="modern"] .ai-share.ok { background: var(--ui-surface); border: 1px solid var(--ui-line); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] .fm-vpill { background: var(--ui-accent-soft); border: 1px solid var(--ui-line); color: var(--ui-accent-text); }
+html[data-ui="modern"] .fm-titem.ok { border-color: var(--ui-line); background: var(--ui-ok); color: #fff; }
+html[data-ui="modern"] .fm-titem.broken, html[data-ui="modern"] .eqedead .eqediti, html[data-ui="modern"] .lm-problem { border-color: var(--ui-line); background: var(--ui-bad); color: #fff; }
+html[data-ui="modern"] .fm-grp { border: 1px solid var(--edge,var(--ui-line)); }
+html[data-ui="modern"] .fm-vb.up:hover, html[data-ui="modern"] .fm-vb.up.on, html[data-ui="modern"] .abpill.ok { border-color: var(--ui-ok); background: var(--ui-ok); color: #fff; }
+html[data-ui="modern"] .eqcell:hover, html[data-ui="modern"] .eqlink:hover, html[data-ui="modern"] .eqediti:focus { border-color: var(--gold,var(--ui-line)); background: var(--ui-surface); }
+html[data-ui="modern"] .eqwarn { border: 1px solid var(--ui-line); background: var(--ui-bad); color: #fff; }
+html[data-ui="modern"] #lm-env.lm-prod { border-color: var(--ui-line); color: var(--ui-accent-text); }
+html[data-ui="modern"] .cd-tab.on, html[data-ui="modern"] #cc-minimap { background: var(--ui-surface); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .cd-note.err { background: var(--ui-surface); color: var(--ui-bad); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .cd-note.ok { background: var(--ui-surface); color: var(--ui-ok); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] .cd-note.info, html[data-ui="modern"] .crx-fsym { background: var(--ui-surface); color: var(--ui-info); border-left: 3px solid var(--ui-info); }
+html[data-ui="modern"] .cd-in.changed { border-color: var(--ui-line); background: var(--ui-surface); border-left: 3px solid var(--ui-info); }
+html[data-ui="modern"] .cd-chip.design { background: var(--ui-info-soft); border-color: var(--ui-info); color: var(--ui-info); }
+html[data-ui="modern"] .cd-card .own.p0, html[data-ui="modern"] .reqstate.reviewed { background: var(--ui-info); color: #fff; }
+html[data-ui="modern"] .cd-side.p0 { border-left: 5px solid var(--ui-info); }
+html[data-ui="modern"] .cd-side.p1 { border-left: 5px solid var(--ui-bad); }
+html[data-ui="modern"] .cd-bar .w, html[data-ui="modern"] .crx-ln.h-guard, html[data-ui="modern"] .crx-hl.h-guard, html[data-ui="modern"] .cc-drop.over { background: var(--ui-surface); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] .cd-bar .l, html[data-ui="modern"] .crx-ln.h-crash, html[data-ui="modern"] .crx-hl.h-crash, html[data-ui="modern"] .crx-ln.h-sys,
+html[data-ui="modern"] .crx-hl.h-sys, html[data-ui="modern"] .crx-ln.h-error, html[data-ui="modern"] .crx-hl.h-error, html[data-ui="modern"] .crx-mod-site,
+html[data-ui="modern"] .cc-icobox.miss { background: var(--ui-surface); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .cd-drop.over { background: var(--ui-surface); border-color: var(--ui-line); border-left: 3px solid var(--ui-info); }
+html[data-ui="modern"] .cda-ft td, html[data-ui="modern"] .cdc-table td, html[data-ui="modern"] .prf-table td { border-top: 1px solid var(--line,var(--ui-line)); }
+html[data-ui="modern"] .cdc-tab.on { background: var(--ui-surface-2); border-color: var(--ui-line); box-shadow: none; color: var(--ui-ink); }
+html[data-ui="modern"] .crx-edenpill { background: var(--ui-info-soft); border: 1px solid var(--ui-info); color: var(--ui-info); }
+html[data-ui="modern"] .crx-sym { background: var(--ui-surface); border: 1px solid var(--ui-line); color: var(--ui-info); border-left: 3px solid var(--ui-info); }
+html[data-ui="modern"] .crx-dash { border-top: 2px dashed var(--ui-line); }
+html[data-ui="modern"] .cc-stage::before, html[data-ui="modern"] #loginGate::before, html[data-ui="modern"] body::before, html[data-ui="modern"] #boot::after,
+html[data-ui="modern"] #overlay::after, html[data-ui="modern"] #conn-lost::after { background-image: none; }
+html[data-ui="modern"] .emc-warns { border: 1px solid var(--ui-line); background: var(--ui-surface-2); color: var(--ui-accent-text); }
+html[data-ui="modern"] .emc-ok { background: var(--ui-surface); border: 1px solid var(--ui-line); color: var(--ui-ok); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] #loginGate .lg-tenant.dawnbreak { background: var(--ui-surface); border-color: var(--ui-line); color: var(--ui-info); border-left: 3px solid var(--ui-info); }
+html[data-ui="modern"] .pd-panel { box-shadow: var(--ui-shadow); --k-okbg: var(--ui-surface); --k-todobg: var(--ui-surface-2); --k-badbg: var(--ui-surface); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] #pk-kids { --k-okbg: var(--ui-surface); --k-todobg: var(--ui-surface-2); --k-badbg: var(--ui-surface); border-left: 3px solid var(--ui-bad); }
+html[data-ui="modern"] .g-obj.done { background: var(--ui-surface); border-color: var(--ui-line); border-left: 3px solid var(--ui-ok); }
+html[data-ui="modern"] .prf-banner { border: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); background: var(--ui-surface); }
+html[data-ui="modern"] .pl-bar.win .pl-bar-fill, html[data-ui="modern"] .pl-bars-dc .pl-bar.win .pl-bar-fill { color: #fff; }
+html[data-ui="modern"] .pl-check.on, html[data-ui="modern"] .envcard.on, html[data-ui="modern"] .tst-bar { background: var(--ui-surface-2); box-shadow: none; color: var(--ui-ink); }
+html[data-ui="modern"] .pl-bars-game .pl-bar { background: var(--ui-surface); border-color: var(--ui-line); }
+html[data-ui="modern"] .pl-bars-dc .pl-bar-fill { border-left: 3px solid var(--ui-info); }
+html[data-ui="modern"] .rl-cta { text-shadow: none; background: var(--ui-accent); border: 1px solid var(--ui-line); box-shadow: none; color: var(--ui-accent-ink); }
+html[data-ui="modern"] .clseditbtn.danger { border-color: var(--ui-bad); background: var(--ui-surface); color: var(--ui-bad); }
+html[data-ui="modern"] .clseditbtn.danger:hover { border-color: var(--ui-bad); background: var(--ui-surface-2); color: var(--ui-bad); }
+html[data-ui="modern"] #fab-create { background: var(--ui-surface-2); box-shadow: var(--ui-shadow); color: var(--ui-ink); }
+html[data-ui="modern"] .abpill.upd { background: var(--ui-accent-soft); }
+@media (prefers-color-scheme: light) { html[data-ui="modern"] .clsrestartbar { background: var(--ui-surface); border-color: var(--ui-line); color: var(--ui-ink); } }
+@media (prefers-color-scheme: light) { html[data-ui="modern"] .clsrestartbar b { color: var(--ui-ink); } }
+html[data-ui="modern"] .lv-play { border: 1px solid var(--ui-line); background: var(--ui-surface-2); box-shadow: var(--ui-shadow); color: var(--ui-ink); }
+html[data-ui="modern"] [style*="background:#7a5c1e" i], html[data-ui="modern"] [style*="background: #7a5c1e" i], html[data-ui="modern"] [style*="background:#9a7c45" i],
+html[data-ui="modern"] [style*="background: #9a7c45" i], html[data-ui="modern"] [style*="background:#2b2418" i], html[data-ui="modern"] [style*="background: #2b2418" i],
+html[data-ui="modern"] [style*="background:#e7d3a0" i], html[data-ui="modern"] [style*="background: #e7d3a0" i], html[data-ui="modern"] [style*="background:#231402" i],
+html[data-ui="modern"] [style*="background: #231402" i], html[data-ui="modern"] [style*="background:#efe4cb" i], html[data-ui="modern"] [style*="background: #efe4cb" i],
+html[data-ui="modern"] [style*="background:#efe3c5" i], html[data-ui="modern"] [style*="background: #efe3c5" i], html[data-ui="modern"] [style*="background:#2a2418" i],
+html[data-ui="modern"] [style*="background: #2a2418" i], html[data-ui="modern"] [style*="background:#f3ead2" i], html[data-ui="modern"] [style*="background: #f3ead2" i],
+html[data-ui="modern"] [style*="background:#f0d28a" i], html[data-ui="modern"] [style*="background: #f0d28a" i] { background-color: var(--ui-surface-2) !important; }
+html[data-ui="modern"] [style*="background:#7a5c1e" i], html[data-ui="modern"] [style*="background: #7a5c1e" i], html[data-ui="modern"] [style*="background:#9a7c45" i],
+html[data-ui="modern"] [style*="background: #9a7c45" i], html[data-ui="modern"] [style*="background:#fdf6e6" i], html[data-ui="modern"] [style*="background: #fdf6e6" i],
+html[data-ui="modern"] [style*="background:#4a8a3a" i], html[data-ui="modern"] [style*="background: #4a8a3a" i], html[data-ui="modern"] [style*="background:#2b2418" i],
+html[data-ui="modern"] [style*="background: #2b2418" i], html[data-ui="modern"] [style*="background:#e7d3a0" i], html[data-ui="modern"] [style*="background: #e7d3a0" i],
+html[data-ui="modern"] [style*="background:#d8b96a" i], html[data-ui="modern"] [style*="background: #d8b96a" i], html[data-ui="modern"] [style*="background:#bf6a2a" i],
+html[data-ui="modern"] [style*="background: #bf6a2a" i], html[data-ui="modern"] [style*="background:#231402" i], html[data-ui="modern"] [style*="background: #231402" i],
+html[data-ui="modern"] [style*="background:#efe4cb" i], html[data-ui="modern"] [style*="background: #efe4cb" i], html[data-ui="modern"] [style*="background:#efe3c5" i],
+html[data-ui="modern"] [style*="background: #efe3c5" i], html[data-ui="modern"] [style*="background:#e7c98a" i], html[data-ui="modern"] [style*="background: #e7c98a" i],
+html[data-ui="modern"] [style*="background:#fbf6e8" i], html[data-ui="modern"] [style*="background: #fbf6e8" i], html[data-ui="modern"] [style*="background:#2a2418" i],
+html[data-ui="modern"] [style*="background: #2a2418" i], html[data-ui="modern"] [style*="background:#cf9b2a" i], html[data-ui="modern"] [style*="background: #cf9b2a" i],
+html[data-ui="modern"] [style*="background:#f3ead2" i], html[data-ui="modern"] [style*="background: #f3ead2" i], html[data-ui="modern"] [style*="background:#fbf3df" i],
+html[data-ui="modern"] [style*="background: #fbf3df" i], html[data-ui="modern"] [style*="background:#fbe9e4" i], html[data-ui="modern"] [style*="background: #fbe9e4" i],
+html[data-ui="modern"] [style*="background:#f5edd8" i], html[data-ui="modern"] [style*="background: #f5edd8" i], html[data-ui="modern"] [style*="background:#f0d28a" i],
+html[data-ui="modern"] [style*="background: #f0d28a" i], html[data-ui="modern"] [style*="background:#fbf5e3" i], html[data-ui="modern"] [style*="background: #fbf5e3" i],
+html[data-ui="modern"] [style*="background:#6a2b4d" i], html[data-ui="modern"] [style*="background: #6a2b4d" i], html[data-ui="modern"] [style*="background:#8a2030" i],
+html[data-ui="modern"] [style*="background: #8a2030" i], html[data-ui="modern"] [style*="background:#b05a8a" i], html[data-ui="modern"] [style*="background: #b05a8a" i] { background-image: none !important; }
+html[data-ui="modern"] [style*="background:#7a5c1e" i], html[data-ui="modern"] [style*="background: #7a5c1e" i], html[data-ui="modern"] [style^="color:#5a3e10" i],
+html[data-ui="modern"] [style*=";color:#5a3e10" i], html[data-ui="modern"] [style*="; color:#5a3e10" i], html[data-ui="modern"] [style^="color: #5a3e10" i],
+html[data-ui="modern"] [style*=";color: #5a3e10" i], html[data-ui="modern"] [style^="color:#fdf6e6" i], html[data-ui="modern"] [style*=";color:#fdf6e6" i],
+html[data-ui="modern"] [style*="; color:#fdf6e6" i], html[data-ui="modern"] [style^="color: #fdf6e6" i], html[data-ui="modern"] [style*=";color: #fdf6e6" i],
+html[data-ui="modern"] [style*="background:#2b2418" i], html[data-ui="modern"] [style*="background: #2b2418" i], html[data-ui="modern"] [style^="color:#5a3d18" i],
+html[data-ui="modern"] [style*=";color:#5a3d18" i], html[data-ui="modern"] [style*="; color:#5a3d18" i], html[data-ui="modern"] [style^="color: #5a3d18" i],
+html[data-ui="modern"] [style*=";color: #5a3d18" i], html[data-ui="modern"] [style*="background:#231402" i], html[data-ui="modern"] [style*="background: #231402" i],
+html[data-ui="modern"] [style^="color:#7a6336" i], html[data-ui="modern"] [style*=";color:#7a6336" i], html[data-ui="modern"] [style*="; color:#7a6336" i],
+html[data-ui="modern"] [style^="color: #7a6336" i], html[data-ui="modern"] [style*=";color: #7a6336" i], html[data-ui="modern"] [style^="color:#7a4f1d" i],
+html[data-ui="modern"] [style*=";color:#7a4f1d" i], html[data-ui="modern"] [style*="; color:#7a4f1d" i], html[data-ui="modern"] [style^="color: #7a4f1d" i],
+html[data-ui="modern"] [style*=";color: #7a4f1d" i], html[data-ui="modern"] [style*="background:#2a2418" i], html[data-ui="modern"] [style*="background: #2a2418" i],
+html[data-ui="modern"] [style^="color:#5b4420" i], html[data-ui="modern"] [style*=";color:#5b4420" i], html[data-ui="modern"] [style*="; color:#5b4420" i],
+html[data-ui="modern"] [style^="color: #5b4420" i], html[data-ui="modern"] [style*=";color: #5b4420" i] { color: var(--ui-ink) !important; }
+html[data-ui="modern"] [style*="border-bottom:#6a4d18" i], html[data-ui="modern"] [style*="border-bottom: #6a4d18" i], html[data-ui="modern"] [style*="border:#b89c66" i],
+html[data-ui="modern"] [style*="border: #b89c66" i], html[data-ui="modern"] [style*="border:#8a6d2e" i], html[data-ui="modern"] [style*="border: #8a6d2e" i],
+html[data-ui="modern"] [style*="border-bottom:#cdb98c" i], html[data-ui="modern"] [style*="border-bottom: #cdb98c" i], html[data-ui="modern"] [style*="border-color:#a9823f" i],
+html[data-ui="modern"] [style*="border-color: #a9823f" i], html[data-ui="modern"] [style*="border:#c9b48a" i], html[data-ui="modern"] [style*="border: #c9b48a" i],
+html[data-ui="modern"] [style*="border-bottom:#e7dcc0" i], html[data-ui="modern"] [style*="border-bottom: #e7dcc0" i], html[data-ui="modern"] [style*="border:#cdb98c" i],
+html[data-ui="modern"] [style*="border: #cdb98c" i], html[data-ui="modern"] [style*="border:#cf9b2a" i], html[data-ui="modern"] [style*="border: #cf9b2a" i],
+html[data-ui="modern"] [style*="border:#3a352a" i], html[data-ui="modern"] [style*="border: #3a352a" i], html[data-ui="modern"] [style*="border-top:#2e2a22" i],
+html[data-ui="modern"] [style*="border-top: #2e2a22" i], html[data-ui="modern"] [style*="border-left:#b8860b" i], html[data-ui="modern"] [style*="border-left: #b8860b" i],
+html[data-ui="modern"] [style*="border-left:#8a6d2e" i], html[data-ui="modern"] [style*="border-left: #8a6d2e" i], html[data-ui="modern"] [style*="border:#d8c38a" i],
+html[data-ui="modern"] [style*="border: #d8c38a" i] { border-color: var(--ui-line) !important; }
+html[data-ui="modern"] [style*="background:#fdf6e6" i], html[data-ui="modern"] [style*="background: #fdf6e6" i], html[data-ui="modern"] [style*="background:#fbf6e8" i],
+html[data-ui="modern"] [style*="background: #fbf6e8" i], html[data-ui="modern"] [style*="background:#fbf3df" i], html[data-ui="modern"] [style*="background: #fbf3df" i],
+html[data-ui="modern"] [style*="background:#f5edd8" i], html[data-ui="modern"] [style*="background: #f5edd8" i], html[data-ui="modern"] [style*="background:#fbf5e3" i],
+html[data-ui="modern"] [style*="background: #fbf5e3" i] { background-color: var(--ui-surface) !important; }
+html[data-ui="modern"] [style*="background:#4a8a3a" i], html[data-ui="modern"] [style*="background: #4a8a3a" i] { background-color: var(--ui-ok) !important; }
+html[data-ui="modern"] [style^="color:#9a7a2a" i], html[data-ui="modern"] [style*=";color:#9a7a2a" i], html[data-ui="modern"] [style*="; color:#9a7a2a" i],
+html[data-ui="modern"] [style^="color: #9a7a2a" i], html[data-ui="modern"] [style*=";color: #9a7a2a" i], html[data-ui="modern"] [style^="color:#e2b93d" i],
+html[data-ui="modern"] [style*=";color:#e2b93d" i], html[data-ui="modern"] [style*="; color:#e2b93d" i], html[data-ui="modern"] [style^="color: #e2b93d" i],
+html[data-ui="modern"] [style*=";color: #e2b93d" i], html[data-ui="modern"] [style^="color:#c2962f" i], html[data-ui="modern"] [style*=";color:#c2962f" i],
+html[data-ui="modern"] [style*="; color:#c2962f" i], html[data-ui="modern"] [style^="color: #c2962f" i], html[data-ui="modern"] [style*=";color: #c2962f" i],
+html[data-ui="modern"] [style^="color:#b8860b" i], html[data-ui="modern"] [style*=";color:#b8860b" i], html[data-ui="modern"] [style*="; color:#b8860b" i],
+html[data-ui="modern"] [style^="color: #b8860b" i], html[data-ui="modern"] [style*=";color: #b8860b" i], html[data-ui="modern"] [style^="color:#cf9b2a" i],
+html[data-ui="modern"] [style*=";color:#cf9b2a" i], html[data-ui="modern"] [style*="; color:#cf9b2a" i], html[data-ui="modern"] [style^="color: #cf9b2a" i],
+html[data-ui="modern"] [style*=";color: #cf9b2a" i], html[data-ui="modern"] [style^="color:#8a6a2a" i], html[data-ui="modern"] [style*=";color:#8a6a2a" i],
+html[data-ui="modern"] [style*="; color:#8a6a2a" i], html[data-ui="modern"] [style^="color: #8a6a2a" i], html[data-ui="modern"] [style*=";color: #8a6a2a" i],
+html[data-ui="modern"] [style^="color:#9a6a2b" i], html[data-ui="modern"] [style*=";color:#9a6a2b" i], html[data-ui="modern"] [style*="; color:#9a6a2b" i],
+html[data-ui="modern"] [style^="color: #9a6a2b" i], html[data-ui="modern"] [style*=";color: #9a6a2b" i], html[data-ui="modern"] [style^="color:#c2410c" i],
+html[data-ui="modern"] [style*=";color:#c2410c" i], html[data-ui="modern"] [style*="; color:#c2410c" i], html[data-ui="modern"] [style^="color: #c2410c" i],
+html[data-ui="modern"] [style*=";color: #c2410c" i], html[data-ui="modern"] [style^="color:#caa24a" i], html[data-ui="modern"] [style*=";color:#caa24a" i],
+html[data-ui="modern"] [style*="; color:#caa24a" i], html[data-ui="modern"] [style^="color: #caa24a" i], html[data-ui="modern"] [style*=";color: #caa24a" i],
+html[data-ui="modern"] [style^="color:#c9a227" i], html[data-ui="modern"] [style*=";color:#c9a227" i], html[data-ui="modern"] [style*="; color:#c9a227" i],
+html[data-ui="modern"] [style^="color: #c9a227" i], html[data-ui="modern"] [style*=";color: #c9a227" i], html[data-ui="modern"] [style^="color:#9a7414" i],
+html[data-ui="modern"] [style*=";color:#9a7414" i], html[data-ui="modern"] [style*="; color:#9a7414" i], html[data-ui="modern"] [style^="color: #9a7414" i],
+html[data-ui="modern"] [style*=";color: #9a7414" i] { color: var(--ui-accent-text) !important; }
+html[data-ui="modern"] [style^="color:#e8dcc0" i], html[data-ui="modern"] [style*=";color:#e8dcc0" i], html[data-ui="modern"] [style*="; color:#e8dcc0" i],
+html[data-ui="modern"] [style^="color: #e8dcc0" i], html[data-ui="modern"] [style*=";color: #e8dcc0" i], html[data-ui="modern"] [style^="color:#f0d9a0" i],
+html[data-ui="modern"] [style*=";color:#f0d9a0" i], html[data-ui="modern"] [style*="; color:#f0d9a0" i], html[data-ui="modern"] [style^="color: #f0d9a0" i],
+html[data-ui="modern"] [style*=";color: #f0d9a0" i], html[data-ui="modern"] [style^="color:#d8c89a" i], html[data-ui="modern"] [style*=";color:#d8c89a" i],
+html[data-ui="modern"] [style*="; color:#d8c89a" i], html[data-ui="modern"] [style^="color: #d8c89a" i], html[data-ui="modern"] [style*=";color: #d8c89a" i],
+html[data-ui="modern"] [style^="color:#9a8a6a" i], html[data-ui="modern"] [style*=";color:#9a8a6a" i], html[data-ui="modern"] [style*="; color:#9a8a6a" i],
+html[data-ui="modern"] [style^="color: #9a8a6a" i], html[data-ui="modern"] [style*=";color: #9a8a6a" i], html[data-ui="modern"] [style^="color:#9a917c" i],
+html[data-ui="modern"] [style*=";color:#9a917c" i], html[data-ui="modern"] [style*="; color:#9a917c" i], html[data-ui="modern"] [style^="color: #9a917c" i],
+html[data-ui="modern"] [style*=";color: #9a917c" i], html[data-ui="modern"] [style^="color:#9a8f78" i], html[data-ui="modern"] [style*=";color:#9a8f78" i],
+html[data-ui="modern"] [style*="; color:#9a8f78" i], html[data-ui="modern"] [style^="color: #9a8f78" i], html[data-ui="modern"] [style*=";color: #9a8f78" i] { color: var(--ui-muted) !important; }
+html[data-ui="modern"] [style^="color:#7bc96f" i], html[data-ui="modern"] [style*=";color:#7bc96f" i], html[data-ui="modern"] [style*="; color:#7bc96f" i],
+html[data-ui="modern"] [style^="color: #7bc96f" i], html[data-ui="modern"] [style*=";color: #7bc96f" i], html[data-ui="modern"] [style^="color:#3f8b3f" i],
+html[data-ui="modern"] [style*=";color:#3f8b3f" i], html[data-ui="modern"] [style*="; color:#3f8b3f" i], html[data-ui="modern"] [style^="color: #3f8b3f" i],
+html[data-ui="modern"] [style*=";color: #3f8b3f" i], html[data-ui="modern"] [style^="color:#5a8f6a" i], html[data-ui="modern"] [style*=";color:#5a8f6a" i],
+html[data-ui="modern"] [style*="; color:#5a8f6a" i], html[data-ui="modern"] [style^="color: #5a8f6a" i], html[data-ui="modern"] [style*=";color: #5a8f6a" i],
+html[data-ui="modern"] [style^="color:#137a34" i], html[data-ui="modern"] [style*=";color:#137a34" i], html[data-ui="modern"] [style*="; color:#137a34" i],
+html[data-ui="modern"] [style^="color: #137a34" i], html[data-ui="modern"] [style*=";color: #137a34" i], html[data-ui="modern"] [style^="color:#4a8a3a" i],
+html[data-ui="modern"] [style*=";color:#4a8a3a" i], html[data-ui="modern"] [style*="; color:#4a8a3a" i], html[data-ui="modern"] [style^="color: #4a8a3a" i],
+html[data-ui="modern"] [style*=";color: #4a8a3a" i], html[data-ui="modern"] [style^="color:#2ea043" i], html[data-ui="modern"] [style*=";color:#2ea043" i],
+html[data-ui="modern"] [style*="; color:#2ea043" i], html[data-ui="modern"] [style^="color: #2ea043" i], html[data-ui="modern"] [style*=";color: #2ea043" i],
+html[data-ui="modern"] [style^="color:#3f6e2a" i], html[data-ui="modern"] [style*=";color:#3f6e2a" i], html[data-ui="modern"] [style*="; color:#3f6e2a" i],
+html[data-ui="modern"] [style^="color: #3f6e2a" i], html[data-ui="modern"] [style*=";color: #3f6e2a" i], html[data-ui="modern"] [style^="color:#2e7d32" i],
+html[data-ui="modern"] [style*=";color:#2e7d32" i], html[data-ui="modern"] [style*="; color:#2e7d32" i], html[data-ui="modern"] [style^="color: #2e7d32" i],
+html[data-ui="modern"] [style*=";color: #2e7d32" i] { color: var(--ui-ok) !important; }
+html[data-ui="modern"] [style^="color:#e06c75" i], html[data-ui="modern"] [style*=";color:#e06c75" i], html[data-ui="modern"] [style*="; color:#e06c75" i],
+html[data-ui="modern"] [style^="color: #e06c75" i], html[data-ui="modern"] [style*=";color: #e06c75" i], html[data-ui="modern"] [style^="color:#7a2a22" i],
+html[data-ui="modern"] [style*=";color:#7a2a22" i], html[data-ui="modern"] [style*="; color:#7a2a22" i], html[data-ui="modern"] [style^="color: #7a2a22" i],
+html[data-ui="modern"] [style*=";color: #7a2a22" i], html[data-ui="modern"] [style^="color:#a02818" i], html[data-ui="modern"] [style*=";color:#a02818" i],
+html[data-ui="modern"] [style*="; color:#a02818" i], html[data-ui="modern"] [style^="color: #a02818" i], html[data-ui="modern"] [style*=";color: #a02818" i],
+html[data-ui="modern"] [style^="color:#8a241b" i], html[data-ui="modern"] [style*=";color:#8a241b" i], html[data-ui="modern"] [style*="; color:#8a241b" i],
+html[data-ui="modern"] [style^="color: #8a241b" i], html[data-ui="modern"] [style*=";color: #8a241b" i], html[data-ui="modern"] [style^="color:#b23a2e" i],
+html[data-ui="modern"] [style*=";color:#b23a2e" i], html[data-ui="modern"] [style*="; color:#b23a2e" i], html[data-ui="modern"] [style^="color: #b23a2e" i],
+html[data-ui="modern"] [style*=";color: #b23a2e" i], html[data-ui="modern"] [style^="color:#b02a1f" i], html[data-ui="modern"] [style*=";color:#b02a1f" i],
+html[data-ui="modern"] [style*="; color:#b02a1f" i], html[data-ui="modern"] [style^="color: #b02a1f" i], html[data-ui="modern"] [style*=";color: #b02a1f" i],
+html[data-ui="modern"] [style^="color:#c66" i], html[data-ui="modern"] [style*=";color:#c66" i], html[data-ui="modern"] [style*="; color:#c66" i],
+html[data-ui="modern"] [style^="color: #c66" i], html[data-ui="modern"] [style*=";color: #c66" i], html[data-ui="modern"] [style^="color:#b00" i],
+html[data-ui="modern"] [style*=";color:#b00" i], html[data-ui="modern"] [style*="; color:#b00" i], html[data-ui="modern"] [style^="color: #b00" i],
+html[data-ui="modern"] [style*=";color: #b00" i], html[data-ui="modern"] [style^="color:#a5332a" i], html[data-ui="modern"] [style*=";color:#a5332a" i],
+html[data-ui="modern"] [style*="; color:#a5332a" i], html[data-ui="modern"] [style^="color: #a5332a" i], html[data-ui="modern"] [style*=";color: #a5332a" i],
+html[data-ui="modern"] [style^="color:#9a3a2a" i], html[data-ui="modern"] [style*=";color:#9a3a2a" i], html[data-ui="modern"] [style*="; color:#9a3a2a" i],
+html[data-ui="modern"] [style^="color: #9a3a2a" i], html[data-ui="modern"] [style*=";color: #9a3a2a" i], html[data-ui="modern"] [style^="color:#d1242f" i],
+html[data-ui="modern"] [style*=";color:#d1242f" i], html[data-ui="modern"] [style*="; color:#d1242f" i], html[data-ui="modern"] [style^="color: #d1242f" i],
+html[data-ui="modern"] [style*=";color: #d1242f" i] { color: var(--ui-bad) !important; }
+html[data-ui="modern"] [style*="background:#d8b96a" i], html[data-ui="modern"] [style*="background: #d8b96a" i], html[data-ui="modern"] [style*="background:#bf6a2a" i],
+html[data-ui="modern"] [style*="background: #bf6a2a" i], html[data-ui="modern"] [style*="background:#e7c98a" i], html[data-ui="modern"] [style*="background: #e7c98a" i],
+html[data-ui="modern"] [style*="background:#cf9b2a" i], html[data-ui="modern"] [style*="background: #cf9b2a" i] { background-color: var(--ui-accent) !important; }
+html[data-ui="modern"] [style*="border-color:#a5332a" i], html[data-ui="modern"] [style*="border-color: #a5332a" i], html[data-ui="modern"] [style*="border-color:#d1242f" i],
+html[data-ui="modern"] [style*="border-color: #d1242f" i], html[data-ui="modern"] [style*="border-left:#d1242f" i], html[data-ui="modern"] [style*="border-left: #d1242f" i],
+html[data-ui="modern"] [style*="border:#e3b3aa" i], html[data-ui="modern"] [style*="border: #e3b3aa" i] { border-color: var(--ui-bad) !important; }
+html[data-ui="modern"] [style^="color:#3a6ea5" i], html[data-ui="modern"] [style*=";color:#3a6ea5" i], html[data-ui="modern"] [style*="; color:#3a6ea5" i],
+html[data-ui="modern"] [style^="color: #3a6ea5" i], html[data-ui="modern"] [style*=";color: #3a6ea5" i], html[data-ui="modern"] [style^="color:#5a6b8a" i],
+html[data-ui="modern"] [style*=";color:#5a6b8a" i], html[data-ui="modern"] [style*="; color:#5a6b8a" i], html[data-ui="modern"] [style^="color: #5a6b8a" i],
+html[data-ui="modern"] [style*=";color: #5a6b8a" i], html[data-ui="modern"] [style^="color:#5bc0de" i], html[data-ui="modern"] [style*=";color:#5bc0de" i],
+html[data-ui="modern"] [style*="; color:#5bc0de" i], html[data-ui="modern"] [style^="color: #5bc0de" i], html[data-ui="modern"] [style*=";color: #5bc0de" i],
+html[data-ui="modern"] [style^="color:#8a7bce" i], html[data-ui="modern"] [style*=";color:#8a7bce" i], html[data-ui="modern"] [style*="; color:#8a7bce" i],
+html[data-ui="modern"] [style^="color: #8a7bce" i], html[data-ui="modern"] [style*=";color: #8a7bce" i] { color: var(--ui-info) !important; }
+html[data-ui="modern"] [style*="background:#fbe9e4" i], html[data-ui="modern"] [style*="background: #fbe9e4" i], html[data-ui="modern"] [style*="background:#6a2b4d" i],
+html[data-ui="modern"] [style*="background: #6a2b4d" i], html[data-ui="modern"] [style*="background:#b05a8a" i], html[data-ui="modern"] [style*="background: #b05a8a" i] { background-color: var(--ui-bad-soft) !important; }
+html[data-ui="modern"] [style*="border-left:#2ea043" i], html[data-ui="modern"] [style*="border-left: #2ea043" i], html[data-ui="modern"] [style*="border-color:#4a8a3a" i],
+html[data-ui="modern"] [style*="border-color: #4a8a3a" i], html[data-ui="modern"] [style*="border:#bcd6a8" i], html[data-ui="modern"] [style*="border: #bcd6a8" i] { border-color: var(--ui-ok) !important; }
+html[data-ui="modern"] [style*="border:#b9c9e0" i], html[data-ui="modern"] [style*="border: #b9c9e0" i] { border-color: var(--ui-info) !important; }
+html[data-ui="modern"] [style*="background:#8a2030" i], html[data-ui="modern"] [style*="background: #8a2030" i] { background-color: var(--ui-bad) !important; }

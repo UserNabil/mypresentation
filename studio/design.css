@@ -1,0 +1,531 @@
+/* ============================================================================
+   Eden Ultimate Tool — GLOBAL DESIGN SYSTEM  (single source of truth)
+   Loaded in <head> BEFORE the page's inline <style> so:
+     - the token :root is available everywhere,
+     - the base element rules theme any UN-styled control/scrollbar/focus,
+     - specific component classes (defined later, in the inline <style>) keep
+       winning the cascade — so this file homogenizes WITHOUT breaking layouts.
+   Generated/validated from the design-system audit (docs/re_agents workflow).
+   ============================================================================ */
+
+/* Ornements RPG en filigrane (épée/arc/bouclier/potion/coffre/ailes/casque/cristaux…) répétés
+   en fond de TOUT le tool — discret (~8%), fixe, derrière le contenu. Aussi sur le splash. */
+body::before{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:url('/studio/motifs.png'); background-repeat:repeat; background-size:340px 340px;
+  opacity:.08; mix-blend-mode:multiply;
+}
+/* le contenu passe AU-DESSUS du motif */
+#app, header, #content, #toasts, #fab-create, .modal, #boot, #overlay, #conn-lost{ position:relative; z-index:1; }
+/* sur les splashs sombres, le motif doré ressort : léger multiply -> screen pour rester visible.
+   Il DÉFILE en boucle vers le haut-droite. On anime TRANSFORM (composited GPU = smooth, pas de repaint
+   saccadé comme background-position). Le pseudo déborde d'une tuile (340px) tout autour pour qu'aucun
+   bord vide n'apparaisse pendant le défilement ; parcourir exactement 1 tuile boucle sans saut. */
+#boot::after, #overlay::after, #conn-lost::after{
+  content:''; position:absolute; top:-340px; left:-340px; right:-340px; bottom:-340px; z-index:0;
+  pointer-events:none;
+  background-image:url('/studio/motifs.png'); background-repeat:repeat; background-size:340px 340px;
+  opacity:.12; mix-blend-mode:screen;
+  will-change:transform;
+  animation:motifDrift 16s linear infinite;
+}
+/* +X (droite), -Y (haut) d'exactement une tuile → raccord parfait, boucle invisible */
+@keyframes motifDrift{
+  from{ transform:translate3d(0,0,0); }
+  to  { transform:translate3d(340px,-340px,0); }
+}
+@media (prefers-reduced-motion: reduce){
+  #boot::after, #overlay::after, #conn-lost::after{ animation:none; }
+}
+#boot > *, #overlay > *, #conn-lost > *{ position:relative; z-index:1; }
+
+:root {
+  /* ---- COLOR (parchment + gold, the tool's theme) ---- */
+  --bg:        #e7dabb;   /* app background        */
+  --surface:   #f4ecd6;   /* cards / panels        */
+  --surface-2: #efe4c8;   /* insets / inputs       */
+  --ink:       #3a2c18;   /* primary text          */
+  --ink-2:     #6e5c3e;   /* secondary text        */
+  --faint:     #9c8862;   /* muted text            */
+  --gold:      #9a6a2b;   /* primary accent        */
+  --gold-2:    #7a4f1d;   /* deeper gold           */
+  --accent:    #b89c66;   /* hover / focus accent  */
+  --danger:    #a5332a;   /* delete / error        */
+  --seal:      #a5332a;   /* wax-seal red          */
+  --ok:        #4d7a3a;   /* success               */
+  --warn:      #cf9b2a;   /* warning               */
+  --edge:      #c4ad81;   /* borders               */
+  --line:      #d8c8a3;   /* subtle dividers       */
+  --frame:     #f3ead2;   /* portrait / inset bg   */
+
+  /* ---- SPACING (4px scale) ---- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+
+  /* ---- RADIUS ---- */
+  --r-1: 5px; --r-2: 8px; --r-3: 12px; --r-pill: 22px;
+
+  /* ---- SHADOW ---- */
+  --sh-1: 0 1px 3px rgba(120,90,40,.12);
+  --sh-2: 0 8px 24px rgba(90,60,25,.28);
+  --sh-3: 0 20px 60px rgba(60,40,15,.5);
+
+  /* ---- TYPE ---- */
+  --ff-head: "Cinzel", serif;
+  --ff-body: "Spectral", Georgia, serif;
+  --ff-mono: "Cascadia Code", monospace;
+  --fs-1: 11px; --fs-2: 13px; --fs-3: 15px; --fs-h: 16px;
+
+  /* ---- LEGACY ALIASES (keep so existing rules/inline styles never break) ---- */
+  --paper: #f4ecd6; --paper2: #efe4c8; --edge2: #d8c8a3; --dim: #6e5c3e;
+  --gold-dim: #b7a274; --crimson: #a5332a; --jade: #4d7a3a; --r: 4px;
+}
+
+/* ============================================================================
+   GLOBAL BASE — themes UN-styled controls. Specific component classes (.fld
+   input, .plate input, #q, etc.) are defined LATER and win the cascade, so this
+   only fills the gaps (raw <input>/<textarea> in prompts, modals, forms…).
+   ============================================================================ */
+input[type=text], input[type=number], input[type=search],
+input[type=password], input:not([type]), textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-1);
+  padding: var(--sp-2) var(--sp-3);
+  color: var(--ink);
+  font-family: var(--ff-body);
+  font-size: var(--fs-3);
+  outline: 0;
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+
+/* consistent focus ring on every control */
+input[type=text]:focus, input[type=number]:focus, input[type=search]:focus,
+input[type=password]:focus, input:not([type]):focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(154,106,43,.22);
+}
+
+input::placeholder, textarea::placeholder { color: var(--faint); }
+
+input:disabled, select:disabled, textarea:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* native checkboxes / radios take the theme colour */
+input[type=checkbox], input[type=radio] { accent-color: var(--gold); cursor: pointer; }
+
+/* ============================================================================
+   RANGE SLIDERS — parchment track, gold fill, and the tool's own left/right
+   arrow icon (transfer) as the handle. The browser default (flat blue disc)
+   was the one control still shipping its OEM look, foreign to every page.
+   The filled part is driven by `--v` (percentage), set by the page on input.
+   ============================================================================ */
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  --v: 0%;
+  height: 22px; background: transparent; cursor: ew-resize;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  height: 8px; border-radius: 5px; border: 1px solid var(--gold-dim);
+  background: linear-gradient(90deg, var(--gold) 0 var(--v), #fffaf0 var(--v) 100%);
+}
+input[type=range]::-moz-range-track {
+  height: 8px; border-radius: 5px; border: 1px solid var(--gold-dim);
+  background: linear-gradient(90deg, var(--gold) 0 var(--v), #fffaf0 var(--v) 100%);
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 22px; height: 22px; margin-top: -8px; border: none; background: transparent;
+  background-image: url("/studio/icons/icons/24/transfer.png");
+  background-size: 22px 22px; background-repeat: no-repeat; background-position: center;
+  filter: drop-shadow(0 1px 1px rgba(60, 40, 10, .35));
+}
+input[type=range]::-moz-range-thumb {
+  width: 22px; height: 22px; border: none; background: transparent;
+  background-image: url("/studio/icons/icons/24/transfer.png");
+  background-size: 22px 22px; background-repeat: no-repeat; background-position: center;
+}
+input[type=range]:focus-visible { outline: none; }
+input[type=range]:focus-visible::-webkit-slider-runnable-track { box-shadow: 0 0 0 2px var(--gold-dim); }
+input[type=range]:disabled { cursor: default; opacity: .5; }
+
+/* ============================================================================
+   SCROLLBARS — uniform parchment/gold across the whole tool (was browser-default)
+   ============================================================================ */
+* { scrollbar-width: thin; scrollbar-color: var(--gold-dim) transparent; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: var(--r-2);
+  border: 2px solid var(--surface);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* ============================================================================
+   TEXT SELECTION
+   ============================================================================ */
+::selection { background: rgba(154,106,43,.30); color: var(--ink); }
+
+/* ============================================================================
+   SEARCH RESULTS — loading state (current results stay, atténués, while fetching)
+   ============================================================================ */
+#rows.rows-loading { opacity: .5; transition: opacity .1s ease; pointer-events: none; }
+
+/* ============================================================================
+   PRESENCE PASTILLES — client / server / db (où le record existe)
+   ============================================================================ */
+.presence { display:flex; flex-wrap:wrap; gap:var(--sp-2); margin:var(--sp-2) 0 var(--sp-1); }
+.pz {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:2px 10px; border-radius:var(--r-pill);
+  font-family:var(--ff-body); font-size:var(--fs-1); font-weight:600; letter-spacing:.02em;
+  border:1px solid var(--edge); background:var(--surface-2); color:var(--ink-2);
+  user-select:none; transition:filter .12s ease, box-shadow .12s ease;
+}
+.pz b { font-size:12px; line-height:1; }
+.pz:hover { filter:brightness(1.03); box-shadow:var(--sh-1); }
+.pz-yes  { background:rgba(77,122,58,.16);  border-color:rgba(77,122,58,.5);  color:#3c6a2c; }
+.pz-yes b{ color:var(--ok); }
+.pz-no   { background:rgba(120,90,40,.06);  border-color:var(--edge);         color:var(--faint); }
+.pz-no b { color:#b06a5e; }
+.pz-warn { background:rgba(207,155,42,.15); border-color:rgba(207,155,42,.55); color:#8a6a12; }
+.pz-warn b{ color:var(--warn); }
+.pz-na   { background:transparent; border-style:dashed; color:var(--faint); }
+.pz-wait { color:var(--faint); }
+.pz-wait b { animation:pzpulse 1s ease-in-out infinite; }
+@keyframes pzpulse { 0%,100%{opacity:.35} 50%{opacity:1} }
+
+/* ============================================================================
+   ENCHANT — effets décodés (catalogue opcodes) + lien/appliquer sur un item
+   ============================================================================ */
+.ench-box { margin:14px 0 2px; padding:12px 14px; border-radius:var(--r-2); background:var(--surface-2); border:1px solid var(--edge); }
+.ench-title { font-family:var(--ff-head); font-size:13px; font-weight:700; color:var(--gold-2); display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+.ench-hint { font-family:var(--ff-body); font-size:11px; font-weight:400; color:var(--faint); font-style:italic; }
+.ench-chip { display:inline-flex; align-items:center; padding:2px 10px; border-radius:var(--r-pill); background:rgba(155,89,182,.14); border:1px solid #b98fce; color:#7a4f8f; font-size:12px; cursor:pointer; }
+.ench-chip:hover { filter:brightness(1.05); text-decoration:underline; }
+.ench-slot { padding:7px 10px; border-radius:var(--r-1); background:var(--surface); border:1px solid var(--line); margin-bottom:6px; }
+.ench-slot.unknown { border-style:dashed; opacity:.85; }
+.ench-op { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.ench-nm { font-weight:700; color:var(--ink); font-size:13px; }
+.ench-code { font-family:var(--ff-mono); font-size:10.5px; color:var(--faint); }
+.ench-desc { font-size:11.5px; color:var(--ink-2); margin-top:2px; line-height:1.35; }
+.ench-params { display:flex; flex-wrap:wrap; gap:5px 8px; margin-top:6px; }
+.ench-p { font-size:11px; color:var(--ink-2); background:var(--frame); border:1px solid var(--line); border-radius:var(--r-1); padding:1px 7px; }
+.ench-p b { color:var(--gold-2); font-weight:600; }
+.ench-flags { margin-top:7px; font-size:11px; color:#8a6a12; }
+
+/* ============================================================================
+   CLASSES PAGE — liste par rôle (gauche) + fiche riche (droite). Thème parchemin.
+   ============================================================================ */
+.clspage { display:flex; flex-direction:column; height:100%; min-height:0; }
+.clstoolbar {
+  display:flex; align-items:center; gap:var(--sp-3); flex-wrap:wrap;
+  padding:var(--sp-3) var(--sp-4); border-bottom:1px solid var(--edge);
+  background:linear-gradient(180deg, var(--surface), var(--surface-2));
+}
+.clstitle { font-family:var(--ff-head); font-size:var(--fs-h); font-weight:700; color:var(--gold-2); }
+.clsraces { display:flex; gap:6px; flex-wrap:wrap; }
+.clsrace {
+  display:inline-flex; align-items:center; gap:6px; padding:3px 12px 3px 4px; border-radius:var(--r-pill);
+  border:1px solid var(--edge); background:var(--surface-2); color:var(--ink-2);
+  font-family:var(--ff-body); font-size:var(--fs-2); cursor:pointer; transition:all .12s ease;
+}
+.clsrace:hover { border-color:var(--accent); color:var(--ink); }
+.clsrace.on { background:var(--gold); border-color:var(--gold-2); color:#fff; box-shadow:var(--sh-1); }
+.clsraceic { width:26px; height:26px; border-radius:6px; object-fit:cover; flex:none;
+  border:1px solid rgba(0,0,0,.12); background:var(--frame); image-rendering:auto; }
+.clsrace.on .clsraceic { border-color:rgba(255,255,255,.4); }
+.clsfind { display:flex; align-items:center; gap:6px; background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-pill); padding:2px 12px; }
+.clsfind span { opacity:.55; font-size:12px; }
+.clsfind input { border:0!important; background:transparent!important; padding:4px 0!important; width:150px; box-shadow:none!important; }
+.clsmeta { font-family:var(--ff-body); font-size:var(--fs-1); color:var(--faint); }
+
+.clsbody { display:flex; flex:1; min-height:0; }
+.clsleft { width:290px; flex:none; overflow-y:auto; border-right:1px solid var(--edge); padding:var(--sp-2) 0 var(--sp-5); background:var(--surface); }
+.clsright { flex:1; overflow-y:auto; padding:var(--sp-4) var(--sp-5); min-width:0; }
+
+.clsrole {
+  display:flex; align-items:center; gap:7px; padding:9px var(--sp-4) 5px; margin-top:4px;
+  font-family:var(--ff-head); font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2);
+  position:sticky; top:0; background:linear-gradient(180deg,var(--surface) 70%,transparent); z-index:1;
+}
+.clsroledot { width:9px; height:9px; border-radius:50%; box-shadow:0 0 0 2px rgba(255,255,255,.5); }
+.clsrolen { margin-left:auto; font-size:10px; color:var(--faint); font-family:var(--ff-mono); font-weight:400; }
+.clsrow {
+  display:flex; align-items:center; gap:9px; padding:6px var(--sp-4); cursor:pointer;
+  border-left:3px solid transparent; transition:background .1s ease;
+}
+.clsrow:hover { background:var(--surface-2); }
+.clsrow.on { background:var(--frame); border-left-color:var(--rc,var(--gold)); }
+.clsrowic { width:30px; height:30px; border-radius:6px; flex:none; object-fit:cover; image-rendering:pixelated; background:var(--frame); border:1px solid var(--line); }
+.clsrowic.ph { display:grid; place-items:center; font-size:14px; color:var(--faint); }
+.clsrowtx { flex:1; min-width:0; }
+.clsrowname { font-family:var(--ff-body); font-size:var(--fs-2); font-weight:600; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clsbase { color:var(--warn); font-size:10px; }
+.clsrowsub { font-size:10.5px; color:var(--faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clsrowid { font-family:var(--ff-mono); font-size:9.5px; color:var(--faint); flex:none; }
+
+/* --- detail : tier bar (évolution) --- */
+.clstiers { display:flex; align-items:center; gap:var(--sp-4); padding-bottom:var(--sp-3); border-bottom:1px solid var(--edge); margin-bottom:var(--sp-3); }
+.clstierrow { display:flex; gap:8px; }
+.clstier { display:flex; flex-direction:column; align-items:center; gap:3px; padding:5px 6px 4px; border-radius:var(--r-2); background:var(--surface-2); border:1px solid var(--line); cursor:pointer; transition:all .12s ease; }
+.clstier:hover { border-color:var(--accent); background:var(--frame); }
+.clstier.on { border-color:var(--gold); background:var(--frame); box-shadow:0 0 0 2px rgba(154,106,43,.18); }
+.clstieric { width:46px; height:46px; border-radius:var(--r-1); object-fit:cover; image-rendering:pixelated; background:var(--frame); border:1px solid var(--line); }
+.clstieric.ph { display:grid; place-items:center; font-size:20px; color:var(--faint); }
+.clstierlv { font-family:var(--ff-mono); font-size:9.5px; color:var(--faint); }
+.clstier.on .clstierlv { color:var(--gold-2); font-weight:700; }
+.clstierinfo { min-width:0; }
+.clstiername { font-family:var(--ff-head); font-size:20px; font-weight:700; color:var(--ink); line-height:1.1; }
+.clstierbig { font-family:var(--ff-body); font-size:14px; font-weight:400; color:var(--ink-2); margin-left:4px; }
+.clstierrole { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-top:6px; font-family:var(--ff-body); font-size:12px; color:var(--ink-2); }
+
+.clsbadge { color:#fff; font-family:var(--ff-body); font-size:11px; font-weight:700; padding:2px 11px; border-radius:var(--r-pill); box-shadow:var(--sh-1); }
+.clsbadge.sm { font-size:10px; padding:1px 9px; }
+.clschip { font-family:var(--ff-body); font-size:11px; color:var(--ink-2); background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-pill); padding:2px 9px; }
+.clschip.base { background:rgba(207,155,42,.16); border-color:rgba(207,155,42,.5); color:#8a6a12; }
+
+/* tabs */
+.clstabs { display:flex; gap:3px; border-bottom:1px solid var(--edge); margin-bottom:var(--sp-3); flex-wrap:wrap; }
+.clstab { font-family:var(--ff-body); font-size:var(--fs-2); color:var(--ink-2); background:transparent; border:0; border-bottom:2px solid transparent; padding:8px 15px; cursor:pointer; margin-bottom:-1px; transition:color .1s ease; }
+.clstab:hover { color:var(--ink); }
+.clstab.on { color:var(--gold-2); border-bottom-color:var(--gold); font-weight:700; }
+
+/* panels (parchemin) */
+.clspanel { background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-2); margin-bottom:var(--sp-3); overflow:hidden; }
+.clspanelh { font-family:var(--ff-head); font-size:12px; font-weight:700; color:var(--gold-2); padding:8px 12px; background:linear-gradient(180deg,var(--surface),var(--surface-2)); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:7px; }
+.clspanelb { padding:10px 12px; }
+.clsn { font-family:var(--ff-mono); font-size:10px; color:var(--faint); font-weight:400; }
+.clsempty { font-family:var(--ff-body); font-size:12px; color:var(--faint); font-style:italic; padding:2px 0; }
+
+.clsdescbox { font-family:var(--ff-body); font-size:var(--fs-2); color:var(--ink-2); line-height:1.5; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--r-2); padding:10px 14px; margin-bottom:var(--sp-3); white-space:pre-wrap; }
+.clscols { display:grid; grid-template-columns:1.1fr 1fr; gap:var(--sp-3); align-items:start; }
+.clscolside .clspanel { margin-bottom:var(--sp-3); }
+
+/* in-game stat bonus bars */
+.igstat { display:flex; align-items:center; gap:9px; margin-bottom:5px; }
+.igstat:last-child { margin-bottom:0; }
+.igstatk { width:34px; flex:none; text-align:right; font-family:var(--ff-body); font-size:12px; font-weight:700; }
+.igstatbar { flex:1; height:8px; background:var(--frame); border:1px solid var(--line); border-radius:var(--r-pill); overflow:hidden; }
+.igstatfill { height:100%; border-radius:var(--r-pill); transition:width .4s ease; }
+.igstatv { width:44px; flex:none; text-align:right; font-family:var(--ff-mono); font-size:11.5px; font-weight:600; }
+
+.clsbranchn { font-family:var(--ff-body); font-size:13px; font-weight:600; color:var(--ink); }
+.clsbranchd { font-family:var(--ff-body); font-size:11.5px; color:var(--ink-2); line-height:1.45; margin-top:4px; white-space:pre-wrap; }
+.clsunlockt { font-family:var(--ff-body); font-size:12px; color:var(--ink-2); white-space:pre-wrap; line-height:1.4; }
+.clsinfo { font-family:var(--ff-body); font-size:12px; color:var(--ink-2); margin-bottom:4px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.clsinfo b { color:var(--gold-2); }
+
+/* skill/cert cells */
+.clscellgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:6px; }
+.clscellgrid.one { grid-template-columns:1fr; }
+.clscellgrid.two { grid-template-columns:1fr 1fr; }
+.clscell { display:flex; align-items:center; gap:9px; padding:6px 10px; border-radius:var(--r-1); background:var(--surface); border:1px solid var(--line); cursor:pointer; text-align:left; transition:all .1s ease; }
+.clscell:hover { border-color:var(--accent); background:var(--frame); box-shadow:var(--sh-1); }
+.clscell.missing { opacity:.55; cursor:default; border-style:dashed; }
+.clscell.missing:hover { box-shadow:none; background:var(--surface); }
+.clsskic { width:32px; height:32px; border-radius:5px; flex:none; object-fit:cover; image-rendering:pixelated; background:var(--frame); border:1px solid var(--line); }
+.clsskic.ph { display:grid; place-items:center; font-size:14px; color:var(--faint); }
+.clscellx { flex:1; min-width:0; }
+.clscelln { font-family:var(--ff-body); font-size:12.5px; font-weight:600; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clscelll { font-family:var(--ff-mono); font-size:10px; color:var(--faint); margin-top:1px; }
+.clscelleff { font-family:var(--ff-body); font-size:10.5px; color:#8a6a12; margin-top:2px; line-height:1.3; }
+
+.clsskillcols { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); align-items:start; }
+@media (max-width:1100px){ .clscols,.clsskillcols { grid-template-columns:1fr; } .clscellgrid.two { grid-template-columns:1fr; } }
+
+/* talent tree */
+.clsbranch { margin-bottom:var(--sp-2); }
+.clsbranchh { font-family:var(--ff-body); font-size:11px; font-weight:700; color:#7a4f9e; background:rgba(122,79,158,.10); border-left:3px solid #7a4f9e; border-radius:var(--r-1); padding:4px 10px; margin-bottom:6px; }
+.clsbranchnodes { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.clstnode { display:flex; align-items:flex-start; gap:8px; padding:6px 9px; border-radius:var(--r-1); background:var(--surface); border:1px solid var(--line); cursor:pointer; text-align:left; transition:all .1s ease; }
+.clstnode:hover { border-color:#b98fce; background:var(--frame); box-shadow:var(--sh-1); }
+.clstnic { width:28px; height:28px; border-radius:5px; flex:none; object-fit:cover; image-rendering:pixelated; background:var(--frame); border:1px solid var(--line); }
+.clstnic.ph { display:grid; place-items:center; font-size:12px; color:#7a4f9e; }
+.clstnx { flex:1; min-width:0; }
+.clstnn { font-family:var(--ff-body); font-size:12px; font-weight:600; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clstnl { font-family:var(--ff-mono); font-size:9.5px; color:#7a4f9e; font-weight:600; }
+.clstnreq { font-family:var(--ff-body); font-size:9.5px; color:var(--faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clstneff { font-family:var(--ff-body); font-size:10px; color:#8a6a12; margin-top:1px; line-height:1.25; }
+
+/* class edit action */
+.clseditbtn { font-family:var(--ff-body); font-size:12px; font-weight:600; color:var(--gold-2); background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-1); padding:6px 15px; cursor:pointer; transition:all .12s ease; flex:none; }
+.clseditbtn:hover { border-color:var(--accent); background:var(--frame); }
+.clseditbtn.on { background:var(--ok); border-color:#3c6a2c; color:#fff; }
+.clsstatinput { flex:1; max-width:110px; padding:3px 8px!important; font-family:var(--ff-mono); font-size:12px; text-align:right; }
+.clsstatpc { color:var(--faint); font-size:11px; }
+.clsstatsave { margin-top:12px; padding-top:10px; border-top:1px solid var(--line); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.clsstathint { font-family:var(--ff-body); font-size:10.5px; color:var(--faint); font-style:italic; }
+/* full raw-field editor (edit EVERYTHING) */
+.clsrawcat { font-family:var(--ff-head); font-size:11px; font-weight:700; color:var(--gold-2); text-transform:uppercase; letter-spacing:.05em; margin:12px 0 6px; padding-top:7px; border-top:1px solid var(--line); }
+.clsrawcat:first-child { border-top:0; padding-top:0; margin-top:2px; }
+.clsrawrow { display:flex; align-items:center; gap:9px; margin-bottom:5px; }
+.clsrawlbl { flex:none; width:210px; font-family:var(--ff-body); font-size:11.5px; color:var(--ink-2); text-align:right; }
+.clsrawlbl i { color:var(--faint); font-family:var(--ff-mono); font-size:9px; font-style:normal; }
+.clsrawinput { flex:1; min-width:0; padding:3px 8px!important; font-family:var(--ff-mono); font-size:11.5px; }
+textarea.clsrawinput { resize:vertical; font-family:var(--ff-body); line-height:1.35; }
+.clsrawhint { flex:none; max-width:190px; font-family:var(--ff-body); font-size:10.5px; color:#8a6a12; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+@media (max-width:900px){ .clsrawlbl{width:130px} .clsrawhint{display:none} }
+/* racial crafting cells */
+.clscell.missing{ opacity:.62; }
+.clseditbtn.danger{ border-color:#c98; color:#a23; background:#f6e7e1; }
+.clseditbtn.danger:hover{ border-color:#a23; background:#f0d6cd; color:#8a1c1c; }
+
+/* Edit scope toggle : apply to all 5 races vs this race only */
+.clsscope { display:inline-flex; gap:0; border:1px solid var(--edge); border-radius:var(--r-1); overflow:hidden; flex:none; margin-right:6px; }
+.clsscopebtn { font-family:var(--ff-body); font-size:11px; font-weight:600; color:var(--faint); background:var(--surface-2); border:none; padding:6px 11px; cursor:pointer; transition:all .12s ease; }
+.clsscopebtn:hover { color:var(--ink); background:var(--frame); }
+.clsscopebtn.on { background:var(--gold); color:#fff; }
+.clsscopebtn+.clsscopebtn { border-left:1px solid var(--edge); }
+
+/* Raw editor as a collapsed <details> so it stays advanced/out of the way */
+.clsrawwrap > summary { cursor:pointer; list-style:none; user-select:none; }
+.clsrawwrap > summary::-webkit-details-marker { display:none; }
+.clsrawwrap > summary::before { content:'▸ '; color:var(--faint); }
+.clsrawwrap[open] > summary::before { content:'▾ '; }
+
+/* Slot cell in edit mode : shows it's clickable to change the slot's occupant */
+.clscell.editing { position:relative; border-style:dashed; border-color:var(--gold-2); }
+.clscell.editing:hover { background:var(--frame); border-style:solid; }
+.clsslotpen { position:absolute; top:3px; right:5px; font-size:11px; color:var(--gold-2); opacity:.75; }
+.clscell.editing:hover .clsslotpen { opacity:1; }
+
+/* Slot modal : tabs (Details / Change / Edit) */
+.clsslottabs { display:flex; gap:4px; margin-bottom:10px; border-bottom:1px solid var(--edge); }
+.clsslottab { font-family:var(--ff-body); font-size:12px; font-weight:600; color:var(--faint); background:none; border:none; border-bottom:2px solid transparent; padding:6px 10px; cursor:pointer; }
+.clsslottab:hover:not(:disabled) { color:var(--ink); }
+.clsslottab.on { color:var(--gold-2); border-bottom-color:var(--gold-2); }
+.clsslottab:disabled { opacity:.4; cursor:default; }
+.clsslotname { font-weight:700; font-size:14px; margin-bottom:6px; }
+.clsslotdesc { font-size:12px; color:var(--muted); margin-bottom:8px; white-space:pre-wrap; }
+.clsslotefx { display:flex; flex-wrap:wrap; gap:5px; }
+.cirow { display:flex; gap:12px; } .cirow > .fld { flex:1; }
+.clsinfohr { border:none; border-top:1px solid var(--edge); margin:14px 0 10px; }
+
+/* ➕ FAB "Create" : bouton flottant rond, bas-droite, au-dessus de tout (pas une page : le moyen de créer) */
+#fab-create{
+  position:fixed; right:26px; bottom:26px; z-index:1200;
+  width:58px; height:58px; border-radius:50%;
+  border:1px solid var(--gold-2);
+  background:radial-gradient(120% 120% at 30% 25%, var(--gold) 0%, var(--gold-2) 70%, #8a6a24 100%);
+  color:#fff; font-size:30px; font-weight:700; line-height:1; cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.30), 0 0 0 5px rgba(201,162,74,.16);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .14s ease, box-shadow .14s ease, background .14s ease;
+}
+#fab-create:hover{ transform:translateY(-2px) scale(1.06);
+  box-shadow:0 10px 26px rgba(0,0,0,.38), 0 0 0 7px rgba(201,162,74,.22); }
+#fab-create:active{ transform:translateY(0) scale(.98); }
+/* ➕ Version ILLUSTREE. `html.art-fab` n'est posee par js/ui/btnart.js qu'UNE FOIS le
+   PNG charge : sans le fichier, on garde la pastille CSS ci-dessus, entiere. Le « + »
+   du HTML passe en transparent seulement dans cet etat — le rendre transparent d'office
+   donnerait un bouton VIDE le jour ou l'image manque. Le carre est plus grand que le
+   rond d'origine : l'illustration porte sa propre silhouette, elle n'a pas de cadre. */
+html.art-fab #fab-create{
+  width:72px; height:72px; border:0; border-radius:0; background:none; box-shadow:none;
+  color:transparent; text-shadow:none;
+  background-image:url('/studio/img/ui/btn_create_fab.png');
+  background-size:contain; background-repeat:no-repeat; background-position:center;
+  filter:drop-shadow(0 5px 12px rgba(0,0,0,.35));
+}
+html.art-fab #fab-create:hover{ box-shadow:none;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.42)) brightness(1.06); }
+html.art-fab #fab-create:active{ filter:drop-shadow(0 3px 7px rgba(0,0,0,.35)) brightness(.96); }
+html.art-fab #fab-create::after{ right:80px; }
+#fab-create::after{           /* petit label 'Create' au survol */
+  content:"Create"; position:absolute; right:66px; top:50%; transform:translateY(-50%);
+  background:var(--surface-2); color:var(--ink); border:1px solid var(--edge); border-radius:6px;
+  padding:4px 10px; font-family:var(--ff-body); font-size:12px; font-weight:600; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity .14s ease; box-shadow:var(--sh-1);
+}
+#fab-create:hover::after{ opacity:1; }
+@media (prefers-reduced-motion:reduce){ #fab-create{transition:none} }
+/* le FAB disparaît sur TOUT écran plein : canvas de création, splash de démarrage (#boot), overlay de
+   reload (#overlay.open), perte de connexion (#conn-lost.open), ou n'importe quel modal ouvert. */
+body:has(#createcanvas.open) #fab-create,
+body:has(#boot) #fab-create,
+body:has(#overlay.open) #fab-create,
+body:has(#conn-lost.on) #fab-create,
+body:has(.modal.open) #fab-create{ opacity:0; pointer-events:none; transform:scale(.6); }
+#about-link:hover{ filter:brightness(1.05); box-shadow:0 2px 8px rgba(120,90,40,.3); }
+
+/* Modal About : détails du tool */
+.abhead{ display:flex; align-items:center; gap:14px; margin-bottom:8px; }
+.abhero{ width:64px; height:64px; object-fit:contain; filter:drop-shadow(0 4px 10px rgba(0,0,0,.25)); flex:none; }
+.abtitle{ font-family:var(--ff-title,'Cinzel',serif); font-weight:700; font-size:17px; color:var(--ink); }
+.absec{ font-family:var(--ff-body); font-weight:700; font-size:12px; letter-spacing:.5px; text-transform:uppercase;
+  color:var(--gold-2); margin:14px 0 6px; border-bottom:1px solid var(--edge); padding-bottom:3px; }
+.abrow{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:4px 0; font-size:13px; }
+.abk{ color:var(--muted); }
+.abv{ display:flex; align-items:center; gap:8px; }
+.abpill{ font-family:var(--ff-body); font-size:12px; font-weight:600; background:var(--surface-2);
+  border:1px solid var(--edge); border-radius:6px; padding:2px 9px; color:var(--ink); }
+.abpill.ok{ border-color:#3c6a2c; color:#2e7d32; background:rgba(46,125,50,.08); }
+.abpill.upd{ border-color:var(--gold-2); color:var(--gold-2); background:rgba(201,162,74,.1); }
+/* modal slot : icône éditable + section Effect (params de l'enchant lié) */
+.clsslotico-row { display:flex; align-items:center; gap:8px; }
+.clsslotic { width:36px; height:36px; border-radius:6px; border:1px solid var(--edge); object-fit:contain; background:var(--surface-2); flex:none; }
+.clsslotic.ph { display:flex; align-items:center; justify-content:center; color:var(--faint); }
+.clseffbox { margin-top:12px; border:1px solid var(--gold-2); border-radius:8px; padding:10px; background:rgba(201,162,74,.06); }
+.clseffh { font-family:var(--ff-body); font-weight:700; font-size:13px; color:var(--gold-2); margin-bottom:8px; }
+.clseffslot { margin-bottom:8px; }
+.clseffop { font-size:12px; color:var(--muted); margin-bottom:4px; }
+.clseffp { display:flex; align-items:center; gap:8px; margin:3px 0; }
+.clseffl { flex:0 0 130px; font-size:12px; color:var(--ink); }
+.clseffv { flex:1; max-width:120px; }
+
+/* Bottom banner : a server class edit needs a ZoneServer restart to take effect */
+.clsrestartbar { position:fixed; left:50%; bottom:18px; transform:translateX(-50%); z-index:900;
+  background:#4a3410; color:#ffe6a8; border:1px solid #c9a24a; border-radius:8px;
+  padding:9px 16px; font-family:var(--ff-body); font-size:12.5px; box-shadow:0 4px 18px rgba(0,0,0,.35);
+  display:flex; align-items:center; gap:12px; max-width:90vw; }
+.clsrestartbar b { color:#fff; }
+.clsrestartx { cursor:pointer; opacity:.7; font-weight:700; }
+.clsrestartx:hover { opacity:1; }
+@media (prefers-color-scheme: light){
+  .clsrestartbar { background:#fff5df; color:#6a4a12; border-color:#c9a24a; }
+  .clsrestartbar b { color:#3a2a06; }
+}
+
+/* ============================================================================
+   HOME — LIVE monitoring (servers · players online · client · database)
+   ============================================================================ */
+.homelive { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
+.hl-card { background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-2); padding:12px 14px; box-shadow:var(--sh-1); }
+.hl-h { font-family:var(--ff-head); font-size:12px; font-weight:700; color:var(--gold-2); margin-bottom:8px; }
+.hl-b { min-height:46px; }
+.hl-big { font-family:var(--ff-head); font-size:26px; font-weight:700; color:var(--ink); line-height:1; }
+.hl-big.ok { color:var(--ok); } .hl-big.warn { color:#b0803a; } .hl-big.bad { color:var(--danger); }
+.hl-slash { font-size:16px; color:var(--faint); font-weight:400; }
+.hl-unit { font-size:12px; color:var(--faint); font-family:var(--ff-body); font-weight:400; }
+.hl-dots { display:flex; flex-wrap:wrap; gap:4px; margin:9px 0 6px; }
+.hl-dot { width:11px; height:11px; border-radius:50%; border:1px solid rgba(0,0,0,.15); }
+.hl-dot.on { background:var(--ok); } .hl-dot.off { background:#c96a5e; }
+.hl-sub { font-family:var(--ff-body); font-size:11px; color:var(--faint); line-height:1.4; }
+.hl-kv { display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:9px; font-family:var(--ff-body); font-size:12px; color:var(--ink-2); }
+.hl-kv b { color:var(--gold-2); }
+.hl-link { color:var(--gold); cursor:pointer; text-decoration:underline; }
+.hl-link:hover { color:var(--gold-2); }
+.hl-live { font-family:var(--ff-body); font-size:10px; color:var(--ok); font-weight:700; margin-left:10px; letter-spacing:.03em; vertical-align:middle; animation:pzpulse 2s ease-in-out infinite; }
+.hl-refresh { float:right; cursor:pointer; color:var(--gold-2); font-family:var(--ff-body); font-size:11px; font-weight:600;
+  border:1px solid var(--edge); background:var(--surface-2); border-radius:var(--r-pill); padding:3px 12px; user-select:none;
+  display:inline-flex; align-items:center; gap:4px; transition:all .12s ease; }
+.hl-refresh:hover { border-color:var(--accent); background:var(--frame); color:var(--gold-2); }
+.hl-ric { display:inline-flex; align-items:center; justify-content:center; line-height:1; }
+.hl-ric svg { display:block; }
+@keyframes hlspin { to { transform:rotate(360deg); } }
+/* NB: class is 'hl-spinning', NOT 'spin' — '.spin' is the global 12px donut-spinner utility
+   (index.html) and would turn the whole button into a spinning circle. Only the icon spins. */
+.hl-refresh.hl-spinning .hl-ric { animation:hlspin .7s linear infinite; }
+.hl-wait { color:var(--faint); }
+.hl-bad { color:var(--danger); font-size:12px; }
+
+/* ============================================================================
+   SPACING UTILITIES (opt-in; use var(--sp-*) for new markup to stay on-scale)
+   ============================================================================ */
+.u-gap-1 { gap: var(--sp-1); } .u-gap-2 { gap: var(--sp-2); } .u-gap-3 { gap: var(--sp-3); }
+.u-pad-3 { padding: var(--sp-3); } .u-pad-4 { padding: var(--sp-4); } .u-pad-5 { padding: var(--sp-5); }
+.u-mb-2 { margin-bottom: var(--sp-2); } .u-mb-3 { margin-bottom: var(--sp-3); } .u-mb-4 { margin-bottom: var(--sp-4); }

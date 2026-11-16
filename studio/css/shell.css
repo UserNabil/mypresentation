@@ -1,0 +1,766 @@
+/* ============================================================================
+   Eden Ultimate Tool — SHELL  (rail de navigation + bandeau de statut + Dashboard)
+   Refonte 2026-08-07. Le design reste celui du tool (parchemin + or, Cinzel) :
+   on ne change NI la palette NI les composants existants — on RESTRUCTURE.
+
+   Pourquoi un rail : la navigation vivait entierement dans le header (17 icones
+   + 2 menus deroulants). Rien n'etait groupe, tout se ressemblait, et une page
+   sur deux se trouvait par tatonnement. Ici : 6 familles, une seule ouverte a la
+   fois, la page courante surlignee — on voit OU on est.
+   ============================================================================ */
+
+/* ---- le fond a motifs FATIGUE la lecture a 8% : ramene a 4%. C'est le seul
+   endroit ou on le surcharge (design.css reste la source pour le reste). ---- */
+body::before{ opacity:.04 !important; }
+
+/* ============================== LE RAIL ================================== */
+:root{ --rail-w:238px; --rail-w-min:60px; }
+
+/* Tant que personne n'est connecte, le rail n'a rien a montrer (ses entrees dependent du role) et
+   `main` est encore en 2 colonnes : un 3e enfant y prendrait la place du panneau de recherche et
+   pousserait le contenu sur une 2e rangee. On le sort donc de la grille jusqu'a `has-rail`. */
+main:not(.has-rail) #rail{ display:none; }
+
+main.has-rail{ grid-template-columns:var(--rail-w) 320px 1fr; }
+main.has-rail.rail-min{ grid-template-columns:var(--rail-w-min) 320px 1fr; }
+/* Dashboard : le panneau de recherche n'a rien a y faire — la page respire. */
+body.home-view main.has-rail{ grid-template-columns:var(--rail-w) 1fr; }
+body.home-view main.has-rail.rail-min{ grid-template-columns:var(--rail-w-min) 1fr; }
+body.home-view #side{ display:none; }
+
+#rail{
+  display:flex; flex-direction:column; min-height:0; overflow:hidden;
+  background:linear-gradient(180deg,#f1e8d0,#e4d6b3);
+  border-right:1px solid var(--edge);
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.5);
+  z-index:2;
+}
+#rail-scroll{ flex:1; min-height:0; overflow-y:auto; overflow-x:hidden; padding:8px 8px 14px; }
+
+/* --- une famille --- */
+.rl-fam{ margin-bottom:2px; }
+.rl-fam-h{
+  width:100%; display:flex; align-items:center; gap:9px; cursor:pointer;
+  font-family:var(--ff-head); font-size:11.5px; font-weight:700; letter-spacing:.055em;
+  text-transform:uppercase; color:var(--ink-2);
+  background:transparent; border:0; border-radius:7px; padding:9px 9px; text-align:left;
+  transition:background .12s ease,color .12s ease;
+}
+.rl-fam-h:hover{ background:rgba(154,106,43,.10); color:var(--gold-2); }
+.rl-fam.open > .rl-fam-h{ color:var(--gold-2); }
+.rl-fam-h .rl-ico{ flex:none; width:20px; height:20px; opacity:.85; }
+.rl-fam-h .rl-lbl{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rl-caret{ flex:none; font-size:9px; color:var(--gold-dim); transition:transform .16s ease; }
+.rl-fam.open .rl-caret{ transform:rotate(90deg); }
+
+/* --- les feuilles ---
+   `display:none` -> `display:block` ne peut PAS s'animer : l'accordeon sautait d'un
+   coup, ce qui se lit comme un rechargement plutot que comme une ouverture. */
+/* ⛔ PIEGE : `grid-template-rows:0fr` ne dimensionne que la PREMIERE rangee. Avec 13
+   feuilles posees directement dans la grille, les 12 suivantes tombent en rangees
+   IMPLICITES (`grid-auto-rows:auto`) et gardent toute leur hauteur -> le menu replie
+   laissait des trous de plusieurs centaines de pixels (constate a l'ecran le 2026-08-14).
+   La technique EXIGE un enfant UNIQUE qui porte l'`overflow` : c'est `.rl-kids-in`. */
+.rl-kids{
+  display:grid; grid-template-rows:0fr;
+  transition:grid-template-rows .22s cubic-bezier(.22,.61,.36,1);
+}
+.rl-kids-in{
+  min-height:0; overflow:hidden; visibility:hidden;
+  transition:visibility 0s linear .22s;
+}
+.rl-fam.open > .rl-kids{ grid-template-rows:1fr; }
+.rl-fam.open > .rl-kids > .rl-kids-in{
+  visibility:visible; padding:1px 0 5px 0; transition:visibility 0s;
+}
+/* Les feuilles arrivent en cascade — quelques centiemes suffisent a donner le sens de
+   l'ouverture sans retarder la lecture. */
+.rl-fam.open .rl-kids-in > .rl-leaf{ animation:rlIn .2s ease both; }
+@keyframes rlIn{ from{ opacity:0; transform:translateX(-5px) } to{ opacity:1; transform:none } }
+.rl-fam.open .rl-kids-in > .rl-leaf:nth-child(1){ animation-delay:.01s }
+.rl-fam.open .rl-kids-in > .rl-leaf:nth-child(2){ animation-delay:.025s }
+.rl-fam.open .rl-kids-in > .rl-leaf:nth-child(3){ animation-delay:.04s }
+.rl-fam.open .rl-kids-in > .rl-leaf:nth-child(4){ animation-delay:.055s }
+.rl-fam.open .rl-kids-in > .rl-leaf:nth-child(5){ animation-delay:.07s }
+.rl-fam.open .rl-kids-in > .rl-leaf:nth-child(n+6){ animation-delay:.085s }
+/* Respecte le reglage systeme « reduire les animations ». */
+@media (prefers-reduced-motion:reduce){
+  .rl-kids{ transition:none }
+  .rl-fam.open .rl-kids-in > .rl-leaf{ animation:none }
+}
+.rl-leaf{
+  position:relative; width:100%; display:flex; align-items:center; gap:8px; cursor:pointer;
+  font-family:var(--ff-body); font-size:12.5px; color:var(--ink);
+  background:transparent; border:0; border-radius:6px;
+  padding:6px 8px 6px 15px; margin:1px 0; text-align:left;
+  transition:background .1s ease,color .1s ease;
+}
+.rl-leaf::before{                                  /* filet de rattachement a la famille */
+  content:''; position:absolute; left:7px; top:0; bottom:0; width:1px;
+  background:linear-gradient(180deg,transparent,rgba(154,106,43,.22),transparent);
+}
+.rl-leaf:hover{ background:rgba(154,106,43,.12); }
+/* Etat ACTIF : le liseré doit se voir d'un coup d'œil, y compris rail réduit. Il
+   glisse d'une entrée à l'autre au lieu d'apparaître sec. */
+.rl-leaf.on{ background:linear-gradient(90deg,rgba(154,106,43,.22),rgba(154,106,43,.05));
+  color:var(--gold-2); font-weight:600; box-shadow:inset 3px 0 0 var(--gold);
+  transition:background .18s ease,box-shadow .18s ease,color .18s ease; }
+/* Une famille dont une feuille est active reste repérable même repliée. */
+.rl-fam.has-active > .rl-fam-h{ color:var(--gold-2); }
+.rl-fam.has-active > .rl-fam-h .rl-ico{ opacity:1; }
+.rl-fam.has-active:not(.open) > .rl-fam-h{ box-shadow:inset 3px 0 0 rgba(154,106,43,.55); }
+/* Un bouton occupé par sa propre requête : plus de double-clic, et ça se VOIT. */
+[data-net-busy]{ opacity:.62; cursor:progress !important; pointer-events:none; }
+.rl-leaf .rl-ico{ flex:none; width:18px; height:18px; opacity:.9; }
+.rl-leaf .rl-lbl{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* --- l'etoile « epingler dans mes favoris » (n'apparait qu'au survol) --- */
+.rl-star{
+  flex:none; width:19px; height:19px; line-height:17px; text-align:center; font-size:11px;
+  border-radius:5px; color:var(--gold-dim); background:transparent; border:1px solid transparent;
+  opacity:0; transition:opacity .1s ease,color .1s ease;
+}
+.rl-leaf:hover .rl-star{ opacity:1; }
+.rl-star:hover{ color:var(--gold); border-color:var(--edge); background:var(--surface); }
+.rl-star.on{ opacity:1; color:#c99a2e; }
+
+/* --- entree de premier niveau (Dashboard) --- */
+.rl-top{
+  width:100%; display:flex; align-items:center; gap:9px; cursor:pointer;
+  font-family:var(--ff-head); font-size:12.5px; font-weight:700; letter-spacing:.03em;
+  color:var(--ink); background:transparent; border:0; border-radius:7px;
+  padding:9px 9px; margin-bottom:5px; text-align:left; transition:background .12s ease;
+}
+.rl-top:hover{ background:rgba(154,106,43,.12); }
+.rl-top.on{ background:linear-gradient(90deg,rgba(154,106,43,.24),rgba(154,106,43,.06));
+  color:var(--gold-2); box-shadow:inset 2px 0 0 var(--gold); }
+.rl-top .rl-ico{ flex:none; width:22px; height:22px; }
+
+.rl-sep{ height:1px; margin:8px 6px; background:linear-gradient(90deg,transparent,var(--edge),transparent); }
+
+/* --- l'appel a l'action, en tete de rail -----------------------------------
+   Deux etats possibles, et le premier doit tenir DEBOUT SEUL :
+     1. sans image  -> plaque doree en CSS (ci-dessous). C'est le defaut, il est
+                       presentable, et c'est ce qu'on voit si le PNG manque.
+     2. avec image  -> `html.art-plate`, pose par js/ui/btnart.js UNE FOIS le PNG
+                       charge. On passe alors en `border-image` (9 tranches) : les
+                       quatre coins gardent leur taille, seuls les bords s'etirent.
+                       C'est la SEULE technique correcte ici — le rail passe de
+                       222 px a 52 px, un PNG etire en bloc y ecraserait le decor. */
+.rl-cta{
+  width:100%; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
+  font-family:var(--ff-head); font-size:12px; font-weight:700; letter-spacing:.05em;
+  color:#fff; text-align:center; margin:2px 0 12px; padding:11px 10px;
+  text-shadow:0 1px 1px rgba(90,58,16,.55);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,0) 42%),
+    linear-gradient(180deg,#c08f3f,var(--gold) 48%,#7c5320);
+  border:1px solid #6d4718; border-radius:10px;
+  box-shadow:0 2px 6px rgba(90,58,16,.34), inset 0 1px 0 rgba(255,244,214,.55),
+             inset 0 -2px 4px rgba(90,58,16,.35), 0 0 0 1px rgba(255,236,196,.22);
+  transition:filter .12s ease, box-shadow .12s ease, transform .08s ease;
+}
+.rl-cta:hover{ filter:brightness(1.08) saturate(1.05);
+  box-shadow:0 4px 12px rgba(90,58,16,.42), inset 0 1px 0 rgba(255,248,226,.7),
+             inset 0 -2px 4px rgba(90,58,16,.3), 0 0 0 2px rgba(255,226,160,.35); }
+.rl-cta:active{ transform:translateY(1px); filter:brightness(.97);
+  box-shadow:0 1px 3px rgba(90,58,16,.4), inset 0 2px 5px rgba(90,58,16,.45); }
+.rl-cta .rl-cta-p{ flex:none; font-size:15px; line-height:1; }
+.rl-cta .rl-lbl b, .rl-cta .rl-lbl i{ font:inherit; font-style:normal; }
+.rail-min .rl-cta{ padding:11px 4px; margin-bottom:9px; }
+.rail-min .rl-cta .rl-cta-p{ font-size:18px; }
+
+/* 2. la plaque dessinee prend le relais.
+   ⛔ PAS de `border-image` 9-tranches : mesure faite sur l'image livree, elle n'a AUCUNE
+   bande horizontalement uniforme (volutes des deux bouts, cuir peint a la main) — l'etirer
+   baverait. Elle n'en a pas besoin : le rail deploye a une largeur FIXE (--rail-w moins
+   ses marges), donc on pose la plaque a son RATIO NATUREL (723x275). Zero deformation,
+   tout le detail conserve. `aspect-ratio` fait la hauteur : la coder en dur la casserait
+   le jour ou le rail change de largeur.
+   Le retrait interieur suit le cadre dore de l'image : 13 % de chaque cote, 20 % en haut
+   et en bas — c'est la ou commence le panneau de cuir.
+   ⛔ Le selecteur porte `main:not(.rail-min)` plutot qu'une surcharge `!important` en
+   mode replie : le plateau CSS de repli EST un `background-image` (deux degrades), donc
+   un `background-image:none !important` l'aurait efface aussi et le bouton replie
+   n'aurait plus eu AUCUN fond. Ne jamais poser la plaque = elle n'a rien a defaire. */
+html.art-plate main:not(.rail-min) .rl-cta{
+  background:url('/studio/img/ui/btn_plate.png') center/100% 100% no-repeat;
+  border:0; border-radius:0; box-shadow:none; text-shadow:0 1px 2px rgba(40,22,4,.8);
+  aspect-ratio:723 / 275; padding:0 12%; gap:9px; color:#f8ead0;
+  font-size:15px; letter-spacing:.05em; white-space:nowrap;
+  filter:drop-shadow(0 3px 6px rgba(90,58,16,.3));
+  /* ⛔ LA HAUTEUR EST LE POINT DUR. Le ratio est fige par le dessin (2,63) : a la
+     largeur du rail (222 px) la plaque faisait 84 px de haut — deux fois un bouton
+     normal, elle ecrasait le reste du menu. On la BORNE en largeur (`max-width`), et
+     la hauteur suit toute seule : 158 px -> 60 px. Elle reste centree dans le rail.
+     Borner la HAUTEUR aurait ete l'erreur : sans toucher a la largeur, l'image se
+     serait deformee ou recadree, et le cadre dore n'aurait plus ferme. */
+  max-width:158px; margin:2px auto 11px;
+}
+/* Le panneau de cuir fait ~164 px de large : « Create new content » (150 px) plus
+   l'ornement (24 px) n'y tiennent pas ensemble et passaient a la ligne, texte colle
+   au cadre. Sur la plaque, le second morceau du libelle disparait — le titre du
+   bouton (« Create an item or a game entity ») porte toujours la phrase complete. */
+html.art-plate main:not(.rail-min) .rl-cta .rl-lbl i{ display:none; }
+html.art-plate main:not(.rail-min) .rl-cta .rl-cta-p{ width:22px; height:22px; }
+
+/* ============ LE CLIC PRECEDENT QUI RESTE ALLUME =========================
+   Symptome : on clique un bouton, on ferme avec Echap, et le bouton garde son
+   surlignage — parfois plusieurs a la fois, sur des ecrans differents.
+   Cause : le navigateur laisse le FOCUS sur le bouton clique, et les composants du
+   tool colorent `:focus` sans distinguer d'ou vient le focus. Rien ne le retire :
+   l'utilisateur n'a plus la main dessus mais l'ecran dit le contraire.
+
+   ⛔ `:focus-visible` NE SUFFIT PAS, contrairement a ce qu'on attend : l'heuristique
+   de Chromium promeut l'anneau des qu'une TOUCHE est pressee, Echap compris — c'est-a-dire
+   exactement le geste rapporte. Verifie a l'ecran. C'est js/ui/focusmode.js qui tranche,
+   avec la nuance qui manque au navigateur (Tab et fleches = deplacement ; Echap, Entree
+   et Espace = action, ils ne prouvent pas qu'on a lache la souris).
+   ⛔ Ne PAS non plus « corriger » par un `blur()` au clic : la navigation au clavier
+   deviendrait invisible et l'element actif retomberait sur <body>. */
+:where(button, .hbtn, .hq-b, .hmi, .sbtn, .qa, .tile, .rl-leaf, .rl-top, .rl-fam-h,
+       .rl-cta, .envchip, .dh-act, .fchip, .qtog, [role="button"]):focus{
+  outline:none;
+}
+/* Au clavier, le liseré doit rester FRANC : un focus discret sur un fond parchemin ne se
+   voit pas, et c'est le seul repere dont dispose quelqu'un sans souris. */
+html[data-nav="keyboard"] :where(button, .hbtn, .hq-b, .hmi, .sbtn, .qa, .tile, .rl-leaf,
+       .rl-top, .rl-fam-h, .rl-cta, .envchip, .dh-act, .fchip, .qtog,
+       [role="button"]):focus{
+  outline:2px solid var(--gold); outline-offset:2px; border-radius:6px;
+}
+html.art-plate main:not(.rail-min) .rl-cta:hover{
+  filter:brightness(1.09) drop-shadow(0 5px 10px rgba(90,58,16,.42)); }
+html.art-plate main:not(.rail-min) .rl-cta:active{
+  filter:brightness(.94) drop-shadow(0 1px 3px rgba(90,58,16,.35)); }
+
+/* 3. l'ornement remplace le « ＋ » du HTML. INDEPENDANT de la plaque : les deux
+   ensemble donnent la plaque dessinee portant l'objet ; l'ornement seul se pose sur
+   le plateau CSS. C'est le repli si le 9-tranches ne tient pas a l'etirement. */
+html.art-icon .rl-cta .rl-cta-p{
+  width:24px; height:24px; font-size:0; color:transparent;
+  background:url('/studio/img/ui/btn_cta_icon.png') center/contain no-repeat;
+  filter:drop-shadow(0 1px 2px rgba(40,22,4,.5));
+}
+/* `.rail-min` est pose sur <main>, donc DANS <html> : l'ordre des deux classes n'est
+   pas interchangeable — `.rail-min html.art-icon` ne matcherait jamais rien. */
+html.art-icon .rail-min .rl-cta .rl-cta-p{ width:28px; height:28px; }
+
+/* --- l'intitule de section (« Main menu ») --- */
+.rl-sect{ display:flex; align-items:center; gap:8px; padding:2px 9px 6px; }
+.rl-sect .rl-lbl{ flex:none; font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--gold-dim); }
+.rl-sect .rl-sect-r{ flex:1; height:1px; background:linear-gradient(90deg,var(--edge),transparent); }
+/* Rail reduit : le libelle disparait comme tous les autres, le filet le remplace. */
+.rail-min .rl-sect{ padding:4px 4px 6px; }
+.rail-min .rl-sect .rl-sect-r{ background:var(--edge); }
+
+/* --- pied : reduire + A propos --- */
+#rail-foot{
+  flex:none; display:flex; align-items:center; gap:6px;
+  border-top:1px solid var(--edge); padding:7px 10px;
+  background:linear-gradient(180deg,rgba(255,255,255,.34),transparent);
+}
+#rail-toggle{
+  flex:1; min-width:0; display:flex; align-items:center; gap:8px; cursor:pointer;
+  font-family:var(--ff-body); font-size:11.5px; color:var(--ink-2);
+  background:transparent; border:0; border-radius:6px; padding:6px 7px;
+}
+#rail-toggle:hover{ background:rgba(154,106,43,.12); color:var(--gold-2); }
+/* « A propos » etait un bouton FLOTTANT en bas a gauche — il se posait pile sur ce pied.
+   Il vit desormais dedans : meme place a l'ecran, plus de superposition. */
+.rl-about{
+  flex:none; width:24px; height:24px; cursor:pointer; border-radius:6px;
+  font-family:var(--ff-head); font-size:12px; font-weight:700; color:var(--gold-2);
+  background:var(--surface); border:1px solid var(--edge);
+}
+.rl-about:hover{ border-color:var(--gold-dim); background:var(--frame); }
+.rail-min .rl-about{ display:none; }
+
+/* ---- Les commandes MIGREES vers le rail quittent l'en-tete ----------------
+   ⛔ `!important` OBLIGATOIRE : refreshAuthUI() pose `style.display=''` en ligne sur tout
+   element porteur de data-minrole (masquage par role). Une regle de feuille de style perdrait
+   contre ce style en ligne et les icones reviendraient a la premiere actualisation du role.
+   Les boutons RESTENT dans le document : le rail les clique (act:'btn:...'). Les retirer
+   casserait Restart, Launch, Packaging, Client Deploy, Features, Changelog, Journal… */
+header #btn-home, header #btn-altar, header #btn-classes, header #btn-features, header #dd-server{
+  display:none !important;
+}
+
+/* --- mode reduit : icones seules, l'etiquette revient au survol --- */
+.rail-min #rail-scroll{ padding:8px 5px 14px; }
+.rail-min .rl-lbl, .rail-min .rl-caret, .rail-min .rl-star, .rail-min #rail-toggle .rl-lbl{ display:none; }
+.rail-min .rl-fam-h, .rail-min .rl-top, .rail-min #rail-toggle{ justify-content:center; padding:9px 4px; }
+/* ⛔ En mode reduit, on ne montre QUE les 6 familles. Laisser les feuilles ouvertes donnait un mur
+   de 20 pastilles ou rien ne distinguait une famille d'une page — soit exactement le defaut que la
+   refonte corrige. Cliquer une famille redeploie le rail (voir rail.js). */
+.rail-min .rl-kids, .rail-min .rl-fam.open .rl-kids{ display:none !important; }
+.rail-min .rl-sep{ margin:6px 4px; }
+.rail-min .rl-fam{ margin-bottom:4px; }
+.rail-min .rl-fam.open > .rl-fam-h{ background:rgba(154,106,43,.16); box-shadow:inset 2px 0 0 var(--gold); }
+
+/* ---- Le panneau de RECHERCHE s'ouvre A LA DEMANDE ---------------------------
+   Il etait ouvert par DEFAUT et ferme au cas par cas : 320 px de pastilles et de
+   resultats occupaient l'ecran en permanence, y compris quand on n'avait rien
+   cherche et sur des pages qui n'en font aucun usage.
+   Le modele est inverse : FERME par defaut, il ne s'ouvre que si on le demande —
+   une frappe dans la recherche, un clic sur une pastille de filtre, une entree de
+   contenu du rail, ou le bouton de bascule pose a cote de la recherche.
+   ⛔ Le declencheur est `input`, PAS `focus` : cliquer dans le champ sans rien
+   taper n'est pas une recherche. */
+#side{ display:none; }
+body.side-open #side{ display:flex; }
+
+main.has-rail{ grid-template-columns:var(--rail-w) 1fr; }
+main.has-rail.rail-min{ grid-template-columns:var(--rail-w-min) 1fr; }
+body.side-open main.has-rail{ grid-template-columns:var(--rail-w) 320px 1fr; }
+body.side-open main.has-rail.rail-min{ grid-template-columns:var(--rail-w-min) 320px 1fr; }
+/* Le Dashboard prend toute la largeur, meme si le panneau etait reste ouvert. */
+body.home-view #side{ display:none; }
+body.home-view main.has-rail{ grid-template-columns:var(--rail-w) 1fr; }
+body.home-view main.has-rail.rail-min{ grid-template-columns:var(--rail-w-min) 1fr; }
+
+/* --- le bouton de bascule, colle a la barre de recherche --- */
+.qtog{
+  flex:none; width:32px; height:32px; margin-left:6px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:14px; line-height:1; color:var(--ink-2);
+  background:var(--surface); border:1px solid var(--edge); border-radius:var(--r-2);
+  transition:background .1s ease,color .1s ease,border-color .1s ease;
+}
+.qtog:hover{ border-color:var(--gold-dim); color:var(--ink); background:var(--frame); }
+.qtog.on{ background:var(--gold); border-color:var(--gold-2); color:#fff; }
+.searchwrap{ display:flex; align-items:center; }
+.searchwrap .searchbox{ flex:1; min-width:0; }
+
+/* ============================ LE DASHBOARD ===============================
+   Il TIENT DANS LA HAUTEUR : la page ne defile pas. Ce qui deborde defile DANS son bloc.
+   Une vue d'ensemble qu'il faut faire defiler n'est plus une vue d'ensemble. */
+body.home-view #content{ overflow:hidden; }
+.dash{
+  height:100%; display:grid; gap:10px; padding:11px 14px 12px;
+  grid-template-rows:auto auto minmax(196px,.95fr) minmax(170px,1fr);
+}
+
+/* --- LA BANNIERE D'ACCUEIL -------------------------------------------------
+   L'illustration porte le ratio (1738x207) : elle est en flux, `height:auto`, et
+   le texte se pose PAR-DESSUS en pourcentages. Rien n'est fige en pixels, donc la
+   bande ne se decale jamais par rapport a son decor quelle que soit la largeur.
+   ⛔ Zone de texte 20%->76% : c'est la seule bande vide COMMUNE aux quatre
+   images. Deborder = le titre passe sous le parchemin ou sous l'encrier. */
+/* ⛔ `align-self:start` EST LA CORRECTION, pas un detail de style. Un enfant de grille
+   est etire par defaut (`stretch`) : quand les rangees du dessous reclamaient leur
+   minimum, la banniere se faisait comprimer a 70 px, son `overflow:hidden` recadrait
+   l'image en pleine hauteur et le texte pose au centre sortait EN HAUT ET EN BAS de la
+   bande (constate a l'ecran le 2026-08-14). `start` lui rend sa hauteur naturelle :
+   elle vaut sa largeur / 8,4 et rien ne peut plus l'ecraser.
+   `max-width` = la largeur NATIVE de l'image (1738 px) : au-dela elle serait agrandie
+   (flou) et depasserait 250 px de haut. On la centre plutot que de la recadrer. */
+/* ⛔ NI bordure NI coins arrondis NI ombre : l'image PORTE DEJA son cadre dessine, avec
+   ses propres coins arrondis. Le cadre CSS s'ajoutait au sien — deux traits concentriques
+   a deux pixels d'ecart, et un coin CSS qui ne suivait pas la courbe du dessin. */
+.dash-hero{ position:relative; align-self:start;
+  max-width:1738px; width:100%; margin:0 auto; }
+.dash-hero .dh-art{ display:block; width:100%; height:auto; }
+
+/* Zone de texte 19%->26% : la seule bande vide COMMUNE aux quatre images.
+   ⛔ Un voile clair EN BOITE a ete essaye puis retire : sur le bleu il se lisait comme
+   un rectangle blanc pose la par erreur. Les quatre bannieres ont toutes un centre
+   clair, l'encre sombre y passe telle quelle ; un halo blanc diffus (text-shadow)
+   suffit a tenir le contraste la ou l'image se charge un peu. */
+.dash-hero .dh-txt{ position:absolute; left:19%; right:26%; top:50%; transform:translateY(-50%);
+  display:flex; flex-direction:column; gap:2px; min-width:0;
+  text-shadow:0 1px 0 rgba(255,255,255,.75), 0 0 14px rgba(255,255,255,.85); }
+.dh-hi{ font-family:var(--ff-body); font-size:clamp(11px,.95vw,13px); color:var(--ink-2); line-height:1.2;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-bottom:1px; }
+.dh-hi b{ color:var(--gold-2); font-weight:700; }
+.dh-hi i{ font-style:normal; font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--gold-2);
+  background:rgba(255,255,255,.62); border:1px solid rgba(154,106,43,.28);
+  border-radius:var(--r-pill); padding:1px 8px; margin-left:8px; text-shadow:none;
+  vertical-align:1px; }
+.dh-big{ font-family:var(--ff-head); font-weight:700; color:var(--ink); line-height:1.06;
+  font-size:clamp(20px,2.05vw,30px); letter-spacing:.005em;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+/* Fenetre etroite : le decor mord vers le centre, la bande utile se resserre. */
+@media (max-width:1120px){ .dash-hero .dh-txt{ left:16%; right:18%; padding:8px 16px 9px; } }
+
+/* --- intitule de section (« Overview ») + bascule d'environnement --- */
+.dash-sect{ display:flex; align-items:center; gap:10px; padding:0 2px; }
+.dash-sect h2{ margin:0; font-family:var(--ff-head); font-size:13px; font-weight:700;
+  letter-spacing:.06em; color:var(--ink); }
+.dash-sect .ds-sp{ flex:1; }
+.ds-envs{ display:inline-flex; align-items:center; gap:4px; padding:2px;
+  background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-pill); }
+.envchip{ cursor:pointer; padding:3px 12px; border:1px solid transparent; border-radius:var(--r-pill);
+  background:transparent; font-family:var(--ff-head); font-size:9.5px; font-weight:700;
+  letter-spacing:.11em; color:var(--ink-2); transition:background .12s ease,color .12s ease; }
+.envchip:hover{ background:rgba(154,106,43,.13); color:var(--gold-2); }
+.envchip.on{ background:linear-gradient(180deg,var(--gold),var(--gold-2)); color:#fff;
+  border-color:var(--gold-2); box-shadow:0 1px 3px rgba(122,79,29,.3); }
+/* Un environnement non configure ne doit pas se cliquer comme les autres : il n'a
+   rien a montrer, et basculer dessus recharge tout pour aboutir a une page vide. */
+.envchip.off{ opacity:.42; }
+.dh-act{ font-family:var(--ff-body); font-size:11.5px; color:var(--ink-2);
+  background:transparent; border:1px solid transparent; cursor:pointer; padding:3px 9px; border-radius:6px; }
+.dh-act:hover{ background:rgba(154,106,43,.12); color:var(--gold-2); border-color:var(--edge); }
+.dq-hint{ font-family:var(--ff-body); font-size:10.5px; color:var(--gold-dim); font-weight:400;
+  text-transform:none; letter-spacing:0; cursor:default; }
+
+/* --- les rangees --- */
+.dash-row{ display:grid; gap:10px; min-height:0; }
+/* ⛔ `minmax(0,Nfr)` et pas `Nfr` : `1fr` vaut `minmax(auto,1fr)`, donc une colonne ne
+   peut pas descendre sous la largeur MIN-CONTENT de ce qu'elle contient. Une seule
+   legende en `white-space:nowrap` (« records across 8 catalogues ») suffisait alors a
+   pousser les quatre colonnes et a faire deborder la derniere hors de l'ecran. */
+.dash-row.quad{ grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr); }
+.dash-row.mid{ grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); }
+/* 4 colonnes tant qu'elles restent lisibles (~250 px chacune) ; en dessous, 2x2. */
+@media (max-width:1150px){ .dash-row.quad{ grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); } }
+@media (max-width:960px){ .dash-row.mid{ grid-template-columns:minmax(0,1fr); } }
+
+/* ECRAN COURT — la page reste tenue dans la hauteur le plus longtemps possible en se
+   compactant. Passe un seuil, on REND LA BARRE DE DEFILEMENT : « tenir dans la hauteur »
+   ne doit jamais devenir « couper des donnees », ce qui est exactement ce qu'un
+   `overflow:hidden` fait — on ne voit meme pas qu'il manque quelque chose. */
+/* La banniere consomme ~150 px : les deux seuils montent d'autant, sinon la page
+   se comprime jusqu'a l'illisible avant de se decider a defiler. */
+@media (max-height:940px){
+  .dash{ gap:8px; padding:8px 12px 9px; grid-template-rows:auto auto minmax(186px,.95fr) minmax(150px,1fr); }
+  .dq-m .m-v{ font-size:18px; }
+  .dq-spark svg{ height:30px; }
+  .fd-row{ padding:5px 10px; }
+  .hero-h{ padding:6px 10px; }
+  .hero-art{ width:42px; height:42px; }
+  .hero-v{ font-size:22px; }
+}
+@media (max-height:760px){
+  body.home-view #content{ overflow:auto; }
+  .dash{ height:auto; min-height:100%; grid-template-rows:auto auto auto auto; }
+  .dash-row.quad > .dq{ min-height:216px; }   /* 70 px d'en-tete illustre + le detail */
+  .dash-row.mid  > .dq{ min-height:230px; }
+}
+
+/* --- une carte --- */
+.dq{ display:flex; flex-direction:column; min-height:0; overflow:hidden;
+  background:var(--surface); border:1px solid var(--edge); border-radius:var(--r-3); box-shadow:var(--sh-1); }
+.dq-h{ flex:none; display:flex; align-items:center; gap:7px; padding:7px 11px;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),transparent);
+  border-bottom:1px solid var(--line);
+  font-family:var(--ff-head); font-size:10.5px; font-weight:700; letter-spacing:.075em;
+  text-transform:uppercase; color:var(--gold-2); }
+.dq-h .ui-icon{ width:17px; height:17px; flex:none; }
+.dq-h .dq-spacer{ flex:1; }
+.dq-b{ flex:1; min-height:0; overflow:auto; padding:8px 11px 9px;
+  display:flex; flex-direction:column; gap:6px; }
+.dq-b.flush{ padding:0; }
+.dq-wait{ color:var(--gold-dim); font-size:15px; }
+.dq-bad{ color:var(--crimson); font-size:11.5px; }
+
+/* --- LES CARTES DE TETE : illustration + chiffre, puis le detail -----------
+   Le chiffre ne REMPLACE pas la carte, il la coiffe. C'est ce qui permet d'avoir
+   une rangee « Overview » lisible de loin sans retirer une seule des mesures que
+   ces cartes affichaient deja (services, courbe 24 h, catalogues, paquet). */
+.dq.dqtop .hero-h{ display:flex; align-items:center; gap:11px; padding:9px 12px;
+  background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(255,255,255,0));
+  border-bottom:1px solid var(--line); }
+.hero-art{ flex:none; width:52px; height:52px; object-fit:contain;
+  filter:drop-shadow(0 2px 3px rgba(122,79,29,.22)); }
+.hero-t{ flex:1; min-width:0; display:flex; flex-direction:column; line-height:1.14; }
+.hero-k{ font-family:var(--ff-head); font-size:9.5px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gold-2);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hero-v{ font-family:var(--ff-head); font-size:26px; font-weight:700; color:var(--ink);
+  font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hero-v i{ font-style:normal; font-size:.55em; font-weight:700; color:var(--gold-dim); }
+.hero-v.ok{ color:var(--jade); }
+.hero-v.bad{ color:var(--crimson); }
+/* Un nom de paquet n'est pas un chiffre : meme ligne, mais a une taille ou il tient
+   ENTIER. Une version tronquee au milieu (« 2.9… ») se lit comme une autre version. */
+.hero-v.txt{ font-size:15px; letter-spacing:.02em; }
+.hero-s{ font-family:var(--ff-body); font-size:10px; color:var(--ink-2);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+/* La rangee du haut porte deja son titre dans l'en-tete illustre : le petit
+   pictogramme des lignes de detail ferait doublon a 2 cm d'ecart. */
+.dq.dqtop .dq-b{ padding-top:7px; }
+
+/* --- lignes de service --- */
+/* Reparti sur la hauteur disponible : dans une carte haute, sept lignes tassees en haut
+   laissent un grand vide qui donne l'impression que le bloc n'a pas fini de charger. */
+.dq-list{ flex:1; display:flex; flex-direction:column; justify-content:space-evenly; gap:3px; }
+.dq-svc{ display:flex; align-items:center; gap:8px; font-family:var(--ff-body); font-size:12px; }
+.dq-svc .s-dot{ flex:none; width:7px; height:7px; border-radius:50%; background:var(--gold-dim); }
+.dq-svc .s-dot.ok{ background:var(--jade); box-shadow:0 0 5px rgba(77,122,58,.55); }
+.dq-svc .s-dot.bad{ background:var(--crimson); box-shadow:0 0 5px rgba(165,51,42,.5); }
+.dq-svc .s-nm{ flex:1; min-width:0; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dq-svc .s-st{ font-size:11px; font-weight:600; color:var(--ink-2); }
+.dq-svc .s-st.ok{ color:var(--jade); } .dq-svc .s-st.bad{ color:var(--crimson); }
+.dq-svc .s-ms{ font-size:10.5px; color:var(--ink-2); font-variant-numeric:tabular-nums;
+  min-width:44px; text-align:right; }
+
+/* --- lignes clef/valeur (Deployment, Database) --- */
+.dq-kv{ display:flex; align-items:center; gap:8px; font-family:var(--ff-body); font-size:12px;
+  padding:1.5px 0; }
+.dq-kv .kv-k{ flex:1; min-width:0; display:flex; align-items:center; gap:6px; color:var(--ink-2);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dq-kv .kv-k .ui-icon{ width:16px; height:16px; flex:none; }
+.dq-kv .kv-v{ flex:none; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
+.dq-kv .env-v{ font-family:var(--ff-head); letter-spacing:.05em; color:var(--gold-2); }
+
+/* --- metriques (Players & World) --- */
+.dq-mx{ display:grid; gap:7px 10px; flex:none; }
+.dq-mx.four{ grid-template-columns:1fr 1fr; }
+.dq-m{ display:flex; flex-direction:column; gap:0; min-width:0; }
+.dq-m .m-v{ font-family:var(--ff-head); font-size:21px; font-weight:700; color:var(--ink);
+  line-height:1.05; font-variant-numeric:tabular-nums; }
+.dq-m .m-v.ok{ color:var(--jade); }
+/* Une mesure que le serveur n expose pas : elle doit se lire comme « pas disponible »,
+   pas comme un zero ni comme une panne. */
+.dq-m .m-v .m-na{ font-family:var(--ff-body); font-size:13px; font-weight:400; color:var(--gold-dim); }
+.dq-m .m-k{ font-family:var(--ff-body); font-size:10.5px; color:var(--ink-2);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* --- courbe 24 h --- */
+.dq-spark{ margin-top:auto; padding-top:5px; }
+.dq-spark svg{ display:block; width:100%; height:38px; }
+.dq-spark .sp-h{ display:flex; justify-content:space-between; font-family:var(--ff-body);
+  font-size:10px; color:var(--ink-2); margin-bottom:2px; }
+.dq-spark .sp-h b{ color:var(--gold-2); }
+.dq-spark .sp-x{ display:flex; justify-content:space-between; font-family:var(--ff-body);
+  font-size:9.5px; color:var(--gold-dim); }
+.dq-spark .sp-x i{ font-style:normal; opacity:.8; }
+/* Le trace ne remplit plus la boite : les reperes chiffres se posent DESSUS, a droite,
+   pour que le cadrage (qui ne part pas de zero) soit lisible d'un coup d'oeil. */
+.dq-spark .sp-plot{ position:relative; }
+.dq-spark .sp-hi, .dq-spark .sp-lo{ position:absolute; right:2px; font-family:var(--ff-body);
+  font-size:9px; font-weight:700; color:var(--gold-2); background:rgba(255,255,255,.72);
+  border-radius:3px; padding:0 3px; pointer-events:none; }
+.dq-spark .sp-hi{ top:-1px; }
+.dq-spark .sp-lo{ bottom:-1px; }
+.dq-spark.empty{ display:flex; align-items:center; justify-content:center; min-height:42px;
+  border:1px dashed var(--edge); border-radius:var(--r-2); font-family:var(--ff-body);
+  font-size:10.5px; color:var(--ink-2); text-align:center; padding:6px; }
+
+.dq-note{ margin-top:auto; padding-top:6px; border-top:1px solid var(--line);
+  font-family:var(--ff-body); font-size:10.5px; color:var(--ink-2);
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.dq-link{ color:var(--gold-2); cursor:pointer; font-weight:600; }
+.dq-link:hover{ color:var(--gold); text-decoration:underline; text-underline-offset:2px; }
+
+/* --- flux d'activite --- */
+.feed{ display:flex; flex-direction:column; height:100%; }
+.feed .fd-row{ flex:1; }
+.fd-row{ display:flex; align-items:center; gap:9px; padding:7px 11px; border-bottom:1px solid var(--line); }
+.fd-row:last-child{ border-bottom:0; }
+.fd-row:hover{ background:rgba(154,106,43,.05); }
+.fd-av{ flex:none; width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+  font-family:var(--ff-head); font-size:10.5px; font-weight:700; color:#fff;
+  background:linear-gradient(160deg,var(--gold),var(--gold-2)); box-shadow:var(--sh-1); }
+img.fd-av.crest-img{ display:block; padding:0; object-fit:cover; background:var(--surface);
+  border:1px solid var(--edge); box-shadow:var(--sh-1); }
+.role-crest.crest-img{ border-radius:50%; object-fit:cover; vertical-align:middle;
+  border:1px solid var(--edge); background:var(--surface); }
+.fd-b{ flex:1; min-width:0; display:flex; flex-direction:column; line-height:1.3; }
+.fd-who{ font-family:var(--ff-body); font-size:12px; font-weight:700; color:var(--ink); }
+.fd-what{ font-family:var(--ff-body); font-size:11.5px; color:var(--ink-2);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.fd-when{ flex:none; font-family:var(--ff-body); font-size:10.5px; color:var(--gold-dim); white-space:nowrap; }
+.fd-n{ margin-left:6px; font-family:var(--ff-head); font-size:9.5px; font-weight:700;
+  color:var(--gold-2); background:var(--frame); border:1px solid var(--line);
+  border-radius:var(--r-pill); padding:0 6px; }
+.fd-tag{ font-family:var(--ff-head); font-size:8.5px; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--gold-2); background:var(--frame);
+  border:1px solid var(--line); border-radius:var(--r-pill); padding:0 6px; margin-left:6px; }
+.fd-empty{ padding:14px 11px; text-align:center; font-family:var(--ff-body); font-size:11.5px; color:var(--ink-2); }
+
+/* --- favoris --- */
+.tilegrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:7px; align-content:start; }
+.tile{ display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;
+  background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-2);
+  padding:8px 4px 6px; text-align:center; transition:border-color .1s ease,background .1s ease; }
+.tile:hover{ border-color:var(--gold-dim); background:var(--frame); }
+.tile img{ width:28px; height:28px; }
+
+/* --- actions rapides --- */
+.qa-list{ flex:1; display:flex; flex-direction:column; justify-content:space-evenly; gap:4px; }
+.qa{ display:flex; align-items:center; gap:9px; cursor:pointer; width:100%; text-align:left;
+  background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-2);
+  padding:5px 9px; transition:border-color .1s ease,background .1s ease; }
+.qa:hover{ border-color:var(--gold-dim); background:var(--frame); }
+.qa img{ flex:none; width:20px; height:20px; }
+.qa .qa-t{ flex:1; min-width:0; display:flex; flex-direction:column; line-height:1.25; }
+.qa .qa-n{ font-family:var(--ff-body); font-size:11.5px; font-weight:600; color:var(--ink); }
+.qa .qa-d{ font-family:var(--ff-body); font-size:10px; color:var(--ink-2);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.qa .qa-go{ flex:none; font-size:12px; color:var(--gold-dim); }
+.qa.all{ margin-top:auto; justify-content:center; gap:5px; background:var(--frame);
+  font-family:var(--ff-head); font-size:11px; font-weight:700; letter-spacing:.05em;
+  color:var(--gold-2); text-transform:uppercase; padding:7px 9px; }
+
+/* --- informations systeme --- */
+.sysrow{ flex-direction:row !important; align-items:center; gap:0 !important; overflow:hidden; }
+.sysi{ flex:1; min-width:0; display:flex; flex-direction:column; gap:1px;
+  padding:0 12px; border-right:1px solid var(--line); }
+.sysi:last-child{ border-right:0; }
+.sysi:first-child{ padding-left:0; }
+.sysi-k{ font-family:var(--ff-head); font-size:9px; font-weight:700; letter-spacing:.07em;
+  text-transform:uppercase; color:var(--gold-dim); }
+.sysi-v{ font-family:var(--ff-body); font-size:13px; font-weight:600; color:var(--ink);
+  font-variant-numeric:tabular-nums; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* --- raccourcis d'environnement --- */
+.envrow{ flex-direction:row !important; align-items:stretch; gap:8px !important; overflow:hidden; }
+.envcard{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:2px;
+  cursor:pointer; text-align:left; padding:6px 11px;
+  background:var(--surface-2); border:1px solid var(--edge); border-radius:var(--r-2);
+  transition:border-color .1s ease,background .1s ease; }
+.envcard:hover{ border-color:var(--gold-dim); background:var(--frame); }
+.envcard.on{ background:linear-gradient(180deg,rgba(154,106,43,.16),rgba(154,106,43,.05));
+  border-color:var(--gold); box-shadow:inset 0 0 0 1px rgba(154,106,43,.25); }
+.envcard.off{ opacity:.55; }
+.envcard .ec-n{ font-family:var(--ff-head); font-size:12px; font-weight:700; letter-spacing:.07em; color:var(--ink); }
+.envcard.on .ec-n{ color:var(--gold-2); }
+.envcard .ec-s{ font-family:var(--ff-body); font-size:10px; color:var(--ink-2); }
+.envcard.on .ec-s{ color:var(--jade); font-weight:600; }
+
+/* ==== La barre « SAVED / REVERT / RESTART SERVER » se posait N'IMPORTE OU ==============
+   Elle etait centree sur la FENETRE (left:50% + translateX(-50%)), donc a cheval sur le rail,
+   et sa largeur maximale (960 px) la faisait se replier en trois lignes dans une fenetre
+   etroite — juste sous le bouton flottant « + », qu'elle recouvrait a moitie.
+   Elle est desormais ancree EN BAS A DROITE, au-dessus du bouton flottant, avec une largeur
+   qui tient dans une fenetre etroite. Il faut surcharger les DEUX regles (repos et .show) :
+   la transformation d'origine portait le centrage. */
+#savestatus{
+  left:auto !important; right:20px; bottom:96px;   /* 96 = au-dessus du bouton flottant (26+58+12) */
+  transform:translateY(240px) !important;
+  max-width:min(92vw,640px); justify-content:flex-end;
+}
+#savestatus.show{ transform:translateY(0) !important; }
+@media (max-width:820px){ #savestatus{ right:12px; left:12px !important; max-width:none; } }
+
+/* Le bandeau de redemarrage differe se repliait mal en fenetre etroite : le texte se comprimait
+   sur cinq lignes pendant que les boutons restaient sur une seule. */
+#pending-restart-bar, #update-bar{ flex-wrap:wrap; row-gap:6px; }
+#pending-restart-bar #pending-restart-msg, #update-bar #update-msg{ min-width:220px; }
+
+/* ====================== ACTIONS RAPIDES DE L'EN-TETE =====================
+   Cinq commandes declenchables en passant, apres le bouton Reglages. Ce sont des
+   ACTIONS, pas des pages : elles ont quitte le rail.
+   ⛔ Aucun `display:none` par media query ici. Masquer un bouton par seuil de
+   largeur supprime l'ACTION, pas seulement son bouton, et sans le moindre signe.
+   C'est js/nav/quickbar.js qui MESURE la place restante et deplace ce qui ne
+   tient plus dans le menu « … ». */
+.hquick{ display:flex; align-items:center; gap:3px; margin-left:2px;
+  padding-left:8px; border-left:1px solid var(--edge); }
+.hq-b{ display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+  width:32px; height:32px; flex:none; border-radius:var(--r-2);
+  background:transparent; border:1px solid transparent; color:var(--ink-2);
+  transition:background .1s ease,border-color .1s ease; }
+.hq-b:hover{ background:rgba(154,106,43,.14); border-color:var(--edge); }
+.hq-b .ui-icon{ width:22px; height:22px; }
+.hq-b[hidden]{ display:none; }
+
+.hq-more{ position:relative; }
+.hq-more-t{ font-size:15px; line-height:1; color:var(--gold-2); font-weight:700; }
+.hq-menu{ display:none; position:absolute; right:0; top:calc(100% + 6px); z-index:60;
+  min-width:186px; padding:5px; border:1px solid var(--edge); border-radius:var(--r-2);
+  background:var(--surface); box-shadow:var(--sh-2); }
+.hq-more.open .hq-menu{ display:block; }
+.hq-mi{ display:flex; align-items:center; gap:8px; width:100%; cursor:pointer; text-align:left;
+  padding:6px 9px; border:0; border-radius:var(--r-1); background:transparent;
+  font-family:var(--ff-body); font-size:12.5px; color:var(--ink); }
+.hq-mi:hover{ background:rgba(154,106,43,.12); color:var(--gold-2); }
+.hq-mi .ui-icon{ width:18px; height:18px; flex:none; }
+
+/* ======================== LE JOURNAL D'ACTIONS ============================
+   Refonte 2026-08-14. C'etait un tableau de six colonnes dont trois disaient la
+   meme chose, avec le balisage des icones rendu en TEXTE (voir js/pages/journal.js).
+   Ici : une LISTE. Une ligne = une action, groupee par jour. Ce qui compte se lit
+   en diagonale (l'action, qui, quand) ; le brut est dans l'infobulle. */
+/* Une action qui a ECHOUE doit sauter aux yeux dans une liste de 300 : un « ✗ » en bout
+   de ligne se noie. Le liseré rouge se voit en faisant defiler sans rien lire. */
+
+/* ============ BARRE DE PROGRESSION DANS UNE NOTIFICATION ==================
+   Pour les operations longues (repack, installation) : « Repacking… » sans
+   rien d'autre ne distinguait pas « ca avance » de « c'est bloque ».
+   La notification s'elargit un peu — une barre de 120 px ne se lit pas — mais
+   reste bornee pour ne pas manger l'ecran. */
+.tst:has(.tst-prog){ min-width:min(400px, 86vw); }
+.tst-prog{ display:flex; flex-direction:column; gap:5px; margin-top:7px; }
+.tst-bar{ position:relative; height:6px; border-radius:999px; overflow:hidden;
+  background:rgba(122,79,29,.16); box-shadow:inset 0 1px 2px rgba(90,58,16,.18); }
+.tst-bar > i{ display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--gold),var(--gold-2));
+  border-radius:999px; transition:width .3s ease; }
+/* Total inconnu : une navette, jamais un pourcentage invente. */
+.tst-bar.indet > i{ width:34%; animation:tstIndet 1.15s ease-in-out infinite; }
+@keyframes tstIndet{ 0%{ transform:translateX(-110%) } 100%{ transform:translateX(330%) } }
+@media (prefers-reduced-motion:reduce){ .tst-bar.indet > i{ animation:none; width:100%; opacity:.45 } }
+.tst-eta{ font-family:var(--ff-body); font-size:10.5px; color:var(--ink-2);
+  font-variant-numeric:tabular-nums; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* ======= PASTILLE D'AVERTISSEMENT DE L'ECRAN FEATURE =====================
+   Le detail vit dans l'infobulle (voir fmChip). La pastille doit se VOIR sans
+   rien pousser : elle tient sur une ligne, a cote des boutons d'action.
+   `cursor:help` est le seul indice qu'il y a quelque chose a lire au survol —
+   sans lui, personne ne pense a s'arreter dessus. */
+.fm-chip{ display:inline-flex; align-items:center; gap:5px; cursor:help;
+  margin:6px 6px 0 0; padding:3px 10px; border-radius:var(--r-pill);
+  font-family:var(--ff-body); font-size:11.5px; font-weight:700;
+  border:1px solid; white-space:nowrap; vertical-align:middle; }
+.fm-chip.fail{ color:#a8202a; background:rgba(217,36,47,.10); border-color:rgba(217,36,47,.45); }
+.fm-chip.warn{ color:#8a6410; background:rgba(184,134,11,.12); border-color:rgba(184,134,11,.45); }
+.fm-chip.info{ color:var(--ink-2); background:rgba(0,0,0,.04); border-color:var(--edge); font-weight:600; }
+.fm-chip:hover{ filter:brightness(.96); }
+
+/* ============ EN-TETE DE L'ECRAN FEATURES ================================
+   300 px de large : « env » + l'adresse + l'etat du DLL + 3 boutons + 4 radios
+   tenaient sur UNE ligne qui se repliait au hasard — on ne savait plus ce qui
+   allait avec quoi. On empile des rangees qui repondent chacune a une question :
+   ou je travaille, quoi y envoyer, et un reglage secondaire mis en retrait.
+   Tout ce qui est long (adresse, chemins, detail du DLL) part en infobulle. */
+.fm-envblk{ display:flex; flex-direction:column; gap:7px; line-height:1.4; }
+.fm-envtop{ display:flex; align-items:center; gap:7px; min-width:0; }
+.fm-envtag{ flex:none; font-family:var(--ff-head); font-size:8.5px; font-weight:700;
+  letter-spacing:.13em; color:var(--gold-dim); border:1px solid var(--line);
+  border-radius:var(--r-pill); padding:1px 7px; }
+/* L'adresse peut etre longue : elle se tronque et se lit en entier au survol,
+   plutot que de pousser l'etat du DLL a la ligne. */
+.fm-envval{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  color:var(--gold); font-size:13px; cursor:help; }
+.fm-dll{ flex:none; margin-left:auto; cursor:help; white-space:nowrap;
+  font-size:10.5px; font-weight:700; border-radius:var(--r-pill);
+  padding:1px 9px; border:1px solid; }
+.fm-dll.ok  { color:#2c7a34; background:rgba(46,160,67,.12); border-color:rgba(46,160,67,.40); }
+.fm-dll.warn{ color:#8a6410; background:rgba(184,134,11,.14); border-color:rgba(184,134,11,.45); }
+.fm-dll.bad { color:#a8202a; background:rgba(217,36,47,.11); border-color:rgba(217,36,47,.45); }
+
+/* Les boutons d'action : une grille, pas un flux. Ils se partagent la largeur a
+   parts egales et gardent la MEME taille d'une rangee a l'autre — des boutons de
+   largeurs differentes se lisent comme des importances differentes. */
+.fm-btnrow{ display:flex; gap:5px; }
+.fm-btnrow > .mini{ flex:1; min-width:0; padding:4px 6px; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }
+.fm-btnrow > .mini .ui-icon{ width:15px; height:15px; vertical-align:-3px; }
+
+/* Le choix de la source du journal est SECONDAIRE : il ne doit pas peser autant
+   que les actions au-dessus. */
+.fm-envblk .fm-rt{ font-size:10px; opacity:.75; }
+/* L'empreinte du commit : monospace pour se comparer d'un coup d'oeil, le message
+   entier au survol. */
+.fm-commit{ font-family:Cascadia Code,Consolas,monospace; font-size:10px;
+  color:var(--gold-dim); cursor:help; margin-left:2px; }
+/* ⛔ « Install all client » se faisait couper en « Install all clie… ». Tronquer un libellé
+   d'ACTION est le pire des compromis : on ne sait plus ce que fait le bouton, alors que la
+   place manquante tient sur une deuxième ligne. Cette rangée-là s'enroule donc. */
+.fm-btnrow.wrap > .mini{ white-space:normal; text-overflow:clip; line-height:1.25; }
+
+/* La barre de l'ecran de chargement des features. Elle remplace un chronometre :
+   voir « 42 % · 27/64 features » dit ce qui reste, ce que « 8.0 s » ne disait pas. */
+.fmloadbar{ width:min(320px,60vw); height:5px; margin:9px auto 7px; border-radius:999px;
+  overflow:hidden; background:rgba(122,79,29,.18); }
+.fmloadbar > i{ display:block; height:100%; width:0; border-radius:999px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-2)); transition:width .3s ease; }
+/* Total pas encore connu : une navette, jamais un pourcentage invente. */
+.fmloadbar.indet > i{ width:34%; animation:tstIndet 1.15s ease-in-out infinite; }

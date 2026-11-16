@@ -1,0 +1,56 @@
+#pk-classic{display:none}
+#pk-kids{--k-ok:#3f7a2e;--k-okbg:#e3ecd0;--k-todo:#c2701a;--k-todobg:#f6e3c4;--k-bad:#a5332a;--k-badbg:#f3d9d4;position:relative;font-family:Spectral,serif;color:var(--ink);font-size:15px}
+#pk-kids *{box-sizing:border-box}
+#pk-kids img{display:block}
+.k-chip{display:inline-flex;align-items:center;gap:6px;font:700 13px Cinzel,serif;border-radius:16px;padding:3px 11px 3px 5px}
+.k-chip img{width:22px;height:22px}
+.k-chip.ok{background:var(--k-okbg);color:var(--k-ok)}
+.k-chip.todo{background:var(--k-todobg);color:var(--k-todo)}
+.k-chip.bad{background:var(--k-badbg);color:var(--k-bad)}
+.k-chip.rfg{background:#e6e1f0;color:#5b4a8a;padding:3px 11px}
+.k-spin{animation:k-sp 1.4s linear infinite}
+@keyframes k-sp{to{transform:rotate(360deg)}}
+.k-dim{opacity:.42;filter:grayscale(.5);pointer-events:none}
+.k-err{color:var(--k-bad);font-size:13px;margin-top:6px;word-break:break-word}
+.k-ck{width:22px;height:22px;border-radius:5px;border:2px solid var(--gold);background:#fbf6e6;display:grid;place-items:center;color:#fff;font-size:14px;flex:none}
+.k-ck.on{background:var(--gold)}
+.k-list{border:1px solid var(--edge);border-radius:8px;background:#fbf6e6;max-height:230px;overflow:auto}
+.k-li{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--edge2);cursor:pointer}
+.k-li:last-child{border-bottom:0}
+.k-li .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 13px "Cascadia Code",Consolas,monospace}
+.k-tag{font:700 11px Cinzel,serif;border-radius:10px;padding:2px 9px}
+.k-tag.new{background:var(--k-okbg);color:var(--k-ok)}
+.k-tag.chg{background:var(--k-todobg);color:var(--k-todo)}
+.k-selall{display:flex;align-items:center;gap:10px;font:700 14px Cinzel,serif;color:var(--dim);margin:0 2px 8px;cursor:pointer}
+.k-more{padding:8px 12px;font-size:13px;color:var(--dim)}
+.g-p{display:flex;flex-direction:column;align-items:center;gap:4px}
+.g-cnt{font:700 12px Cinzel,serif;color:var(--dim);text-align:center;white-space:nowrap}
+.g-fill{position:relative;width:96px;height:96px;display:grid;place-items:center}
+.g-fill img{grid-area:1/1}
+.g-fill img.base{filter:grayscale(1) brightness(.6);opacity:.65}
+.g-fill img.top{clip-path:inset(calc(100% - var(--p)*1%) 0 0 0)}
+.g-fill b{position:absolute;bottom:-2px;left:0;right:0;text-align:center;font:700 20px Cinzel,serif;color:#fff;text-shadow:0 2px 4px #000,0 0 6px #000}
+.g-quest{display:grid;gap:0}
+.g-qhead{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:2px double #b89c66}
+.g-qhead h3{margin:0;flex:1;font:700 20px Cinzel,serif;color:var(--gold2)}
+.g-qn{font:700 16px Cinzel,serif;color:var(--gold)}
+.g-obj{margin:12px 14px 0;border-radius:8px;background:#fbf6e6;border:1px solid var(--edge2)}
+.g-obj.done{background:#eef2dd;border-color:#8fb673}
+.g-obj.run{border-color:var(--gold);background:#f8ecc9}
+.g-orow{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.g-ob{width:30px;height:30px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;font:700 15px Cinzel,serif;color:var(--gold2);flex:none;background:rgba(255,255,255,.55)}
+.g-obj.done .g-ob{background:var(--k-ok);border-color:var(--k-ok);color:#fff}
+.g-oic{flex:none;min-width:72px;display:grid;place-items:center}
+.g-otx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.g-ot{font:700 20px Cinzel,serif;color:var(--gold2)}
+.g-os{font-size:14px;color:var(--dim)}
+.g-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.g-chips:empty{display:none}
+.k-act{font-size:16px;padding:12px 26px;min-width:130px;flex:none}
+.g-list{padding:0 14px 14px}
+.g-lacts{display:flex;gap:10px;margin-top:12px;align-items:center}
+.g-rfgf{display:inline-flex;gap:6px;align-items:center}
+.g-rfgf input{font-size:13px;padding:6px 8px;width:150px}
+.g-sim{display:flex;align-items:center;gap:6px;padding:10px 16px 12px;font:700 11px Cinzel,serif;color:var(--faint);justify-content:flex-end}
+.g-sim button{font:700 11px Cinzel,serif;padding:2px 9px;border-radius:12px;border:1px solid var(--edge);background:transparent;color:var(--dim);cursor:pointer}
+@media (max-width:760px){.g-oic{min-width:60px}.k-act{padding:10px 16px;min-width:100px}.g-orow{gap:8px;padding:10px}}

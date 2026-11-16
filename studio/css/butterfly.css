@@ -1,0 +1,66 @@
+/* butterfly.css — le papillon vivant. Un seul élément fixed, jamais cliquable, composité.
+   Le sprite est une sheet HORIZONTALE de --bf-frames images (128px natif chacune), rendue à 48px.
+   L'image affichée = frame --bf-frame, sélectionnée par background-position (aucun <img>, aucun canvas). */
+
+.reforged-butterfly {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2147483000;            /* au-dessus de tout, mais jamais interactif */
+  pointer-events: none;          /* ABSOLU : n'intercepte jamais un clic */
+  will-change: transform;        /* transform composité sur le GPU */
+  image-rendering: auto;
+  /* la sheet : largeur = frames × la largeur d'une frame ; hauteur = 1 frame.
+     background-size scale la sheet à la taille rendue (48px par frame). */
+  background-image: var(--bf-url);
+  background-repeat: no-repeat;
+  background-size: calc(var(--bf-frames, 1) * 100%) 100%;
+  /* position de la frame courante : décalage horizontal proportionnel à --bf-frame / (frames-1).
+     (frames-1 pour que la dernière frame cale pile au bord droit de la sheet.) */
+  background-position: calc(var(--bf-frame, 0) / max(var(--bf-frames, 1) - 1, 1) * 100%) 0;
+  /* transform-origin au centre pour la rotation + le flip */
+  transform-origin: 50% 50%;
+  /* pas de transition sur transform (piloté par rAF) ; contain pour isoler le repaint */
+  contain: layout paint style;
+  backface-visibility: hidden;
+}
+
+/* ── traînée d'étoiles ────────────────────────────────────────────────────────────────────── */
+.reforged-butterfly-stars {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482999;           /* juste sous le papillon */
+  pointer-events: none;
+  contain: layout paint style;
+}
+.rbf-star {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  opacity: 0;
+  will-change: transform, opacity;
+  /* petite étoile 4 branches dorée, dessinée en pur CSS (pas d'asset) */
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,246,214,.95) 0%, rgba(232,190,96,.85) 35%, rgba(232,190,96,0) 70%);
+  filter: drop-shadow(0 0 3px rgba(240,205,120,.7));
+  border-radius: 50%;
+  transform: translate3d(-100px, -100px, 0);   /* hors écran au repos */
+  backface-visibility: hidden;
+}
+/* le "scintillement" 4 branches via un pseudo en croix */
+.rbf-star::before {
+  content: '';
+  position: absolute;
+  inset: -35%;
+  background: linear-gradient(0deg, transparent 46%, rgba(255,246,214,.9) 50%, transparent 54%),
+              linear-gradient(90deg, transparent 46%, rgba(255,246,214,.9) 50%, transparent 54%);
+}
+
+/* Ceinture + bretelles : si le média reduced-motion change à chaud, on masque tout.
+   (Le JS ne l'injecte pas au départ sous reduced-motion ; ceci couvre un toggle en cours de session.) */
+@media (prefers-reduced-motion: reduce) {
+  .reforged-butterfly,
+  .reforged-butterfly-stars { display: none !important; }
+}

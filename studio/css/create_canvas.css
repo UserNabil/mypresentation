@@ -1,0 +1,96 @@
+/* create_canvas.css — modale « Create canvas » (node-graph).
+   Extrait du 2e bloc <style> d'index.html, qui vivait DANS le <body> (R.2 lot 0).
+   Se charge APRES app.css : c'etait deja son rang dans la cascade. */
+#createcanvas .cc-sheet{width:97vw;height:95vh;max-width:none;max-height:none;padding:0;display:flex;flex-direction:column;overflow:hidden;background:var(--paper)}
+.cc-top{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--edge);background:linear-gradient(#f0e6cc,#e9dcbb);flex:none}
+.cc-brand{font-family:var(--ff-head,"Cinzel"),serif;font-weight:800;color:var(--gold2);font-size:15px}
+.cc-seltype{font-size:12px;color:var(--dim);display:flex;align-items:center;gap:5px}
+.cc-seltype select{font-family:inherit;font-size:12px;padding:3px 6px;border:1px solid var(--edge);border-radius:6px;background:#fbf6e6;color:var(--ink)}
+.cc-hint{font-size:11px;color:var(--faint);font-style:italic;margin-left:4px;max-width:34vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cc-zoom{margin-left:auto;font-family:var(--ff-mono,monospace);font-size:11px;color:var(--gold2);min-width:42px;text-align:right}
+.cc-body{flex:1;display:flex;min-height:0}
+.cc-palette{width:158px;flex:none;border-right:1px solid var(--line);background:var(--paper2);overflow:auto;padding:8px}
+.cc-palette h4{font-family:var(--ff-head,"Cinzel"),serif;font-size:11px;color:var(--gold2);margin:2px 0 8px;letter-spacing:.4px;text-transform:uppercase}
+.cc-pchip{display:flex;align-items:center;gap:7px;padding:6px 8px;margin-bottom:5px;border:1px solid var(--edge);border-radius:7px;background:#fbf6e6;cursor:pointer;font-size:12px;color:var(--ink);transition:transform .08s}
+.cc-pchip:hover{transform:translateX(2px);border-color:var(--gold)}
+.cc-pchip .dot{width:11px;height:11px;border-radius:3px;flex:none;box-shadow:inset 0 -1px 2px rgba(0,0,0,.25)}
+.cc-pempty{font-size:11px;color:var(--faint);font-style:italic;padding:6px 2px}
+.cc-stage{flex:1;position:relative;min-width:0;background:radial-gradient(120% 90% at 50% 18%,#efe4c8,#e7dabb 55%,#dccba3)}
+/* motif d'ornements répété en fond de la zone items du create canvas (discret, sous le rendu 3D) */
+.cc-stage::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:url('/studio/motifs.png');background-repeat:repeat;background-size:300px 300px;
+  opacity:.09;mix-blend-mode:multiply}
+.cc-stage > *{position:relative;z-index:1}
+#cc-host{position:absolute;inset:0}
+.cc-legend{position:absolute;left:12px;bottom:10px;font-size:10.5px;color:var(--dim);background:rgba(247,239,214,.82);border:1px solid var(--edge);border-radius:6px;padding:3px 8px;pointer-events:none}
+.cc-keys{position:absolute;left:12px;top:12px;display:flex;gap:12px;font-size:10.5px;color:var(--dim);background:rgba(247,239,214,.82);border:1px solid var(--edge);border-radius:6px;padding:4px 9px;pointer-events:none}
+.cc-keys span{display:flex;align-items:center;gap:5px}
+.cc-keys i{width:16px;height:4px;border-radius:2px;display:inline-block}
+.cc-keys i.k-new{background:#e0b24e}.cc-keys i.k-exist{background:#7db35a}
+#cc-minimap{position:absolute;right:12px;bottom:12px;width:180px;height:120px;background:rgba(247,239,214,.9);border:1px solid var(--edge);border-radius:8px;box-shadow:0 8px 20px rgba(90,60,25,.25);cursor:pointer}
+.cc-side{width:340px;flex:none;border-left:1px solid var(--line);background:var(--paper2);display:flex;flex-direction:column;min-height:0}
+.cc-side-h{font-family:var(--ff-head,"Cinzel"),serif;font-weight:700;color:var(--gold2);font-size:13px;padding:9px 13px;border-bottom:1px solid var(--edge);background:linear-gradient(#f0e6cc,#e9dcbb);flex:none;display:flex;align-items:center;gap:8px}
+.cc-side-b{flex:1;overflow:auto;padding:10px 13px}
+.cc-existing{flex:none;padding:9px 11px;border-bottom:1px solid var(--edge);background:linear-gradient(#efe4c8,#e9dcbb);position:relative}
+.cc-existing input{width:100%;box-sizing:border-box;font-family:inherit;font-size:12px;padding:6px 10px;border:1.4px solid var(--gold);border-radius:8px;background:#fff;color:var(--ink)}
+.cc-anc input,.cc-fld input{background:#fff}
+.cc-existing .cc-sres{position:absolute;left:11px;right:11px;top:46px;max-height:260px;z-index:8;box-shadow:var(--sh-2,0 10px 24px rgba(90,60,25,.28))}
+.cc-anc{border:1px solid var(--edge);border-radius:8px;background:#fbf6e6;padding:8px 9px;margin-bottom:8px}
+.cc-anc .lab{font-size:11.5px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.cc-anc .kind{font-family:var(--ff-mono,monospace);font-size:9px;color:var(--gold2);background:#efe4c8;border:1px solid var(--line);border-radius:4px;padding:0 4px}
+.cc-anc .row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cc-anc input,.cc-anc select{font-family:inherit;font-size:11.5px;padding:3px 6px;border:1px solid var(--edge);border-radius:6px;background:#fff;color:var(--ink);flex:1;min-width:60px}
+.cc-fldgrp{margin-top:12px;border-top:1px dashed var(--edge);padding-top:9px}
+.cc-fldh{font-family:var(--ff-head,"Cinzel"),serif;font-size:11px;color:var(--gold2);margin-bottom:8px;letter-spacing:.3px}
+.cc-fld{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.cc-fld label{flex:0 0 44%;font-size:10.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cc-fld input{flex:1;min-width:40px;font-family:inherit;font-size:11px;padding:3px 6px;border:1px solid var(--edge);border-radius:5px;background:#fff;color:var(--ink)}
+.cc-fld input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(154,106,43,.15)}
+.cc-fcol{font-family:var(--ff-mono,monospace);font-size:8.5px;color:var(--faint)}
+.cc-ttl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cc-x{flex:none;width:22px;height:22px;border-radius:6px;border:1px solid var(--edge);background:#fbf6e6;color:var(--seal);font-weight:700;cursor:pointer;line-height:1;font-size:12px}
+.cc-x:hover{background:#f5e0dc;border-color:var(--seal)}
+.cc-actions{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.cc-mini.cc-wide{width:100%;margin-top:6px;text-align:center}
+.cc-fldh{display:flex;align-items:center;gap:8px}
+.cc-ffilter{margin-left:auto;flex:0 1 130px;font-size:10.5px;padding:2px 7px;border:1px solid var(--edge);border-radius:6px;background:#fbf6e6;color:var(--ink)}
+.cc-ffilter:focus{outline:none;border-color:var(--gold)}
+.cc-impact{border:1px solid var(--edge);border-radius:9px;background:linear-gradient(#f6efda,#efe4c8);padding:10px 12px;margin-bottom:10px}
+.cc-imhead{font-family:var(--ff-head,"Cinzel"),serif;font-size:10.5px;color:var(--gold2);letter-spacing:.4px;text-transform:uppercase}
+.cc-imbig{font-family:var(--ff-head,"Cinzel"),serif;font-weight:800;font-size:30px;color:var(--ink);line-height:1.1;margin:2px 0}
+.cc-imsub{font-size:11px;color:var(--dim);margin-bottom:2px}
+.cc-imfile{display:flex;align-items:center;gap:7px;font-size:11px;padding:3px 0;color:var(--ink)}
+.cc-imfile b{font-family:var(--ff-mono,monospace);font-size:10.5px}
+.cc-imrole{font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.3px}
+.cc-imn{margin-left:auto;font-family:var(--ff-mono,monospace);font-size:10px;color:var(--dim)}
+.cc-impz{width:16px;height:16px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:9px}
+.cc-impz.ok{background:var(--jade)}.cc-impz.no{background:var(--seal)}.cc-impz.wa{background:var(--warn)}
+.cc-el{display:flex;align-items:center;gap:7px;margin-bottom:5px;padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
+.cc-el label{flex:0 0 40%;font-size:10.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cc-el input{flex:1;min-width:40px;font-size:11px;padding:3px 6px;border:1px solid var(--edge);border-radius:5px;background:#fff;color:var(--ink)}
+.cc-el .cc-eltag{flex:0 0 40px;font-size:9px;text-transform:uppercase;letter-spacing:.3px;text-align:center;color:var(--faint)}
+.cc-el.weak{border-color:var(--seal);background:rgba(165,51,42,.06)}.cc-el.weak .cc-eltag{color:var(--seal);font-weight:700}
+.cc-el.resist{border-color:var(--jade);background:rgba(77,122,58,.06)}.cc-el.resist .cc-eltag{color:var(--jade);font-weight:700}
+.cc-mini{background:#fbf6e6;border:1px solid var(--gold);color:var(--gold2);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer}
+.cc-mini:hover{background:#f5ecd2}
+.cc-mini.jade{border-color:var(--jade);color:var(--jade)}
+.cc-mini.seal{border-color:var(--seal);color:var(--seal)}
+.cc-icobox{width:34px;height:34px;border-radius:6px;border:1px solid var(--edge);flex:none;display:flex;align-items:center;justify-content:center;background:#efe4c8;overflow:hidden}
+.cc-icobox img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.cc-icobox.miss{border:1px dashed var(--seal);background:repeating-linear-gradient(45deg,#f2d9d5,#f2d9d5 4px,#ecc7c2 4px,#ecc7c2 8px);color:var(--seal);font-weight:700;font-size:14px}
+.cc-drop{border:1.4px dashed var(--gold);border-radius:6px;padding:6px;text-align:center;font-size:10.5px;color:var(--gold2);cursor:pointer;flex:1;background:#f6efda}
+.cc-drop.over{background:#eef3e2;border-color:var(--jade);color:var(--jade)}
+.cc-sres{max-height:150px;overflow:auto;border:1px solid var(--edge);border-radius:6px;margin-top:5px;background:#fff;display:none}
+.cc-sres.on{display:block}
+.cc-sres .it{padding:4px 7px;font-size:11px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;gap:6px}
+.cc-sres .it:hover{background:#f5ecd2}
+.cc-dry{flex:none;max-height:34vh;overflow:auto;border-top:1px solid var(--edge);padding:8px 13px;background:var(--paper)}
+.cc-chk{display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:11px}
+.cc-st{width:17px;height:17px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px;margin-top:1px}
+.cc-st.ok{background:var(--jade)}.cc-st.no{background:var(--seal)}.cc-st.wa{background:var(--warn)}
+.cc-chk .ct{font-weight:600}.cc-chk .cd{color:var(--dim)}
+.cc-foot{flex:none;display:flex;align-items:center;gap:8px;padding:9px 13px;border-top:1px solid var(--edge);background:linear-gradient(#f0e6cc,#e9dcbb)}
+.cc-foot .sbtn{margin-left:0}
+#cc-createall{margin-left:auto}
+#cc-createall:disabled{opacity:.55;cursor:not-allowed}
+.cc-nodehint{color:var(--faint);font-size:11.5px;font-style:italic}

@@ -1,0 +1,17 @@
+.cdc-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
+.cdc-tab{border:1px solid var(--edge);background:rgba(255,252,242,.55);border-radius:8px;padding:8px 12px;cursor:pointer;display:grid;gap:2px;text-align:left;min-width:200px;flex:1 1 200px;font-size:12.5px;color:var(--ink);font-weight:600}
+.cdc-tab small{font-weight:400;font-size:11px;color:var(--faint)}
+.cdc-tab:hover{background:rgba(122,92,30,.08)}
+.cdc-tab.on{background:rgba(122,92,30,.16);border-color:#b98a3a;box-shadow:inset 0 -3px 0 #b98a3a}
+.cdc-filters{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin:6px 0 8px}
+.cdc-filters input[type=search]{flex:1;min-width:0;padding:5px 8px;border-radius:6px;border:1px solid var(--edge);background:#fbf5e3;font-size:12px}
+.cdc-filters select{padding:5px 8px;border-radius:6px;border:1px solid var(--edge);background:#fbf5e3;font-size:12px;max-width:240px}
+.cdc-scroll{overflow-x:auto;border:1px solid var(--edge);border-radius:8px;background:rgba(255,252,242,.55)}
+.cdc-table{width:100%;border-collapse:collapse;font-size:12px;min-width:760px}
+.cdc-table th{text-align:left;background:rgba(122,92,30,.12);padding:6px 8px;white-space:nowrap}
+.cdc-table td{padding:6px 8px;border-top:1px solid var(--line,#e2d4b0);vertical-align:top}
+.cdc-path{font-family:var(--ff-mono);font-size:11.5px;word-break:break-all}
+.cdc-num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cdc-act{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.cdc-pager{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:8px 0}
+@media (max-width:760px){.cdc-tab{min-width:0}}

@@ -1,0 +1,68 @@
+.cda-wrap{max-width:1380px;margin:0 auto;padding:4px 8px 80px;font-size:13px;color:var(--ink)}
+.cda-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cda-head h2{margin:0;display:flex;align-items:center;gap:8px}
+.cda-src{display:inline-flex;gap:6px;flex-wrap:wrap}
+.cda-head-r{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cda-ctl{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2);cursor:pointer}
+.cda-ctl select,.cda-ctl input[type=text]{padding:5px 8px;border-radius:6px;border:1px solid var(--edge);background:#fbf5e3;font-size:12px}
+.cda-grow{flex:1;min-width:260px}
+.cda-grow input[type=text]{flex:1;min-width:0}
+.cda-lead{margin:4px 0 8px;max-width:1060px}
+.cda-opts{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 10px}
+.cda-job{border:1px solid var(--edge);border-radius:8px;background:rgba(255,252,242,.7);padding:10px 12px;margin:0 0 12px}
+.cda-job.err{border-color:#bf3a3a;background:#fbeae6}
+.cda-job-h{display:flex;align-items:center;gap:8px}
+.cda-bar{height:8px;border-radius:5px;background:rgba(122,92,30,.12);overflow:hidden;margin:8px 0}
+.cda-bar i{display:block;height:100%;background:linear-gradient(90deg,#b98a3a,#7a4f1d);transition:width .4s}
+.cda-log{margin:0;max-height:140px;overflow:auto;font-family:var(--ff-mono);font-size:11px;color:var(--ink-2);white-space:pre-wrap}
+.cda-when{margin:0 0 8px}
+.cda-dim{color:var(--faint)}
+.cda-small{font-size:11.5px}
+.cda-mono{font-family:var(--ff-mono);font-size:11.5px;word-break:break-all}
+.cda-obj{font-family:var(--ff-mono);font-size:11.5px;white-space:nowrap}
+.cda-err{color:#8f2a2a;background:#fbeae6;border:1px solid #bf3a3a;border-radius:6px;padding:6px 10px;margin:6px 0}
+.cda-warn{display:flex;align-items:center;gap:8px;color:#8a5a10;background:#f6e6c0;border:1px solid #caa24a;border-radius:6px;padding:6px 10px;margin:8px 0}
+.cda-notes{display:grid;gap:4px;margin:0 0 10px}
+.cda-notes>div{display:flex;align-items:center;gap:6px;color:#8a5a10}
+.cda-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0 0 12px}
+.cda-kpi{border:1px solid var(--edge);border-radius:8px;background:rgba(255,252,242,.55);padding:10px 14px;display:grid;gap:2px}
+.cda-kpi b{font:700 22px/1.1 var(--ff-head);color:var(--gold-2);word-break:break-all}
+.cda-kpi span{font-size:11.5px;color:var(--ink-2)}
+.cda-kpi.good b{color:#3f6a2c}
+.cda-kpi.bad{border-color:#bf3a3a;box-shadow:inset 3px 0 0 #bf3a3a}
+.cda-kpi.bad b{color:#a5332a}
+.cda-kpi.warn{border-color:#caa24a;box-shadow:inset 3px 0 0 #caa24a}
+.cda-kpi.warn b{color:#8a5a10}
+.cda-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
+@media(max-width:1100px){.cda-grid{grid-template-columns:minmax(0,1fr)}}
+.cda-wrap .ui-card{margin-bottom:12px}
+.cda-grid .ui-card{margin-bottom:0}
+.cda-tags{display:inline-flex;gap:4px;flex-wrap:wrap}
+.cda-sub{margin:10px 0 4px}
+.cda-list{margin:6px 0;padding-left:18px;display:grid;gap:4px}
+.cda-warnlist li{color:#8a5a10}
+.cda-chk.fail{color:#8f2a2a}
+.cda-probe{margin-top:8px}
+.cda-chips{display:inline-flex;gap:6px}
+.cda-chip{border:1px solid var(--edge);background:transparent;border-radius:999px;padding:3px 10px;font-size:11.5px;color:var(--ink-2);cursor:pointer}
+.cda-chip.on{background:rgba(122,92,30,.14);color:var(--ink);font-weight:600}
+.cda-ft{width:100%;border-collapse:collapse;font-size:12px}
+.cda-ft th{text-align:left;background:rgba(122,92,30,.12);padding:6px 8px}
+.cda-ft td{padding:6px 8px;border-top:1px solid var(--line,#e2d4b0);vertical-align:top}
+.cda-frow{cursor:pointer}
+.cda-frow:hover{background:rgba(122,92,30,.06)}
+.cda-frow.missing{box-shadow:inset 3px 0 0 #bf3a3a}
+.cda-frow.stale{box-shadow:inset 3px 0 0 #caa24a}
+.cda-caret{width:14px;color:var(--faint)}
+.cda-counts{display:flex;gap:4px;flex-wrap:wrap}
+.cda-fdet>td{background:rgba(255,252,242,.6);padding:4px 8px 10px 24px}
+.cda-kind{font-family:var(--ff-mono);font-size:11px;color:var(--ink-2)}
+.cda-miss{display:grid;gap:10px}
+.cda-miss-f .cda-list li{display:block}
+.cda-sa{border-color:#bf3a3a!important}
+.cda-sa-lead{max-width:1060px;display:grid;gap:4px}
+.cda-plan-h{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0 8px}
+.cda-det{margin:8px 0}
+.cda-det summary{cursor:pointer;color:var(--ink-2)}
+.cda-order{margin:8px 0}
+.cda-pub{margin:10px 0 4px}

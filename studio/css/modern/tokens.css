@@ -1,0 +1,70 @@
+html[data-ui="modern"] {
+  --ui-bg: #EEEFF1;
+  --ui-surface: #FFFFFF;
+  --ui-surface-2: #F5F6F7;
+  --ui-line: #E6E7EA;
+  --ui-ink: #111214;
+  --ui-muted: #6B6F76;
+  --ui-faint: #9AA0A6;
+  --ui-accent: #EDB83D;
+  --ui-accent-hover: #E0A823;
+  --ui-accent-ink: #1F1606;
+  --ui-accent-soft: #FCF3DC;
+  --ui-accent-text: #9A6A00;
+  --ui-ok: #22A447;
+  --ui-ok-soft: #E3F5E8;
+  --ui-warn: #F59E0B;
+  --ui-warn-soft: #FEF1DA;
+  --ui-bad: #E5484D;
+  --ui-bad-soft: #FDE7E8;
+  --ui-info: #3B82F6;
+  --ui-info-soft: #E3EDFE;
+  --ui-chart-1: #EDB83D;
+  --ui-chart-2: #F59E0B;
+  --ui-chart-3: #FACC15;
+  --ui-radius-card: 20px;
+  --ui-radius-ctl: 12px;
+  --ui-radius-pill: 999px;
+  --ui-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 6px 18px rgba(16, 24, 40, .05);
+  --ui-shadow-hover: 0 2px 4px rgba(16, 24, 40, .06), 0 12px 28px rgba(16, 24, 40, .08);
+  --ui-card-border: 1px solid transparent;
+  --ui-focus: 0 0 0 2px rgba(237, 184, 61, .35);
+  --ui-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ui-sidebar-w: 248px;
+  --ui-sidebar-w-collapsed: 72px;
+  --ui-topbar-h: 68px;
+  color-scheme: light;
+}
+
+html[data-ui="modern"][data-theme="dark"] {
+  --ui-bg: #0B0B0C;
+  --ui-surface: #121214;
+  --ui-surface-2: #1A1A1D;
+  --ui-line: #26262A;
+  --ui-ink: #F4F4F5;
+  --ui-muted: #A1A1AA;
+  --ui-faint: #71717A;
+  --ui-accent-hover: #F5C85E;
+  --ui-accent-soft: #3A2E12;
+  --ui-accent-text: #F2C35B;
+  --ui-ok: #3CCB5E;
+  --ui-ok-soft: #123B1E;
+  --ui-warn: #FBBF24;
+  --ui-warn-soft: #3B2A0A;
+  --ui-bad: #F87171;
+  --ui-bad-soft: #3D1416;
+  --ui-info: #60A5FA;
+  --ui-info-soft: #13243F;
+  --ui-shadow: none;
+  --ui-shadow-hover: 0 0 0 1px #34343A;
+  --ui-card-border: 1px solid var(--ui-line);
+  color-scheme: dark;
+}
+
+html[data-ui="modern"].ui-theme-fade, html[data-ui="modern"].ui-theme-fade * {
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-ui="modern"].ui-theme-fade, html[data-ui="modern"].ui-theme-fade * { transition: none !important; }
+}
