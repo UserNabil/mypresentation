@@ -9,13 +9,13 @@ export function answerQuestion(question, profile) {
   const links = [];
   const parts = [];
   const add = (text, label, url) => { parts.push(text); if (url) links.push({ label, url }); };
-  if (/disponib|preavis|recrut|contrat|cdi|poste actuel|travaille.*(ou|actuel)|currently|available/.test(q)) {
+  if (/dispo|libre|quand|commenc|demarr|preavis|recrut|embauch|contrat|\bcdi\b|poste|mission|ouvert|ecoute|opportun|currently|available|hiring|notice/.test(q)) {
     add(`${profile.status} Le préavis indiqué est de ${profile.recruitment.notice}. Pour confirmer une date de démarrage, contactez Nabil directement.`, 'Échanger avec Nabil', '#contact');
   }
-  if (/tjm|tarif|prix|cout|factur|daily rate/.test(q)) {
+  if (/tjm|tarif|prix|cout|salaire|remuner|pretention|factur|budget|daily rate|\brate\b/.test(q)) {
     add(`La fourchette affichée est de ${profile.pricing.daily_rate_min_eur} à ${profile.pricing.daily_rate_max_eur} € par jour. Le tarif dépend du périmètre de la mission et doit être confirmé avec Nabil.`, 'Contact et tarifs', '#contact');
   }
-  if (/contact|joindre|email|e-mail|telephone|linkedin/.test(q)) {
+  if (/contact|joindre|contacter|email|e-mail|mail|telephone|\btel\b|numero|linkedin|malt|ecrire|appel|rendez|rdv/.test(q)) {
     add(`Vous pouvez contacter Nabil à ${profile.email}, au ${profile.phone}, ou via LinkedIn.`, 'LinkedIn', profile.linkedin);
     links.push({ label: 'Envoyer un e-mail', url: `mailto:${profile.email}` });
   }
@@ -26,14 +26,14 @@ export function answerQuestion(question, profile) {
     add(`Les attestations de fin de formation Udemy sont :\n${profile.certifications.map(item => `${item.title} (${item.date.slice(0, 4)}).`).join('\n')}`, 'Voir les attestations', '#path');
     profile.certifications.forEach(item => links.push({ label: item.cv_title, url: item.url }));
   }
-  if (/cv|curriculum|pdf|telecharg|resume/.test(q)) {
+  if (/\bcv\b|curriculum|pdf|telecharg|download|resume|\bdocument/.test(q)) {
     add('Le CV, le portfolio illustré, la fiche de présentation et la carte de visite sont consultables et téléchargeables dans la bibliothèque de documents.', 'Ouvrir les documents', '#documents');
   }
-  if (/experience|parcours|entreprise|employeur/.test(q)) {
+  if (/experience|parcours|entreprise|employeur|carriere|travaille|bosse|granite/.test(q)) {
     // Prefer actual dates over an editorial total that can become stale.
     add(profile.experience.map(item => `${item.dates} : ${item.role} — ${item.company}.\n${item.details.join(' ')}`).join('\n\n'), 'Voir le parcours détaillé', '#path');
   }
-  const special = /quels? projets?|realisations?|portfolio|what.*built/.test(q);
+  const special = /projets?|realisation|portfolio|what.*built|application|\bapp\b|jeux?|\bgame/.test(q);
   const queryTerms = meaningful(question);
   const candidates = [
     ...profile.projects.map(project => {
@@ -49,10 +49,10 @@ export function answerQuestion(question, profile) {
   } else if (!parts.length && ranked.length) {
     ranked.slice(0, 2).forEach(item => add(`${item.title}\n${item.text}`, `Consulter : ${item.title}`, item.url));
   }
-  if (!parts.length && /competence|technolog|stack|savoir.faire|skills/.test(q)) {
+  if (!parts.length && /competence|technolog|techno|stack|savoir.faire|skills|langage|framework|maitris|sait faire|outil/.test(q)) {
     add(profile.skills.map(item => `${item.label} : ${item.value}.`).join('\n'), 'Voir les compétences', '#skills');
   }
-  if (!parts.length && /^(bonjour|salut|hello|bonsoir|qui es|presente|presentation)/.test(q)) {
+  if (!parts.length && /^(bonjour|salut|hello|hi|bonsoir|coucou|hey|yo|qui es|qui est|presente|presentation|parle)/.test(q)) {
     add(`${profile.name} — ${profile.role}.\n${profile.summary}\nPosez-moi une question sur ses projets, ses compétences, son parcours ou sa disponibilité.`, 'Découvrir le profil', '#about');
   }
   const answered = parts.length > 0;
