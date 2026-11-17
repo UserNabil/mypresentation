@@ -2,7 +2,7 @@
 const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const terms = value => normalize(value).match(/[a-z0-9+#.]{2,}/g) || [];
 const stop = new Set(terms('le la les des une un de du dans en est et ou que qui quel quelle quelles quels son ses sa ton tes ta mon mes ma il elle pour par avec sur au aux vous votre vos tu peux peut faire moi nabil comment pourquoi sont plus ce ces as avez avez-vous'));
-const meaningful = value => terms(value).filter(word => !stop.has(word));
+const meaningful = value => terms(value).filter(word => word.length >= 3 && !stop.has(word));
 
 export function answerQuestion(question, profile) {
   const q = normalize(question);
