@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Insights — Nabil OULD-TERKI</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f7f5f0; --surface:#fffefb; --ink:#16140f; --muted:#6b655a; --faint:#a8a194;
+      --line:#ddd8cd; --accent:#e4482a; --ok:#19b36b;
+      --ff-d:'Space Grotesk',sans-serif; --ff-b:'Inter',sans-serif; --ff-m:'JetBrains Mono',monospace;
+    }
+    :root[data-theme="dark"]{ --bg:#0e0d0b; --surface:#16140f; --ink:#f3f0e8; --muted:#9a9385; --faint:#5d5748; --line:#2a2720; --accent:#ff5a3c; }
+    @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){ --bg:#0e0d0b; --surface:#16140f; --ink:#f3f0e8; --muted:#9a9385; --faint:#5d5748; --line:#2a2720; --accent:#ff5a3c; } }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--ff-b);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:1080px;margin:0 auto;padding:clamp(1.5rem,5vw,3rem) clamp(1.25rem,5vw,3rem)}
+    header.top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:1.4rem;margin-bottom:2rem}
+    h1{font-family:var(--ff-d);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.02em}
+    .sub{font-family:var(--ff-m);font-size:.76rem;color:var(--muted);margin-top:.3rem}
+    .top .right{margin-left:auto;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    input,select,button{font-family:var(--ff-m);font-size:.8rem}
+    input[type=password],select{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:.5rem .7rem;outline:none}
+    input[type=password]{min-width:230px}
+    input:focus,select:focus{border-color:var(--accent)}
+    button{border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:6px;padding:.5rem .9rem;cursor:pointer;transition:all .2s}
+    button:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+    button.ghost{background:transparent;color:var(--ink)}
+    button.ghost:hover{color:var(--accent);background:transparent}
+    .msg{font-family:var(--ff-m);font-size:.82rem;padding:1rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted)}
+    .msg.err{color:var(--accent);border-color:var(--accent)}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:2rem}
+    .card{background:var(--surface);padding:1.3rem}
+    .card .n{font-family:var(--ff-d);font-weight:700;font-size:1.9rem;line-height:1}
+    .card .l{font-family:var(--ff-m);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:.5rem}
+    .card .n.warn{color:var(--accent)}
+    section.block{margin-bottom:2.4rem}
+    h2{font-family:var(--ff-d);font-weight:600;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:baseline;gap:.6rem}
+    h2 .c{font-family:var(--ff-m);font-size:.72rem;color:var(--accent)}
+    .bar-row{display:grid;grid-template-columns:150px 1fr auto;gap:.8rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--line);font-size:.86rem}
+    .bar-row .name{font-weight:500}
+    .track{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+    .track span{display:block;height:100%;background:var(--accent);border-radius:4px}
+    .bar-row .val{font-family:var(--ff-m);font-size:.74rem;color:var(--muted);white-space:nowrap}
+    .daily{display:flex;align-items:flex-end;gap:3px;height:90px;border-bottom:1px solid var(--line);padding-bottom:0}
+    .daily .d{flex:1;background:var(--accent);min-height:2px;border-radius:2px 2px 0 0;opacity:.85}
+    .daily .d:hover{opacity:1}
+    .daily-x{display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.64rem;color:var(--faint);margin-top:.4rem}
+    .q{border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;margin-bottom:.6rem;background:var(--surface)}
+    .q .qh{display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem}
+    .badge{font-family:var(--ff-m);font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;padding:.2rem .5rem;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+    .badge.ok{color:var(--ok);border-color:var(--ok)}
+    .badge.no{color:var(--accent);border-color:var(--accent)}
+    .q .qt{font-weight:600;font-size:.92rem}
+    .q .qa{font-size:.82rem;color:var(--muted);margin-top:.3rem}
+    .q .qd{font-family:var(--ff-m);font-size:.66rem;color:var(--faint);margin-left:auto}
+    .gap{display:flex;gap:.7rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--line);font-size:.88rem}
+    .gap .ct{font-family:var(--ff-d);font-weight:700;color:var(--accent);min-width:28px}
+    .muted{color:var(--muted);font-size:.84rem}
+    .foot{font-family:var(--ff-m);font-size:.7rem;color:var(--faint);border-top:1px solid var(--line);padding-top:1.2rem;margin-top:1rem}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    @media(max-width:720px){.grid2{grid-template-columns:1fr}.bar-row{grid-template-columns:110px 1fr auto}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div>
+        <h1>Insights</h1>
+        <div class="sub" id="apiLabel">—</div>
+      </div>
+      <div class="right">
+        <input type="password" id="token" placeholder="Clé admin (ADMIN_TOKEN)" autocomplete="off">
+        <select id="days">
+          <option value="7">7 jours</option>
+          <option value="30" selected>30 jours</option>
+          <option value="90">90 jours</option>
+        </select>
+        <button id="load">Charger</button>
+        <button class="ghost" id="export">Exporter</button>
+      </div>
+    </header>
+
+    <div id="status" class="msg">Saisis ta clé admin puis clique sur « Charger ». La clé reste dans ce navigateur uniquement.</div>
+    <div id="content" hidden>
+      <div class="cards" id="cards"></div>
+
+      <div class="grid2">
+        <section class="block">
+          <h2><span class="c">01</span> Sections les plus vues</h2>
+          <div id="sections"></div>
+        </section>
+        <section class="block">
+          <h2><span class="c">02</span> Actions</h2>
+          <div id="actions"></div>
+        </section>
+      </div>
+
+      <section class="block">
+        <h2><span class="c">03</span> Visiteurs par jour</h2>
+        <div class="daily" id="daily"></div>
+        <div class="daily-x" id="dailyx"></div>
+      </section>
+
+      <section class="block">
+        <h2><span class="c">04</span> À améliorer — questions sans réponse</h2>
+        <div id="gaps"></div>
+      </section>
+
+      <section class="block">
+        <h2><span class="c">05</span> Questions reçues</h2>
+        <div id="questions"></div>
+      </section>
+
+      <div class="foot" id="foot"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/insights-config.js"></script>
+  <script type="module">
+    const API = (window.PORTFOLIO_INSIGHTS && window.PORTFOLIO_INSIGHTS.apiBase) || '';
+    const $ = id => document.getElementById(id);
+    $('apiLabel').textContent = API ? API.replace(/^https?:\/\//,'') : 'API non configurée (insights-config.js)';
+
+    // Libellés lisibles
+    const SECTION_LABEL = { home:'Accueil', work:'Réalisations', about:'Profil', skills:'Compétences', path:'Parcours', documents:'Documents', contact:'Contact', cv:'CV', portfolio:'Portfolio', presentation:'Présentation', carte:'Carte de visite', kit:'Kit', vcard:'vCard' };
+    let projectNames = {};
+    try { const p = await (await fetch('content/profile.json')).json(); (p.projects||[]).forEach(x=>projectNames[x.id]=x.name); } catch {}
+    const label = t => SECTION_LABEL[t] || projectNames[t] || t;
+    const fmtTime = s => { s=Math.round(s||0); if(s<60) return s+' s'; const m=Math.floor(s/60); return m+' min'+(s%60?' '+(s%60)+'s':''); };
+    const esc = s => { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; };
+
+    try { const t = localStorage.getItem('insights.admin'); if(t) $('token').value = t; } catch {}
+
+    async function api(path){
+      const token = $('token').value.trim();
+      const r = await fetch(API + path, { headers: { Authorization: 'Bearer ' + token } });
+      if(r.status === 401) throw new Error('Clé admin incorrecte.');
+      if(!r.ok){ const j = await r.json().catch(()=>({})); throw new Error(j.error || ('Erreur '+r.status)); }
+      return r.json();
+    }
+
+    function setStatus(text, err){ const s=$('status'); s.hidden=false; s.textContent=text; s.className='msg'+(err?' err':''); $('content').hidden=true; }
+
+    async function load(){
+      const token = $('token').value.trim();
+      if(!token){ setStatus('Saisis ta clé admin.', true); return; }
+      if(!API){ setStatus('API non configurée : renseigne apiBase dans assets/js/insights-config.js.', true); return; }
+      try { localStorage.setItem('insights.admin', token); } catch {}
+      setStatus('Chargement…');
+      try {
+        const d = await api('/api/admin/stats?days=' + $('days').value);
+        render(d);
+      } catch(e){ setStatus(e.message, true); }
+    }
+
+    function render(d){
+      $('status').hidden = true; $('content').hidden = false;
+      const s = d.summary || {};
+      $('cards').innerHTML = [
+        ['Visiteurs', s.visits||0, false],
+        ['Questions', s.questions||0, false],
+        ['Sans réponse', s.unanswered||0, (s.unanswered>0)],
+        ['Téléchargements', s.downloads||0, false],
+        ['Temps de lecture', fmtTime(s.reading_seconds), false]
+      ].map(([l,n,w])=>`<div class="card"><div class="n ${w?'warn':''}">${esc(String(n))}</div><div class="l">${l}</div></div>`).join('');
+
+      // Sections
+      const secs = (d.sections||[]).filter(x=>x.target && SECTION_LABEL[x.target]!==undefined || projectNames[x.target]);
+      const maxViews = Math.max(1, ...secs.map(x=>x.views||0));
+      $('sections').innerHTML = secs.length ? secs.map(x=>`<div class="bar-row"><span class="name">${esc(label(x.target))}</span><span class="track"><span style="width:${Math.round((x.views||0)/maxViews*100)}%"></span></span><span class="val">${x.views||0} vues · ${fmtTime(x.seconds)}</span></div>`).join('') : '<p class="muted">Aucune donnée.</p>';
+
+      // Actions
+      const acts = d.actions||[];
+      const KIND = { preview:'Aperçu', download:'Téléchargement', contact:'Contact' };
+      $('actions').innerHTML = acts.length ? acts.map(a=>`<div class="bar-row" style="grid-template-columns:1fr auto"><span class="name">${KIND[a.kind]||a.kind} · <span class="muted">${esc(label(a.target))}</span></span><span class="val">${a.count}</span></div>`).join('') : '<p class="muted">Aucune action enregistrée.</p>';
+
+      // Daily
+      const daily = d.daily||[];
+      const maxV = Math.max(1, ...daily.map(x=>x.visits||0));
+      $('daily').innerHTML = daily.length ? daily.map(x=>`<div class="d" style="height:${Math.max(2,Math.round((x.visits||0)/maxV*88))}px" title="${x.date}: ${x.visits}"></div>`).join('') : '<p class="muted">Aucune visite.</p>';
+      $('dailyx').innerHTML = daily.length ? `<span>${daily[0].date}</span><span>${daily[daily.length-1].date}</span>` : '';
+
+      // Gaps
+      const gaps = d.gaps||[];
+      $('gaps').innerHTML = gaps.length ? gaps.map(g=>`<div class="gap"><span class="ct">${g.count}×</span><span>${esc(g.question)}</span></div>`).join('') : '<p class="muted">Aucune question restée sans réponse 🎉</p>';
+
+      // Questions
+      const qs = d.questions||[];
+      $('questions').innerHTML = qs.length ? qs.map(q=>`<div class="q"><div class="qh"><span class="badge ${q.answered?'ok':'no'}">${q.answered?'répondue':'sans réponse'}</span><span class="qd">${new Date(q.created_at).toLocaleString('fr-FR')}</span></div><div class="qt">${esc(q.question)}</div><div class="qa">${esc((q.answer||'').slice(0,200))}</div></div>`).join('') : '<p class="muted">Aucune question.</p>';
+
+      $('foot').textContent = `Période : ${d.days} jours · conservation ${d.retentionDays} jours · données anonymes.`;
+    }
+
+    $('load').addEventListener('click', load);
+    $('token').addEventListener('keydown', e=>{ if(e.key==='Enter') load(); });
+    $('days').addEventListener('change', ()=>{ if(!$('content').hidden) load(); });
+    $('export').addEventListener('click', async ()=>{
+      try {
+        const d = await api('/api/admin/export?days=' + $('days').value);
+        const blob = new Blob([JSON.stringify(d,null,2)], {type:'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'insights-questions.json'; a.click();
+      } catch(e){ setStatus(e.message, true); }
+    });
+  </script>
+</body>
+</html>
