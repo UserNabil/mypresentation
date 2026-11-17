@@ -1,0 +1,17 @@
+{
+  "name": "nabil-portfolio-insights",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://usernabil.github.io,https://cv.my-officeapps.com"
+  },
+  "triggers": { "crons": ["0 3 * * *"] },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nabil-portfolio-insights",
+      "database_id": "855c642d-d932-46b2-abd4-394972dcef58"
+    }
+  ]
+}

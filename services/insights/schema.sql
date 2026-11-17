@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  created_at INTEGER NOT NULL,
+  visit_id TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  target TEXT NOT NULL,
+  seconds INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS events_date ON events(created_at);
+CREATE TABLE IF NOT EXISTS questions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  created_at INTEGER NOT NULL,
+  question TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  answered INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS questions_date ON questions(created_at);
+CREATE TABLE IF NOT EXISTS limits (
+  bucket TEXT PRIMARY KEY,
+  count INTEGER NOT NULL,
+  expires_at INTEGER NOT NULL
+);
