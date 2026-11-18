@@ -25,7 +25,7 @@ let snap = null;
 let doneUntil = 0;
 
 function pinned() {
-  return !!(snap && (snap.run || snap.sim || snap.listOpen));
+  return !!(snap && (snap.run || snap.listOpen));
 }
 
 function setOpen(v) {
@@ -127,7 +127,7 @@ function paint(S) {
   setMain(S.run ? 'seal_busy.png' : (Date.now() < doneUntil ? 'seal_done.png' : 'seal_packing.png'));
   $('#pd-fan').innerHTML = ITEMS.map(it => itemHtml(it, S)).join('');
   const panel = $('#pd-panel');
-  const showList = S.listOpen && !S.run && !S.simList && S.files && S.files.length;
+  const showList = S.listOpen && !S.run && S.files && S.files.length;
   panel.hidden = !showList;
   if (showList) {
     const old = panel.querySelector('.k-list');

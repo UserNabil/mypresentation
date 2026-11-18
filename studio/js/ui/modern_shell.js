@@ -3,6 +3,8 @@ import { lineIcon, lineSvg, lineEl, imgLine, lineDataUrl, lineMaskUrl } from './
 import { avatarHtml, featureFileLine, tileHtml } from './line_assets.js';
 import { beeHtml, beeLoaderHtml } from './bee.js';
 import { initTour } from './tour.js';
+import { initAssistant } from './assistant.js';
+import { initQuickSearch, chipHtml, shortcutLabel } from './quick_search.js';
 import { loadCrests, crestOf } from '../nav/crest.js';
 
 const ROLE = { GS: 'Game Sage', CM: 'Community Manager', GM: 'Game Master', SA: 'Super Admin' };
@@ -224,6 +226,7 @@ function buildTop() {
   if (!bar || document.getElementById('mx-top')) return;
   const box = el(`<div class="mx-top mx-only" id="mx-top">
     <span class="mx-sep"></span>
+    <button type="button" class="mx-ibtn" id="mx-ai" title="Assistant (Ctrl+J)" aria-label="Assistant" aria-expanded="false">${lineSvg('sparkles', 20)}</button>
     <button type="button" class="mx-ibtn" id="mx-theme"></button>
     <span class="mx-sep"></span>
     <button type="button" class="mx-user" id="mx-user" title="Account and settings"><span class="mx-av"></span><span class="mx-ut"><b class="mx-un"></b><i class="mx-ur"></i></span>${lineSvg('chevron-down', 16)}</button>
@@ -231,7 +234,7 @@ function buildTop() {
   </div>`);
   bar.appendChild(box);
   const search = document.querySelector('header .searchbox');
-  if (search && !search.querySelector('.mx-kbd')) search.appendChild(el('<kbd class="mx-kbd mx-only" title="Ctrl+K or ⌘K">⌘K</kbd>'));
+  if (search && !search.querySelector('.mx-kbd')) search.appendChild(el('<span class="mx-kbd mx-only" title="Quick search (' + shortcutLabel() + ')">' + chipHtml() + '</span>'));
   const status = document.getElementById('status');
   if (status && !document.getElementById('mx-env')) status.prepend(el('<button type="button" class="mx-env mx-only" id="mx-env" title="Environment">DEV</button>'));
   document.getElementById('mx-env').onclick = ev => {
@@ -263,15 +266,6 @@ function smoothToggle() {
   vt.finished.finally(() => root.classList.remove('mx-vt'));
 }
 
-function onKey(e) {
-  if (!modernOn() || !(e.ctrlKey || e.metaKey) || e.altKey || String(e.key).toLowerCase() !== 'k') return;
-  const q = document.getElementById('q');
-  if (!q) return;
-  e.preventDefault();
-  q.focus();
-  q.select();
-}
-
 export function initModernShell(ctx, preview) {
   CTX = ctx || null;
   if (!preview) return;
@@ -285,5 +279,6 @@ export function initModernShell(ctx, preview) {
   if (modernOn()) window.dispatchEvent(new CustomEvent('ui-modern', { detail: true }));
   window.addEventListener('ui-theme', () => { paintTheme(); document.querySelectorAll('img[data-lx-name]').forEach(paintIsland); });
   window.addEventListener('ui-modern', () => { paintModern(); watch(modernOn()); if (modernOn()) paintUser(); });
-  document.addEventListener('keydown', onKey);
+  initQuickSearch();
+  initAssistant();
 }

@@ -51,6 +51,4 @@
 .g-lacts{display:flex;gap:10px;margin-top:12px;align-items:center}
 .g-rfgf{display:inline-flex;gap:6px;align-items:center}
 .g-rfgf input{font-size:13px;padding:6px 8px;width:150px}
-.g-sim{display:flex;align-items:center;gap:6px;padding:10px 16px 12px;font:700 11px Cinzel,serif;color:var(--faint);justify-content:flex-end}
-.g-sim button{font:700 11px Cinzel,serif;padding:2px 9px;border-radius:12px;border:1px solid var(--edge);background:transparent;color:var(--dim);cursor:pointer}
 @media (max-width:760px){.g-oic{min-width:60px}.k-act{padding:10px 16px;min-width:100px}.g-orow{gap:8px;padding:10px}}

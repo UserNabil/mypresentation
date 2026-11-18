@@ -281,7 +281,7 @@ function _call(name) {
 
 function _openFailed(name, e) {
   const msg = (e && (e.message || e.detail)) ? (e.message || e.detail) : String(e || 'unknown error');
-  toast(`Could not open "${name}" — ${msg}`, 'err', 8000);
+  toast(`Could not open "${name}" — ${msg}`, 'error', 8000);
   try { console.error('[rail] open failed:', name, e); } catch (_) { /* console absente */ }
 }
 
@@ -358,4 +358,5 @@ export function initRail(ctx) {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && FLY) flyClose(); });
   document.addEventListener('click', e => { if (FLY && !FLY.contains(e.target) && !e.target.closest('.rl-fam-h')) flyClose(); });
   window.addEventListener('ui-modern', again);
+  window.addEventListener('rail-none', () => setActive(''));
 }

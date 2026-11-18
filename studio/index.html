@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <script src="demo/shim.js"></script>
 
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('ui.theme');d.dataset.theme=(t==='dark'||t==='light')?t:((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');}catch(e){}document.documentElement.dataset.ui='modern';})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('ui.theme');d.dataset.theme=(t==='dark'||t==='light')?t:((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');var a=localStorage.getItem('ui.accent');if(/^[a-z]{3,8}$/.test(a||''))d.dataset.accent=a;}catch(e){}document.documentElement.dataset.ui='modern';})();</script>
 <title>Eden Reforged Studio - Demo</title>
 <link rel="icon" href="/studio/img/brand/eden_studio.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/studio/img/brand/favicon-32.png">
@@ -34,13 +34,15 @@
 <link rel="stylesheet" href="/studio/css/modern/legacy.css">
 <link rel="stylesheet" href="/studio/css/modern/tokens.css">
 <link rel="stylesheet" href="/studio/css/modern/shell.css">
+<link rel="stylesheet" href="/studio/css/modern/quicksearch.css">
+<link rel="stylesheet" href="/studio/css/modern/assistant.css">
 <link rel="stylesheet" href="/studio/css/modern/controls.css">
 <link rel="stylesheet" href="/studio/css/modern/pages.css">
 <link rel="stylesheet" href="/studio/css/modern/lineicons.css">
 <link rel="stylesheet" id="bee-css" href="/studio/css/modern/bee.css">
 <script type="module">import { initButterfly } from '/studio/js/butterfly.js?v=5'; initButterfly();</script>
 </head>
-<body>
+<body class="ee-shell">
 <div id="cctb" class="pywebview-drag-region">
   <img src="/studio/logo.png?v=2" class="cctb-logo" alt="">
   <span class="cctb-name">EDEN ULTIMATE TOOL</span>
@@ -53,7 +55,7 @@
 </div>
 <div id="boot" class="eden-splash">
 <div class="mx-loader mx-only"><span class="bee-loader" style="--bee-loader-size:120px" role="status" aria-live="polite"><img class="bee-loader-ring" src="/studio/img/brand/loader_ring.png" alt="" draggable="false"><span class="bee is-flying" style="--bee-size:96px" role="img" aria-label="Loading"><span class="bee-fly"><img class="bee-wing-l" src="/studio/img/brand/bee_wing_l.png" alt="" draggable="false"><img class="bee-wing-r" src="/studio/img/brand/bee_wing_r.png" alt="" draggable="false"><img class="bee-body" src="/studio/img/brand/bee_body.png" alt="" draggable="false"></span></span><img class="bee-loader-spark" src="/studio/img/brand/sparkles.png" alt="" draggable="false"></span></div>
-  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" autoplay loop muted playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
+  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" loop muted playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
   <div class="es-title">EDEN ULTIMATE TOOL</div>
   <div class="es-spin"></div>
   <div class="es-msg" id="boot-msg">Loading game data…</div>
@@ -67,6 +69,7 @@
    seul peut être pris en compte trop tard. */
 (function(){
   function lancer(){
+    if(document.documentElement.dataset.ui==='modern') return;
     document.querySelectorAll('video.es-chroma-src').forEach(function(v){
       v.muted = true; v.playsInline = true; v.loop = true;
       var p = v.play(); if (p && p.catch) p.catch(function(){});
@@ -224,17 +227,17 @@ window.__edenFirstError = null;
   setTimeout(verifier, DELAI);
 })();
 </script>
-<header>
+<header class="ee-top">
   <div class="crest"><div class="sigil"><img src="/studio/logo.png?v=2" alt="Eden Ultimate Tool"></div>
     <div><div class="ttl">EDEN ULTIMATE TOOL <span id="appver" title="version — click for changelog">v…</span></div><div class="sub" id="hsub">Game Master Console</div></div></div>
   <div class="searchwrap"><div class="searchbox">
     <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.2 3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    <input id="q" placeholder="Search — name · ID · #1234 · fuzzy" autocomplete="off" title="name, ID, #1234, multi-word, fuzzy — ↑↓ to pick, Enter to open"></div><button id="q-toggle" class="qtog" type="button" aria-pressed="false"
+    <input id="q" placeholder="Search — name · ID · #1234 · fuzzy" autocomplete="off" title="name, ID, #1234, multi-word, fuzzy — ↑↓ to pick, Enter to open"></div><button id="q-toggle" class="qtog" type="button" aria-label="Show the results panel" aria-pressed="false"
     title="Show the results panel">☰</button><div id="q-history" class="qhist"></div></div>
   <div class="hactions">
     <div class="status" id="status">
       <!-- Environment badge = env icon in a pill. A colored halo/border shows status: green ok · red down · grey not set. Click opens the dropdown. -->
-      <button class="envbadge" id="env-badge" data-state="idle" title="Environment — click to switch or configure. Halo: green ok · red down · grey not set.">
+      <button class="envbadge" id="env-badge" aria-label="Environment" data-state="idle" title="Environment — click to switch or configure. Halo: green ok · red down · grey not set.">
         <span class="ev-ico" id="env-ico"><img src="/studio/icons/icons/24/settings.png" srcset="/studio/icons/icons/24/settings.png 1x, /studio/icons/icons/48/settings.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>
         <span id="env-name" hidden>dev</span>
       </button>
@@ -250,6 +253,7 @@ window.__edenFirstError = null;
         </div>
       </div>
     </div>
+    <div class="hquick" id="hquick"></div>
     <!-- Le crest de RÔLE n'est PLUS dans la navbar (demande admin) : seul le badge ENV (flamme) reste ici.
          Le rôle/utilisateur vit dans le dropdown Account (settings-me). #nav-role gardé masqué pour compat. -->
     <!-- ⛔ L'image de role a `src` vide a ete RETIREE. Un `src` vide n'est pas neutre :
@@ -260,16 +264,16 @@ window.__edenFirstError = null;
          l'element etait mort depuis que le crest de role a quitte la barre. #nav-role reste,
          masque, pour les selecteurs qui le citent encore. -->
     <div class="rolebadge-nav" id="nav-role" data-label="" title="" style="display:none"></div>
-    <button class="hbtn navico notifbell" id="btn-notif" data-label="Notifications" title="Notifications"><img class="nb-ico" src="/studio/icons/icons/24/notifications.png" srcset="/studio/icons/icons/24/notifications.png 1x, /studio/icons/icons/64/notifications.png 2x" class="ui-icon" width="24" height="24" alt="Notifications" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'nb-ico',textContent:''}))"><span class="nb-count" id="nb-count" hidden>0</span></button>
-    <button class="hbtn navico" id="btn-home" data-label="Home" title="Home — your role-aware dashboard"><img src="/studio/icons/icons/24/home.png" srcset="/studio/icons/icons/24/home.png 1x, /studio/icons/icons/64/home.png 2x" class="ui-icon" width="24" height="24" alt="Home"></button>
-    <button class="hbtn navico" id="btn-altar" data-minrole="GS" data-label="Altar" title="Edit the game's crafting altars (Crystal / Star Diamond / Eden Gem) — rewards, probabilities, deploy"><img src="/studio/icons/icons/24/altar.png" srcset="/studio/icons/icons/24/altar.png 1x, /studio/icons/icons/64/altar.png 2x" class="ui-icon" width="24" height="24" alt="Altar"></button>
-    <button class="hbtn navico" id="btn-classes" data-label="Classes" title="Browse every class by role — stats %, skills, knowledge/talents, certificates &amp; appearance (from C_Class.ini)"><img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/64/classes.png 2x" class="ui-icon" width="24" height="24" alt="Classes"></button>
-    <button class="hbtn navico" id="btn-features" data-minrole="GS" data-label="Features" title="Feature Manager — GM/SA install, patch and deploy features; GS/CM (testers) see the list and tick the test checklist (read-only for the rest)"><img src="/studio/icons/icons/24/feature.png" srcset="/studio/icons/icons/24/feature.png 1x, /studio/icons/icons/64/feature.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></button>
+    <button aria-label="Notifications" class="hbtn navico notifbell" id="btn-notif" data-label="Notifications" title="Notifications"><img class="nb-ico ui-icon" src="/studio/icons/icons/24/notifications.png" srcset="/studio/icons/icons/24/notifications.png 1x, /studio/icons/icons/64/notifications.png 2x" width="24" height="24" alt="Notifications" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'nb-ico',textContent:''}))"><span class="nb-count" id="nb-count" hidden>0</span></button>
+    <button aria-label="Home" class="hbtn navico" id="btn-home" data-label="Home" title="Home — your role-aware dashboard"><img src="/studio/icons/icons/24/home.png" srcset="/studio/icons/icons/24/home.png 1x, /studio/icons/icons/64/home.png 2x" class="ui-icon" width="24" height="24" alt="Home"></button>
+    <button aria-label="Altar" class="hbtn navico" id="btn-altar" data-minrole="GS" data-label="Altar" title="Edit the game's crafting altars (Crystal / Star Diamond / Eden Gem) — rewards, probabilities, deploy"><img src="/studio/icons/icons/24/altar.png" srcset="/studio/icons/icons/24/altar.png 1x, /studio/icons/icons/64/altar.png 2x" class="ui-icon" width="24" height="24" alt="Altar"></button>
+    <button aria-label="Classes" class="hbtn navico" id="btn-classes" data-label="Classes" title="Browse every class by role — stats %, skills, knowledge/talents, certificates &amp; appearance (from C_Class.ini)"><img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/64/classes.png 2x" class="ui-icon" width="24" height="24" alt="Classes"></button>
+    <button aria-label="Features" class="hbtn navico" id="btn-features" data-minrole="GS" data-label="Features" title="Feature Manager — GM/SA install, patch and deploy features; GS/CM (testers) see the list and tick the test checklist (read-only for the rest)"><img src="/studio/icons/icons/24/feature.png" srcset="/studio/icons/icons/24/feature.png 1x, /studio/icons/icons/64/feature.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></button>
     <!-- Menu Actions VISIBLE pour GS/CM aussi : ils accèdent à GM commands (lecture/copie), Pack native et
          Launch game (opérations sur LEUR client local). Les items serveur sensibles gardent data-minrole="GM"
          → cachés pour GS/CM (demande admin 2026-07-25). -->
     <div class="hdrop" id="dd-server" data-minrole="GS">
-      <button class="hbtn gold hdrop-t navico" data-label="Actions"><img src="/studio/icons/icons/24/actions.png" srcset="/studio/icons/icons/24/actions.png 1x, /studio/icons/icons/64/actions.png 2x" class="ui-icon" width="24" height="24" alt="Actions"> <span class="caret">▾</span></button>
+      <button aria-label="Actions" class="hbtn gold hdrop-t navico" data-label="Actions"><img src="/studio/icons/icons/24/actions.png" srcset="/studio/icons/icons/24/actions.png 1x, /studio/icons/icons/64/actions.png 2x" class="ui-icon" width="24" height="24" alt="Actions"> <span class="caret">▾</span></button>
       <div class="hmenu">
         <button class="hmi" id="btn-gmcmds" title="Every server GM command (350, from the real S_RootCmds/S_GMToolCmds tables), categorized with community notes — compose the args and copy to paste in-game."><img src="/studio/icons/icons/32/gm_commands.png" srcset="/studio/icons/icons/32/gm_commands.png 1x, /studio/icons/icons/128/gm_commands.png 2x" class="ui-icon ui-icon-32" width="32" height="32" alt="" aria-hidden="true">GM commands</button>
         <button class="hmi" id="btn-pack" title="Repack the modified files into the client pkg (native packer — needs the Packed game dir set)"><img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /studio/icons/icons/64/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Pack (native)</button>
@@ -282,7 +286,7 @@ window.__edenFirstError = null;
     <!-- SETTINGS = single menu with sections. The account dropdown is gone; its links live here under
          "Account". Each entry is masked by role via data-minrole (Accounts = SA only). -->
     <div class="hdrop" id="dd-settings">
-      <button class="hbtn hdrop-t navico" data-label="Settings"><img src="/studio/icons/icons/24/settings.png" srcset="/studio/icons/icons/24/settings.png 1x, /studio/icons/icons/64/settings.png 2x" class="ui-icon" width="24" height="24" alt="Settings"> <span class="caret">▾</span></button>
+      <button aria-label="Settings" class="hbtn hdrop-t navico" data-label="Settings"><img src="/studio/icons/icons/24/settings.png" srcset="/studio/icons/icons/24/settings.png 1x, /studio/icons/icons/64/settings.png 2x" class="ui-icon" width="24" height="24" alt="Settings"> <span class="caret">▾</span></button>
       <div class="hmenu">
         <div class="hsec hsec-account"><span class="hsec-me" id="settings-me">—</span></div>
         <button class="hmi" id="um-password"><img src="/studio/icons/icons/24/password.png" srcset="/studio/icons/icons/24/password.png 1x, /studio/icons/icons/64/password.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Change password</button>
@@ -307,7 +311,6 @@ window.__edenFirstError = null;
          passant. Elles ne SAVENT rien faire — elles recliquent les boutons d'en-tete
          d'origine, masques mais toujours dans le document. Ce qui ne tient plus dans
          la largeur part dans un menu « … » : rien ne devient injoignable. -->
-    <div class="hquick" id="hquick"></div>
 
   </div>
 </header>
@@ -454,7 +457,7 @@ window.__edenFirstError = null;
     <div class="fld"><label>SSH host</label><input id="s-host" placeholder="game.example.com  or  203.0.113.10"></div>
     <div class="fld"><label>SSH port</label><input id="s-port" placeholder="22 (default) — e.g. 49222 for the public forward"></div>
     <div class="fld"><label>User</label><input id="s-user"></div>
-    <div class="fld"><label>SSH private key (optional — for key auth from outside the LAN)</label><input id="s-key" placeholder="C:\Demo\.ssh\id_ed25519"></div>
+    <div class="fld"><label>SSH private key (optional — for key auth from outside the LAN)</label><input id="s-key" placeholder="C:\Users\Demo\.ssh\id_ed25519"></div>
     <div class="fld"><label>Password (kept for LAN fallback)</label><input id="s-pass" type="password"></div>
     <div class="fld"><label>LAN fallback host : port (optional — tried if the host above is unreachable)</label>
       <div style="display:flex;gap:6px"><input id="s-hostlan" placeholder="203.0.113.10" style="flex:1"><input id="s-portlan" placeholder="22" style="width:80px"></div></div>
@@ -489,7 +492,7 @@ window.__edenFirstError = null;
 </div></div>
 
 <div id="overlay" class="eden-splash">
-  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" autoplay loop muted playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
+  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" loop muted playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
   <div class="es-title">EDEN ULTIMATE TOOL</div>
   <div class="es-spin"></div>
   <div class="es-msg" id="ov-msg">Working…</div>
@@ -1105,12 +1108,15 @@ import { $, enc, esc, cssCol, el, frag, clear } from './js/core/dom.js';
 import { iconMarkup, hasIcon } from './js/core/icons.js';
 import { initSpawnPicker, openSpawnPicker } from './js/pages/spawn_picker.js';
 import { toast, progressToast } from './js/ui/toast.js';
+import { createNotifAlerts } from './js/ui/notif_alerts.js';
+import './js/ui/notif_local.js';
+import { islandPagesAvailable, mountIslandPage } from './js/pages/island_pages.js';
 import { makeProgress } from './js/core/progress.js';
 import { installNet, netLog } from './js/core/net.js';
 /* Installed FIRST, before any page module can fire a request: from here on every
    /api call is deduped while in flight (no more chained duplicate calls) and every
    failure produces a precise message instead of a bare "failed". */
-installNet({ onError: (msg, status) => toast(msg, status >= 500 || status === 0 ? 'err' : 'warn',
+installNet({ onError: (msg, status) => toast(msg, status >= 500 || status === 0 ? 'error' : 'warn',
                                              status >= 500 || status === 0 ? 9000 : 6000),
              onWarning: msg => toast(msg, 'warn', { sticky: true }) });
 window.netLog = netLog;   // available from the console and the diagnostics page
@@ -1313,6 +1319,7 @@ async function edenWatchPull(){
   }finally{ _AUTOPULL_WATCH=false; }
 }
 window.edenWatchPull=edenWatchPull;
+window.edenOpenFeature=n=>{FM._search=n;FM._filter='';openFeatures();};
 async function fetchMe(){
   try{ ME=await api.get('/api/auth/me'); }catch(e){ ME=null; }
   if(ME&&ME.authenticated&&!_AUTOPULL_PAGE){ _AUTOPULL_PAGE=true; edenAutoPull('page'); }
@@ -1324,7 +1331,7 @@ async function fetchMe(){
 }
 let LG_ENV=null;                     // environment chosen on the login screen (defaults to the active one)
 function lgSelectEnv(env){LG_ENV=env;
-  document.querySelectorAll('#lg-envseg .lg-env').forEach(b=>b.classList.toggle('on',b.dataset.env===env));}
+  document.querySelectorAll('#lg-envseg .lg-env').forEach(b=>{b.classList.toggle('on',b.dataset.env===env);b.setAttribute('aria-pressed',b.dataset.env===env?'true':'false');});}
 async function lgInitEnv(){
   // preselect the active env (so the login gate reflects where you'll sign in). Route PUBLIQUE (pas de
   // secret) : /api/environments est GM+ et renverrait 403 avant login → on utilise /api/env/active.
@@ -1983,7 +1990,7 @@ function pushQHist(q){q=(q||'').trim();if(q.length<2)return;const h=getQHist().f
 function hideQHist(){const b=$('#q-history');if(b)b.classList.remove('open');}
 function showQHist(){
   const box=$('#q-history');if(!box)return;
-  if($('#q').value.trim()){hideQHist();return;}
+  if($('#q').value.trim()||(document.documentElement.dataset.ui==='modern'&&window.edenSearchScope&&window.edenSearchScope.active())){hideQHist();return;}
   const h=getQHist();
   if(!h.length){box.innerHTML='<div class="qh-hd">No recent searches yet</div>';box.classList.add('open');return;}
   box.innerHTML='<div class="qh-hd">Recent searches</div>'+h.map(q=>`<div class="qh-row" data-q="${esc(q)}"><span><img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /studio/icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> ${esc(q)}</span><span class="qh-x">✕</span></div>`).join('')+'<div class="qh-clear">Clear history</div>';
@@ -5051,6 +5058,7 @@ function edenChromaVideo(cv, vid, keepAlive, onStop){
 
 // SPLASHS (#boot/#overlay/#conn-lost) : chroma-key sur leur logo vidéo pour retirer le fond #1a0f06.
 function edenSplashChroma(){
+  if(document.documentElement.dataset.ui==='modern') return;
   document.querySelectorAll('canvas.es-chroma').forEach(cv=>{
     /* Témoin RELANÇABLE (et non « démarré une fois pour toutes ») : il n'empêche que les doubles
        boucles simultanées. Dès que la boucle s'arrête, elle se remet à zéro et un nouvel appel la
@@ -5192,7 +5200,7 @@ initClientPull({toast, showOverlay, hideOverlay, errMessage});
 // ============================ CLASSES PAGE ============================
 // Page de gestion des classes : liste par RÔLE (dérivé de la famille C_Class field 2),
 // fiche riche (stats % vérifiées cols15-21, skills/knowledge/certs résolus, apparence).
-// Regroupement IDENTIQUE à ee_admin : sidebar = 1 entrée par FAMILLE, groupée DPS Physique/Magique/
+// Regroupement IDENTIQUE à workspace : sidebar = 1 entrée par FAMILLE, groupée DPS Physique/Magique/
 // Distance/Tank/Soins/Support. La barre de RACE change quelle variante (id) charger.
 
 let CLSTREE=null, CLSRACE=0, CLSSEL=null, CLSFAM=null, CLSDETAIL=null, CLSTAB='news', CLSQ='', CLSEDIT=false;
@@ -5238,13 +5246,12 @@ async function initData(){
     try{const sb=$('#btn-settings'); if(sb)sb.click();}catch(e){}
     loadVersion();return;
   }
-  const [st,mlist,icats,imap]=await Promise.all([getJSON('/api/stats',{counts:{}}),getJSON('/api/spawn_maps',[]),getJSON('/api/item_categories',[]),getJSON('/api/iconmap',{})]);
-  const c=st.counts||{};
+  const wave2=Promise.all([getJSON('/api/spawn_maps',[]),getJSON('/api/item_categories',[]),getJSON('/api/iconmap',{})]).then(([mlist,icats,imap])=>{MAPLIST=mlist;ITEMCATS=icats;ICONMAP=imap||{};});
+  await Promise.race([wave2,new Promise(r=>setTimeout(r,1500))]);
   // En-tête : [ENV] · TENANT (le studio du build) — remplace le décompte creatures/items/spells.
   $('#hsub').textContent=`[${(env.active||'?').toUpperCase()}] · ${window.TENANT_BRAND||'Reforged Studio'}`;
-  MAPLIST=mlist;ITEMCATS=icats;ICONMAP=imap||{};
   loadVersion();
-  pollStatus();
+  setTimeout(pollStatus,1500);
   renderEnvBadge();   // name the active env on the badge + prime the dropdown
   // landing : restore the last view on refresh (so F5 stays on the page you were on), else Home.
   if(ME&&ME.authenticated){
@@ -5261,7 +5268,7 @@ async function initData(){
     else if(v==='cardduel'){ try{ openCardDuel(); }catch(e){ renderHome(); } }
     else if(v==='pageaccess'){ try{ openPageAccess(); }catch(e){ renderHome(); } }
     else renderHome();
-  } else search();
+  } else if(document.documentElement.dataset.ui!=='modern') search();
 }
 
 
@@ -5296,7 +5303,7 @@ function hideBoot(now){const b=$('#boot');if(!b)return;const mx=document.documen
   const go=()=>{b.classList.add('gone');setTimeout(()=>b.remove(),mx?220:500);};
   if(!mx||now){go();return;}
   const t0=Date.now();let calm=0;(function wait(){const c=$('#content');const busy=!c||(c.textContent||'').trim().length<40||c.querySelector('.animate-pulse,[data-slot="skeleton"],[aria-busy="true"],[class*="skel"],[class*="shimmer"],.dq-wait,.fmloadhero');
-    calm=busy?0:calm+1;if(calm<3&&Date.now()-t0<6000){setTimeout(wait,100);return;}go();})();}
+    calm=busy?0:calm+1;if(calm<3&&Date.now()-t0<2500){setTimeout(wait,100);return;}go();})();}
 async function waitForReady(){
   // interroge /api/ready jusqu'a ce que le moteur soit construit/charge depuis le cache.
   // Returns true when ready, false if it gave up (backend never answered) — the caller then shows an
@@ -5305,7 +5312,7 @@ async function waitForReady(){
   let sawServer=false;
   for(let i=0;i<900;i++){               // garde-fou ~90s
     let r=null, reached=false;
-    try{r=await getJSON('/api/ready',{ok:false});reached=true;}catch(_){r=null;}
+    try{r=await Promise.race([getJSON('/api/ready',{ok:false}),new Promise((_,no)=>setTimeout(no,5000))]);reached=true;}catch(_){r=null;}
     if(reached)sawServer=true;
     if(r&&r.ok){if(bm)bm.textContent=(r.from_cache?'Loaded from cache':'Game data ready')+(r.secs?` · ${r.secs}s`:'');return true;}
     if(bm&&Date.now()-t0>1500)bm.textContent=sawServer?'Building game data… (first run is slower)':'Waiting for the engine…';
@@ -5363,44 +5370,53 @@ window.addEventListener('keydown',async e=>{
   // et l'overlay 'Connection lost' se superpose au splash de démarrage (le « loader qui se casse »).
   // P3: who am I? If not signed in, show the login gate (over the splash) and WAIT for login.
   try{
-    await fetchMe();
+    await Promise.race([fetchMe(),new Promise(r=>setTimeout(r,8000))]);
     if(!(ME&&ME.authenticated)){
       hideBoot(1);showLoginGate(true);
       await new Promise(res=>{const iv=setInterval(()=>{if(ME&&ME.authenticated){clearInterval(iv);res();}},150);});
     }
     refreshAuthUI();
   }catch(_){}
-  try{await initData();}catch(e){try{search();}catch(_){}}
+  try{await Promise.race([initData(),new Promise(r=>setTimeout(r,10000))]);}catch(e){try{if(document.documentElement.dataset.ui!=='modern')search();}catch(_){}}
   const bm=$('#boot-msg');if(bm&&!bm.textContent)bm.textContent='Ready';
   hideBoot();
   window.__eutReady=true;   // app RÉELLEMENT visible → le heartbeat peut surveiller une VRAIE déconnexion
-  setInterval(pollStatus,15000);
+  setInterval(()=>{ if(!document.hidden) pollStatus(); },15000);
 })();
 
 /* ═══════════════════ NOTIFICATIONS (cloche + panneau + titre + badge Windows) ═══════════════════ */
 let NOTIF_N = 0;
-const NOTIF_ICO = {altar_request:'<img src="/studio/icons/icons/24/potion.png" srcset="/studio/icons/icons/24/potion.png 1x, /studio/icons/icons/48/potion.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', feature_broken:'<img src="/studio/icons/icons/24/bug.png" srcset="/studio/icons/icons/24/bug.png 1x, /studio/icons/icons/48/bug.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', feature_vote:'<img src="/studio/icons/icons/24/thumbs_up.png" srcset="/studio/icons/icons/24/thumbs_up.png 1x, /studio/icons/icons/48/thumbs_up.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', deploy:'<img src="/studio/icons/icons/24/launch_game.png" srcset="/studio/icons/icons/24/launch_game.png 1x, /studio/icons/icons/48/launch_game.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',
-                   server_down:'<img src="/studio/icons/icons/24/game_servers.png" srcset="/studio/icons/icons/24/game_servers.png 1x, /studio/icons/icons/48/game_servers.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', account:'<img src="/studio/icons/icons/24/password.png" srcset="/studio/icons/icons/24/password.png 1x, /studio/icons/icons/48/password.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', mention:'<img src="/studio/icons/icons/24/comment.png" srcset="/studio/icons/icons/24/comment.png 1x, /studio/icons/icons/48/comment.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">', test:'<img src="/studio/icons/icons/24/notifications.png" srcset="/studio/icons/icons/24/notifications.png 1x, /studio/icons/icons/48/notifications.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">'};
+let NOTIF_HOLD = 0;
+function notifBeatCount(n){ if(Date.now()<NOTIF_HOLD && n>NOTIF_N) return; notifSetCount(n); }
+const NOTIF_ICON = {altar_request:'potion', altar_result:'potion', feature_broken:'bug', feature_vote:'thumbs_up', feature_comment:'comment', feature_tested:'success', feature_prod:'launch_game', deploy_done:'success', deploy_failed:'error', test_todo:'notifications', server_down:'game_servers', crash_alert:'warning', bo_storage:'warning', agent_submission:'comment', tool_update:'download', dll_outdated:'warning', account:'password', mention:'comment', test:'notifications', deploy:'launch_game'};
+function notifIcon(kind){
+  const n=NOTIF_ICON[kind]||'notifications';
+  return '<img src="/studio/icons/icons/24/'+n+'.png" srcset="/studio/icons/icons/24/'+n+'.png 1x, /studio/icons/icons/48/'+n+'.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">';
+}
 function notifSetCount(n){
   n = Math.max(0, n|0);
-  const prev = NOTIF_N; NOTIF_N = n;
+  NOTIF_N = n;
   const b=$('#nb-count'); if(b){ b.textContent = n>99?'99+':String(n); b.hidden = n<=0; }
-  // « (N) » dans le titre de la fenêtre (Chrome --app le reflète dans la barre des tâches).
   const base = 'Eden Ultimate Tool';
   document.title = n>0 ? ('('+n+') '+base) : base;
-  // Badge sur l'icône Windows (Badging API, supportée en Chrome/Edge --app). Silencieux si absent.
   try{ if(n>0 && navigator.setAppBadge) navigator.setAppBadge(n); else if(navigator.clearAppBadge) navigator.clearAppBadge(); }catch(_){}
-  // toast pour une NOUVELLE notif (le compteur a augmenté) — best-effort, non intrusif.
-  if(n>prev && prev>=0 && window.__eutReady){ toast(''+ (n-prev===1?'New notification':(n-prev)+' new notifications'),'info',5000); }
 }
-const _NP={offset:0, more:false, loading:false, tok:0};    // état de pagination du panneau notifs
+async function notifRefreshCount(){
+  try{ const j=await fetch('/api/version',{cache:'no-store'}).then(r=>r.json()); if(typeof j.notif_unread==='number') notifBeatCount(j.notif_unread); }catch(_){}
+}
+const NOTIF_ALERTS = createNotifAlerts({
+  toast,
+  openBell: ()=>{ const p=$('#notifpanel'); if(p && !p.classList.contains('open')) notifOpen(); },
+  openLink: (link)=>notifClick(null, link)
+});
+const _NP={offset:0, more:false, loading:false, tok:0};
 const NP_PAGE=40;
 function notifItemHtml(it){
-  const ic=NOTIF_ICO[it.kind]||'<img src="/studio/icons/icons/24/notifications.png" srcset="/studio/icons/icons/24/notifications.png 1x, /studio/icons/icons/48/notifications.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">';
-  const when=(it.ts||'').replace('T',' ').slice(0,16);
-  return `<div class="np-item${it.read?'':' unread'}" data-nid="${it.id}" data-link="${esc(it.link||'')}">
-    <span class="np-ic">${ic}</span><div class="np-tx">
-    <div class="np-ti">${esc(it.title)}</div>${it.body?`<div class="np-bo">${esc(it.body)}</div>`:''}
+  const when=(it.last_ts||it.ts||'').replace('T',' ').slice(0,16);
+  const n=it.count>1?` <span class="np-n">×${it.count}</span>`:'';
+  return `<div class="np-item${it.read?'':' unread'} sev-${esc(it.severity||'info')}" data-nid="${it.id}" data-link="${esc(it.link||'')}">
+    <span class="np-ic">${notifIcon(it.kind)}</span><div class="np-tx">
+    <div class="np-ti">${esc(it.title)}${n}</div>${it.body?`<div class="np-bo">${esc(it.body)}</div>`:''}
     <div class="np-me">${esc(when)}${it.from?(' · '+esc(it.from)):''}</div></div></div>`;
 }
 async function notifLoadPage(tok){
@@ -5409,36 +5425,54 @@ async function notifLoadPage(tok){
   const sentinel=list.querySelector('.np-more'); if(sentinel) sentinel.textContent='loading…';
   try{
     const j=await fetch('/api/notif?limit='+NP_PAGE+'&offset='+_NP.offset).then(r=>r.json());
-    if(tok!==_NP.tok) return;                              // le panneau a été rouvert entre-temps
+    if(tok!==_NP.tok) return;
     const items=(j.notifications||[]);
     if(_NP.offset===0 && !items.length){ list.innerHTML='<div class="np-empty">No notifications.</div>'; _NP.loading=false; return; }
-    // retirer l'ancien sentinel puis append les items + un nouveau sentinel si has_more
     if(sentinel) sentinel.remove();
     list.insertAdjacentHTML('beforeend', items.map(notifItemHtml).join(''));
     _NP.offset = (j.offset!=null)? j.offset : (_NP.offset+items.length);
     _NP.more = !!j.has_more;
     if(_NP.more) list.insertAdjacentHTML('beforeend', '<div class="np-more">scroll for more…</div>');
-    // (re)câbler les nouveaux items
     list.querySelectorAll('.np-item').forEach(el=>{ if(!el._wired){ el._wired=1; el.onclick=()=>notifClick(el.dataset.nid, el.dataset.link); } });
   }catch(e){ if(_NP.offset===0) list.innerHTML='<div class="np-empty">couldn\'t load notifications</div>'; }
   finally{ _NP.loading=false; }
+}
+let NOTIF_ISLAND = null;
+async function notifOpenIsland(p){
+  if(NOTIF_ISLAND===false) return false;
+  if(NOTIF_ISLAND){ window.dispatchEvent(new CustomEvent('eut-bell-open')); return true; }
+  let on=false; try{ on=await islandPagesAvailable(); }catch(_){}
+  if(!on){ NOTIF_ISLAND=false; return false; }
+  let host=$('#notif-react');
+  if(!host){ host=document.createElement('div'); host.id='notif-react'; p.appendChild(host); }
+  const ok=await mountIslandPage('notifications', host, {
+    onClose: ()=>p.classList.remove('open'),
+    openLink: (link, hint)=>notifClick(null, link, hint),
+    setCount: (n)=>{ NOTIF_HOLD=Date.now()+6000; notifSetCount(n); },
+    updateNow: async ()=>{ p.classList.remove('open'); try{ await checkForUpdates({notify:true}); }catch(_){} const bar=$('#update-bar'), ap=$('#update-apply-btn'); if(ap && bar && bar.style.display!=='none') ap.click(); },
+    openDll: ()=>{ p.classList.remove('open'); const b=$('#btn-features'); if(b) b.click(); let t=0; const iv=setInterval(()=>{ const d=$('#fm-publish-dll'); if(d && d.offsetParent!==null){ clearInterval(iv); d.click(); } else if(++t>25) clearInterval(iv); }, 200); }
+  });
+  NOTIF_ISLAND = ok ? true : false;
+  if(ok) p.classList.add('np-island');
+  return ok;
 }
 async function notifOpen(){
   const p=$('#notifpanel'); if(!p) return;
   const open = p.classList.toggle('open');
   if(!open) return;
+  if(document.documentElement.dataset.ui==='modern'){
+    if(await notifOpenIsland(p)) return;
+  }
   const list=$('#np-list'); if(!list) return;
-  // reset pagination + scroll infini : on charge la 1re page, puis d'autres quand on approche du bas.
   _NP.offset=0; _NP.more=false; _NP.loading=false; const tok=(++_NP.tok);
   list.innerHTML='<div class="np-empty">loading…</div>';
   list.onscroll=()=>{ if(_NP.more && !_NP.loading && (list.scrollTop+list.clientHeight >= list.scrollHeight-60)) notifLoadPage(_NP.tok); };
   list.innerHTML='';
   await notifLoadPage(tok);
-  // ouvrir = tout marquer lu (le compteur retombe ; le heartbeat le confirmera)
-  try{ await fetch('/api/notif/read',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}); notifSetCount(0); }catch(_){}
 }
-function notifClick(nid, link){
+function notifClick(nid, link, hint){
   $('#notifpanel')&&$('#notifpanel').classList.remove('open');
+  if(nid&&!String(nid).startsWith('local:')) fetch('/api/notif/read',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids:[Number(nid)]})}).then(()=>{ try{ notifRefreshCount(); }catch(_){} }).catch(()=>{});
   if(!link) return;
   // REDIRECTION vers la donnée exacte selon le lien de la notif :
   //   feature:<name>[#test<N>] → ouvre Features, sélectionne la feature, scrolle vers le test N.
@@ -5448,9 +5482,15 @@ function notifClick(nid, link){
     const rest=link.slice(8); const hash=rest.indexOf('#');
     const name=hash>=0?rest.slice(0,hash):rest;
     const testN=hash>=0?parseInt(rest.slice(hash+5),10):null;   // '#testN'
+    const focus={name, ts:Date.now(), tab: hint==='log'?'history':'tests'};
+    if(testN!=null && !isNaN(testN)) focus.test=testN;
+    if(hint==='retry') focus.retry=true;
+    window.eutFeatureFocus=focus;
+    try{ localStorage.setItem('fmr.sel', name); }catch(_){}
     if(window.FM) FM.sel=name;
-    const b=$('#btn-features'); if(b)b.click();
-    // après le chargement de la feature, scroller vers le test précis + le surligner brièvement.
+    const root=document.getElementById('fm-react-root');
+    if(root && root.isConnected) window.dispatchEvent(new CustomEvent('eut-feature-focus',{detail:focus}));
+    else { const b=$('#btn-features'); if(b)b.click(); }
     if(testN!=null && !isNaN(testN)){
       let tries=0; const tick=setInterval(()=>{
         tries++;
@@ -5459,21 +5499,30 @@ function notifClick(nid, link){
           if(item){ item.scrollIntoView({behavior:'smooth',block:'center'});
             item.style.transition='background .3s'; const old=item.style.background;
             item.style.background='#fbeec2'; setTimeout(()=>{ item.style.background=old; },1600); } }
-        else if(tries>40) clearInterval(tick);           // ~8s max
+        else if(tries>40) clearInterval(tick);
       },200);
     }
   }
   else if(link==='server_status'){ (window.openServerStatus?openServerStatus():($('#btn-restart')&&$('#btn-restart').click())); }
-  else if(link.startsWith('altar_requests')){ const b=$('#btn-altar-requests')||$('#btn-altar'); if(b)b.click(); }
+  else if(link.startsWith('altar_requests')){ try{ openRequests(); }catch(e){ const b=$('#btn-altar'); if(b)b.click(); } }
   else if(link.startsWith('crashes')){ try{ openCrashes(link); }catch(e){} }
 }
 $('#btn-notif')&&($('#btn-notif').onclick=(ev)=>{ev.stopPropagation();notifOpen();});
 $('#np-markall')&&($('#np-markall').onclick=async(ev)=>{ev.stopPropagation();
   await fetch('/api/notif/read',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
-  notifSetCount(0); $('#notifpanel').classList.remove('open');});
-// clic hors du panneau → fermer
-document.addEventListener('click',(e)=>{const p=$('#notifpanel');if(p&&p.classList.contains('open')&&!p.contains(e.target)&&e.target.id!=='btn-notif'&&!$('#btn-notif').contains(e.target))p.classList.remove('open');});
+  notifSetCount(0); $('#np-list')&&$('#np-list').querySelectorAll('.np-item.unread').forEach(e=>e.classList.remove('unread'));});
+document.addEventListener('click',(e)=>{const p=$('#notifpanel');if(p&&p.classList.contains('open')&&!p.contains(e.target)&&!(e.target.closest&&e.target.closest('[data-slot],[role="dialog"],[data-radix-popper-content-wrapper]'))&&e.target.id!=='btn-notif'&&!$('#btn-notif').contains(e.target))p.classList.remove('open');});
 
+window.addEventListener('keydown',(e)=>{
+  if(e.key!=='Escape'||e.defaultPrevented) return;
+  const p=$('#notifpanel'); if(!p||!p.classList.contains('open')) return;
+  const ae=document.activeElement, bell=$('#btn-notif');
+  const here=!ae||ae===document.body||p.contains(ae)||(bell&&bell.contains(ae));
+  if(!here||document.querySelector('.modal.open, #createcanvas.open, .as-dr.on, [data-radix-popper-content-wrapper]')) return;
+  e.preventDefault(); e.stopPropagation();
+  p.classList.remove('open');
+  try{ bell&&bell.focus({preventScroll:true}); }catch(_){}
+},true);
 /* ---- Resilience: never show the browser's connection-refused page. A light heartbeat watches the
    backend; if the link drops, a THEMED overlay takes over (auto-hides on reconnect). Plus a smooth
    fade-in whenever a section is swapped into the main view. ---- */
@@ -5502,11 +5551,13 @@ document.addEventListener('click',(e)=>{const p=$('#notifpanel');if(p&&p.classLi
     try{const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);
       const r=await fetch('/api/version',{cache:'no-store',signal:c.signal});clearTimeout(t);
       if(!r.ok)throw 0; fails=0; if(down){down=false;hide();if(typeof edenAutoPull==='function')edenAutoPull('reconnect');}
-      try{const j=await r.json(); if(typeof j.notif_unread==='number') notifSetCount(j.notif_unread);}catch(_){}
+      try{const j=await r.json(); if(typeof j.notif_unread==='number') notifBeatCount(j.notif_unread); NOTIF_ALERTS.onBeat(j);}catch(_){}
     }catch(e){ fails++; if(!down && fails>=4){down=true;show();} }
     finally{ pinging=false; }
   }
-  setInterval(ping,3000);
+  let lastPing=0;
+  setInterval(()=>{ const now=Date.now(); if(document.hidden && now-lastPing<10000) return; lastPing=now; ping(); },3000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ lastPing=Date.now(); ping(); } });
   const main=document.getElementById('content')||document.body;
   try{const mo=new MutationObserver(()=>{main.classList.remove('view-in');void main.offsetWidth;main.classList.add('view-in');});
       mo.observe(main,{childList:true});}catch(e){}
@@ -6239,7 +6290,7 @@ document.addEventListener('click',(ev)=>{
 });
 </script>
 <div id="conn-lost" class="eden-splash">
-  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" autoplay loop muted playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
+  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" loop muted playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
   <div class="es-title">EDEN ULTIMATE TOOL</div>
   <div class="es-spin"></div>
   <div class="es-msg">Connection lost</div>

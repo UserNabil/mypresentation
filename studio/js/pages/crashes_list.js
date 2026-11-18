@@ -1,4 +1,5 @@
 import { el, clear } from '../core/dom.js';
+import { searchScope } from '../ui/search_scope.js';
 import { dataTable, errorState, btn, emptyState } from '../components.js';
 import { fmtNum } from '../core/format.js';
 import { CR, CR_KINDS, CR_STATUS_FILTER, crFetch, crKindBadge, crStatusBadge, crSig, crSym, crWhen, crAgo, crCatalog, crCatMeta, crCatOf, crCatBadge } from './crashes_state.js';
@@ -28,6 +29,8 @@ function filterForm() {
     el('div', { class: 'crx-fbtns' },
       btn({ label: 'Apply', icon: 'search', type: 'submit', class: 'xs' }),
       btn({ label: 'Clear', variant: 'ghost', class: 'xs', onClick: () => { for (const k of Object.keys(CR.filters)) CR.filters[k] = ''; CR.offset = 0; CR.nav.go('list'); } })));
+  const sq = form.querySelector('[data-f="q"]');
+  if (sq) searchScope.bindInput({ key: 'crashes', label: 'Crashes', placeholder: 'Account, session, module', onQuery: v => { CR.filters.q = v; CR.offset = 0; CR.nav.go('list'); } }, sq);
   form.onsubmit = ev => {
     ev.preventDefault();
     form.querySelectorAll('[data-f]').forEach(i => { CR.filters[i.dataset.f] = String(i.value || '').trim(); });
@@ -86,7 +89,6 @@ export async function renderList(body) {
     catch (e) {
       clear(results);
       results.appendChild(errorState({ error: e, title: 'Crash reports unavailable', onRetry: reload }));
-      if (!CR.demo) results.appendChild(el('div', { class: 'crx-center' }, btn({ label: 'Show demo data instead', icon: 'preview', variant: 'ghost', onClick: () => CR.nav.setDemo(true) })));
       return;
     }
     let items = j.items || [];

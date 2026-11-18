@@ -52,6 +52,6 @@ export function initRejectWatch(toast) {
       const m = String((r && r.stack) || '').match(/([A-Za-z0-9_.-]+\.js[^\s)]*)/);
       if (m) ou = ' [' + m[1].replace(/^.*\//, '') + ']';
     } catch (e) { /* sans pile */ }
-    try { toast('Something failed silently — ' + msg + ou, 'err', 7000); } catch (e) { /* dernier recours */ }
+    try { toast('Something failed silently — ' + msg + ou, 'error', 7000); } catch (e) { /* dernier recours */ }
   });
 }

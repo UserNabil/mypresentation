@@ -6,6 +6,7 @@
   var NativeXHR = window.XMLHttpRequest;
   var nativeFetch = window.fetch.bind(window);
   var SKEY = 'eden.demo.state.v1';
+  try { if (localStorage.getItem('tour.hint.off') === null) localStorage.setItem('tour.hint.off', '1'); } catch (e) { }
 
   function loadJSON(url) {
     var x = new NativeXHR();
@@ -200,7 +201,194 @@
     return { by_type: by, total: total, capped: false };
   }
 
+  var ASSIST_HELP = { intents: [
+    { id: 'open_page', kind: 'read', title: 'Open a page', examples: ['open crashes', 'ouvre la page des objets'] },
+    { id: 'search', kind: 'read', title: 'Find game data', examples: ['find item dragon scale'] },
+    { id: 'feature_status', kind: 'read', title: 'Feature status', examples: ['status of chat_emoji'] },
+    { id: 'feature_tests', kind: 'read', title: 'Feature tests', examples: ['tests of golem_race'] },
+    { id: 'gm_command', kind: 'read', title: 'GM command', examples: ['gm command ban'] },
+    { id: 'servers_status', kind: 'read', title: 'Servers', examples: ['are the servers up'] },
+    { id: 'install_feature', kind: 'write', title: 'Deploy a feature', examples: ['deploy chat_emoji on dev'] }
+  ], languages: ['en', 'fr'], writes_need_confirmation: true, prod: 'read-only' };
+
+  var AS = loadJSON(DATA + 'assistant.json');
+  var AS_RX = {};
+  Object.keys(AS.rx || {}).forEach(function (k) { AS_RX[k] = AS.rx[k].map(function (p) { return new RegExp(p); }); });
+  var AS_SET = {};
+  Object.keys(AS.sets || {}).forEach(function (k) { AS_SET[k] = {}; AS.sets[k].forEach(function (w) { AS_SET[k][w] = 1; }); });
+  var AS_TYPES = AS.types || {};
+
+  function afold(t) {
+    var s = String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    return s.replace(/[^a-z0-9_]+/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function aany(name, t) { return (AS_RX[name] || []).some(function (r) { return r.test(t); }); }
+  function afree(folded, drop, keepInner) {
+    var out = [], pending = [];
+    folded.split(' ').forEach(function (t) {
+      if (!t) return;
+      if (keepInner && AS_SET.CONNECTORS[t] && !drop[t]) { if (out.length) pending.push(t); return; }
+      if (AS_SET.STOP[t] || AS_TYPES[t] || drop[t]) { pending = []; return; }
+      out = out.concat(pending); pending = []; out.push(t);
+    });
+    return out.join(' ');
+  }
+  function aslots(q) {
+    var raw = String(q || '').slice(0, 500), f = afold(raw), padded = ' ' + f + ' ';
+    var s = { raw: raw, f: f, env: null, features: [], page: null, etype: null, number: null };
+    if (/\bpre ?prod\w*|\bpre production\b/.test(f)) s.env = 'preprod';
+    else if (/\bprod\b|\bproduction\b|\bprd\b/.test(f)) s.env = 'prod';
+    else if (/\bdev\b|\bdevelop\w*|\bdevs\b/.test(f)) s.env = 'dev';
+    (AS.features || []).forEach(function (n) {
+      var l = afold(n);
+      if ([l, l.replace(/_/g, ' '), l.replace(/_/g, '')].some(function (v) { return v && padded.indexOf(' ' + v + ' ') >= 0; })) s.features.push(n);
+    });
+    if (!s.features.length) {
+      var parts = {};
+      (AS.features || []).forEach(function (n) { afold(n).split('_').forEach(function (p) { if (p.length >= 5) (parts[p] = parts[p] || []).push(n); }); });
+      f.split(' ').some(function (t) { if (parts[t] && parts[t].length === 1) { s.features = [parts[t][0]]; return true; } return false; });
+    }
+    var best = 0;
+    (AS.pages || []).forEach(function (p) {
+      var names = [afold(p.id), afold(p.label)].concat(((AS.synonyms || {})[p.id] || []).map(afold));
+      names.forEach(function (n) { if (n && padded.indexOf(' ' + n + ' ') >= 0 && n.length > best) { best = n.length; s.page = p; } });
+    });
+    f.split(' ').some(function (t) { if (AS_TYPES[t]) { s.etype = AS_TYPES[t]; return true; } return false; });
+    var m = /\b(?:item|objet|creature|monster|monstre|npc|pnj|quest|quete|spell|sort|map|carte|id)\s*#?\s*(\d{1,9})\b|#(\d{1,9})\b/.exec(raw.toLowerCase());
+    if (m) s.number = parseInt(m[1] || m[2], 10);
+    return s;
+  }
+  function apageWord(f) { return /\b(page|ecran|screen|tab|onglet)\b/.test(f); }
+  function ascore(s) {
+    var f = s.f, sc = {}, pw = apageWord(f), verb = aany('OPEN_RX', f), where = aany('WHERE_RX', f), install = aany('INSTALL_RX', f);
+    sc.help = aany('HELP_RX', f) ? 0.9 : 0;
+    var o = 0;
+    if (s.page) { if (verb || (where && pw)) o = 0.8 + (pw ? 0.12 : 0); else if (f.split(' ').length <= 3 && s.number == null) o = 0.55; }
+    else if (s.number == null && !s.features.length) {
+      if ((verb || where) && pw) o = 0.85; else if (verb && !s.etype && afree(f, AS_SET.OPEN_DROP)) o = 0.7;
+    }
+    sc.open = o;
+    var se = 0, free = afree(f, AS_SET.SEARCH_DROP, true);
+    if (s.number != null) se = (s.etype || /\bid\b|#/.test(s.raw.toLowerCase())) ? 0.9 : 0;
+    else if (pw && (s.page || verb)) se = 0.3;
+    else if (aany('SEARCH_RX', f)) se = (s.features.length && !s.etype) ? 0.3 : (free ? 0.8 : (s.etype ? 0.55 : 0.2));
+    else if (s.etype && free) se = 0.6;
+    sc.search = se;
+    sc.status = s.features.length ? (aany('STATUS_RX', f) ? 0.86 : 0.58) : 0;
+    sc.tests = aany('TESTS_RX', f) ? (s.features.length ? 0.9 : 0.82) : 0;
+    var raw = s.raw.trim().toLowerCase(), g = 0;
+    if (/^\/\w+/.test(raw)) g = 0.88;
+    else if (aany('GM_RX', f)) g = afree(f, AS_SET.GM_DROP) ? 0.82 : 0.6;
+    sc.gm = g;
+    var sv = 0;
+    if (!aany('SERVER_RX', f)) { if (aany('GAME_RX', f) && aany('GAME_STATE_RX', f) && !aany('RESTART_RX', f)) sv = 0.86; }
+    else if (!(s.features.length && !aany('SERVER_STATE_RX', f))) sv = aany('SERVER_STATE_RX', f) ? 0.86 : 0.62;
+    sc.servers = sv;
+    sc.restart = (install || !aany('RESTART_RX', f)) ? 0 : (aany('RESTART_TARGET_RX', f) ? 0.95 : 0);
+    sc.thanks = aany('THANKS_RX', f) ? 0.9 : 0;
+    sc.features_list = (s.features.length || install) ? 0 : ((aany('LIST_RX', f) && /\bfeatures?\b/.test(f) && !pw) ? 0.88 : 0);
+    sc.crashes = aany('CRASH_RX', f) ? (aany('RECENT_RX', f) ? 0.9 : 0.7) : 0;
+    sc.notifs = aany('NOTIF_RX', f) ? 0.82 : 0;
+    var pl = 0;
+    if (!install) {
+      if (aany('PULL_BARE_RX', f)) pl = 0.85;
+      else if (aany('PULL_VERB_RX', f) && aany('PULL_NOUN_RX', f) && !s.features.length) pl = 0.93;
+    }
+    sc.pull = pl;
+    sc.install = install ? (s.features.length ? 0.94 : 0.5) : 0;
+    return sc;
+  }
+  function areply(r) { return ok(clone(r)); }
+  function asearch(s) {
+    var q = s.number != null ? '#' + s.number : afree(s.f, AS_SET.SEARCH_DROP, true);
+    if (!q) return ok({ text: 'What should I look for? Try: find item dragon scale, or find npc blacksmith.', cards: [], actions: [], intent: 'search', confidence: 0.55 });
+    var types = s.etype ? s.etype[1] : ['item', 'monster', 'npc'], rows = [];
+    types.forEach(function (t) {
+      (ROWS[t] || []).forEach(function (r) {
+        var hay = (String(r.name || '') + ' ' + r.id).toLowerCase();
+        if (q.charAt(0) === '#' ? String(r.id) === q.slice(1) : q.split(' ').every(function (w) { return hay.indexOf(w) >= 0; })) rows.push({ name: r.name, id: r.id, etype: t });
+      });
+    });
+    rows = rows.slice(0, 8);
+    if (!rows.length) return ok({ text: 'No ' + (s.etype ? s.etype[0] + 's' : 'anything') + ' found for "' + q + '".', cards: [], actions: [], intent: 'search', confidence: 0.8 });
+    return ok({
+      text: 'Found ' + rows.length + ' result' + (rows.length === 1 ? '' : 's') + ' for "' + q + '".',
+      cards: rows.map(function (r) { return { title: r.name || ('#' + r.id), subtitle: (AS.type_label[r.etype] || r.etype) + ' #' + r.id, href: '#entity/' + r.etype + '/' + r.id }; }),
+      actions: [], intent: 'search', confidence: 0.8
+    });
+  }
+  function agm(s) {
+    var m = /^\/(\w+)/.exec(s.raw.trim().toLowerCase());
+    var term = m ? m[1] : afree(s.f, Object.assign({ how: 1, comment: 1, 'do': 1, faire: 1, to: 1, joueur: 1, player: 1 }, AS_SET.GM_DROP));
+    term = term.split(' ').map(function (t) { return (AS.aliases || {})[t] || t; }).join(' ');
+    if (!term) return areply(AS.replies.gm_all);
+    var terms = term.split(' '), scored = [];
+    (AS.gm || []).forEach(function (c) {
+      var sc = 0;
+      terms.forEach(function (t) {
+        if (t === c.name) sc += 10; else if (c.name.indexOf(t) === 0) sc += 6; else if (c.name.indexOf(t) >= 0) sc += 4; else if (c.note.split(' ').indexOf(t) >= 0) sc += 2;
+      });
+      if (sc) scored.push([sc, c]);
+    });
+    scored.sort(function (a, b) { return b[0] - a[0]; });
+    if (!scored.length) return ok({ text: 'No GM command matches "' + term + '".', cards: [], actions: [], intent: 'gm_command', confidence: 0.82 });
+    return ok({
+      text: scored.length + ' GM command' + (scored.length === 1 ? '' : 's') + ' match "' + term + '".',
+      cards: scored.slice(0, 8).map(function (x) { return { title: x[1].title, subtitle: x[1].sub, href: '#page/gm' }; }),
+      actions: [], intent: 'gm_command', confidence: 0.82
+    });
+  }
+  function assistantAsk(body) {
+    var R = AS.replies;
+    if (!R) return ok({ text: 'The assistant is not available in this snapshot.', cards: [], actions: [], intent: 'unmatched', confidence: 0 });
+    var q = String((body && body.q) || '').trim();
+    if (!q) return areply(R.help);
+    var s = aslots(q), sc = ascore(s), best = 'unmatched', bv = 0.5 - 1e-9;
+    ['help', 'open', 'search', 'status', 'tests', 'gm', 'servers', 'crashes', 'notifs', 'features_list', 'restart', 'thanks', 'pull', 'install'].forEach(function (k) { if (sc[k] > bv) { bv = sc[k]; best = k; } });
+    var fe = s.features[0], F = fe && AS.feat[fe];
+    switch (best) {
+      case 'help': return areply(R.help);
+      case 'open':
+        if (s.page) return areply(AS.open[s.page.id]);
+        return ok({
+          text: 'I could not find that page. Closest pages you can open: Dashboard, Features, Items, Creatures, NPCs.',
+          cards: ['dashboard', 'features', 'items', 'creatures', 'npcs'].map(function (id) { return { title: id.charAt(0).toUpperCase() + id.slice(1), subtitle: 'Page', href: '#page/' + id }; }),
+          actions: [], intent: 'open_page', confidence: 0.7
+        });
+      case 'search': return asearch(s);
+      case 'status': return areply(F.status);
+      case 'tests':
+        if (F) return areply(F.tests);
+        return areply(/\b(thumbs? down|thumb down|pouces? (bas|rouge)|negati\w+|fail\w*|echec\w*|ko)\b/.test(s.f) ? R.tests_thumbs : R.tests_all);
+      case 'gm': return agm(s);
+      case 'servers': return areply(s.env === 'prod' ? R.servers_prod : s.env === 'preprod' ? R.servers_preprod : R.servers);
+      case 'crashes': return areply(R.crashes);
+      case 'notifs': return areply(R.notifs);
+      case 'features_list': return areply(/\b(installed|installees?|installe)\b/.test(s.f) ? R.features_installed : R.features_all);
+      case 'restart': return areply(R.restart);
+      case 'thanks': return areply(R.thanks);
+      case 'pull': return areply(s.env === 'prod' ? R.pull_prod : s.env === 'preprod' ? R.install_preprod : R.pull);
+      case 'install':
+        if (!F) return areply(R.install_none);
+        return areply(s.env === 'prod' ? R.install_prod : s.env === 'preprod' ? R.install_preprod : F.deploy);
+    }
+    return areply(R.unmatched);
+  }
+  function assistantConfirm(body) {
+    var t = String((body && body.token) || ''), m = /^demo-deploy:(.+)$/.exec(t);
+    if (m) {
+      noteJournal('assistant', 'deploy ' + m[1] + ' on DEV', m[1], { simulated: true });
+      return ok({ text: 'Deploy of ' + m[1] + ' on DEV finished (simulated in the demo, nothing was changed).', cards: [{ title: m[1], subtitle: 'Server up to date', href: '#page/features?feature=' + m[1] }], actions: [], intent: 'install_feature', confidence: 1 });
+    }
+    noteJournal('assistant', 'pull features', 'features repository', { simulated: true });
+    return ok({ text: 'Features pulled (simulated in the demo, nothing was changed).', cards: [], actions: [{ label: 'Open Features', kind: 'navigate', href: '#page/features' }], intent: 'pull_features', confidence: 1 });
+  }
+
   var GET_ROUTES = [
+    [/^\/api\/ui\/prefs$/, function () { return ok({ auto_update: false }); }],
+    [/^\/api\/assistant\/help$/, function () { return ok(ASSIST_HELP); }],
+    [/^\/api\/notif\/local$/, function () { return ok({ items: [] }); }],
+    [/^\/api\/notif\/new$/, function () { return ok({ items: [], latest: 0 }); }],
     [/^\/api\/auth\/me$/, function () { return ok(meBody()); }],
     [/^\/api\/features\/server\/deploy-targets$/, function () {
       var names = [];
@@ -290,6 +478,9 @@
   }
 
   var POST_ROUTES = [
+    [/^\/api\/ui\/prefs$/, function () { return ok({ ok: true }); }],
+    [/^\/api\/assistant\/ask$/, function (c) { return assistantAsk(c.body); }],
+    [/^\/api\/assistant\/confirm$/, function (c) { return assistantConfirm(c.body); }],
     [/^\/api\/features\/server\/deploy-all$/, function (c) {
       var q = c.q || new URLSearchParams(); var names = String((q.get && q.get('names')) || '').split(',').filter(Boolean);
       names.forEach(function (f) { ST.kv['feat:' + f] = Object.assign(pushed(f), { server: true }); });
@@ -514,17 +705,37 @@
 
   window.__demo = { state: function () { return ST; }, reset: function () { try { sessionStorage.removeItem(SKEY); } catch (e) { } location.reload(); } };
 
+  var PILL_CSS = '#demo-pill{position:relative;overflow:hidden;box-sizing:border-box;display:flex;align-items:center;gap:8px;min-width:0;padding:4px 4px 4px 10px;border:1px solid var(--ui-line,#e6e7ea);border-radius:999px;font:500 12px/1.2 Inter,system-ui,sans-serif;background:var(--ui-surface-2,#f5f6f7);color:var(--ui-muted,#6b6f76)}'
+    + '#demo-pill.dp-in{flex:1 0 100%;order:-1}#demo-pill.dp-float{position:fixed;left:12px;bottom:12px;z-index:2147483000;max-width:calc(100vw - 24px)}'
+    + '#demo-pill .dp-dot{width:7px;height:7px;border-radius:50%;background:var(--ui-accent,#edb83d);flex:none}'
+    + '#demo-pill .dp-txt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+    + '#demo-pill button{flex:none;font:inherit;border:0;border-radius:999px;padding:3px 10px;background:var(--ui-surface,#fff);color:var(--ui-ink,#1a1a1c);cursor:pointer}'
+    + '#demo-pill button:hover{background:var(--ui-accent-soft,#fcf3dc)}'
+    + '#demo-pill .dp-bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--ui-accent,#edb83d);transition:width .12s linear}'
+    + '#demo-pill.busy .dp-dot{animation:dpp 1s infinite}@keyframes dpp{50%{opacity:.25}}'
+    + '#rail-foot{flex-wrap:wrap}main.rail-min #demo-pill{flex:none;width:16px;height:16px;padding:0;justify-content:center;margin:0 auto 4px;border:0;background:none}main.rail-min #demo-pill :is(.dp-txt,button,.dp-bar){display:none}';
+  function mountPill() {
+    var d = document.getElementById('demo-pill');
+    if (!d) return;
+    var foot = document.getElementById('rail-foot');
+    var inRail = !!(foot && foot.offsetParent !== null);
+    if (inRail && d.parentNode !== foot) { foot.insertBefore(d, foot.firstChild); d.className = 'dp-in'; }
+    else if (!inRail && d.parentNode !== document.body) { document.body.appendChild(d); d.className = 'dp-float'; }
+  }
   function banner() {
     if (document.getElementById('demo-pill')) return;
     var d = document.createElement('div');
     d.id = 'demo-pill';
     d.setAttribute('role', 'status');
-    d.innerHTML = '<span class="dp-dot"></span><span class="dp-txt">Interactive demo &middot; every action is simulated in your browser</span><i class="dp-bar"></i><button type="button" aria-label="Reset demo" title="Reset the demo data">Reset</button>';
+    d.title = 'Interactive demo: every action is simulated in your browser';
+    d.innerHTML = '<span class="dp-dot"></span><span class="dp-txt">Interactive demo</span><i class="dp-bar"></i><button type="button" aria-label="Reset demo" title="Reset the demo data">Reset</button>';
     var st = document.createElement('style');
-    st.textContent = '#demo-pill{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:2147483000;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;font:500 12px/1.2 Inter,system-ui,sans-serif;background:rgba(24,24,27,.86);color:#f4f4f5;box-shadow:0 4px 18px rgba(0,0,0,.22);backdrop-filter:blur(6px);pointer-events:auto;max-width:calc(100vw - 24px)}#demo-pill .dp-dot{width:7px;height:7px;border-radius:50%;background:#f0b429;flex:none}#demo-pill button{font:inherit;border:0;border-radius:999px;padding:3px 10px;background:rgba(255,255,255,.14);color:inherit;cursor:pointer}#demo-pill button:hover{background:rgba(255,255,255,.26)}#demo-pill{overflow:hidden}#demo-pill .dp-bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:#f0b429;transition:width .12s linear}#demo-pill.busy .dp-dot{animation:dpp 1s infinite}@keyframes dpp{50%{opacity:.25}}@media (max-width:640px){#demo-pill .dp-txt{display:none}}';
+    st.textContent = PILL_CSS;
     document.head.appendChild(st);
     document.body.appendChild(d);
+    d.className = 'dp-float';
     d.querySelector('button').onclick = function () { window.__demo.reset(); };
+    mountPill();
   }
   function loginTouch() {
     var h = document.getElementById('lg-hint');
@@ -546,7 +757,7 @@
     st.textContent = '#lg-envseg .lg-env[data-env="preprod"],#lg-envseg .lg-env[data-env="prod"]{display:none!important}';
     document.head.appendChild(st);
     loginTouch();
-    new MutationObserver(loginTouch).observe(document.body, { childList: true, subtree: true });
+    new MutationObserver(function () { loginTouch(); mountPill(); }).observe(document.body, { childList: true, subtree: true });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready); else ready();
 })();

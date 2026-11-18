@@ -1,12 +1,11 @@
-import { fmReactAvailable } from '../pages/feature_manager_react.js';
 import { toast } from './toast.js';
 import { LV_CSS } from './launch_variants_css.js';
-import { SIM, VIEW, simResult } from './launch_variants_views.js';
+import { VIEW } from './launch_variants_views.js';
 
 const MOVED = ['#lm-display', '#lm-warn'];
 
 const $ = s => document.querySelector(s);
-const S = { sim: '', state: { checks: [] }, busy: false, token: 0, ctx: null, avail: false };
+const S = { state: { checks: [] }, busy: false, token: 0, ctx: null, want: '' };
 
 function ensureCss() {
   if ($('#lv-css')) return;
@@ -21,7 +20,7 @@ function ensureRoot() {
   if (root) return root;
   root = document.createElement('div');
   root.id = 'lv-root';
-  root.innerHTML = '<div id="lv-bar"></div><div id="lv-view"></div>'
+  root.innerHTML = '<div id="lv-view"></div>'
     + '<details id="lv-settings"><summary><img src="/studio/icons/icons/64/settings.png" alt="">Settings</summary><div id="lv-set-body"></div></details>';
   const anchor = document.createElement('span');
   anchor.id = 'lv-anchor';
@@ -41,34 +40,6 @@ function envList() {
   return [...document.querySelectorAll('#lm-env option')].map(o => o.value);
 }
 
-function btn(label, on, fn) {
-  const b = document.createElement('button');
-  b.type = 'button';
-  b.textContent = label;
-  if (on) b.className = 'on';
-  b.onclick = fn;
-  return b;
-}
-
-function group(label, buttons) {
-  const g = document.createElement('div');
-  g.className = 'lv-grp';
-  const l = document.createElement('span');
-  l.className = 'lv-lbl';
-  l.textContent = label;
-  g.append(l, ...buttons);
-  return g;
-}
-
-function renderBar() {
-  const bar = $('#lv-bar');
-  bar.innerHTML = '';
-  bar.classList.toggle('has', S.avail);
-  if (!S.avail) return;
-  const sims = [btn('Live', !S.sim, () => setSim('')), ...Object.keys(SIM).map(k => btn(SIM[k].label, S.sim === k, () => setSim(k)))];
-  bar.appendChild(group('▶ Simulate', sims));
-}
-
 function api() {
   const ctx = S.ctx;
   return {
@@ -82,25 +53,12 @@ function render() {
   moveSettings();
   const view = $('#lv-view');
   view.innerHTML = '';
-  renderBar();
   view.appendChild(VIEW(S.state, api()));
-  if (S.sim) {
-    const n = document.createElement('div');
-    n.className = 'lv-sim';
-    n.textContent = 'Simulation: nothing is launched';
-    view.appendChild(n);
-  }
 }
 
 async function refresh() {
   const tok = ++S.token;
-  const env = S.ctx.getEnv();
-  if (S.sim) {
-    S.state = simResult(S.sim, env);
-    S.busy = false;
-    render();
-    return;
-  }
+  const env = S.want || S.ctx.getEnv();
   S.busy = true;
   S.state = { env, checks: S.state.checks || [] };
   render();
@@ -119,35 +77,28 @@ async function refresh() {
   render();
 }
 
-function setSim(k) {
-  S.sim = k;
-  refresh();
-}
-
 function setEnv(e) {
   const sel = $('#lm-env');
   sel.value = e;
-  sel.dispatchEvent(new Event('change'));
+  S.want = e;
   S.state = { env: e, checks: [] };
-  setTimeout(refresh, 0);
+  render();
+  sel.dispatchEvent(new Event('change'));
+}
+
+export function syncVariants() {
+  if (!S.ctx) return;
+  S.want = '';
+  refresh();
 }
 
 function play() {
-  if (S.sim) { toast('Simulation: nothing was launched', 'info'); return; }
   const body = S.ctx.collect();
   body.env = S.state.env || body.env;
   S.ctx.launch(body);
 }
 
 async function runFix(c) {
-  if (c.fix.sim) {
-    c.state = 'ok';
-    c.fix = null;
-    S.state = { ...S.state, checks: S.state.checks.slice() };
-    render();
-    toast('Simulated fix: ' + c.label, 'ok');
-    return;
-  }
   S.busy = true;
   render();
   try {
@@ -167,8 +118,7 @@ async function runFix(c) {
 export async function setupVariants(ctx) {
   S.ctx = ctx;
   ensureCss();
-  S.avail = await fmReactAvailable();
-  S.sim = '';
+  S.want = '';
   S.state = { env: ctx.getEnv(), checks: [] };
   ensureRoot();
   render();

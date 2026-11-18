@@ -1,4 +1,5 @@
 import { el, clear } from '../core/dom.js';
+import { searchScope } from '../ui/search_scope.js';
 import { card, dataTable, errorState, btn, emptyState, badge } from '../components.js';
 import { fmtNum } from '../core/format.js';
 import { CR, CR_END_KINDS, crFetch, crEndBadge, crKindBadge, crStatusBadge, crSig, crSym, crWhen, crAgo, crUptime } from './crashes_state.js';
@@ -26,6 +27,8 @@ function filterForm() {
     el('div', { class: 'crx-fbtns' },
       btn({ label: 'Apply', icon: 'search', type: 'submit', class: 'xs' }),
       btn({ label: 'Clear', variant: 'ghost', class: 'xs', onClick: () => CR.nav.showSessions({}) })));
+  const sq = form.querySelector('[data-f="q"]');
+  if (sq) searchScope.bindInput({ key: 'crash-sessions', label: 'Sessions', placeholder: 'Account, session, module', onQuery: v => { CR.sessFilters.q = v; CR.sessOffset = 0; CR.nav.go('sessions'); } }, sq);
   form.onsubmit = ev => {
     ev.preventDefault();
     form.querySelectorAll('[data-f]').forEach(i => {
@@ -80,7 +83,6 @@ async function renderSessionList(body) {
     catch (e) {
       clear(results);
       results.appendChild(errorState({ error: e, title: 'Sessions unavailable', onRetry: reload }));
-      if (!CR.demo) results.appendChild(el('div', { class: 'crx-center' }, btn({ label: 'Show demo data instead', icon: 'preview', variant: 'ghost', onClick: () => CR.nav.setDemo(true) })));
       return;
     }
     if (CR.tab !== 'sessions' || CR.sessionId != null) return;
@@ -192,8 +194,7 @@ async function renderSessionDetail(body, id) {
   clear(body);
   body.appendChild(el('div', { class: 'crx-dhead' },
     btn({ label: 'Back to sessions', icon: 'back', variant: 'ghost', class: 'xs', onClick: () => { CR.sessionId = null; CR.nav.go('sessions'); } }),
-    el('h3', {}, 'Session'), el('code', { class: 'crx-sig' }, d.session_id || '#' + id), crEndBadge(d.end_kind),
-    d.demo ? badge('demo', 'warn') : null));
+    el('h3', {}, 'Session'), el('code', { class: 'crx-sig' }, d.session_id || '#' + id), crEndBadge(d.end_kind)));
   body.appendChild(el('div', { class: 'crx-dgrid' },
     el('div', { class: 'crx-dmain' }, sessionSummary(d), breadcrumbs(d), rawJson(d)),
     el('div', { class: 'crx-dside' }, linkedReports(d), features(d))));

@@ -36,6 +36,7 @@
    - « New class » ne rend PAS la classe jouable : le ZoneServer doit encore
      etre patche en binaire pour cabler le nouvel id. Dev uniquement.
    ============================================================================ */
+import { searchScope } from '../ui/search_scope.js';
 import { clsSetHost, host, S, g } from './classes_state.js';
 import { renderClassLeft, renderClassTab } from './classes_views.js';
 import { clsEditSlot, clsViewSlot, clsSlotSave, clsSlotClear } from './classes_slot.js';
@@ -84,7 +85,7 @@ export function renderClasses(){
   $('#content').querySelectorAll('[data-clsrace]').forEach(b=>b.onclick=()=>{g.setRace(+b.dataset.clsrace);
     if(g.fam()){const f=clsFindFam(g.fam());if(f){g.setSel(clsFamId(f));}}
     renderClasses(); if(g.sel()) loadClassDetail(g.sel());});
-  const q=$('#cls-q'); if(q){q.oninput=()=>{S.q=q.value;const L=$('#cls-left');if(L){L.innerHTML=renderClassLeft();wireClassLeft();}};}
+  const q=$('#cls-q'); if(q){const apply=v=>{S.q=v;const L=$('#cls-left');if(L){L.innerHTML=renderClassLeft();wireClassLeft();}};q.oninput=()=>apply(q.value);searchScope.bindInput({key:'classes',label:'Classes',placeholder:'Filter class',onQuery:apply},q);}
 }
 
 function wireClassLeft(){const {$}=host();$('#content').querySelectorAll('[data-clsfam]').forEach(el=>el.onclick=()=>{
@@ -101,7 +102,7 @@ export async function loadClassDetail(id){
   renderClassDetail();
 }
 
-// detail fidele a ee_admin : barre de paliers + 3 onglets (Overview / Licenses / Skills).
+// detail fidele a workspace : barre de paliers + 3 onglets (Overview / Licenses / Skills).
 function renderClassDetail(){
   const {$,esc}=host();
   const d=S.detail; if(!d)return; const box=$('#cls-right'); if(!box)return;

@@ -21,9 +21,9 @@ function stateCard() {
   const box = el('div', { class: 'emc-state ' + (ps.can ? 'ok' : 'warn') },
     el('div', { class: 'emc-st-head' }, el('b', {}, ps.can ? 'This PC can publish to the players.' : 'This PC cannot publish yet: the reasons are below. Meanwhile prepare the draft here and export it for the admin.')),
     row(ps.signing, 'Catalog signing key', signingText(ps)),
-    row(ps.creds, 'CDN upload credentials', ps.creds ? (ps.creds_source === 'granted' ? "R2 token '" + ps.creds_token + "' granted to your account by the back-office (emoji/ only)" : 'found on this PC') : (ps.creds_reason || 'not on this PC')),
+    row(ps.creds, 'CDN upload credentials', ps.creds ? (ps.creds_source === 'granted' ? "publishing permission '" + ps.creds_token + "' granted to your account (uploads go through the back-office, no key on this PC)" : 'found on this PC') : (ps.creds_reason || 'not on this PC')),
     el('div', { class: 'emc-actions' },
-      (ps.signing && ps.creds) || ps.v !== 2 ? null : btn({ label: 'Retry', icon: 'refresh', variant: 'ghost', busyLabel: 'Asking the back-office…', title: 'Ask the back-office again for the catalog key and the R2 token granted to your tool account', onClick: retrySigning }),
+      (ps.signing && ps.creds) || ps.v !== 2 ? null : btn({ label: 'Retry', icon: 'refresh', variant: 'ghost', busyLabel: 'Asking the back-office…', title: 'Ask the back-office again for the catalog key and the publishing permission granted to your tool account', onClick: retrySigning }),
       d.empty ? null : btn({ label: 'Export draft for the admin', icon: 'export', variant: ps.can ? 'ghost' : 'primary', busyLabel: 'Packing…', title: 'Save the draft (new emojis, new images, edits, sounds) as a .zip to send to the admin', onClick: exportDraft }),
       btn({ label: 'Import a draft', icon: 'import', variant: 'ghost', title: 'Load a .zip exported from this page on another PC, then preview and publish it', onClick: importDraft }),
       el('span', { class: 'cda-dim cda-small' }, ps.can ? 'Import a .zip sent by a dev, preview it, publish it.' : (d.empty ? 'Add emojis or sounds first, then export the draft.' : 'Send the .zip to the admin (Discord): the admin imports it, checks the preview and publishes.'))));

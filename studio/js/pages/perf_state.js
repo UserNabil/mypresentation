@@ -2,7 +2,6 @@ import { badge } from '../components.js';
 
 export const PF = {
   host: null,
-  demo: false,
   filters: { account: '', character: '', env: '', since: '', until: '', q: '' },
   sort: 'received_at',
   order: 'desc',
@@ -45,7 +44,6 @@ export function pfCauseBadge(r, short) {
 function url(path, params) {
   const q = new URLSearchParams();
   for (const [k, v] of Object.entries(params || {})) if (v !== '' && v != null) q.set(k, String(v));
-  if (PF.demo) q.set('demo', '1');
   q.set('__quiet', '1');
   return '/api/perf_reports' + (path || '') + '?' + q.toString();
 }

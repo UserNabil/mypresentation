@@ -96,6 +96,14 @@ function busyOff(b) {
   if (!b || !b._netBusy) return;
   b._netBusy = 0;
   delete b.dataset.netBusy;
+  const rk = Object.keys(b).find(k => k.indexOf('__reactProps$') === 0);
+  if (rk) {
+    const p = b[rk] || {};
+    b.disabled = !!p.disabled;
+    if (p['aria-busy']) b.setAttribute('aria-busy', 'true');
+    else b.removeAttribute('aria-busy');
+    return;
+  }
   b.removeAttribute('aria-busy');
   if ('disabled' in b) b.disabled = !!b._netWasDisabled;
 }

@@ -198,12 +198,7 @@ function renderFeaturesShell(){
       <div class="fm2-head">
         <span class="fm2-title"><img src="/studio/icons/icons/48/feature.png" width="30" height="30" alt=""> Features</span>
         <span class="fm2-headbtns">
-          ${H.can('features.promote')?'<button class="mini fm2-iconbtn" id="fm-subs" title="features sent by AI agents through the API, waiting for approval">📥</button>':''}
-          ${H.can('features.promote')?'<button class="mini fm2-iconbtn" id="fm-import" title="import a feature (client files and/or server scripts) - super-admin only">⇪</button>':''}
-          <button class="mini fm2-iconbtn" id="fm-videos" title="Video guides: a short scenario per feature to film an explanation video"><img class="fx-i" src="/studio/icons/fx/video.png" width="20" height="20" alt="" aria-hidden="true"></button>
-          <button class="mini fm2-iconbtn" id="fm-knowledge" title="Knowledge: reference guides shipped with the tool, searchable, copy or download as markdown"><img class="fx-i" src="/studio/icons/fx/file_details.png" width="20" height="20" alt="" aria-hidden="true"></button>
           <button class="mini fm2-iconbtn" id="fm-more" title="tools: sync, client folders, log source, legend" aria-haspopup="true">⋯</button>
-          ${fmReactKnown()?'<button class="mini fm2-iconbtn" id="fm-react" title="Preview: the new Features page">New page</button>':''}
           <button class="mini fm2-iconbtn" id="fm-refresh" title="rescan"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/64/refresh.png 2x" width="22" height="22" alt=""></button>
         </span>
       </div>
@@ -217,6 +212,14 @@ function renderFeaturesShell(){
         <button class="mini" id="fm-reset-client" title="put your game back on the official Eden Reforged client (download from the Reforged CDN), rebuild game_unpacked, install every feature that is on, repack once, copy the DLL, then run Diagnostics. Backups first, your settings are kept.">↺ Reset client</button>
       </div>`:''}
       <div class="fm2-pop" id="fm-pop" hidden>
+        <div class="fm2-poph">Guides and review</div>
+        <div class="fm-btnrow">
+          <button class="mini" id="fm-videos" title="Video guides: a short scenario per feature to film an explanation video"><img class="fx-i" src="/studio/icons/fx/video.png" width="20" height="20" alt="" aria-hidden="true"> Videos</button>
+          <button class="mini" id="fm-knowledge" title="Knowledge: reference guides shipped with the tool, searchable, copy or download as markdown"><img class="fx-i" src="/studio/icons/fx/file_details.png" width="20" height="20" alt="" aria-hidden="true"> Knowledge</button>
+          ${H.can('features.promote')?`<button class="mini" id="fm-subs" title="features sent by AI agents through the API, waiting for approval">${H.iconMarkup('document',24)} Submissions</button>`:''}
+          ${H.can('features.promote')?`<button class="mini" id="fm-import" title="import a feature (client files and/or server scripts) - super-admin only">${H.iconMarkup('depack',24)} Import</button>`:''}
+          ${fmReactKnown()?'<button class="mini" id="fm-react" title="Preview: the new Features page">New page</button>':''}
+        </div>
         <div class="fm2-poph">Sync</div>
         <div class="fm-git" id="fm-git"><div class="esub">GitHub…</div></div>
         <div class="fm2-poph">Client folders</div>
@@ -473,7 +476,7 @@ async function fmRenderGit(){
 }
 function fmSetKeyDialog(keygenCmd){
   H.showThemedDialog('Set the deploy key (one time, works on every machine)',
-    '<div class="esub">1) Generate a keypair once:<br><code style="user-select:all">'+H.esc(keygenCmd||'ssh-keygen -t ed25519 -f feature_ee_deploy -N ""')+'</code><br>2) Register the <b>.pub</b> on <b>github.com/UserNabil/feature_ee → Settings → Deploy keys</b> (read-only).<br>3) Paste the PRIVATE key (feature_ee_deploy) below — the tool encrypts it into a file you <b>commit</b>, so the key travels with the tool to every machine.</div>'+
+    '<div class="esub">1) Generate a keypair once:<br><code style="user-select:all">'+H.esc(keygenCmd||'ssh-keygen -t ed25519 -f feature_ee_deploy -N ""')+'</code><br>2) Register the <b>.pub</b> on <b>github.com/example/features → Settings → Deploy keys</b> (read-only).<br>3) Paste the PRIVATE key (feature_ee_deploy) below — the tool encrypts it into a file you <b>commit</b>, so the key travels with the tool to every machine.</div>'+
     '<textarea id="fm-key-in" placeholder="(paste the private key here)" style="width:100%;height:120px;font-size:11px;margin-top:8px;font-family:monospace"></textarea>'+
     '<div style="text-align:right;margin-top:8px"><button class="mini" id="fm-key-save">Save key</button></div>');
   setTimeout(()=>{ const b=H.$('#fm-key-save'); if(b)b.onclick=async()=>{ const v=(H.$('#fm-key-in')||{}).value||''; if(!v.trim()){H.toast('paste the private key','error');return;} try{ const r=await H.fmPost('/api/features/git/set-key',{private_key:v}); H.toast('deploy key stored — commit feature_ee.key.enc','ok'); fmShowPubKey(r.public_key); fmRenderGit(); }catch(e){ H.toast(H.errMessage(e),'error'); } }; },100);

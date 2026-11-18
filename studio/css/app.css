@@ -2195,3 +2195,11 @@
   .lg-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;color:#8a6a3a;cursor:pointer;border-radius:6px;padding:0}
   .lg-eye:hover,.lg-eye.on{color:#5a3d18;background:rgba(138,106,58,.12)}
   .lg-eye:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+  .tst .tst-t{display:flex;align-items:baseline;gap:6px;font-weight:600;overflow-wrap:anywhere}
+  .tst .tst-n{flex:none;font-size:11px;font-weight:700;padding:1px 6px;border-radius:999px;background:rgba(60,40,15,.14)}
+  .tst .tst-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+  .tst .tst-b{font-size:11px;cursor:pointer;border:1px solid #cdb98c;background:transparent;color:inherit;padding:3px 9px;border-radius:6px}
+  .tst .tst-b:hover{background:rgba(60,40,15,.08)}
+  .tst .tst-det{margin:7px 0 0;padding:8px 10px;max-height:160px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:11.5px/1.45 ui-monospace,Consolas,monospace;background:rgba(60,40,15,.08);border-radius:6px}
+  .tst-more{align-self:flex-end;pointer-events:auto;cursor:pointer;border:1px solid #cdb98c;background:#fbf3df;color:var(--ink);font-size:11.5px;padding:4px 12px;border-radius:999px;box-shadow:0 6px 16px rgba(60,40,15,.2)}
+  .np-item .np-n{font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:999px;background:rgba(60,40,15,.12);margin-left:4px}

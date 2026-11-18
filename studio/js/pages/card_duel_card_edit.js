@@ -3,7 +3,7 @@
    delete a custom card and its card items in the designer file of card_duel
    (designer/custom_cards.ini). Every change is checked by the parser of the
    feature (server/cardduel_custom.py) before it is written. A tool without the
-   ee_admin source (feature_ee copy) downloads the changed file instead.
+   workspace source (feature_ee copy) downloads the changed file instead.
    ============================================================================ */
 
 import { el, clear } from '../core/dom.js';

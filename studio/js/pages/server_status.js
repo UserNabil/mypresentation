@@ -66,7 +66,7 @@ function renderServers(j){
       grid.innerHTML=`<div class="note" style="grid-column:1/-1;color:var(--faint)"><img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /studio/icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> polling live server state…</div>`;
     return;}
   if(j&&j.error&&!srv.length){
-    // échec SSH transitoire (OVH lent) : NE PAS effacer le dernier bon état — juste le flagger figé
+    // échec SSH transitoire (hosting provider lent) : NE PAS effacer le dernier bon état — juste le flagger figé
     if(grid.querySelector('[data-srv]')){const u=$('#srv-updated');if(u){u.textContent='· SSH slow/down — state frozen';u.style.color='var(--crimson)';}return;}
     grid.innerHTML=`<div class="note" style="color:var(--crimson);grid-column:1/-1">✗ ${esc(j.error)}</div>`;return;}
   grid.innerHTML=srv.map(s=>{
@@ -142,7 +142,7 @@ function renderServers(j){
 let _srvInflight=false;
 async function pollServers(){
   const {$}=H;
-  if(_srvInflight)return;                 // pas de polls empilés sur SSH OVH lente (évitait le gel + la rafale)
+  if(_srvInflight)return;                 // pas de polls empilés sur SSH hosting provider lente (évitait le gel + la rafale)
   _srvInflight=true;
   try{const r=await fetch('/api/server/processes');const j=await r.json();renderServers(j);}
   catch(_){const u=$('#srv-updated');if(u){u.textContent='· network down — state frozen';u.style.color='var(--crimson)';}}

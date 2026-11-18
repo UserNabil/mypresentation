@@ -184,14 +184,12 @@ export async function renderGuards(body) {
   } catch (e) {
     clear(body);
     body.appendChild(errorState({ error: e, title: 'crash_guard stats unavailable', onRetry: () => CR.nav.go('guards') }));
-    if (!CR.demo) body.appendChild(el('div', { class: 'crx-center' }, btn({ label: 'Show demo data instead', icon: 'preview', variant: 'ghost', onClick: () => CR.nav.setDemo(true) })));
     return;
   }
   if (CR.tab !== 'guards') return;
   clear(body);
   if (a && a.missing) {
     body.appendChild(emptyState({ icon: 'barrier', title: 'crash_guard stats not available on the back-office', hint: a.error || '' }));
-    if (!CR.demo) body.appendChild(el('div', { class: 'crx-center' }, btn({ label: 'Show demo data instead', icon: 'preview', variant: 'ghost', onClick: () => CR.nav.setDemo(true) })));
     return;
   }
   let filter = '';

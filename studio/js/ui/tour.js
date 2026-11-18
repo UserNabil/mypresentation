@@ -29,6 +29,7 @@ let hintTimer = 0;
 let raf = 0;
 let flyTimer = 0;
 let beeXY = { x: 0, y: 0 };
+let returnTo = null;
 const hinted = new Set();
 
 function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -146,6 +147,7 @@ function build() {
 function onKey(e) {
   if (!running) return;
   const k = e.key;
+  if (k === 'Tab') { trap(e); return; }
   if (k !== 'Escape' && k !== 'ArrowRight' && k !== 'ArrowLeft') return;
   e.preventDefault();
   e.stopImmediatePropagation();
@@ -154,10 +156,25 @@ function onKey(e) {
   else go(idx - 1, -1);
 }
 
+function trap(e) {
+  const items = [...bubble.querySelectorAll('button')].filter(b => !b.hidden && !b.disabled);
+  if (!items.length) return;
+  const at = items.indexOf(document.activeElement);
+  let to = null;
+  if (at < 0) to = e.shiftKey ? items[items.length - 1] : items[0];
+  else if (e.shiftKey && at === 0) to = items[items.length - 1];
+  else if (!e.shiftKey && at === items.length - 1) to = items[0];
+  if (!to) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  try { to.focus({ preventScroll: true }); } catch (err) { return; }
+}
+
 function usable(list) { return (list || []).filter(st => find(st.sel)); }
 
 export function start() {
   if (!active()) return 0;
+  if (document.querySelector(LOADER_SEL)) return 0;
   build();
   hideHint();
   const k = detectContext();
@@ -165,6 +182,8 @@ export function start() {
   const list = usable(dlg ? dialogTour(dlg) : (TOURS[k] || TOURS.shell));
   if (!list.length) return 0;
   ctxKey = k || 'shell';
+  const ae = document.activeElement;
+  returnTo = ae && ae !== document.body && !ae.closest('.tour-bubble') ? ae : null;
   steps = list;
   running = true;
   markSeen(ctxKey);
@@ -187,6 +206,9 @@ export function close() {
   if (spot) spot.hidden = true;
   if (bubble) bubble.hidden = true;
   dock(true);
+  const back = returnTo;
+  returnTo = null;
+  if (back && back.isConnected) { try { back.focus({ preventScroll: true }); } catch (err) { return; } }
 }
 
 function go(i, dir) {
@@ -271,6 +293,7 @@ function layout(t, fly) {
 
 function hideHint() {
   clearTimeout(hintTimer);
+  if (hintEl && !hintEl.hidden) write(K_HINT, '1');
   if (hintEl) hintEl.hidden = true;
   if (bee) bee.classList.remove('is-waving');
 }
@@ -282,8 +305,17 @@ function placeHint() {
   hintEl.style.top = Math.round(clamp(p.y + BEE / 2 - h / 2, EDGE, innerHeight - EDGE - h)) + 'px';
 }
 
+const LOADER_SEL = '#boot, .fmloadhero, #overlay.open, #conn-lost.on';
+
+let hintDefer = 0;
+
 export function hint(force) {
   if (!active() || running) return false;
+  if (document.querySelector(LOADER_SEL)) {
+    clearTimeout(hintDefer);
+    hintDefer = setTimeout(() => hint(force), 400);
+    return false;
+  }
   build();
   const k = detectContext();
   if (!k || !TOURS[k]) return false;
@@ -296,7 +328,7 @@ export function hint(force) {
       + '<button type="button" class="tour-hint-x" aria-label="No thanks" title="No thanks">' + lineSvg('x', 14) + '</button></div>');
     document.body.appendChild(hintEl);
     hintEl.querySelector('.tour-hint-go').onclick = () => start();
-    hintEl.querySelector('.tour-hint-x').onclick = () => { markSeen(detectContext()); hideHint(); };
+    hintEl.querySelector('.tour-hint-x').onclick = () => { markSeen(detectContext()); write(K_HINT, '1'); hideHint(); };
   }
   hintEl.hidden = false;
   placeHint();

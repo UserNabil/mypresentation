@@ -135,7 +135,7 @@ async function follow(runId, label){
       if(msg) msg.innerHTML=ok?`<b style="color:#2ea043">✔ ${H.esc(label)} done</b> — <a href="${H.esc(r.url)}" target="_blank" rel="noopener">GitHub run</a>`
                                :dllKo?`<b style="color:#2ea043">✔ prod branch updated</b> · <b style="color:#d1242f">✖ prod DLL build failed</b>: the prod branch keeps its previous DLL — <a href="${H.esc(r.url)}" target="_blank" rel="noopener">open the run log</a>`
                                :`<b style="color:#d1242f">✖ ${H.esc(r.conclusion)}</b> — <a href="${H.esc(r.url)}" target="_blank" rel="noopener">open the run log</a>`;
-      H.toast(ok?`✔ ${label} done`:`✖ ${label} failed`, ok?'ok':'err');
+      H.toast(ok?`✔ ${label} done`:`✖ ${label} failed`, ok?'ok':'error');
       return ok;
     }
   }
@@ -266,7 +266,7 @@ export async function fmBatchValidate(names, btn, onDone){
   let pv=null;
   await H.runBusy(btn, async()=>{
     try{ pv=await H.fmPost('/api/features/promote-batch/preview',{names}); }
-    catch(e){ H.toast('✖ '+H.errMessage(e),'err'); }
+    catch(e){ H.toast('✖ '+H.errMessage(e),'error'); }
   });
   if(!pv) return;
   if(!pv.stage){ H.toast('Nothing to validate from the '+(pv.env||'prod')+' environment','warn'); return; }
@@ -313,7 +313,7 @@ export async function fmBatchValidate(names, btn, onDone){
         const n=Object.keys(r.entries||{}).length;
         H.toast(`✔ ${n} feature${n>1?'s':''} validated for preprod in one commit`,'ok');
         if(onDone) onDone(r);
-      }catch(e){ H.toast('✖ '+H.errMessage(e),'err'); }
+      }catch(e){ H.toast('✖ '+H.errMessage(e),'error'); }
     });
     refreshOpenCard();
     return;
@@ -348,7 +348,7 @@ async function validatePreprod(card, name){
   try{
     await H.fmPost('/api/features/prod/'+encodeURIComponent(name)+'/validate',{});
     H.toast('✔ '+name+' validated for preprod','ok');
-  }catch(e){ H.toast('✖ '+e.message,'err'); }
+  }catch(e){ H.toast('✖ '+e.message,'error'); }
   refresh(card, name);
 }
 
@@ -363,7 +363,7 @@ async function unvalidate(card, name, st){
   try{
     const r=await H.fmPost('/api/features/prod/'+encodeURIComponent(name)+'/unvalidate',{});
     H.toast(r.removed?'✔ '+name+' removed from preprod':name+' was not validated for preprod', r.removed?'ok':'warn');
-  }catch(e){ H.toast('✖ '+e.message,'err'); }
+  }catch(e){ H.toast('✖ '+e.message,'error'); }
   refresh(card, name);
 }
 
@@ -423,5 +423,5 @@ export async function fmBatchUnvalidate(names, onDone){
     const r=await H.fmPost('/api/features/unvalidate-batch',{names});
     H.toast('✔ removed from preprod: '+((r.removed||[]).join(', ')||'none'),'ok');
     if(onDone) onDone();
-  }catch(e){ H.toast('✖ '+H.errMessage(e),'err'); }
+  }catch(e){ H.toast('✖ '+H.errMessage(e),'error'); }
 }

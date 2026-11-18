@@ -2,6 +2,7 @@ import { $, el, clear, append } from '../core/dom.js';
 import { icon, btn, badge, emptyState, errorState } from '../components.js';
 import { fmtBytes, fmtNum } from '../core/format.js';
 import { toast } from '../ui/toast.js';
+import { searchScope } from '../ui/search_scope.js';
 import { ES, ROOT, call, errText, postForm, previewPair, kwText, catSelect, fmtFrames, lim, pubState, refreshSigning } from './emoji_cdn_view.js';
 import { renderGuide } from './emoji_cdn_guide.js';
 import { renderAdd } from './emoji_cdn_add.js';
@@ -167,6 +168,7 @@ function renderCatalog(b) {
   ES.page = Math.min(ES.page, pages - 1);
   const q = el('input', { type: 'search', placeholder: 'Search code, name, keyword, category…', value: ES.q });
   q.oninput = () => { ES.q = q.value; ES.page = 0; const pos = q.selectionStart; renderBody(); const nq = $('#emc-body input[type=search]'); if (nq) { nq.focus(); try { nq.setSelectionRange(pos, pos); } catch (e) { } } };
+  searchScope.bindInput({ key: 'emojis', label: 'Emojis', placeholder: 'Search code, name, keyword', onQuery: v => { ES.q = v; ES.page = 0; renderBody(); } }, q);
   const cs = el('select', {}, el('option', { value: '' }, 'All categories'), m.categories.map(c => el('option', { value: c.id, selected: c.id === ES.cat ? true : null }, `${c.name} (${c.count})`)));
   cs.onchange = () => { ES.cat = cs.value; ES.page = 0; renderBody(); };
   const fs = el('select', {}, FILTERS.map(([k, l]) => el('option', { value: k, selected: k === ES.filter ? true : null }, l)));

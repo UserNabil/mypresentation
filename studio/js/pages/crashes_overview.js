@@ -1,5 +1,5 @@
 import { el, clear } from '../core/dom.js';
-import { card, dataTable, emptyState, errorState, btn } from '../components.js';
+import { card, dataTable, emptyState, errorState } from '../components.js';
 import { fmtNum } from '../core/format.js';
 import { CR, CR_KINDS, CR_KIND_COLOR, crFetch, crKindLabel, crNewBadge, crSig, crSym, crWhen, crAgo, crNum, crCount, crExcName, crStatusBadge, crBar, crCatalog, crCatMeta, crCatOf, crCatBadge } from './crashes_state.js';
 
@@ -200,7 +200,6 @@ export async function renderOverview(body) {
   catch (e) {
     clear(body);
     body.appendChild(errorState({ error: e, title: 'Crash statistics unavailable', onRetry: () => CR.nav.go('overview') }));
-    if (!CR.demo) body.appendChild(el('div', { class: 'crx-center' }, btn({ label: 'Show demo data instead', icon: 'preview', variant: 'ghost', onClick: () => CR.nav.setDemo(true) })));
     return;
   }
   if (CR.tab !== 'overview') return;

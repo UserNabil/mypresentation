@@ -4,7 +4,6 @@ import { fmtDate, ago } from '../core/format.js';
 
 export const CR = {
   host: null,
-  demo: false,
   days: 30,
   env: '',
   tab: 'overview',
@@ -107,7 +106,6 @@ export function crSig(sig, onClick) {
 function crUrl(path, params) {
   const q = new URLSearchParams();
   for (const [k, v] of Object.entries(params || {})) if (v !== '' && v != null) q.set(k, String(v));
-  if (CR.demo) q.set('demo', '1');
   const s = q.toString();
   return '/api/crashes' + (path || '') + (s ? '?' + s : '');
 }
@@ -133,7 +131,7 @@ async function send(url, init) {
 export const CR_ENVS = [['', 'All servers'], ['dev', 'Dev'], ['preprod', 'Preprod'], ['prod', 'Prod'], ['other', 'Other / unknown']];
 
 function noteEnv(params, j) {
-  if (!params || !params.env || CR.demo || !j || typeof j !== 'object' || j.ok === undefined) return;
+  if (!params || !params.env || !j || typeof j !== 'object' || j.ok === undefined) return;
   const w = $('#crx-envwarn');
   if (!w) return;
   clear(w);

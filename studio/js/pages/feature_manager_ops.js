@@ -47,11 +47,11 @@ async function fmWatchNativeLog(feature,title,opts){
       if(opts.byRc){
         if(msg)msg.innerHTML=bad?('<b style="color:#d1242f">✖ '+H.esc(opts.failMsg||'failed')+' (exit '+H.esc(String(st.rc))+')</b>')
                                :'<b style="color:#2ea043">'+H.esc(opts.okMsg||'✔ done')+'</b>';
-        H.toast(bad?'✖ '+(opts.failMsg||'failed'):(opts.okMsg||'✔ done'), bad?'err':'ok');
+        H.toast(bad?'✖ '+(opts.failMsg||'failed'):(opts.okMsg||'✔ done'), bad?'error':'ok');
       }else{
       if(msg)msg.innerHTML=bad?('<b style="color:#d1242f">✖ failed for: '+H.esc(failed)+'</b>')
                              :'<b style="color:#2ea043">✔ all deployed — stack restarting (see Server Status)</b>';
-      H.toast(bad?'✖ some features failed':'✔ all features deployed', bad?'err':'ok');
+      H.toast(bad?'✖ some features failed':'✔ all features deployed', bad?'error':'ok');
       }
     }
   }
@@ -144,7 +144,7 @@ export async function fmDeployNative(feature,script,action){
         else if(rc===3) showVerdict(null,'Clean refusal (exit 3)','This feature does not apply to this binary and wrote NO byte. Nothing is broken and the stack was not restarted.');
         else if(rc===97) showVerdict(false,'Feature files missing on the server (exit 97)','The upload did not land in /root/ee_native. Nothing was run.');
         else showVerdict(false,verb+' failed (exit '+rc+')','The stack was NOT restarted: the servers keep running their code in memory, the game stays up. Fix the cause shown in the output, then run again.');
-        H.toast(rc===0?'✔ '+feature+' deployed':'✖ '+feature+' — exit '+rc, rc===0?'ok':'err');
+        H.toast(rc===0?'✔ '+feature+' deployed':'✖ '+feature+' — exit '+rc, rc===0?'ok':'error');
         try{ const mod=await import('./feature_manager.js'); if(mod.fmRefreshServerOnly) mod.fmRefreshServerOnly(feature, true); }catch(_){ }
         return;
       }
@@ -160,7 +160,7 @@ export async function fmDeployNative(feature,script,action){
   }
 }
 export function fmShowPubKey(pub){
-  H.showThemedDialog('Deploy key (public) — add to GitHub','<div class="esub">Add this PUBLIC key to <b>github.com/UserNabil/feature_ee → Settings → Deploy keys → Add</b> (read-only is enough). The private key is stored encrypted and ships with the tool (same key on every machine).</div><textarea readonly style="width:100%;height:70px;font-size:11px;margin-top:8px" onclick="this.select()">'+H.esc(pub||'(derive with: ssh-keygen -y -f feature_ee_deploy)')+'</textarea>');
+  H.showThemedDialog('Deploy key (public) — add to GitHub','<div class="esub">Add this PUBLIC key to <b>github.com/example/features → Settings → Deploy keys → Add</b> (read-only is enough). The private key is stored encrypted and ships with the tool (same key on every machine).</div><textarea readonly style="width:100%;height:70px;font-size:11px;margin-top:8px" onclick="this.select()">'+H.esc(pub||'(derive with: ssh-keygen -y -f feature_ee_deploy)')+'</textarea>');
 }
 export async function fmDeployDll(close, force){
   try{
@@ -174,7 +174,7 @@ export async function fmDeployDll(close, force){
           +(lost.length?'<br><span style="color:#cf9b2a">'+H.esc(lost.join(', '))+'</span>':'')+'</div>';
       }).join('');
       H.showThemedDialog('Your client has a newer DLL',
-        '<div class="esub">The DLL in your client is newer than the one Copy DLL would install (higher EDEN number or later build, often a build made from ee_admin). Copying would downgrade it.</div>'+rows+
+        '<div class="esub">The DLL in your client is newer than the one Copy DLL would install (higher EDEN number or later build, often a build made from workspace). Copying would downgrade it.</div>'+rows+
         '<div style="text-align:right;margin-top:10px"><button class="mini gold" id="fm-dll-force">Downgrade anyway</button></div>');
       setTimeout(()=>{ const b=H.$('#fm-dll-force'); if(b)b.onclick=()=>{ const dlg=H.$('#intg-dlg'); if(dlg)dlg.remove(); fmDeployDll(close, true); }; },100);
       return;

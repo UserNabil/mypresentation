@@ -1,18 +1,6 @@
 const ICON = { ok: 'check_green', warn: 'warning', block: 'error' };
 const ENV_ICON = { dev: 'env_dev', preprod: 'env_preprod', prod: 'env_prod' };
 
-export const SIM = {
-  ok: { label: 'All OK', checks: [['launcher', 'ok', 'Launcher'], ['game_dir', 'ok', 'Game folder'], ['launch_path', 'ok', 'Launch path'], ['dll', 'ok', 'Client DLL'], ['server', 'ok', 'Server']] },
-  launcher: { label: 'Launcher missing', checks: [['launcher', 'block', 'Launcher missing', 'Copy launcher'], ['game_dir', 'ok', 'Game folder'], ['launch_path', 'ok', 'Launch path'], ['dll', 'ok', 'Client DLL'], ['server', 'ok', 'Server']] },
-  dll: { label: 'Old DLL', checks: [['launcher', 'ok', 'Launcher'], ['game_dir', 'ok', 'Game folder'], ['launch_path', 'ok', 'Launch path'], ['dll', 'warn', 'Client DLL is old', 'Copy DLL'], ['server', 'ok', 'Server']] },
-  server: { label: 'Server down', checks: [['launcher', 'ok', 'Launcher'], ['game_dir', 'ok', 'Game folder'], ['launch_path', 'ok', 'Launch path'], ['dll', 'ok', 'Client DLL'], ['server', 'warn', 'Server not answering']] },
-};
-
-export function simResult(key, env) {
-  const checks = SIM[key].checks.map(c => ({ id: c[0], state: c[1], label: c[2], detail: '', fix: c[3] ? { label: c[3], sim: true } : null }));
-  return { env, checks, sim: true };
-}
-
 function sums(st) {
   const cs = st.checks || [];
   return { block: cs.some(c => c.state === 'block'), warn: cs.some(c => c.state === 'warn') };
@@ -67,6 +55,7 @@ function envChips(api, big) {
     const b = el('button', e === api.env ? 'on' : '', img(ENV_ICON[e] || 'env_dev', big ? 128 : 48, ''));
     withText(b, e);
     b.type = 'button';
+    b.setAttribute('aria-pressed', e === api.env ? 'true' : 'false');
     b.onclick = () => api.setEnv(e);
     w.appendChild(b);
   }

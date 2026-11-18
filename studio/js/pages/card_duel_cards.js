@@ -10,6 +10,7 @@ import { el, clear } from '../core/dom.js';
 import { btn, badge, card, emptyState, errorState } from '../components.js';
 import { api, errMessage } from '../core/api.js';
 import { toast } from '../ui/toast.js';
+import { searchScope } from '../ui/search_scope.js';
 import { RARITY, SKILL_HELP, cardNode, chip, sidesText, note, download, put } from './card_duel_render.js';
 import { openEditor, openItemEditor, removeBlock, saveDesigner } from './card_duel_card_edit.js';
 import { openOverride, resetOverride, retireCard, unretireCard } from './card_duel_override.js';
@@ -88,6 +89,7 @@ function draw() {
   }
   const search = el('input', { class: 'cd-in cd-grow', type: 'search', placeholder: 'Search a name, id, title, skill, map, item…', value: F.q, style: { minWidth: '240px' } });
   search.oninput = () => { F.q = search.value; F.shown = PAGE; drawTable(); };
+  searchScope.bindInput({ key: 'duel-cards', label: 'Cards', placeholder: 'Search a name, id, title, skill, map, item', onQuery: v => { F.q = v; F.shown = PAGE; drawTable(); } }, search);
   const status = el('select', { class: 'cd-in' }, [['live', 'Cards players can get'], ['all', 'All cards'], ['custom', 'Custom cards (designer file)'], ['override', 'Changed game cards (overrides)'], ['retired', 'Retired cards']]
     .map(([v, t]) => el('option', { value: v }, t)));
   status.value = F.status;

@@ -49,6 +49,9 @@
      devient muette sans la moindre erreur console.
    ============================================================================ */
 
+import { searchScope } from '../ui/search_scope.js';
+import { lineSvg } from '../ui/line_icons.js';
+
 let H = null;
 // Dependances d hote, remplies par initAuditTimeline(). Declarees ici pour que le
 // code copie d index.html reste litteralement inchange (aucun prefixe a semer).
@@ -75,7 +78,11 @@ let CHSEL=new Set(), CHFILTER='all', CHLIST=[];
 // comes back, whether the ZoneServer must stop, the data-version delta, size/checksum.
 // Individual change -> /api/history/rollback (restores backups). Snapshot global ->
 // /api/snapshots/{id}/restore_pipeline (routes through engine.deploy_pipeline).
-let AUDIT=[], AUFILTER='all', AUTGT='', _impTarget=null;
+let AUDIT=[], AUFILTER='all', AUTGT='', _impTarget=null, _auOff=null;
+const AU_LINE={edit:'edit',rename:'propose_tag',loot:'drops',skill:'classes',buff:'enchants',countdown:'live',bp_weakness:'break_point',mail:'envelope',spawn:'spawn',clone:'copy',delete:'delete',quest:'objectives',locale:'map',mass_edit:'actions',diag_fix:'ini_doctor',sync:'deploy_to_server',deploy:'deploy',install:'install',login:'user',logout:'logout',test:'tests',release:'rocket',restore:'undo',rollback:'undo',snapshot:'snapshots',repack:'repack',pull:'refresh',import:'import',export:'export'};
+function auIcon(r){const a=''+(r.action||'');let n=AU_LINE[a];
+  if(!n){const k=Object.keys(AU_LINE).find(k=>a.includes(k));n=k?AU_LINE[k]:(r.type==='snapshot'?'snapshots':'edit');}
+  return lineSvg(n,18);}
 const AU_ICON={edit:'<img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',rename:'<img src="/studio/icons/icons/24/propose_tag.png" srcset="/studio/icons/icons/24/propose_tag.png 1x, /studio/icons/icons/48/propose_tag.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',loot_edit:'<img src="/studio/icons/icons/24/drops.png" srcset="/studio/icons/icons/24/drops.png 1x, /studio/icons/icons/48/drops.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',loot_add:'<img src="/studio/icons/icons/24/drops.png" srcset="/studio/icons/icons/24/drops.png 1x, /studio/icons/icons/48/drops.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',loot_remove:'<img src="/studio/icons/icons/24/drops.png" srcset="/studio/icons/icons/24/drops.png 1x, /studio/icons/icons/48/drops.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',skill_add:'<img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',skill_remove:'<img src="/studio/icons/icons/24/classes.png" srcset="/studio/icons/icons/24/classes.png 1x, /studio/icons/icons/48/classes.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',
   buff_add:'✨',buff_remove:'✨',countdown_add:'<img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /studio/icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',countdown_remove:'<img src="/studio/icons/icons/24/live.png" srcset="/studio/icons/icons/24/live.png 1x, /studio/icons/icons/48/live.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',bp_weakness:'<img src="/studio/icons/icons/24/break_point.png" srcset="/studio/icons/icons/24/break_point.png 1x, /studio/icons/icons/48/break_point.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',mail_reward:'<img src="/studio/icons/icons/24/envelope.png" srcset="/studio/icons/icons/24/envelope.png 1x, /studio/icons/icons/48/envelope.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',
   spawn_add:'<img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /studio/icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',spawn_remove:'<img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /studio/icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',spawn_update:'<img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /studio/icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',clone:'⧉',delete:'<img src="/studio/icons/icons/24/delete.png" srcset="/studio/icons/icons/24/delete.png 1x, /studio/icons/icons/48/delete.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',quest_rewards:'<img src="/studio/icons/icons/24/rewards.png" srcset="/studio/icons/icons/24/rewards.png 1x, /studio/icons/icons/48/rewards.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',quest_objective:'<img src="/studio/icons/icons/24/objectives.png" srcset="/studio/icons/icons/24/objectives.png 1x, /studio/icons/icons/48/objectives.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">',
@@ -140,8 +147,8 @@ function renderChanges(){
   const list=all.filter(h=>CHFILTER==='all'||(CHFILTER==='clientonly'&&!h.rolled_back&&h.client&&!h.server)
     ||(CHFILTER==='active'&&!h.rolled_back)||(CHFILTER==='reverted'&&h.rolled_back));
   const chip=(k,lbl,n)=>`<span class="chchip${CHFILTER===k?' on':''}" data-chf="${k}">${lbl} <b>${n}</b></span>`;
-  const stbadge=h=>{const s=chState(h);const c={reverted:'#9a8a6a','client-only':'#cf9b2a',synced:'#4a8a3a'}[s]||'#999';
-    return `<span class="chstate" style="background:${c}">${s}</span>`;};
+  const stbadge=h=>{const s=chState(h);const c={reverted:'off','client-only':'warn',synced:'ok'}[s]||'off';
+    return `<span class="chstate au-pill ${c}">${s}</span>`;};
   $('#content').innerHTML=`<div class="hero"><div class="nameband">
     <h1 class="ename"><img src="/studio/icons/icons/24/cart.png" srcset="/studio/icons/icons/24/cart.png 1x, /studio/icons/icons/48/cart.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Changes</h1>
     <div class="esub">${stats.total} modification(s) · <b style="color:#4a8a3a">${stats.synced} on server</b> · <b style="color:#cf9b2a">${stats.clientonly} client-only</b> · ${stats.reverted} reverted</div>
@@ -194,7 +201,11 @@ async function openAudit(){
   $('#content').innerHTML='<div class="empty"><span class="spin"></span> loading audit timeline…</div>';
   try{const r=await fetch('/api/audit/timeline?limit=500');if(!r.ok)throw new Error('timeline '+r.status);
     AUDIT=(await r.json()).rows||[];}catch(e){toast('could not load audit: '+e,'error');AUDIT=[];}
+  AUTGT='';AUFILTER='all';
+  try{window.dispatchEvent(new Event('rail-none'));}catch(e){}
   renderAudit();
+  if(_auOff)_auOff();
+  _auOff=searchScope.register({key:'audit',label:'Changelog',placeholder:'Search log',onQuery:v=>{AUTGT=v||'';renderAudit();},alive:()=>!!document.getElementById('au-root')});
 }
 function renderAudit(){
   const all=AUDIT;
@@ -208,18 +219,17 @@ function renderAudit(){
     if(tgt&&!((''+(r.target||'')).toLowerCase().includes(tgt)||(''+(r.action||'')).toLowerCase().includes(tgt)))return false;
     return true;});
   const chip=(k,lbl,n)=>`<span class="chchip${AUFILTER===k?' on':''}" data-auf="${k}">${lbl} <b>${n}</b></span>`;
-  $('#content').innerHTML=`<div class="hero"><div class="nameband">
+  $('#content').innerHTML=`<div class="hero" id="au-root"><div class="nameband">
     <h1 class="ename"><img src="/studio/icons/icons/24/action_journal.png" srcset="/studio/icons/icons/24/action_journal.png 1x, /studio/icons/icons/48/action_journal.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Changelog &amp; Audit</h1>
-    <div class="esub">${counts.all} event(s) · <b>${counts.changes}</b> change(s) · <b>${counts.snapshots}</b> snapshot(s) · <b style="color:#4a8a3a">${counts.server} touch the server</b></div>
+    <div class="esub">${counts.all} event(s) · <b>${counts.changes}</b> change(s) · <b>${counts.snapshots}</b> snapshot(s) · <b class="au-srv">${counts.server} touch the server</b></div>
     <div class="chchips" style="margin-top:10px">${chip('all','All',counts.all)}${chip('changes','Changes',counts.changes)}${chip('snapshots','Snapshots',counts.snapshots)}${chip('server','Server-side',counts.server)}
-      <input id="au-q" placeholder="filter by target / action…" value="${esc(AUTGT)}" style="margin-left:8px;min-width:200px;padding:5px 9px;font-size:12px">
     </div></div></div>
     <div id="tabbody"><div style="padding:4px 4px">
       ${list.length?list.map(r=>{
-        const ic=AU_ICON[r.action]||(r.type==='snapshot'?'<img src="/studio/icons/icons/24/save.png" srcset="/studio/icons/icons/24/save.png 1x, /studio/icons/icons/48/save.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true">':'•');
+        const ic=auIcon(r);
         const isSnap=r.type==='snapshot';
         const can=isSnap?true:(r.has_backups&&!r.rolled_back);
-        const lyr=r.server?'<span class="chstate" style="background:#4a8a3a">server</span>':(r.client?'<span class="chstate" style="background:#cf9b2a">client</span>':'');
+        const lyr=r.server?'<span class="chstate au-pill ok">server</span>':(r.client?'<span class="chstate au-pill warn">client</span>':'');
         const kk=isSnap&&r.kind?(SNAPK[r.kind]||['',''])[0]+' '+r.kind:'';
         return `<div class="chcard${r.rolled_back?' rev':''}" data-aurow="${esc(r.type)}:${esc(r.id)}">
           <span class="chicon">${ic}</span>
@@ -227,14 +237,13 @@ function renderAudit(){
             <div class="chtitle"><span class="chtag">${isSnap?'SNAPSHOT':esc((r.action||'').toUpperCase())}</span>
               <span style="font-weight:600;color:var(--ink)">${esc(r.target)}</span>
               ${kk?`<span style="font-size:10.5px;color:var(--faint)"> · ${esc(kk)}</span>`:''}
-              ${r.rolled_back?' <span style="font-size:10.5px;color:#9a8a6a">· reverted</span>':''}</div>
+              ${r.rolled_back?' <span class="au-rev">· reverted</span>':''}</div>
             <div class="chmeta">${esc(r.details||'')}${r.author?' · '+esc(r.author):''} · ${esc(r.ts||'')}</div></div>
           ${lyr}
           ${can?`<span class="chundo" data-aurb="${esc(r.type)}:${esc(r.id)}" title="rollback (with impact preview)"><img src="/studio/icons/icons/24/undo.png" srcset="/studio/icons/icons/24/undo.png 1x, /studio/icons/icons/48/undo.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>`:''}
         </div>`;}).join(''):'<div class="esub" style="padding:24px">No events match this filter.</div>'}
     </div></div>`;
   $('#content').querySelectorAll('[data-auf]').forEach(b=>b.onclick=()=>{AUFILTER=b.dataset.auf;renderAudit();});
-  const q=$('#au-q');if(q){q.oninput=()=>{AUTGT=q.value;clearTimeout(q._t);q._t=setTimeout(()=>{const p=q.selectionStart;renderAudit();const n=$('#au-q');if(n){n.focus();try{n.setSelectionRange(p,p);}catch(_){}}},220);};}
   $('#content').querySelectorAll('[data-aurb]').forEach(b=>b.onclick=(ev)=>{ev.stopPropagation();openImpact(b.dataset.aurb);});
   $('#content').querySelectorAll('.chbody').forEach(el=>el.onclick=()=>{const row=el.closest('[data-aurow]');if(row)openImpact(row.dataset.aurow);});
 }

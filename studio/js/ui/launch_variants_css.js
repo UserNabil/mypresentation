@@ -2,11 +2,6 @@ export const LV_CSS = `
 .sheet.lv-on{width:min(580px,96vw)!important}
 .sheet.lv-on .body>:not(#lv-root){display:none!important}
 .sheet.lv-on #lm-yes{display:none}
-#lv-bar{display:none;gap:4px;align-items:center;margin-bottom:12px;justify-content:center}
-.lv-on #lv-bar.has{display:flex}
-#lv-bar button{font:700 11px Cinzel,serif;padding:3px 8px;border-radius:5px;border:1px solid var(--edge);background:var(--paper2);color:var(--ink)}
-#lv-bar button.on{background:linear-gradient(180deg,#d3ab63,#b8862f);border-color:#8a5a22;color:#3a2410}
-#lv-bar .lv-lbl{font:700 11px Cinzel,serif;color:var(--dim)}
 #lv-view{display:block}
 #lv-settings{display:none;margin-top:12px;border-top:1px dashed var(--edge);padding-top:8px}
 .lv-on #lv-settings{display:block}
@@ -22,7 +17,6 @@ export const LV_CSS = `
 .lv-play[disabled]{filter:grayscale(1) brightness(.9);opacity:.6;box-shadow:none}
 .lv-note{margin-top:8px;text-align:center;font:700 12px Cinzel,serif;min-height:16px}
 .lv-note.warn{color:#b8651b}.lv-note.block{color:#a5332a}.lv-note.ok{color:var(--jade)}
-.lv-sim{font:700 10px Cinzel,serif;color:var(--faint);text-align:center;margin-top:4px}
 .lv-env{display:flex;gap:8px;justify-content:center}
 .lv-env button{display:flex;align-items:center;gap:6px;font:700 12px Cinzel,serif;padding:3px 10px 3px 5px;border-radius:8px;border:1px solid var(--edge);background:var(--paper2);color:var(--ink)}
 .lv-env button img{width:22px;height:22px}

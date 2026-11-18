@@ -9,7 +9,7 @@
      plus ancien : copier ne servirait alors a rien (ou retrograderait).
    - newer_ready ne vient que d un verdict « newer » (du neuf, AUCUNE perte) ou
      de stale_fixed. Un « mixed » n est jamais propose (vecu 2026-09-30 : clone
-     dev 0.68.0 sur un client ee_admin 0.46.0 = +bag_multi_delete mais
+     dev 0.68.0 sur un client workspace 0.46.0 = +bag_multi_delete mais
      model_change 0.52.1 -> 0.52.0) : l infobulle le decrit, sans bandeau. Les
      numeros EDEN de deux lignees ne se comparent pas : a versions egales, un
      « same » + rebuild peut montrer deux EDEN differents.
@@ -20,7 +20,7 @@
      « recompile » ne reste que si AUCUNE DLL disponible ne corrige le retard.
    - version_stale = la DLL qui a TOURNE (eden_hook.log) est plus ancienne que
      la source d au moins une feature. source_behind = l inverse (le clone
-     feature_ee derive derriere ee_admin) : pas un defaut de la DLL, une note
+     feature_ee derive derriere workspace) : pas un defaut de la DLL, une note
      dans l infobulle, jamais une alerte.
    - runtime_pending = la DLL posee dans le client n est pas celle qui a tourne
      (empreinte EDEN + date de compilation, ou a defaut les dates) : le releve
@@ -69,7 +69,7 @@ export function fmDllPill(dll){
     detail.push('Older than the source: '+dll.stale.map(x=>x.feature+' v'+x.running+' → v'+x.source).join(', '));
   if((dll.source_behind||[]).length)
     detail.push('The game runs a build NEWER than the source the tool reads (the feature_ee clone lags '
-              +'behind ee_admin). Nothing to rebuild — re-sync the clone: '
+              +'behind workspace). Nothing to rebuild — re-sync the clone: '
               +dll.source_behind.map(x=>x.feature+' v'+x.source+' → game v'+x.running).join(', '));
   let txt, cls, tip;
   if(!dll.deployed){ txt='DLL not deployed'; cls='bad'; tip=(dll.legacy_d3d9||[]).length?'The Eden DLL in this client is still the old d3d9.dll: it now ships as version.dll only. « Copy DLL » writes version.dll and removes the old d3d9.dll.':'No version.dll in the client yet — use « Copy DLL ».'; }

@@ -1,6 +1,6 @@
 html[data-ui="modern"] h1, html[data-ui="modern"] h2, html[data-ui="modern"] h3, html[data-ui="modern"] .cinzel, html[data-ui="modern"] .empty, html[data-ui="modern"] .mcard-i .f,
 html[data-ui="modern"] .upd-title, html[data-ui="modern"] .upd-steps, html[data-ui="modern"] .fm2-title, html[data-ui="modern"] .cs-hex, html[data-ui="modern"] .cc-fldh { letter-spacing: 0; }
-html[data-ui="modern"] header:not(.ph), html[data-ui="modern"] .fpanel.open { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] header.ee-top, html[data-ui="modern"] .fpanel.open { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
 html[data-ui="modern"] #cctb, html[data-ui="modern"] .rp-t th { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); }
 html[data-ui="modern"] #cctb .cctb-name { color: var(--ui-ink); letter-spacing: 0; }
 html[data-ui="modern"] #cctb .cctb-ver, html[data-ui="modern"] .mb, html[data-ui="modern"] .aiconf.unk, html[data-ui="modern"] .fm-rbadge.left,
@@ -102,14 +102,14 @@ html[data-ui="modern"] .envdd, html[data-ui="modern"] #sttip, html[data-ui="mode
 html[data-ui="modern"] .weakbar, html[data-ui="modern"] #savestatus, html[data-ui="modern"] .sheet, html[data-ui="modern"] #infopop { border: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
 html[data-ui="modern"] .ev-b { border: 1px solid var(--ui-line); background: var(--ui-surface); text-transform: none; }
 html[data-ui="modern"] .ev-b:hover, html[data-ui="modern"] .chk:hover, html[data-ui="modern"] .iconbrowse:hover, html[data-ui="modern"] .verifybadge:hover,
-html[data-ui="modern"] body.editing .bpchip:hover, html[data-ui="modern"] input:not([type=radio]):not([type=checkbox]):hover:not(:focus),
-html[data-ui="modern"] select:hover:not(:focus), html[data-ui="modern"] textarea:hover:not(:focus), html[data-ui="modern"] .fm-waiting.changed, html[data-ui="modern"] .fm-pt-on,
+html[data-ui="modern"] body.editing .bpchip:hover, html[data-ui="modern"] :where(.ee-shell) input:not([type=radio]):not([type=checkbox]):where(:not(.fmr-root *)):hover:not(:focus),
+html[data-ui="modern"] :where(.ee-shell) select:where(:not(.fmr-root *)):hover:not(:focus), html[data-ui="modern"] :where(.ee-shell) textarea:where(:not(.fmr-root *)):hover:not(:focus), html[data-ui="modern"] .fm-waiting.changed, html[data-ui="modern"] .fm-pt-on,
 html[data-ui="modern"] .fx-step.fx-sok .fx-step-dot, html[data-ui="modern"] .fx-step.fx-swarn .fx-step-dot, html[data-ui="modern"] .fx-test.fx-tbad,
 html[data-ui="modern"] .fx-test.fx-tok, html[data-ui="modern"] .fx-dp-steps li.run i, html[data-ui="modern"] .fm-row.picked .fm-ico, html[data-ui="modern"] .fm-ready,
 html[data-ui="modern"] .cda-kpi.bad, html[data-ui="modern"] .crx-kpi-new, html[data-ui="modern"] #loginGate .lg-env:hover, html[data-ui="modern"] .userchip:hover,
 html[data-ui="modern"] .reqrow:hover { border-color: var(--ui-line); }
 html[data-ui="modern"] .ev-b.on, html[data-ui="modern"] .hbtn.gold, html[data-ui="modern"] .awcol.sel, html[data-ui="modern"] .fx-btn.gold, html[data-ui="modern"] .crx-ftab.on,
-html[data-ui="modern"] .gmv-rb.on, html[data-ui="modern"] #lv-bar button.on { background: var(--ui-accent); border-color: var(--ui-line); color: var(--ui-accent-ink); }
+html[data-ui="modern"] .gmv-rb.on { background: var(--ui-accent); border-color: var(--ui-line); color: var(--ui-accent-ink); }
 html[data-ui="modern"] .envdd-sec .stpill:hover, html[data-ui="modern"] .bpvalrow input[readonly], html[data-ui="modern"] .fx-alert.fx-warn, html[data-ui="modern"] .ai-row.on,
 html[data-ui="modern"] .ai-mon.on { background: var(--ui-surface-2); border-color: var(--ui-line); }
 html[data-ui="modern"] .stpill .dot, html[data-ui="modern"] .ai-tag.pas { background: var(--ui-surface-2); color: var(--ui-muted); }
@@ -161,13 +161,13 @@ html[data-ui="modern"] input[type=range]::-webkit-slider-runnable-track, html[da
 html[data-ui="modern"] .fchip.on { border-color: var(--ui-line); background: var(--ui-accent-soft); box-shadow: none; color: var(--ui-accent-text); }
 html[data-ui="modern"] .ld-spin { border: 1px solid var(--ui-line); border-top-color: var(--gold2,var(--ui-line)); }
 html[data-ui="modern"] .mapcombo:focus-within, html[data-ui="modern"] .row .gem, html[data-ui="modern"] .mcard-sw.on, html[data-ui="modern"] .upd-s.on::before,
-html[data-ui="modern"] .upd-fill, html[data-ui="modern"] input:not([type=radio]):not([type=checkbox]):focus, html[data-ui="modern"] select:focus,
-html[data-ui="modern"] textarea:focus, html[data-ui="modern"] .aslot:hover, html[data-ui="modern"] .awcell:hover, html[data-ui="modern"] .altar-tip,
+html[data-ui="modern"] .upd-fill, html[data-ui="modern"] :where(.ee-shell) input:not([type=radio]):not([type=checkbox]):where(:not(.fmr-root *)):focus, html[data-ui="modern"] :where(.ee-shell) select:where(:not(.fmr-root *)):focus,
+html[data-ui="modern"] :where(.ee-shell) textarea:where(:not(.fmr-root *)):focus, html[data-ui="modern"] .aslot:hover, html[data-ui="modern"] .awcell:hover, html[data-ui="modern"] .altar-tip,
 html[data-ui="modern"] .awslot.res-in.sel, html[data-ui="modern"] .acpick, html[data-ui="modern"] .awbtn:hover, html[data-ui="modern"] .awcslot.cur.sel,
 html[data-ui="modern"] .awcslot.r.has, html[data-ui="modern"] .fm-search .mapcombo:focus-within, html[data-ui="modern"] .fm-icow:hover .fm-ico, html[data-ui="modern"] .cd-side.turn,
 html[data-ui="modern"] .cc-existing .cc-sres, html[data-ui="modern"] .cc-fld input:focus, html[data-ui="modern"] .homehero, html[data-ui="modern"] .homecard:hover,
-html[data-ui="modern"] .envchip.on, html[data-ui="modern"] input[type=text]:focus, html[data-ui="modern"] input[type=number]:focus, html[data-ui="modern"] input[type=search]:focus,
-html[data-ui="modern"] input[type=password]:focus, html[data-ui="modern"] input:not([type]):focus, html[data-ui="modern"] .clstier.on, html[data-ui="modern"] #fab-create:hover,
+html[data-ui="modern"] .envchip.on, html[data-ui="modern"] :where(.ee-shell) input[type=text]:where(:not(.fmr-root *)):focus, html[data-ui="modern"] :where(.ee-shell) input[type=number]:where(:not(.fmr-root *)):focus, html[data-ui="modern"] :where(.ee-shell) input[type=search]:where(:not(.fmr-root *)):focus,
+html[data-ui="modern"] :where(.ee-shell) input[type=password]:where(:not(.fmr-root *)):focus, html[data-ui="modern"] :where(.ee-shell) input:not([type]):where(:not(.fmr-root *)):focus, html[data-ui="modern"] .clstier.on, html[data-ui="modern"] #fab-create:hover,
 html[data-ui="modern"] #about-link:hover { box-shadow: var(--ui-shadow); }
 html[data-ui="modern"] .spellsub .sc.on, html[data-ui="modern"] .fr-choice.on, html[data-ui="modern"] .emc-snd-icbtn:hover, html[data-ui="modern"] .emc-snd-icbtn.over,
 html[data-ui="modern"] .emc-snd-pick-c:hover, html[data-ui="modern"] .emc-snd-pick-c.on, html[data-ui="modern"] .gmv-row.on { border-color: var(--ui-line); background: var(--ui-accent); color: var(--ui-accent-ink); }
@@ -228,7 +228,7 @@ html[data-ui="modern"] .delx:hover, html[data-ui="modern"] .hrow .hundo:hover, h
 html[data-ui="modern"] .addbtn, html[data-ui="modern"] .tst .tst-act, html[data-ui="modern"] .dirow .dfix, html[data-ui="modern"] .claimbtn,
 html[data-ui="modern"] .altarwin .claimbtn { border: 1px solid var(--ui-ok); background: var(--ui-ok-soft); color: var(--ui-ok); }
 html[data-ui="modern"] .sbtn, html[data-ui="modern"] .fm2-copy, html[data-ui="modern"] .cd-cell.free.armed { border: 1px solid var(--ui-line); background: var(--ui-accent); color: var(--ui-accent-ink); }
-html[data-ui="modern"] select { background-color: var(--ui-surface); }
+html[data-ui="modern"] :where(.ee-shell) select:where(:not(.fmr-root *)) { background-color: var(--ui-surface); }
 html[data-ui="modern"] .envr input:checked+span { border-color: var(--ui-line); background: var(--ui-surface-2); box-shadow: none; color: var(--ui-ink); }
 html[data-ui="modern"] .pickrow.sel { background: var(--ui-accent); box-shadow: none; color: var(--ui-accent-ink); }
 html[data-ui="modern"] .sbtn.loading::after, html[data-ui="modern"] .spin, html[data-ui="modern"] .eden-splash .es-spin { border: 1px solid var(--ui-line); border-top-color: var(--ui-line); }
@@ -279,7 +279,7 @@ html[data-ui="modern"] .gmv-copy.ok { background: var(--ui-ok); border-color: va
 html[data-ui="modern"] .fm-rbadge.none { background: var(--ui-surface-2); border: 1px solid var(--ui-line); color: var(--ui-muted); }
 html[data-ui="modern"] .ai-tag.fle, html[data-ui="modern"] .ai-tag.sh, html[data-ui="modern"] .eqflag.warn { background: var(--ui-surface-2); color: var(--ui-accent-text); }
 html[data-ui="modern"] .ai-slot { border: 1.1px solid var(--ui-line); }
-html[data-ui="modern"] .ai-slot.drag, html[data-ui="modern"] .lv-env button.on { border-color: var(--ui-line); background: var(--ui-surface-2); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] .ai-slot.drag { border-color: var(--ui-line); background: var(--ui-surface-2); box-shadow: var(--ui-shadow); }
 html[data-ui="modern"] .ai-monwrap, html[data-ui="modern"] .prf-cause { border-left: 1px solid var(--ui-line); }
 html[data-ui="modern"] .ai-share.ok { background: var(--ui-surface); border: 1px solid var(--ui-line); border-left: 3px solid var(--ui-ok); }
 html[data-ui="modern"] .fm-vpill { background: var(--ui-accent-soft); border: 1px solid var(--ui-line); color: var(--ui-accent-text); }
@@ -462,3 +462,25 @@ html[data-ui="modern"] [style*="border-left:#2ea043" i], html[data-ui="modern"] 
 html[data-ui="modern"] [style*="border-color: #4a8a3a" i], html[data-ui="modern"] [style*="border:#bcd6a8" i], html[data-ui="modern"] [style*="border: #bcd6a8" i] { border-color: var(--ui-ok) !important; }
 html[data-ui="modern"] [style*="border:#b9c9e0" i], html[data-ui="modern"] [style*="border: #b9c9e0" i] { border-color: var(--ui-info) !important; }
 html[data-ui="modern"] [style*="background:#8a2030" i], html[data-ui="modern"] [style*="background: #8a2030" i] { background-color: var(--ui-bad) !important; }
+
+html[data-ui="modern"] .lv-env button { border: 1px solid var(--ui-line); background: var(--ui-surface); color: var(--ui-ink); opacity: .78; }
+html[data-ui="modern"] .lv-env button.on { border: 2px solid var(--ui-accent); background: var(--ui-accent); color: var(--ui-accent-ink); opacity: 1; box-shadow: var(--ui-shadow); }
+
+html[data-ui="modern"] .pkgttl, html[data-ui="modern"] .dghead .dgc, html[data-ui="modern"] .rpk-sec { color: var(--ui-ink); }
+html[data-ui="modern"] .pkgtag { background: var(--ui-accent-soft); color: var(--ui-accent-text); }
+html[data-ui="modern"] .pkgbar { background: var(--ui-surface-2); border-color: var(--ui-line); }
+html[data-ui="modern"] .pkgbar > i { background: var(--ui-accent); }
+html[data-ui="modern"] .pkgpct { color: var(--ui-muted); font-family: var(--ui-font); }
+html[data-ui="modern"] .rpk-badge { color: var(--ui-ink); background: var(--ui-surface-2); }
+html[data-ui="modern"] .rpk-badge.missing, html[data-ui="modern"] .rpk-badge.failed, html[data-ui="modern"] .rpk-badge.unreadable { background: var(--ui-bad-soft); color: var(--ui-bad); }
+html[data-ui="modern"] .rpk-badge.different, html[data-ui="modern"] .rpk-badge.refused { background: var(--ui-warn-soft); color: var(--ui-accent-text); }
+html[data-ui="modern"] .rpk-badge.stale { background: var(--ui-info-soft); color: var(--ui-info); }
+html[data-ui="modern"] .rpk-badge.ok, html[data-ui="modern"] .rpk-badge.written { background: var(--ui-ok-soft); color: var(--ui-ok); }
+html[data-ui="modern"] .rpk-warnline { color: var(--ui-accent-text); }
+html[data-ui="modern"] .rpk-box { background: var(--ui-surface-2); }
+html[data-ui="modern"] .dsum .n, html[data-ui="modern"] .dgc { color: var(--ui-ink); }
+html[data-ui="modern"] .dsum .l { color: var(--ui-muted); }
+html[data-ui="modern"] [data-snaprestore], html[data-ui="modern"] [data-snapbt] { background: var(--ui-surface); color: var(--ui-ink); border: 1px solid var(--ui-line); }
+html[data-ui="modern"] [data-snaprestore]:hover, html[data-ui="modern"] [data-snapbt]:hover { background: var(--ui-surface-2); }
+html[data-ui="modern"] .tst, html[data-ui="modern"] .tst .tst-msg, html[data-ui="modern"] .tst .tst-msg * { white-space: normal; overflow-wrap: anywhere; text-overflow: clip; overflow: visible; }
+html[data-ui="modern"] .tst { max-width: min(420px, calc(100vw - 40px)); }

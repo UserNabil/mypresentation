@@ -110,9 +110,8 @@ function alertsCard(state, reload) {
       a.symbol ? crSym(a.symbol) : null)) :
       el('div', { class: 'esub' }, st.last_check ? 'No active alert: no new signature in the last 24 h, no spike above 3× the 7-day average, no regression in the latest DLL.' : 'Not checked yet in this session of the tool.'),
     el('div', { class: 'crx-alert-foot crx-dim' },
-      st.demo ? 'Demo data: computed locally, no notification is sent.' :
-        (st.enabled === false ? 'Background check disabled (config crash_alerts = false).' :
-          'Checked every ' + (st.interval_min || 15) + ' min in the background; new alerts become GM notifications.') +
+      (st.enabled === false ? 'Background check disabled (config crash_alerts = false).' :
+        'Checked every ' + (st.interval_min || 15) + ' min in the background; new alerts become GM notifications.') +
         (st.last_check ? ' Last check ' + crAgo(st.last_check) + '.' : ''),
       st.error ? el('span', { class: 'crx-err' }, ' ' + st.error) : null));
   return card({ title: 'Alerts', icon: 'notifications', class: 'crx-span', actions: check, body });
@@ -211,7 +210,6 @@ export async function renderAnalytics(body) {
   } catch (e) {
     clear(body);
     body.appendChild(errorState({ error: e, title: 'Analytics unavailable', onRetry: () => CR.nav.go('analytics') }));
-    if (!CR.demo) body.appendChild(el('div', { class: 'crx-center' }, btn({ label: 'Show demo data instead', icon: 'preview', variant: 'ghost', onClick: () => CR.nav.setDemo(true) })));
     return;
   }
   if (CR.tab !== 'analytics') return;

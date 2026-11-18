@@ -1,81 +1,143 @@
-/* ============================================================================
-   ui/toast.js — transient notifications.
-
-   MOVED from static/index.html:2552-2575 (module block). Behaviour is
-   deliberately UNCHANGED (iso-functional refactor):
-     • the type is still auto-detected from a leading ✔ / ✗ / ⚠ glyph;
-     • the leading glyph is still stripped from the displayed text;
-     • the same durations apply (6500 ms for error/warn, 2900 ms otherwise);
-     • an unknown type (e.g. the 30 calls that pass 'err' — AUDIT B4) still
-       falls back to the 'live' icon and still lands on a CSS class that does
-       not exist. That bug is NOT fixed here; it is listed in the audit and
-       belongs to the bug-fix wave, not to this refactor.
-
-   The one structural change: the node is now BUILT, not assembled from an HTML
-   string. The resulting DOM is the same tree
-     <div class="tst TYPE">
-       <span class="tst-ic"><img class="ui-icon …"></span>
-       <div class="tst-msg">…</div>
-       [<button class="tst-act">…</button>]
-       <span class="tst-x" title="dismiss">×</span>
-     </div>
-   but no value passed by a caller can become markup on its way in.
-
-   ⚠ `msg` is TEXT. Passing '<img src=…>' shows the tag literally — that is the
-   bug the admin reported (AUDIT B1, index.html:10743, 12257, 12258).
-   ============================================================================ */
-
 import { $ } from '../core/dom.js';
 import { iconEl } from '../core/icons.js';
 import { makeProgress } from '../core/progress.js';
+import { MORE_MS, normType, normOpts, duration, clean, splitMessage, plan, moreLabel, countLabel } from './toast_policy.js';
+import { addLocal } from './notif_local.js';
 
-/** type -> icon name in static/icons/icons/24/. Unknown types fall back to 'live'. */
-const SLUG = { ok: 'success', success: 'success', warn: 'warning', warning: 'warning', error: 'error', info: 'live' };
+const SLUG = { ok: 'success', warn: 'warning', error: 'error', info: 'live' };
+const STACK = [];
+let moreCount = 0;
+let moreTimer = 0;
 
-/**
- * @param {string} msg   TEXT to display (never markup)
- * @param {string} [type] 'ok' | 'error' | 'warn' | 'info' — auto-detected from
- *                        a leading ✔ / ✗ / ⚠ when omitted
- * @param {object} [opts] {sticky, duration, action:{label, fn}}
- * @returns {{close:Function, el:HTMLElement}}
- */
-export function toast(msg, type, opts) {
-  opts = opts || {};
+function copyText(text) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+  return Promise.reject(new Error('clipboard unavailable'));
+}
+
+function button(label, cls, fn) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = cls;
+  b.textContent = label;
+  b.onclick = (ev) => {
+    ev.stopPropagation();
+    fn(b);
+  };
+  return b;
+}
+
+function renderMore(host) {
+  let chip = host.querySelector('#tst-more');
+  if (moreCount <= 0) {
+    if (chip) chip.remove();
+    return;
+  }
+  if (!chip) {
+    chip = document.createElement('button');
+    chip.type = 'button';
+    chip.id = 'tst-more';
+    chip.className = 'tst-more';
+    chip.onclick = () => {
+      moreCount = 0;
+      renderMore(host);
+      const b = document.getElementById('btn-notif');
+      if (b) b.click();
+    };
+  }
+  chip.textContent = moreLabel(moreCount);
+  host.appendChild(chip);
+  clearTimeout(moreTimer);
+  moreTimer = setTimeout(() => {
+    moreCount = 0;
+    renderMore(host);
+  }, MORE_MS);
+}
+
+export function toast(msg, type, o) {
+  const opts = normOpts(o);
   const host = $('#toasts');
   if (!host) return;
-  // ⛔ Le remplacement de masse des glyphes par des <img> a frappe ICI aussi : la comparaison portait
-  // sur une balise entiere, donc `f === '<img …>'` n'etait JAMAIS vrai et la detection du type « warn »
-  // etait morte. On compare de nouveau un CARACTERE a un caractere.
-  if (!type) { const im = /^\s*<img[^>]*\/icons\/[^/]+\/\d+\/([a-z0-9_-]+)\.png/i.exec(String(msg || '')); const f = im ? ({ warning: '⚠', error: '✗', success: '✔' })[im[1]] : (msg || '')[0]; type = f === '✔' ? 'ok' : f === '✗' ? 'error' : f === '⚠' ? 'warn' : 'info'; }
-  // ⭐ The icon comes from the TYPE and is rendered exactly once, here. Before,
-  // every message carried its own leading glyph (422 strings): as many variants
-  // to maintain, and a rendering that changed from one machine to the next. The
-  // message now carries text only; the illustration is the component's job.
+  if (!type) {
+    const im = /^\s*<img[^>]*\/icons\/[^/]+\/\d+\/([a-z0-9_-]+)\.png/i.exec(String(msg || ''));
+    const f = im ? { warning: '⚠', error: '✗', success: '✔' }[im[1]] : (msg || '')[0];
+    type = f === '✔' ? 'ok' : f === '✗' ? 'error' : f === '⚠' ? 'warn' : 'info';
+  }
+  type = normType(type);
+  const text = clean(msg);
+  const now = Date.now();
+  const entry = { type, text, progress: !!opts.progress, sticky: !!opts.sticky || type === 'error', closed: false, last: now, count: 1 };
+  const verdict = plan(STACK, entry, now);
+
+  if (verdict.kind === 'merge') {
+    const e = STACK[verdict.index];
+    e.count += 1;
+    e.last = now;
+    e.el._badge(e.count);
+    return e.el._reset();
+  }
+  if (verdict.kind === 'overflow') {
+    const parts = splitMessage(msg, opts.details);
+    addLocal({ title: parts.title, body: parts.details, severity: type });
+    moreCount += 1;
+    renderMore(host);
+    return { close() {}, el: null };
+  }
+
+  const parts = splitMessage(msg, opts.details);
   const el = document.createElement('div');
   el.className = 'tst ' + type;
+  el.setAttribute('role', type === 'error' ? 'alert' : 'status');
 
   const ic = document.createElement('span');
   ic.className = 'tst-ic';
   ic.appendChild(iconEl(SLUG[type] || 'live', 24));
 
-  const texte = String(msg).replace(/<img\b[^>]*>/gi, '').replace(/^\s*[✔✗ℹ⚠]\s*/, '').replace(/\s+/g, ' ').trim();
-  // Le MEME message deux fois n'apprend rien et empile la pile jusqu'a masquer l'ecran : enregistrer une
-  // config deux fois de suite affichait deux fois les memes avertissements collants. On relance plutot
-  // le compte a rebours de celui qui est deja la (2026-08-10).
-  /* ⛔ La deduplication ne doit PAS s'appliquer a une notification de PROGRESSION. Deux
-     operations longues portant le meme intitule sont deux operations distinctes : reutiliser
-     la premiere ferait avancer une seule barre pour deux travaux, et la fermeture de l'une
-     emporterait l'autre. */
-  if (!opts.progress) {
-    const deja = [...host.querySelectorAll('.tst')].find(
-      t => !t._closed && t.classList.contains(type) && t.querySelector('.tst-msg') &&
-           t.querySelector('.tst-msg').textContent === texte);
-    if (deja && deja._reset) return deja._reset();
-  }
-
   const body = document.createElement('div');
   body.className = 'tst-msg';
-  body.textContent = texte;
+  const head = document.createElement('div');
+  head.className = 'tst-t';
+  const label = document.createElement('span');
+  label.className = 'tst-tx';
+  label.textContent = parts.title;
+  const badge = document.createElement('span');
+  badge.className = 'tst-n';
+  badge.hidden = true;
+  head.appendChild(label);
+  head.appendChild(badge);
+  body.appendChild(head);
+
+  let det = null;
+  const btns = document.createElement('div');
+  btns.className = 'tst-btns';
+  if (parts.details) {
+    det = document.createElement('pre');
+    det.className = 'tst-det';
+    det.hidden = true;
+    det.textContent = parts.details;
+    body.appendChild(det);
+    btns.appendChild(button('Details', 'tst-b', (b) => {
+      det.hidden = !det.hidden;
+      b.textContent = det.hidden ? 'Details' : 'Hide details';
+    }));
+    btns.appendChild(button('Copy details', 'tst-b', (b) => {
+      copyText(parts.details).then(() => { b.textContent = 'Copied'; }, () => { b.textContent = 'Copy failed'; });
+      setTimeout(() => { b.textContent = 'Copy details'; }, 1600);
+    }));
+  }
+  if (typeof opts.retry === 'function') {
+    btns.appendChild(button('Retry', 'tst-b tst-retry', () => {
+      try {
+        opts.retry();
+      } finally {
+        close();
+      }
+    }));
+  }
+  if (btns.childNodes.length) body.appendChild(btns);
 
   const x = document.createElement('span');
   x.className = 'tst-x';
@@ -89,39 +151,48 @@ export function toast(msg, type, opts) {
   if (opts.action) {
     act = document.createElement('button');
     act.className = 'tst-act';
-    // ⛔ Le libelle etait pose en textContent BRUT. Un appelant passant « <img src=…> Reload » voyait
-    // donc la balise ECRITE dans le bouton — et comme c'est un seul mot de 200 caracteres, il poussait
-    // la colonne du message a ~1 caractere de large : la notification devenait une bande verticale
-    // illisible (signale le 2026-08-10). On retire le balisage du texte, et l'icone eventuelle est
-    // rendue comme un VRAI element.
     const brut = String(opts.action.label || '');
     const ico = opts.action.icon || (/<img[^>]*\/icons\/[^/]+\/\d+\/([a-z0-9_-]+)\.png/i.exec(brut) || [])[1];
     if (ico) act.appendChild(iconEl(ico, 24));
-    const texte = brut.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-    act.appendChild(document.createTextNode(ico ? ' ' + texte : texte));
+    const lab = brut.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    act.appendChild(document.createTextNode(ico ? ' ' + lab : lab));
     el.appendChild(act);
   }
   el.appendChild(x);
 
-  host.appendChild(el);
+  host.insertBefore(el, host.querySelector('#tst-more'));
   requestAnimationFrame(() => el.classList.add('in'));
 
   const close = () => {
-    if (el._closed) return;
+    if (entry.closed) return;
+    entry.closed = true;
     el._closed = 1;
     clearTimeout(el._t);
     el.classList.remove('in');
-    setTimeout(() => el.remove(), 250);
+    setTimeout(() => {
+      el.remove();
+      const i = STACK.indexOf(entry);
+      if (i >= 0) STACK.splice(i, 1);
+    }, 250);
   };
   x.onclick = close;
   if (act) act.onclick = () => { try { opts.action.fn(); } finally { close(); } };
 
-  const dur = opts.sticky ? 0 : (opts.duration || ((type === 'error' || type === 'warn') ? 6500 : 2900));
+  const dur = duration(type, opts);
   if (dur) el._t = setTimeout(close, dur);
   const poignee = { close, el };
-  // relance du minuteur quand le meme message revient (cf. la deduplication plus haut)
   el._reset = () => { clearTimeout(el._t); if (dur) el._t = setTimeout(close, dur); return poignee; };
+  el._badge = (n) => {
+    badge.hidden = n < 2;
+    badge.textContent = countLabel(n);
+  };
+  entry.el = el;
+  STACK.push(entry);
   return poignee;
+}
+
+export function toastStack() {
+  return STACK.filter((e) => !e.closed).map((e) => ({ type: e.type, text: e.text, count: e.count }));
 }
 
 /* ============================================================================

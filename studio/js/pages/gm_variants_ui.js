@@ -38,7 +38,7 @@ export function compose() {
 const badge = c => c.src === 'gmtool' ? '<span class="gmv-bdg">GMTool</span>' : c.src === 'st' ? '<span class="gmv-bdg">st</span>' : '';
 
 export function searchBox(huge) {
-  return `<div class="gmv-search${huge ? ' huge' : ''}">${ic('search', huge ? 40 : 24)}<input id="gmv-q" placeholder="Search" value="${esc(S.q)}" autocomplete="off"></div>`;
+  return `<div class="gmv-search${huge ? ' huge' : ''}">${ic('search', huge ? 40 : 24)}<input id="gmv-q" placeholder="Search a command, an arg, a note…" aria-label="Search GM commands" value="${esc(S.q)}" autocomplete="off"></div>`;
 }
 
 export function card() {

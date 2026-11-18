@@ -2,7 +2,7 @@
    Values are read from the packed client's client.ini by /api/launch/target and written back by /api/launch
    only when they differ from the file. Resolves null on Cancel, else the body to POST to /api/launch. */
 
-import { setupVariants } from './launch_variants.js';
+import { setupVariants, syncVariants } from './launch_variants.js';
 
 const QLABEL = { low: 'Low', medium: 'Medium', high: 'High', ultra: 'Ultra', custom: 'Keep current (custom)' };
 let _resolve = null;
@@ -148,6 +148,7 @@ function _wire() {
       $('#lm-yes').disabled = false;
       if ($('#lm-env').value === want) { _show(t.env || want, t.server, t.display || null); _problem(t); }
     } catch (_) { $('#lm-yes').disabled = false; }
+    syncVariants();
   });
 }
 

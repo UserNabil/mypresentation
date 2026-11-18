@@ -308,7 +308,7 @@ export async function fmRevalidatePreprod(names, btn, isCurrent){
     setTimeout(()=>{ if(!isCurrent||isCurrent()){ fmLoadEnvStages(isCurrent||(()=>true)); fmLoadEnvWaiting(isCurrent||(()=>true)); } },4000);
   }catch(e){
     if(btn){ btn.disabled=false; btn.textContent='Revalidate'; }
-    H.toast('✖ '+(H.errMessage?H.errMessage(e):e.message),'err');
+    H.toast('✖ '+(H.errMessage?H.errMessage(e):e.message),'error');
   }
 }
 export async function fmLoadEnvStages(isCurrent){

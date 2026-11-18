@@ -162,7 +162,7 @@ function triage(d, onSaved) {
       d.admin_notes = notes.value;
       toast('Report #' + d.id + ' saved as ' + st.value, 'ok', 3000);
       onSaved();
-    } catch (e) { toast('Could not save: ' + (e.message || e), 'err', 7000); }
+    } catch (e) { toast('Could not save: ' + (e.message || e), 'error', 7000); }
   } });
   return card({ title: 'Triage', icon: 'edit', body: el('div', { class: 'crx-triage' },
     el('label', {}, 'Status', st), el('label', {}, 'Notes', notes),
@@ -194,7 +194,6 @@ export async function renderDetail(body, id) {
   const head = el('div', { class: 'crx-dhead' },
     btn({ label: 'Back to reports', icon: 'back', variant: 'ghost', class: 'xs', onClick: () => CR.nav.go('list') }),
     el('h3', {}, 'Report #' + d.id), crKindBadge(d.crash_kind), statusSlot,
-    d.demo ? badge('demo', 'warn') : null,
     el('span', { class: 'crx-dim' }, (d.files || []).length + ' file' + (crNum((d.files || []).length) === 1 ? '' : 's')));
   const onSaved = () => { clear(statusSlot); statusSlot.appendChild(crStatusBadge(d.status)); };
   const viewer = el('div', {});
