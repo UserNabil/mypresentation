@@ -207,6 +207,7 @@ const wesc = x => String(x == null ? '' : x).replace(/[&<>"]/g, c => ({ '&': '&a
 let _wid = null;
 let _wtimer = null;
 let _wcloser = null;
+let _wbase = {};
 let _wstop = 0;
 
 function _wEnsure() {
@@ -290,8 +291,6 @@ function _wRender(st) {
 
 async function _wPoll(id) {
   if (id !== _wid) return;
-  const modal = $('#launchModal');
-  if (!modal || !modal.classList.contains('open')) { _watchMode(false); return; }
   let st = null;
   try {
     const r = await fetch('/api/launch/watch/' + encodeURIComponent(id), { credentials: 'same-origin' });
@@ -300,9 +299,10 @@ async function _wPoll(id) {
   } catch (_) { st = null; }
   if (id !== _wid) return;
   if (!st && Date.now() > _wstop) st = { id, state: 'failed', title: 'Launch not followed', text: 'The tool did not answer. Run Check my setup.', checks: [] };
-  if (st) _wRender(st);
   if (!st || st.state === 'starting') { _wtimer = setTimeout(() => _wPoll(id), 1000); return; }
-  if (st.state === 'running') _wcloser = setTimeout(() => { if (id === _wid) { _watchMode(false); _done(null); } }, 6000);
+  if (st.state === 'running') { _watchMode(false); return; }
+  _wRender(Object.assign({}, _wbase, st));
+  $('#launchModal').classList.add('open');
 }
 
 export function watchLaunch(res) {
@@ -313,9 +313,8 @@ export function watchLaunch(res) {
   _watchMode(false);
   _watchMode(true);
   _wid = w.id;
+  _wbase = { env: res.env, server: res.server };
   _wstop = Date.now() + (Math.max(1, Number(w.limit) || 20) + 10) * 1000;
-  _wRender(Object.assign({ env: res.env, server: res.server }, w));
-  $('#launchModal').classList.add('open');
   _wtimer = setTimeout(() => _wPoll(w.id), 800);
   return true;
 }

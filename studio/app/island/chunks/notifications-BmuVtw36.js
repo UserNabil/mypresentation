@@ -1,1 +1,0 @@
-import{t as e}from"./notifications-BaeIiz08.js";import{H as t}from"./api-BtPl_pN_.js";var n=t();function r({host:t}){return(0,n.jsx)(e,{host:t})}export{r as default};

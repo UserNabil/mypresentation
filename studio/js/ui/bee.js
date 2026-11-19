@@ -90,6 +90,11 @@ function applyTheme() {
   bees.forEach((b) => { if (b.p) { b.p.accent = col; b.p.setTint(hue); } });
 }
 
+function dprFor(size) {
+  const d = window.devicePixelRatio || 1;
+  return size <= 96 ? Math.max(2, Math.min(3, d)) : Math.max(1, Math.min(2, d));
+}
+
 function fpsFor(size) {
   if (size <= 64) return 20;
   if (size <= 200) return 30;
@@ -113,7 +118,7 @@ async function create(b) {
     cv.className = 'bee-cv';
     cv.setAttribute('aria-hidden', 'true');
     b.el.appendChild(cv);
-    const p = new Puppet(cv, { bee: size, w: Math.round(size * 1.5), h: Math.round(size * 1.25), fps: fpsFor(size), cssSize: false }, rig);
+    const p = new Puppet(cv, { bee: size, w: Math.round(size * 1.5), h: Math.round(size * 1.25), fps: fpsFor(size), cssSize: false, dpr: dprFor(size) }, rig);
     p.flyingFn = () => b.el.classList.contains('is-flying');
     p.follow = lookOn();
     p.accent = zColor();

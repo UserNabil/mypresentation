@@ -3,7 +3,7 @@ import { lineSvg, navLine } from './line_icons.js';
 import { toast } from './toast.js';
 import { navigate } from '../nav/rail.js';
 import { openFeature, resolvePage } from '../nav/feature_opener.js';
-import { checksHtml, askHtml, copyText, watchHtml, verdictMessage, followWatch, WATCH_CSS } from './assistant_views.js';
+import { checksHtml, askHtml, copyText, watchHtml, verdictMessage, followWatch, WATCH_CSS, aiLine, loadAiStatus } from './assistant_views.js';
 
 const KEY = 'eden_assistant_thread';
 const CAP = 50;
@@ -88,7 +88,7 @@ function msgHtml(m, i) {
   if (m.r === 'u') return '<div class="as-m u"><div class="as-b-u">' + esc(m.text) + '</div></div>';
   const acts = m.actions || [];
   const conf = acts.find(a => a.kind === 'confirm' && a.token);
-  const navs = acts.filter(a => a.kind === 'navigate' && a.href && !sameHref(a.href, m.cards));
+  const navs = acts.filter(a => (a.kind === 'navigate' && a.href && !sameHref(a.href, m.cards)) || (a.kind === 'copy' && a.text));
   let h = '<div class="as-m a">';
   if (conf) h += confirmHtml(m, i, conf);
   else if (m.text) h += '<div class="as-b-a' + (m.tone ? ' ' + m.tone : '') + '">' + (m.tone === 'bad' ? lineSvg('triangle-alert', 16) : '') + '<span>' + esc(m.text) + '</span></div>';
@@ -96,7 +96,7 @@ function msgHtml(m, i) {
   if (m.ask && m.ask.question) h += askHtml(m, i, pending);
   if (m.watch || m.verdict) h += watchHtml(m, i, pending);
   if (m.cards && m.cards.length) h += cardsHtml(m.cards);
-  if (navs.length) h += '<div class="as-btns">' + navs.map(a => '<button type="button" class="as-b" data-href="' + esc(a.href) + '">' + esc(a.label) + '</button>').join('') + '</div>';
+  if (navs.length) h += '<div class="as-btns">' + navs.map(a => '<button type="button" class="as-b" ' + (a.kind === 'copy' ? 'data-copy="' + esc(a.text) + '" title="' + esc(a.text) + '"' : 'data-href="' + esc(a.href) + '"') + '>' + esc(a.label) + '</button>').join('') + '</div>';
   return h + '</div>';
 }
 
@@ -188,7 +188,8 @@ async function askAssistant(q, answer) {
   pending = true;
   render();
   try {
-    push(asReply(await post('/api/assistant/ask', answer ? { q, page: currentPage(), answer } : { q, page: currentPage(), history })));
+    const j = await post('/api/assistant/ask', answer ? { q, page: currentPage(), answer } : { q, page: currentPage(), history });
+    aiLine(root, j.ai); push(asReply(j));
   } catch (e) {
     push({ r: 'a', text: errText(e), tone: 'bad' });
   }
@@ -298,7 +299,7 @@ function build() {
   el.innerHTML = '<div class="as-h"><span class="as-hi" aria-hidden="true">' + lineSvg('sparkles', 20) + '</span><h2>Assistant</h2>' +
     '<button type="button" class="as-ib as-clear" aria-label="Clear conversation" title="Clear conversation">' + lineSvg('trash-2', 18) + '</button>' +
     '<button type="button" class="as-ib as-x" aria-label="Close assistant" title="Close (Esc)">' + lineSvg('x', 18) + '</button></div>' +
-    '<div class="as-list" aria-live="polite"></div>' +
+    '<div class="as-ai" role="status" hidden></div><div class="as-list" aria-live="polite"></div>' +
     '<form class="as-f"><textarea class="as-in" rows="1" placeholder="Ask the assistant..." aria-label="Message the assistant" spellcheck="false"></textarea>' +
     '<button type="submit" class="as-send" aria-label="Send">' + SEND + '</button></form>';
   return el;
@@ -328,11 +329,12 @@ function ensure() {
     if (t && ev.key === 'Enter' && !ev.isComposing) { ev.preventDefault(); useAsk(Number(t.dataset.askin)); }
   });
   list.addEventListener('click', ev => {
-    const t = ev.target.closest('[data-href],[data-q],[data-ok],[data-no],[data-fix],[data-pick],[data-use],[data-report],[data-rerun]');
+    const t = ev.target.closest('[data-href],[data-q],[data-ok],[data-no],[data-fix],[data-pick],[data-use],[data-report],[data-rerun],[data-copy]');
     if (!t || t.disabled) return;
     if (t.dataset.fix) fixCheck(t.dataset.fix);
     else if (t.dataset.pick) pickAsk(t.dataset.pick);
     else if (t.dataset.use) useAsk(Number(t.dataset.use));
+    else if (t.dataset.copy) copyText(t.dataset.copy, 'GM command');
     else if (t.dataset.report) { const m = load()[Number(t.dataset.report)]; if (m && m.report) copyText(m.report); }
     else if (t.dataset.rerun) { const m = load()[Number(t.dataset.rerun)]; if (m && m.rerun) askAssistant(m.rerun); }
     else if (t.dataset.href) go(t.dataset.href);
@@ -354,7 +356,7 @@ export function openAssistant(q) {
     root.classList.add('on');
     const b = document.getElementById('mx-ai');
     if (b) b.setAttribute('aria-expanded', 'true');
-    loadChips();
+    loadChips(); loadAiStatus(root);
     render();
   }
   if (q) { askAssistant(q); return; }

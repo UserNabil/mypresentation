@@ -40,9 +40,9 @@ export const NAV_TREE = [
      page ; le reste passe par le panneau de recherche. */
   { k: 'gameplay', label: 'Gameplay', icon: 'operations', kids: [
     { k: 'gamesys',    label: 'Game systems',    icon: 'chip',              act: 'btn:btn-gamesystems', archived: true },
-    { k: 'classes',    label: 'Classes',          icon: 'classes',      act: 'fn:openClasses' },
     { k: 'shopcurrency', label: 'Shop Currencies', icon: 'gold',        act: 'fn:openShopCurrency', perm: 'shopcurrency.manage' },
     { k: 'cardduel',   label: 'Card Duel',        icon: 'dice',         act: 'fn:openCardDuel',  perm: 'cardduel.view' },
+    { k: 'classes',    label: 'Classes',          icon: 'classes',      act: 'fn:openClasses' },
     // Vue d'ensemble : l'objet au centre, ses satellites autour (sets, paliers, teintes,
     // prefixes). « Sets & Equip » reste : il sert a editer un record champ par champ ;
     // celle-ci sert a COMPRENDRE ce que ces champs veulent dire.
@@ -127,8 +127,10 @@ export function flatNav() {
   return out;
 }
 
-import('../pages/people_island.js').then(m => m.peopleNavInit(NAV_TREE)).catch(() => {});
-import('../pages/health_island.js').then(m => m.healthNavInit(NAV_TREE)).catch(() => {});
-import('../pages/options_island.js').then(m => m.optionsNavInit(NAV_TREE)).catch(() => {});
-import('../pages/community_island.js').then(m => m.communityNavInit(NAV_TREE)).catch(() => {});
-import('../pages/gamesystems_island.js').then(m => m.gamesystemsNavInit(NAV_TREE)).catch(() => {});
+export const NAV_READY = Promise.allSettled([
+  import('../pages/people_island.js').then(m => m.peopleNavInit(NAV_TREE)).catch(() => {}),
+  import('../pages/health_island.js').then(m => m.healthNavInit(NAV_TREE)).catch(() => {}),
+  import('../pages/options_island.js').then(m => m.optionsNavInit(NAV_TREE)).catch(() => {}),
+  import('../pages/community_island.js').then(m => m.communityNavInit(NAV_TREE)).catch(() => {}),
+  import('../pages/gamesystems_island.js').then(m => m.gamesystemsNavInit(NAV_TREE)).catch(() => {}),
+]);

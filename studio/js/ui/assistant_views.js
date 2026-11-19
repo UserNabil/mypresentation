@@ -62,6 +62,11 @@ html[data-ui="modern"] .as-wt-bar{height:4px;margin-top:10px;border-radius:var(-
 html[data-ui="modern"] .as-wt-bar i{display:block;height:100%;background:var(--ui-accent);transition:width .4s linear}
 @keyframes as-wt-spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){html[data-ui="modern"] .as-wt-i{animation:none}}
+html[data-ui="modern"] .as-ai{display:flex;align-items:center;gap:6px;padding:6px 16px;border-bottom:1px solid var(--ui-line);font:500 12px/1.3 var(--ui-font);color:var(--ui-muted)}
+html[data-ui="modern"] .as-ai[hidden]{display:none}
+html[data-ui="modern"] .as-ai i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--ui-muted)}
+html[data-ui="modern"] .as-ai.ready i{background:var(--ui-ok,#2e9d5b)}
+html[data-ui="modern"] .as-ai.unavailable i{background:var(--ui-warn,#c98a12)}
 `;
 
 export function followWatch(m, onTick, onDone) {
@@ -82,7 +87,7 @@ export function followWatch(m, onTick, onDone) {
   setTimeout(step, 800);
 }
 
-export function copyText(t) {
+export function copyText(t, what = 'Report') {
   const fallback = () => {
     const ta = document.createElement('textarea');
     ta.value = t;
@@ -95,7 +100,20 @@ export function copyText(t) {
     ta.remove();
     return ok;
   };
-  const done = ok => toast(ok ? 'Report copied' : 'Could not copy the report', ok ? 'ok' : 'error');
+  const done = ok => toast(ok ? what + ' copied' : 'Could not copy the ' + what.toLowerCase(), ok ? 'ok' : 'error');
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => done(true), () => done(fallback()));
   else done(fallback());
+}
+
+export function aiLine(root, st) {
+  const el = root && root.querySelector('.as-ai');
+  if (!el || !st || !st.label) return;
+  el.hidden = false;
+  el.className = 'as-ai ' + (st.state === 'ready' ? 'ready' : st.state === 'off' ? 'off' : 'unavailable');
+  el.title = st.detail || (st.last ? 'Last question: ' + st.last.why + (st.last.detail ? ' (' + st.last.detail + ')' : '') : '');
+  el.innerHTML = '<i aria-hidden="true"></i><span>' + esc(st.label) + '</span>';
+}
+
+export function loadAiStatus(root) {
+  fetch('/api/assistant/status', { credentials: 'same-origin' }).then(r => r.ok ? r.json() : null).then(st => aiLine(root, st)).catch(() => {});
 }

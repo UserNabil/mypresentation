@@ -23,6 +23,7 @@ import { lineSvg, navLine } from '../ui/line_icons.js';
 import { modernOn } from '../ui/modern_gate.js';
 import { esc } from '../core/dom.js';
 import { toast } from '../ui/toast.js';
+import { saveRoute } from './route.js';
 
 const OPEN_KEY = 'eden.rail.open';        /* la famille depliee, retenue entre deux sessions */
 const MIN_KEY  = 'eden.rail.min';         /* rail reduit (icones seules) */
@@ -31,6 +32,7 @@ let CTX = null;
 let CURRENT = 'dashboard';
 const BADGES = {};
 const SECTION_KEY = { emojis: 'emojicdn', sounds: 'sounds', polls: 'polls', altar: 'requests', events: 'event' };
+const GS_KEY = { currencies: 'shopcurrency', cardduel: 'cardduel', classes: 'classes' };
 
 function badgeHtml(k) {
   const b = BADGES[k];
@@ -315,8 +317,11 @@ function _gotoType(t) {
 
 /** Surligne une feuille SANS rien declencher — pour les pages ouvertes autrement
     (bouton d'en-tete, lien interne, retour arriere). */
+export function hasLeaf(k) { return !!k && !!CTX && !!_find(k); }
+
 export function setActive(k) {
   CURRENT = k || '';
+  saveRoute(CURRENT);
   const host = document.getElementById('rail-scroll');
   if (!host) return;
   host.querySelectorAll('.rl-leaf,.rl-top').forEach(b => b.classList.toggle('on', b.dataset.k === CURRENT));
@@ -394,12 +399,17 @@ function _followPage() {
     new MutationObserver(() => {
       const root = content.firstElementChild;
       const k = root && root.id === 'community-react' ? (SECTION_KEY[root.dataset.section] || 'community')
+        : root && root.id === 'gamesystems-react' ? (GS_KEY[root.dataset.section] || 'classes')
         : root && Object.prototype.hasOwnProperty.call(ISLAND_ROOT, root.id) ? ISLAND_ROOT[root.id] : null;
       if (k !== null && k !== CURRENT) setActive(k);
     }).observe(content, { childList: true });
   }
   window.addEventListener('community-section', e => {
     const k = SECTION_KEY[e.detail];
+    if (k && k !== CURRENT) setActive(k);
+  });
+  window.addEventListener('gamesystems-section', e => {
+    const k = GS_KEY[e.detail];
     if (k && k !== CURRENT) setActive(k);
   });
   window.addEventListener('rail-type', e => {

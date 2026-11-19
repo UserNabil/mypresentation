@@ -68,7 +68,7 @@ export const TOURS = {
     s('#community-react .cm-menuwrap', 'More', 'Extra actions live in this menu.'),
   ],
   gamesys: [
-    s('#gamesystems-react .gs-seg', 'Sections', 'Currencies, Card Duel and Classes.'),
+    s('#rail-scroll .rl-fam[data-fam="gameplay"] .rl-kids-in', 'Sections', 'Currencies, Card Duel and Classes each have their own page here.'),
     s('#gamesystems-react .gs-env', 'Server', 'This page works on this server.'),
     s('[data-tour="gs-restart"]', 'Restart', 'Restart the servers so changes go live.'),
     s('[data-tour="gs-repack"]', 'Repack', 'Put your changes in the game client.'),

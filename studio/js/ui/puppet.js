@@ -199,7 +199,7 @@ const ACTIONS = {
     dur: 1.7,
     face: { eyes: 'surprised', mouth: 'sad', blush: 0.1, brows: true, sweat: true },
     fn(a, T, e, t, u) {
-      const decay = Math.pow(1 - u, 1.3);
+      const decay = Math.pow(Math.max(0, 1 - u), 1.3);
       T.rx += e * 15 * Math.sin(2 * Math.PI * 9 * t) * decay;
       T.rrot += e * 4 * Math.sin(2 * Math.PI * 9 * t + 1) * decay;
       T.hrot += e * -5 * Math.sin(2 * Math.PI * 9 * t) * decay;
@@ -355,8 +355,8 @@ export class Puppet {
     ['l', 'r'].forEach((s) => {
       const p = this.rig.parts['eye3_fill_' + s];
       const c = document.createElement('canvas');
-      c.width = Math.max(2, Math.ceil(p.w * p.s * this.k));
-      c.height = Math.max(2, Math.ceil((p.h * p.s + 6) * this.k));
+      c.width = Math.max(2, Math.ceil(p.w * (p.sx || p.s) * this.k));
+      c.height = Math.max(2, Math.ceil((p.h * (p.sy || p.s) + 6) * this.k));
       this.eyeOff[s] = { c, x: c.getContext('2d') };
     });
     this.ready = true;
@@ -374,6 +374,15 @@ export class Puppet {
       this.sl = 0;
       CH.forEach((c) => { this.ch[c] = IDLE[c] !== undefined ? IDLE[c] : 0; });
       this.antLz.x = this.antRz.x = this.antLz.v = this.antRz.v = 0;
+      this.breath = 0;
+      this.pop.x = 0;
+      this.pop.v = 0;
+      this.armZ.x = 0;
+      this.armZ.v = 0;
+      this.antRel = { l: 0, r: 0 };
+      this.wingPhase = 0;
+      this.zs = [];
+      this.back = false;
       Object.values(this.egs).forEach((q) => { q.x = 0; q.v = 0; });
       Object.values(this.hs).forEach((q) => { q.x = 0; q.v = 0; });
       this.renderStatic();
@@ -407,6 +416,7 @@ export class Puppet {
 
   play(name) {
     if (this.reduced || !ACTIONS[name]) return;
+    if ((name === 'fly' || name === 'peek') && this.opts.bee < 120) return;
     if (this.actions.some((a) => (a.name === 'fly' || a.name === 'peek') && !a.ending)) return;
     if (this.asleep) this.wake(true);
     this.actions.forEach((a) => { if (!a.ending) { a.ending = true; a.endT = 0; } });
@@ -565,7 +575,7 @@ export class Puppet {
       a.t += dt;
       if (a.ending) a.endT += dt;
       const e = this.envOf(a);
-      a.def.fn(a, T, e, a.t, a.t / a.def.dur, this);
+      a.def.fn(a, T, e, a.t, Math.min(1, a.t / a.def.dur), this);
       if (a.name === 'fly') this.flyAct = a;
       if (a.name === 'peek') this.peekAct = a;
       if (a.spin) this.spinAct = a;
@@ -580,8 +590,16 @@ export class Puppet {
 
     CH.forEach((c) => {
       const r = RATE[c];
+      if (!Number.isFinite(T[c])) T[c] = IDLE[c] !== undefined ? IDLE[c] : 0;
+      if (!Number.isFinite(this.ch[c])) this.ch[c] = T[c];
       this.ch[c] += (T[c] - this.ch[c]) * (1 - Math.exp(-dt * r));
     });
+    if (this.opts.bee < 120 && !this.flyAct && !this.peekAct) {
+      this.ch.rx = clamp(this.ch.rx, -40, 40);
+      this.ch.ry = clamp(this.ch.ry, -50, 30);
+      this.ch.rsx = clamp(this.ch.rsx, 0.1, 1.3);
+      this.ch.rsy = clamp(this.ch.rsy, 0.7, 1.3);
+    }
     if (this.peekAct) this.ch.ry = this.peekAct.hard;
     if (this.flyAct) this.ch.rx = this.flyAct.direct;
     if (this.spinAct) this.ch.rsx = T.rsx;
@@ -613,44 +631,61 @@ export class Puppet {
   updateGaze(dt, T) {
     const g = this.gaze;
     const bee = this.opts.bee;
+    const big = bee >= 120 && !this.asleep;
+    const e = this.egs;
+    if (!big) {
+      Object.values(e).forEach((q) => { q.x = 0; q.v = 0; });
+      this.hs.x.x = 0; this.hs.x.v = 0; this.hs.y.x = 0; this.hs.y.v = 0;
+      g.had = false;
+      return;
+    }
     const kc = bee / 512;
-    const R = Math.max(150, bee * 1.1);
-    const pv = this.rig.pivots;
-    const lim = (x, y) => { const v = Math.hypot(x, y); return v > 1 ? [x / v, y / v] : [x, y]; };
+    const R = Math.max(160, bee * 1.1);
+    const lim = (x, y, m) => { const v = Math.hypot(x, y); return v > m ? [x / v * m, y / v * m] : [x, y]; };
     let tgt = null;
-    if (this.follow && !this.asleep) {
+    if (this.follow) {
       if (this.rel) tgt = { x: this.rel.x * bee, y: this.rel.y * bee };
       else if (this.pointer && performance.now() - this.pointer.t < 3500) {
         const r = this.cv.getBoundingClientRect();
         const dx = this.pointer.x - (r.left + r.width / 2), dy = this.pointer.y - (r.top + r.height / 2);
-        if (Math.hypot(dx, dy) < Math.max(420, bee * 3)) tgt = { x: dx, y: dy };
+        if (Math.hypot(dx, dy) < bee * 2.2) tgt = { x: dx, y: dy };
       }
     }
     let L, Rr, H;
     if (tgt) {
-      const eye = (e) => lim((tgt.x - (e[0] - 256) * kc) / R, (tgt.y - (e[1] - 256) * kc) / R);
-      L = eye(pv.eye_l);
-      Rr = eye(pv.eye_r);
-      H = lim((tgt.x - (243 - 256) * kc) / R, (tgt.y - (205 - 256) * kc) / R);
+      const v = lim((tgt.x - (215 - 256) * kc) / R, (tgt.y - (230 - 256) * kc) / R, 0.6);
+      const near = Math.max(0, Math.min(1, 1.6 - Math.hypot(tgt.x, tgt.y) / bee));
+      const conv = near * 0.12;
+      L = [v[0] + conv, v[1]];
+      Rr = [v[0] - conv, v[1]];
+      H = [v[0] * 0.8, v[1] * 0.8];
       g.had = true;
+      g.phase = 0;
+      g.next = rnd(1.5, 3);
     } else {
-      if (g.had) { g.had = false; g.ix = 0; g.iy = 0; g.next = rnd(1.2, 2.2); }
+      if (g.had) { g.had = false; g.ix = 0; g.iy = 0; g.next = rnd(1.2, 2.2); g.phase = 0; }
+      if (this.calm) { g.ix = 0; g.iy = 0; g.phase = 0; g.next = 99; }
       g.next -= dt;
       if (g.next <= 0) {
-        if (Math.random() < 0.45) { g.ix = 0; g.iy = 0; }
-        else { g.ix = rnd(-0.75, 0.75); g.iy = rnd(-0.5, 0.5); }
-        g.next = rnd(0.7, 2.8);
+        if (g.phase === 0) {
+          g.ix = rnd(-0.35, 0.35);
+          g.iy = rnd(-0.25, 0.25);
+          g.phase = 1;
+          g.next = rnd(0.45, 0.9);
+        } else {
+          g.ix = 0; g.iy = 0;
+          g.phase = 0;
+          g.next = rnd(2, 4.5);
+        }
       }
       L = [g.ix, g.iy];
       Rr = [g.ix, g.iy];
       H = [g.ix * 0.3, g.iy * 0.3];
     }
-    if (this.asleep) { L = [0, 0]; Rr = [0, 0]; H = [0, 0]; }
     const mag = Math.hypot((L[0] + Rr[0]) / 2 - (g.pax || 0), (L[1] + Rr[1]) / 2 - (g.pay || 0));
-    if (mag > 0.8 && Math.random() < 0.55) this.nextBlink = Math.min(this.nextBlink, rnd(0.05, 0.14));
+    if (mag > 0.4 && Math.random() < 0.5) this.nextBlink = Math.min(this.nextBlink, rnd(0.05, 0.14));
     g.pax = (L[0] + Rr[0]) / 2;
     g.pay = (L[1] + Rr[1]) / 2;
-    const e = this.egs;
     spring2(e.lx, L[0], dt, 5.5, 1);
     spring2(e.ly, L[1], dt, 5.5, 1);
     spring2(e.rx, Rr[0], dt, 5.5, 1);
@@ -658,13 +693,13 @@ export class Puppet {
     spring2(this.hs.x, H[0], dt, 1.15, 1);
     spring2(this.hs.y, H[1], dt, 1.15, 1);
     const hx = this.hs.x.x, hy = this.hs.y.x;
-    T.hrot += hx * 4.2;
-    T.hx += hx * 2.2;
-    T.hy += hy * 2;
-    T.rrot += hx * 0.8;
-    T.rx += hx * 2;
-    T.fpx += clamp(hx * 5.5, -6, 6);
-    T.fpy += clamp(hy * 3.2, -4, 4);
+    T.hrot += hx * 4;
+    T.hx += hx * 2;
+    T.hy += hy * 1.5;
+    T.rrot += hx * 0.6;
+    T.rx += hx * 1.5;
+    T.fpx += clamp(hx * 5, -5, 5);
+    T.fpy += clamp(hy * 3, -3, 3);
   }
 
   updateBlink(dt) {
@@ -731,16 +766,18 @@ export class Puppet {
         const ir = this.rig.parts['iris3_' + s];
         const off = this.eyeOff[s];
         const PAD = 3;
-        const ox = off.c.width / (f.w * f.s);
+        const fx = f.sx || f.s, fy = f.sy || f.s;
+        const ox = off.c.width / (f.w * fx);
         const cx = off.x;
-        const W = off.c.width, H = f.h * f.s * ox;
+        const W = off.c.width, H = f.h * fy * ox;
         const e = this.egs;
-        const gx = clamp(e[s + 'x'].x + c.gx, -1.1, 1.1), gy = clamp(e[s + 'y'].x + c.gy, -1.1, 1.1);
-        const amp = s === 'l' ? { xp: 0.9, xn: 3.2, yp: 3.0, yn: 2.4, fs: 0.25 } : { xp: 6, xn: 1.2, yp: 4.5, yn: 3.5, fs: 0.12 };
+        const bigEye = this.opts.bee >= 120;
+        const gx = bigEye ? clamp(e[s + 'x'].x + c.gx * 0.5, -0.8, 0.8) : 0, gy = bigEye ? clamp(e[s + 'y'].x + c.gy * 0.5, -0.8, 0.8) : 0;
+        const amp = s === 'l' ? { xp: 0.5, xn: 1.6, yp: 2.0, yn: 1.6, fs: 0.15 } : { xp: 3, xn: 0.6, yp: 3, yn: 2.4, fs: 0.08 };
         const dx = gx >= 0 ? gx * amp.xp : gx * amp.xn;
         const dy = gy >= 0 ? gy * amp.yp : gy * amp.yn;
-        const top = f.cy - f.h * f.s / 2;
-        const left = f.cx - f.w * f.s / 2;
+        const top = f.cy - f.h * fy / 2;
+        const left = f.cx - f.w * fx / 2;
         const key = Math.round(gx * 30) + ',' + Math.round(gy * 30);
         if (off.key !== key || off.img !== this.imgs) {
         cx.setTransform(1, 0, 0, 1, 0, 0);
@@ -748,14 +785,14 @@ export class Puppet {
         cx.globalCompositeOperation = 'source-over';
         cx.drawImage(this.imgs['eye3_fill_' + s], 0, PAD * ox, W, H);
         cx.globalCompositeOperation = 'source-atop';
-        const iw = ir.w * ir.s * ox * (1 - amp.fs * Math.abs(gx)), ih = ir.h * ir.s * ox;
+        const iw = ir.w * (ir.sx || ir.s) * ox * (1 - amp.fs * Math.abs(gx)), ih = ir.h * (ir.sy || ir.s) * ox;
         const ix = (ir.cx + dx - left) * ox, iy = (ir.cy + dy - top + PAD) * ox;
         cx.drawImage(this.imgs['iris3_' + s], ix - iw / 2, iy - ih / 2, iw, ih);
         const gl = this.rig.parts['glint3_' + s];
         const gxp = (gl.cx + dx * 0.3 - left) * ox, gyp = (gl.cy + dy * 0.3 - top + PAD) * ox;
-        cx.drawImage(this.imgs['glint3_' + s], gxp - gl.w * gl.s * ox / 2, gyp - gl.h * gl.s * ox / 2, gl.w * gl.s * ox, gl.h * gl.s * ox);
+        cx.drawImage(this.imgs['glint3_' + s], gxp - gl.w * (gl.sx || gl.s) * ox / 2, gyp - gl.h * (gl.sy || gl.s) * ox / 2, gl.w * (gl.sx || gl.s) * ox, gl.h * (gl.sy || gl.s) * ox);
         cx.globalCompositeOperation = 'source-over';
-        const lid = (gy > 0 ? gy * 1.3 : gy * 0.3) * ox;
+        const lid = (gy > 0 ? gy * 0.8 : 0) * ox;
         if (Math.abs(lid) < 0.02) {
           cx.drawImage(this.imgs['eye3_line_' + s], 0, PAD * ox, W, H);
         } else {
@@ -772,7 +809,7 @@ export class Puppet {
         off.key = key;
         off.img = this.imgs;
         }
-        ctx.drawImage(off.c, left, top - PAD, f.w * f.s, f.h * f.s + 2 * PAD);
+        ctx.drawImage(off.c, left, top - PAD, f.w * fx, f.h * fy + 2 * PAD);
       } else {
         this.part(ctx, 'eyes_' + key + '_' + s);
       }
@@ -788,7 +825,7 @@ export class Puppet {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = this.opts.bee <= 64 ? 'medium' : 'high';
+    ctx.imageSmoothingQuality = 'high';
     const pv = this.rig.pivots;
     const pop = this.pop.x;
     const breath = this.breath || 0;

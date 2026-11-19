@@ -1,0 +1,96 @@
+html[data-ui="modern"] {
+  --hc-rad: 69px;
+  --hc-soft: 1;
+  --hc-int: .71;
+  --hc-fade: 1;
+  --hc-ri: 1;
+  --hc-ink: var(--ui-accent-text);
+}
+
+html[data-ui="modern"][data-theme="dark"] {
+  --hc-ink: var(--ui-accent);
+}
+
+html[data-ui="modern"] .hc-card {
+  isolation: isolate;
+}
+
+html[data-ui="modern"] .hc-card.hc-rel {
+  position: relative;
+}
+
+html[data-ui="modern"] .hc-layer,
+html[data-ui="modern"] .hc-rips {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint layout style;
+  user-select: none;
+}
+
+html[data-ui="modern"] .hc-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--ui-surface) calc(var(--hc-fade) * 40%), transparent);
+}
+
+html[data-ui="modern"] .hc-lens {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--hc-rad) * 2);
+  height: calc(var(--hc-rad) * 2);
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: .14;
+  transition: opacity .11s linear;
+  -webkit-mask-image: radial-gradient(circle var(--hc-rad) at 50% 50%, rgba(0, 0, 0, var(--hc-int)) 0, rgba(0, 0, 0, var(--hc-int)) calc((1 - var(--hc-soft)) * 100%), transparent 100%);
+  mask-image: radial-gradient(circle var(--hc-rad) at 50% 50%, rgba(0, 0, 0, var(--hc-int)) 0, rgba(0, 0, 0, var(--hc-int)) calc((1 - var(--hc-soft)) * 100%), transparent 100%);
+}
+
+html[data-ui="modern"] .hc-s {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  max-width: none;
+  max-height: none;
+  min-width: 0;
+  min-height: 0;
+}
+
+html[data-ui="modern"] .hc-card.hc-live .hc-lens,
+html[data-ui="modern"] .hc-card.hc-live .hc-lens > .hc-s {
+  will-change: transform;
+}
+
+html[data-ui="modern"] .hc-rip {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(.2);
+  will-change: transform, opacity;
+  background: rgb(var(--ui-accent-rgb) / .07);
+  -webkit-mask-image:
+    radial-gradient(circle closest-side, transparent 78%, #000 90%, transparent 98%),
+    radial-gradient(circle closest-side, transparent 54%, rgba(0, 0, 0, .45) 66%, transparent 74%),
+    radial-gradient(circle closest-side, transparent 33%, rgba(0, 0, 0, .25) 45%, transparent 53%);
+  mask-image:
+    radial-gradient(circle closest-side, transparent 78%, #000 90%, transparent 98%),
+    radial-gradient(circle closest-side, transparent 54%, rgba(0, 0, 0, .45) 66%, transparent 74%),
+    radial-gradient(circle closest-side, transparent 33%, rgba(0, 0, 0, .25) 45%, transparent 53%);
+}
+
+html[data-ui="modern"] .hc-rip > .hc-s {
+  will-change: transform;
+  opacity: var(--hc-ri);
+}
+
+html[data-ui="modern"][data-cardfx="off"] :is(.hc-layer, .hc-rips) {
+  display: none;
+}

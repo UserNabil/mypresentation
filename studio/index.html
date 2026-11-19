@@ -41,6 +41,8 @@
 <link rel="stylesheet" href="/studio/css/modern/lineicons.css">
 <link rel="stylesheet" href="/studio/css/modern/account.css">
 <link rel="stylesheet" id="bee-css" href="/studio/css/modern/bee.css">
+<link rel="stylesheet" href="/studio/css/modern/honeycomb.css">
+<script type="module" src="/studio/js/ui/honeycomb.js"></script>
 <style id="boot-critical">
 html:not(.css-ok) #boot{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#eeeff1;color:#6b6f76;font:14px/1.4 system-ui,"Segoe UI",sans-serif;overflow:hidden}
 html[data-theme="dark"]:not(.css-ok) #boot{background:#0b0b0c;color:#9aa0a6}
@@ -1103,6 +1105,9 @@ import { initGmCommands } from './js/pages/gm_commands.js';
    Ces modules ne SAVENT rien faire : ils redeclenchent ce qui existe ici (pastilles de
    filtre, fonctions open*, boutons d'en-tete). Aucune page n'a ete reecrite pour eux. */
 import { initRail, renderRail, navigate as railGo, setActive as railMark, syncActive as railSync } from './js/nav/rail.js';
+import { NAV_READY } from './js/nav/tree.js';
+import { readBoot, resolveBoot, arm as routeArm, setupAlreadyShown, markSetupShown } from './js/nav/route.js';
+import { hasLeaf as railHas } from './js/nav/rail.js';
 import { initQuickBar, renderQuickBar } from './js/nav/quickbar.js';
 import { initButtonArt } from './js/ui/btnart.js';
 import { initPackDial } from './js/ui/pack_dial.js';
@@ -1728,12 +1733,12 @@ $('#pw-save')&&($('#pw-save').onclick=async()=>{
 /* ---- Game staff roster (paginated) — click a row to EDIT its role via the character tag ---- */
 let ACC_STAFF_PAGE=1, ACC_STAFF_Q='', ACC_STAFF_OPEN=null;   // ACC_STAFF_OPEN = expanded account
 const _roleBadge=r=>r?roleCrest(r,20):'<span class="esub" style="margin:0">— no role</span>';
-let ACC_GATE={policy:'allowlist',accounts:{}};
+let ACC_GATE={policy:'allowlist',accounts:{}}, ACC_OV={};
 async function loadGameStaff(){
   const list=$('#acc-staff-list');if(!list)return;
   list.innerHTML='<div class="esub" style="padding:10px">loading game staff…</div>';
   // état d'ACTIVATION (allowlist) : qui a le droit d'accéder au tool
-  try{const ac=await(await fetch('/api/accounts')).json();ACC_GATE=ac.gate||ACC_GATE;}catch(_){}
+  try{const ac=await(await fetch('/api/accounts')).json();ACC_GATE=ac.gate||ACC_GATE;ACC_OV=ac.role_overrides||{};}catch(_){}
   let j;try{j=await(await fetch('/api/accounts/game-staff?page='+ACC_STAFF_PAGE+'&per_page=20&q='+enc(ACC_STAFF_Q))).json();}
   catch(e){list.innerHTML='<div class="esub" style="padding:10px;color:var(--crimson)">game DB unreachable</div>';return;}
   if(j.detail){list.innerHTML='<div class="esub" style="padding:10px;color:var(--crimson)">✗ '+esc(j.detail)+'</div>';return;}
@@ -1789,9 +1794,32 @@ async function renderCharRoleEditor(acct, box){
   catch(e){box.innerHTML='<div class="esub" style="color:var(--crimson);margin:6px 0">game DB unreachable</div>';return null;}
   if(j.detail){box.innerHTML='<div class="esub" style="color:var(--crimson);margin:6px 0">✗ '+esc(j.detail)+'</div>';return null;}
   const roles=j.roles||['GS','CM','GM'], chars=j.characters||[];
-  if(!chars.length){box.innerHTML='<div class="esub" style="margin:6px 0">This account has no characters.</div>';return;}
+  const ovCur=(ACC_OV[acct]||{}).role||'';
+  const ovSel=['<option value="">— none (character tag decides) —</option>'].concat(roles.map(r=>`<option value="${r}" ${r===ovCur?'selected':''}>${r}</option>`)).join('');
+  const ovHtml=`<div class="ovrow" style="display:flex;align-items:center;gap:9px;padding:4px 0 8px;border-bottom:1px dashed var(--edge);margin-bottom:6px">
+      <b style="min-width:180px;color:var(--ink)">Tool role override</b>
+      <select class="ov-role" style="font-size:12px;padding:3px 6px;border-radius:6px;border:1px solid rgba(122,92,30,.3)">${ovSel}</select>
+      <button class="sbtn ghost ov-apply" style="padding:3px 12px">Apply</button>
+      <span class="ov-msg esub" style="margin:0">${ovCur?'set by '+esc((ACC_OV[acct]||{}).by||'?'):'beats the character tag, this environment only'}</span>
+    </div>`;
+  const bindOv=()=>{
+    const ov=box.querySelector('.ovrow');if(!ov)return;
+    const sel=ov.querySelector('.ov-role'), msg=ov.querySelector('.ov-msg');
+    ov.querySelector('.ov-apply').onclick=async()=>{
+      msg.textContent='…';msg.style.color='';
+      const rr=await fetch('/api/accounts/role-override',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({account:acct,role:sel.value||null})});
+      const jj=await rr.json().catch(()=>({}));
+      if(rr.ok){ACC_OV[acct]=jj.override&&jj.override.role?jj.override:undefined;if(!ACC_OV[acct])delete ACC_OV[acct];
+        toast('tool role override saved for '+acct,'ok');
+        if(ME&&ME.username===acct)fetchMe().then(refreshAuthUI);
+        msg.textContent=sel.value?('✓ '+sel.value):'✓ cleared';}
+      else{msg.textContent='✗ '+(jj.detail||'failed');msg.style.color='var(--crimson)';}
+    };
+  };
+  if(!chars.length){box.innerHTML=ovHtml+'<div class="esub" style="margin:6px 0">This account has no characters.</div>';bindOv();return;}
   const opt=(sel)=>['<option value="">— no role —</option>'].concat(roles.map(r=>`<option value="${r}" ${r===sel?'selected':''}>${r}</option>`)).join('');
-  box.innerHTML=`<div class="esub" style="margin:2px 0 8px">Effective role: ${_roleBadge(j.effective_role)} — set the role tag on any character below.</div>`+
+  box.innerHTML=ovHtml+`<div class="esub" style="margin:2px 0 8px">Effective role: ${_roleBadge(j.effective_role)} — set the role tag on any character below.</div>`+
     chars.map(c=>`
       <div class="charrow" data-cid="${esc(''+c.id)}" style="display:flex;align-items:center;gap:9px;padding:4px 0">
         <span style="min-width:180px;color:var(--ink)">${esc(c.base||c.name)}${c.tag?' '+_roleBadge(c.tag):''}</span>
@@ -1800,6 +1828,7 @@ async function renderCharRoleEditor(acct, box){
         <button class="sbtn ghost char-apply" style="padding:3px 12px">Apply</button>
         <span class="char-msg esub" style="margin:0"></span>
       </div>`).join('');
+  bindOv();
   box.querySelectorAll('.charrow').forEach(cr=>{
     const cid=cr.dataset.cid, sel=cr.querySelector('.char-role'), msg=cr.querySelector('.char-msg');
     cr.querySelector('.char-apply').onclick=async()=>{
@@ -5050,10 +5079,13 @@ async function initData(){
   // donc env.environments est vide) — il utilise le tool via les creds PARTAGÉS résolus côté serveur, on
   // ne lui montre donc jamais l'assistant, on charge directement le contenu.
   const acur=(env.environments&&env.environments[env.active])||{};
-  if(can('env.config') && !(acur.client_root||'').trim()){
+  const BOOT_SAVED=readBoot();
+  if(can('env.config') && !(acur.client_root||'').trim() && !setupAlreadyShown() && !(BOOT_SAVED.route&&BOOT_SAVED.route!=='dashboard')){
+    markSetupShown();
     $('#hsub').textContent='setup required';
     $('#content').innerHTML='<div class="empty">⟡ configure your environment to load content ⟡</div>';
     try{const sb=$('#btn-settings'); if(sb)sb.click();}catch(e){}
+    routeArm();
     loadVersion();return;
   }
   const wave2=Promise.all([getJSON('/api/iconmap',{})]).then(([imap])=>{ICONMAP=imap||{};});
@@ -5065,9 +5097,10 @@ async function initData(){
   renderEnvBadge();   // name the active env on the badge + prime the dropdown
   // landing : restore the last view on refresh (so F5 stays on the page you were on), else Home.
   if(ME&&ME.authenticated){
-    const v=(()=>{try{return sessionStorage.getItem('eden_view');}catch(e){return null;}})();
-    const nv=(()=>{try{return sessionStorage.getItem('eden_nav');}catch(e){return null;}})();
-    if(nv){ try{ railGo(nv); }catch(e){ renderHome(); } }
+    await Promise.race([NAV_READY,new Promise(r=>setTimeout(r,15000))]);
+    const dest=resolveBoot(BOOT_SAVED,railHas);
+    const v=dest.type==='view'?dest.v:'';
+    if(dest.type==='rail'){ try{ railGo(dest.k); }catch(e){ renderHome(); } }
     else if(v==='features'){ try{ openFeatures(); }catch(e){ renderHome(); } }
     else if(v==='crashes'){ try{ openCrashes(); }catch(e){ renderHome(); } }
     else if(v==='perf'){ try{ openPerf(); }catch(e){ renderHome(); } }
@@ -5078,7 +5111,8 @@ async function initData(){
     else if(v==='cardduel'){ try{ openCardDuel(); }catch(e){ renderHome(); } }
     else if(v==='pageaccess'){ try{ openPageAccess(); }catch(e){ renderHome(); } }
     else renderHome();
-  } else if(document.documentElement.dataset.ui!=='modern') search();
+    routeArm();
+  } else { routeArm(); if(document.documentElement.dataset.ui!=='modern') search(); }
 }
 
 

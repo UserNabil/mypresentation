@@ -1,0 +1,1 @@
+import{t as e}from"./notifications-DQiMAv6m.js";import{U as t}from"./api-D5YIZ3Vo.js";var n=t();function r({host:t}){return(0,n.jsx)(e,{host:t})}export{r as default};

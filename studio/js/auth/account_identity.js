@@ -558,12 +558,22 @@ export function initAccountIdentity(bridge) {
     if (!r.ok) return;
     const v = r.data;
     if (v.signed_in_with !== 'password' || v.password_login === false || !v.email_code_available) { hideBanner(); return; }
-    const key = 'aid.later.' + (v.account || me.username || '').toLowerCase() + '.banner';
+    const linked = !!(v.google_linked || v.prelinked || ['google', 'verified', 'admin'].includes(v.email_state));
+    const key = 'aid.later.' + (v.account || me.username || '').toLowerCase() + '.banner' + (linked ? '.linked' : '');
     if (Number(store(key) || 0) > Date.now() || session(key) === '1') return;
     mountBanner();
     const b = $('#aidBanner');
+    $('#aid-bn-t').textContent = linked ? 'You are all set: use your e-mail code or Google next time'
+      : 'Security update: password sign-in is going away';
+    b.querySelector('.aid-bn-p').textContent = linked
+      ? 'Your account is already linked' + (v.google_linked ? ' to Google' : ' to your e-mail') + '. Next time, sign in with '
+        + (v.google_linked ? 'Google' : 'your e-mail and a one-time code') + ' instead of your password. Password sign-in will be turned off soon; nothing else to do.'
+      : 'To protect your account, you will sign in with your e-mail and a one-time code (or with Google). Send your e-mail address to the admin on Discord so we can link it to your account. Password sign-in will then be turned off.';
+    $('#aid-bn-go').textContent = linked ? 'OK' : 'Open account settings';
     $('#aid-bn-later').onclick = () => { store(key, String(Date.now() + LATER_MS)); hideBanner(); };
-    $('#aid-bn-go').onclick = () => { session(key, '1'); hideBanner(); openModal(); };
+    $('#aid-bn-go').onclick = linked
+      ? () => { store(key, String(Date.now() + 30 * 864e5)); hideBanner(); }
+      : () => { session(key, '1'); hideBanner(); openModal(); };
     b.hidden = false;
   }
 
