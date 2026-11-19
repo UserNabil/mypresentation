@@ -14,36 +14,14 @@
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0;overflow:hidden}
-  /* ===== TOUS les types de curseur systeme -> curseurs DU JEU (UI/SystemCursors.dds) =====
-     defaut/pointer = miroir GRIS, clic = miroir BLEU, et chaque autre type a son curseur du jeu. */
-  html,body,*{cursor:url(/studio/cursors/frame_gray.png?7) 3 3, auto}
   a,button,select,.sbtn,.hbtn,.addbtn,.histbtn,.tab,.fchip,.sc,.row,.plate,.chip,.delx,.editpen,.infodot,
   .pickrow,.skillcard,.cdclass,.lootname,.filterreset,.envr,.mapcombo,.crest,.verifybadge,label,summary,
   [data-openitem],[data-openmon],[data-openspell],[data-add],[data-cdrm],[data-mailrm],[data-t],
-  [style*="cursor:pointer"],[style*="cursor: pointer"]{cursor:url(/studio/cursors/frame_gray.png?7) 3 3, pointer !important}
-  /* clic (mousedown) -> bleu */
-  *:active{cursor:url(/studio/cursors/frame_blue.png?7) 3 3, auto !important}
-  /* texte / edition -> bulle */
-  input[type=text],input[type=number],input[type=search],input:not([type]),textarea,[contenteditable],
-  [style*="cursor:text"],[style*="cursor:vertical-text"]{cursor:url(/studio/cursors/talk.png?7) 6 5, text !important}
-  /* desactive / interdit -> jarre */
-  [disabled],.disabled,button:disabled,[aria-disabled="true"],
-  [style*="cursor:not-allowed"],[style*="cursor:no-drop"]{cursor:url(/studio/cursors/jar.png?7) 12 12, not-allowed !important}
-  /* attente / en cours -> marteau */
-  .busy,[aria-busy="true"],[style*="cursor:wait"],[style*="cursor:progress"]{cursor:url(/studio/cursors/hammer.png?7) 12 12, wait !important}
-  /* aide -> bulle */
-  [style*="cursor:help"]{cursor:url(/studio/cursors/talk.png?7) 6 18, help !important}
-  /* deplacer / saisir -> main (gant) */
-  [draggable="true"],[style*="cursor:move"],[style*="cursor:grab"],[style*="cursor:grabbing"],
-  [style*="cursor:all-scroll"]{cursor:url(/studio/cursors/glove.png?7) 10 3, grab !important}
-  /* viser / cellule / zoom -> loupe */
-  [style*="cursor:crosshair"],[style*="cursor:cell"],[style*="cursor:zoom-in"],[style*="cursor:zoom-out"]{cursor:url(/studio/cursors/magnifier.png?7) 12 12, crosshair !important}
-  /* copier / menu contextuel / alias -> sac */
-  [style*="cursor:copy"],[style*="cursor:context-menu"],[style*="cursor:alias"]{cursor:url(/studio/cursors/bag.png?7) 8 8, copy !important}
-  /* redimensionner (tous sens) -> epee */
-  [style*="-resize"]{cursor:url(/studio/cursors/sword_gray.png?7) 12 12, default !important}
-  /* MAIN (gant) sur les resistances + faiblesses (orbes/cellules/chips) */
-  .rescell,.weakfan .wkswitch,.bpchip{cursor:url(/studio/cursors/glove.png?7) 10 3, pointer !important}
+  .rescell,.weakfan .wkswitch,.bpchip{cursor:pointer}
+  input[type=text],input[type=number],input[type=search],input:not([type]),textarea,[contenteditable]{cursor:text}
+  [disabled],.disabled,button:disabled,[aria-disabled="true"]{cursor:not-allowed}
+  .busy,[aria-busy="true"]{cursor:progress}
+  [draggable="true"]{cursor:grab}
   body{font:14px/1.55 "Spectral",Georgia,serif;color:var(--ink);user-select:none;
     background:
       repeating-linear-gradient(0deg,rgba(120,90,45,.020) 0 2px,transparent 2px 5px),
@@ -243,27 +221,6 @@
   /* left page = monster list */
   #side{display:flex;flex-direction:column;min-height:0;background:linear-gradient(180deg,#efe6cd,#e7dab9);
     border-right:2px solid #b89c66;box-shadow:inset -6px 0 12px rgba(120,90,40,.10)}
-  /* ── Barre de filtres COMPACTE ─────────────────────────────────────────────────
-     Avant : 32 pastilles (11 rangées) + 6 contrôles occupaient ~600 px de la colonne,
-     et les résultats — la raison d'être du panneau — héritaient de ce qui restait.
-     Maintenant : une seule ligne, et le panneau complet s'ouvre EN SURIMPRESSION. */
-  .fbar{display:flex;gap:6px;padding:10px 14px 8px;align-items:center}
-  .fbar button{font-family:"Cinzel";font-size:11.5px;cursor:pointer;padding:7px 10px;border-radius:6px;
-    border:1px solid var(--edge);background:#f3ead2;color:var(--dim);display:flex;align-items:center;gap:6px}
-  .fbar button:hover{background:#ecdfba;color:var(--gold2)}
-  .fbar-type{flex:1;min-width:0;justify-content:space-between;color:#4a3010 !important;
-    border-color:#a9823f !important;background:#e7c98a !important}
-  .fbar-type .caret{color:var(--gold2);font-size:10px}
-  .fbar-more{flex:0 0 auto}
-  .fbar-n{background:var(--gold2);color:#fff;border-radius:9px;padding:0 5px;font-size:10px;min-width:14px;
-    text-align:center;display:none}
-  .fbar-n.on{display:inline-block}
-  /* Le panneau : replié par défaut, déployé en surimpression au-dessus de la liste.
-     `position:absolute` est ce qui empêche la liste d'être comprimée quand il s'ouvre. */
-  .fpanel{display:none}
-  .fpanel.open{display:block;position:absolute;left:0;right:0;top:var(--fbar-h,46px);z-index:30;
-    background:linear-gradient(180deg,#f3ead2,#e9dcbb);border-bottom:2px solid #b89c66;
-    box-shadow:0 16px 30px rgba(90,60,25,.28);max-height:70vh;overflow-y:auto;padding-bottom:8px}
   #side{position:relative}
   /* Bandeau « il existe des résultats ailleurs » — discret, mais jamais silencieux. */
   .othertypes{margin:0 14px 8px;padding:6px 9px;border-radius:6px;background:#f5edd8;
@@ -272,7 +229,6 @@
   .othertypes .seeall{margin-left:auto;cursor:pointer;color:var(--gold2);font-family:"Cinzel";
     font-size:10.5px;border:1px solid var(--edge);border-radius:5px;padding:3px 8px;background:#fbf5e3}
   .othertypes .seeall:hover{background:#ecdfba}
-  .filters{display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px 6px}
   .fchip{flex:1 1 30%;min-width:0;text-align:center;font-family:"Cinzel";font-size:11px;cursor:pointer;padding:6px 4px;
     border-radius:5px;border:1px solid var(--edge);color:var(--dim);background:#f3ead2}
   .fchip.on{color:#4a3010;border-color:#a9823f;background:#e7c98a;box-shadow:inset 0 1px 2px rgba(120,80,30,.2)}
@@ -301,11 +257,8 @@
   #rows{overflow-y:auto;flex:1;min-height:0;padding:4px 8px 14px}
   .masshdr{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px;margin:2px 2px 6px;
     background:#efe4c6;border:1px solid #cdb98c;border-radius:8px;font-size:11.5px;color:var(--gold2);font-family:Cinzel}
-  .monfilter{display:flex;flex-wrap:wrap;gap:5px;padding:6px 14px 2px}
   .filterreset{font-size:11px;font-family:"Cinzel";color:var(--gold2);cursor:pointer;border:1px solid var(--edge);background:#f5edd8;border-radius:6px;padding:5px 10px;flex:0 0 auto}
   .filterreset:hover{background:#ecdfba}
-  .monfilter select,.monfilter input{font-size:11.5px;flex:1 1 44%;min-width:0;padding:6px 24px 6px 8px}
-  .monfilter input{flex:1 1 20%;padding:6px 8px;background:#fbf5e3;border:1px solid var(--edge);border-radius:6px;color:var(--ink);font-family:"Spectral"}
   .balgrid{display:flex;flex-direction:column;gap:7px;margin:4px 0 2px}
   .balrow{display:flex;align-items:center;gap:9px;font-size:12.5px}
   .ballbl{width:46px;font-family:Cinzel;color:var(--gold2)}
@@ -559,7 +512,7 @@
     filter:grayscale(1) brightness(1.06) opacity(.42) drop-shadow(0 1px 2px rgba(0,0,0,.55))}
   .weakfan .wkswitch:hover{transform:translateX(-50%) scale(1.22)}
   .weakfan .wkswitch.on{filter:drop-shadow(0 0 5px rgba(207,80,60,.95)) drop-shadow(0 1px 2px rgba(0,0,0,.6));opacity:1}
-  .addbtn:disabled{opacity:.42;cursor:url(/studio/cursors/jar.png?7) 12 12,not-allowed}
+  .addbtn:disabled{opacity:.42;cursor:not-allowed}
   .weakbar{background:var(--frame);border:1px solid #cdb98c;border-radius:8px;padding:9px 11px;box-shadow:0 3px 10px rgba(90,60,25,.12)}
   .weakbar-h{font-family:"Cinzel";font-size:12px;color:var(--gold2);text-transform:uppercase;letter-spacing:.5px}
   .weakbar-h span{display:block;font-size:10px;color:var(--faint);text-transform:none;letter-spacing:0;margin-top:2px;font-weight:400}
@@ -733,31 +686,6 @@
      titre, spinner et message ; l'ID ne fait que le fond + z-index + la logique d'affichage.
      ======================================================================================== */
   .eden-splash{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
-  .eden-splash .es-logo{height:min(44vh,500px);width:auto;max-width:88vw;object-fit:contain;
-    image-rendering:auto;filter:drop-shadow(0 10px 34px rgba(0,0,0,.6))}
-  /* le logo VIDÉO (mp4) a un fond uni #160e09 = EXACTEMENT le centre du gradient des loaders → le rectangle
-     se fond, aucun cadre. Pas de mix-blend (qui délaverait les couleurs vives du logo). drop-shadow retiré
-     sur la vidéo (le fond opaque le rendait comme une ombre de boîte). PAS de poster PNG (évitait le
-     3e état PNG→flash→vidéo) : la vidéo apparaît en fondu direct quand elle a sa 1re frame (.vloaded). */
-  .eden-splash video.es-logo{filter:none;opacity:0;transition:opacity .35s ease}
-  .eden-splash video.es-logo.vloaded{opacity:1}
-  /* le logo du loader global est un CANVAS (chroma-key) : même fondu d'apparition — opacity 0 -> 1
-     quand la 1re frame est dessinée (classe .vloaded posée par le JS de chroma). */
-  .eden-splash canvas.es-logo{opacity:0;transition:opacity .6s ease}
-  .eden-splash canvas.es-logo.vloaded{opacity:1}
-  /* ⭐ REPLI : le logo animé est un canvas alimenté par une vidéo — trois conditions doivent tenir
-     (le .mp4 est servi, le codec est décodé, le chroma-key produit une frame). Quand l'une lâche, le
-     canvas reste à opacity 0 et l'écran de chargement n'affichait ALORS AUCUN logo, sans message :
-     un grand vide au-dessus du titre, impossible à diagnostiquer pour l'utilisateur. Le logo fixe est
-     donc affiché D'ABORD, et le canvas vient se superposer par-dessus dès qu'il a vraiment dessiné.
-     Ainsi l'identité est toujours là, l'animation est un bonus — jamais une condition. */
-  .eden-splash canvas.es-logo{display:none}          /* pas dans le flux tant qu'il ne dessine rien */
-  .eden-splash canvas.es-logo.vloaded{display:block}
-  .eden-splash.anim img.es-still{display:none}       /* l'animation a pris le relais */
-  .eden-splash .es-title{font-family:"Cinzel";font-size:24px;letter-spacing:3.5px;color:#f0cd84;
-    text-shadow:0 2px 14px rgba(0,0,0,.75),0 0 22px rgba(217,184,110,.28)}
-  .eden-splash .es-spin{width:30px;height:30px;border:3px solid rgba(154,106,43,.4);
-    border-top-color:#f0cd84;border-radius:50%;animation:sp .9s linear infinite}
   .eden-splash .es-msg{font-family:"Cinzel";font-size:13px;color:#c79c5a;letter-spacing:1px;
     min-height:16px;text-align:center;padding:0 20px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
   /* sous-titre secondaire (ex. 'Connection lost') sous le message principal */
@@ -1651,6 +1579,10 @@
   .fx-vote.up.on{box-shadow:inset 0 0 0 2px #2ea043}
   .fx-vote.down.on{box-shadow:inset 0 0 0 2px #c0392b;background:rgba(192,57,43,.1)}
   .fx-test .fx-x{align-self:center}
+  .fx-bugs{display:flex;flex-wrap:wrap;gap:8px;padding:8px 14px 10px;border-top:1px dashed var(--line)}
+  .fx-bug{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;font-size:12px;border:1px solid var(--line);color:var(--ink-2)}
+  .fx-bug.on{border-color:var(--fx-ok);color:var(--fx-ok)}
+  .fx-bug b{color:var(--ink)}
   @media (max-width:900px){ .fx-trow{grid-template-columns:26px 26px 1fr} .fx-tenv,.fx-twho{grid-column:3} .fx-tfoot{padding-left:14px} .fx-thead,.fx-frow{grid-template-columns:1fr 90px 100px} .fx-ftype{display:none} }
   .fx-timeline{position:relative;padding-left:18px}
   .fx-timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
@@ -1799,6 +1731,7 @@
   .fm-rbadge{display:inline-flex;align-items:center;justify-content:center;min-width:15px;height:15px;
     padding:0 3px;margin-right:6px;border-radius:8px;font:700 10px "Cascadia Code",monospace;line-height:1;
     vertical-align:1px;box-sizing:border-box}
+  .fm-rbadge.sys{padding:0 7px;font-family:inherit;font-weight:600;letter-spacing:.02em;background:#e3e8f0;color:#3d5a80;border:1px solid #b6c2d6}
   .fm-rbadge.done{background:#dcefd6;color:#2ea043;border:1px solid #9fce8f}     /* tout confirmé */
   .fm-rbadge.left{background:#f6e2b8;color:#8a5a12;border:1px solid #d8b567}     /* N tests restants */
   .fm-rbadge.none{background:#eae3d0;color:#8a8168;border:1px solid #cbbf9e}     /* aucun test défini */
@@ -2027,16 +1960,13 @@
   .fmload{display:flex;align-items:center;gap:10px;padding:14px 4px;color:var(--gold2);font-size:14px}
   .fmspin{width:18px;height:18px;border-radius:50%;border:3px solid rgba(154,106,43,.25);border-top-color:var(--gold);display:inline-block;animation:fmspin .8s linear infinite;flex:none}
   @keyframes fmspin{to{transform:rotate(360deg)}}
-  /* Loader Features : logo animé MP4 CENTRÉ dans #content (pas absolute -> pas de décalage vs sidebar) */
+  /* Loader Features : CENTRÉ dans #content (pas absolute -> pas de décalage vs sidebar) */
   #content:has(.fmloadhero){position:relative;display:flex;align-items:center;justify-content:center}
   .fmloadhero{display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:20px;text-align:center;pointer-events:none;min-height:60vh;width:100%}
-  .fmloadlogo{width:auto;height:auto;max-width:min(420px,46vw);max-height:52vh;
-    filter:drop-shadow(0 10px 28px rgba(0,0,0,.28));user-select:none;display:block;image-rendering:auto}
   .fmloadtx{color:var(--gold2);font-family:var(--ff-body);font-size:14px;letter-spacing:.3px}
   .fmloadtx b{color:var(--gold)}
   @keyframes fmlogopulse{0%,100%{transform:scale(.98);opacity:.86}50%{transform:scale(1.02);opacity:1}}
-  @media (prefers-reduced-motion:reduce){.fmloadlogo{animation:none}}
   /* <img src="/studio/icons/icons/24/treasure_archive.png" srcset="/studio/icons/icons/24/treasure_archive.png 1x, /studio/icons/icons/64/treasure_archive.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Treasure Archive page */
   .arcscore{font-size:12px;color:var(--dim)}
   .arcscore b{color:var(--gold-d);font-size:14px}

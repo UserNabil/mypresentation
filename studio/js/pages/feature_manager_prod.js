@@ -269,7 +269,7 @@ export async function fmBatchValidate(names, btn, onDone){
     catch(e){ H.toast('✖ '+H.errMessage(e),'error'); }
   });
   if(!pv) return;
-  if(!pv.stage){ H.toast('Nothing to validate from the '+(pv.env||'prod')+' environment','warn'); return; }
+  if(!pv.stage){ H.toast('Nothing to validate from the '+(pv.env||'prod')+' environment','info'); return; }
   const target=pv.stage, ok=pv.ready||[];
   const title=`Validate for ${target} (${ok.length}/${names.length})`;
   if(!ok.length){
@@ -362,7 +362,7 @@ async function unvalidate(card, name, st){
   if(cible==='prod'){ launch(card, name, false, 'unvalidate'); return; }
   try{
     const r=await H.fmPost('/api/features/prod/'+encodeURIComponent(name)+'/unvalidate',{});
-    H.toast(r.removed?'✔ '+name+' removed from preprod':name+' was not validated for preprod', r.removed?'ok':'warn');
+    H.toast(r.removed?'✔ '+name+' removed from preprod':name+' was not validated for preprod', r.removed?'ok':'info');
   }catch(e){ H.toast('✖ '+e.message,'error'); }
   refresh(card, name);
 }
@@ -421,7 +421,7 @@ export async function fmBatchUnvalidate(names, onDone){
   if(cible==='prod'){ launchRun(`Removal from prod — ${names.length} feature${names.length>1?'s':''}`, '/api/features/unvalidate-batch', {names}, 'Removal from prod', onDone); return; }
   try{
     const r=await H.fmPost('/api/features/unvalidate-batch',{names});
-    H.toast('✔ removed from preprod: '+((r.removed||[]).join(', ')||'none'),'ok');
+    H.toast((r.removed||[]).length?'✔ removed from preprod: '+r.removed.join(', '):'Nothing was approved for preprod',(r.removed||[]).length?'ok':'info');
     if(onDone) onDone();
   }catch(e){ H.toast('✖ '+H.errMessage(e),'error'); }
 }

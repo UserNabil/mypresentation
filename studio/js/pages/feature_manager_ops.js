@@ -289,12 +289,13 @@ export async function fmInstallClient(names, cb){
       if(r.records)parts.push(r.records+' record(s)');
       if(r.replaced)parts.push(r.replaced+' fixed');
       const sum=parts.length?parts.join(', '):'nothing was missing';
-      if(fmPackedReady()){        // repack SYSTEMATIQUE (chirurgical), meme si rien n'a ete copie :
+      const blocked=r.blocked||[];
+      if(fmPackedReady()&&!blocked.length){        // repack SYSTEMATIQUE (chirurgical), meme si rien n'a ete copie :
         cb.innerHTML='<span class="fmspin" style="width:11px;height:11px;vertical-align:-1px"></span> repacking…';
         await H.barRepack();        // le staging peut etre a jour alors que le PKG, lui, est perime.
       }
       H.showThemedDialog((r.errors&&r.errors.length)?'Installed with errors':(sel?'✔ Client assets installed':'✔ All client assets installed'),
-        '<div class="esub">'+H.esc(sum)+(r.staged?(fmPackedReady()?' — repacked.':' — <img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /studio/icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> repack to apply.'):'')+'</div>'
+        '<div class="esub">'+H.esc(sum)+(blocked.length?' — <b>not repacked</b>: race models missing for '+H.esc(blocked.join(', ')):'')+(r.staged&&!blocked.length?(fmPackedReady()?' — repacked.':' — <img src="/studio/icons/icons/24/packaging.png" srcset="/studio/icons/icons/24/packaging.png 1x, /studio/icons/icons/48/packaging.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> repack to apply.'):'')+'</div>'
         +((r.errors&&r.errors.length)?'<pre style="max-height:220px;overflow:auto;font-size:11px;white-space:pre-wrap;color:var(--crimson)">'+H.esc(r.errors.join('\n'))+'</pre>':'')
         +'<div style="max-height:240px;overflow:auto;margin-top:6px">'+(r.features||[]).map(f=>
             '<div class="fm-tgt"><code>'+H.esc(f.name)+'</code> <span style="opacity:.6">'

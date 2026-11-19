@@ -34,6 +34,7 @@ body:has(#createcanvas.open) #pack-dial,
 body:has(#boot) #pack-dial,
 body:has(#overlay.open) #pack-dial,
 body:has(#conn-lost.on) #pack-dial,
+body:has(.mg-scrim) #pack-dial,
 body:has(.modal.open:not(#confirmModal)) #pack-dial{opacity:0;pointer-events:none;transform:scale(.6)}
 @media (prefers-reduced-motion:reduce){.pd-item,#pack-dial,#fab-pack{transition:none}}
 html[data-ui="modern"] #pack-dial{width:56px;height:56px;right:28px;bottom:28px}

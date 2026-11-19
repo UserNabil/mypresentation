@@ -42,10 +42,26 @@ function playBtn(st, api) {
   return b;
 }
 
+async function checkSetup(env) {
+  const no = document.querySelector('#lm-no');
+  if (no) no.click();
+  try {
+    const m = await import('./assistant.js');
+    m.openAssistant('check my client on ' + (env || 'dev'));
+  } catch (_) { }
+}
+
 function noteLine(st, api) {
   const s = sums(st);
   const n = el('div', 'lv-note ' + (s.block ? 'block' : s.warn ? 'warn' : 'ok'));
   n.textContent = api.busy ? 'Checking…' : s.block ? 'Fix the red item to play' : s.warn ? 'Something is not perfect, you can still play' : '';
+  if (!api.busy && (s.block || s.warn)) {
+    const b = el('button', 'lv-chk');
+    b.type = 'button';
+    b.textContent = 'Check my setup';
+    b.onclick = () => checkSetup(api.env);
+    n.appendChild(b);
+  }
   return n;
 }
 

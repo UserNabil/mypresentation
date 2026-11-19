@@ -152,6 +152,7 @@ function fmWatchAutoPull(){
     catch(_){ return; }
     if(!st||st.running||!(st.last>_fmPullSince)) return;
     _fmPullSince=st.last;
+    if(st.result&&st.result.update_required) H.toast(st.result.message||('feature_ee needs tool '+(st.result.need||'?')+': update the tool (your features are kept)'),'error');
     const dll=st.result&&st.result.dll;
     if(!dll||typeof dll!=='object') return;
     if(fm().list) fm().list.dll=dll;

@@ -92,6 +92,7 @@ export function createNotifAlerts(host) {
       } catch (e) {
         permission = 'unsupported';
       }
+      if (typeof window !== 'undefined' && (res.items || []).length) window.dispatchEvent(new CustomEvent('eden:bee', { detail: 'peek' }));
       const plan = planAlerts(res.items, { focused: focused(), permission });
       plan.toasts.forEach(showToast);
       plan.windows.forEach(showWindows);

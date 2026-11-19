@@ -1,1 +1,0 @@
-import{G as e,U as t}from"./api-CzdxWfit.js";var n=e(t(),1);function r(e,t){let[r,i]=(0,n.useState)(``),a=(0,n.useRef)(t);a.current=t;let{key:o,label:s,placeholder:c,enabled:l=!0}=e;return(0,n.useEffect)(()=>{if(i(``),!l)return;let e=window.edenSearchScope;if(e)return e.register({key:o,label:s,placeholder:c,onQuery:i,onKey:e=>a.current?.(e)})},[o,s,c,l]),r}export{r as t};

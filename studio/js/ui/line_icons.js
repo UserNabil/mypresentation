@@ -326,7 +326,7 @@ export function imgLine(src, gmLabel) {
   }
   const s = String(src || '');
   const a = /^(?:\/[\w-]+)?\/icons\/icons\/\d+\/([a-z0-9_]+)\.png/.exec(s);
-  if (a) return { n: OLD_TO_LINE[a[1]] || FILE_TO_LINE[a[1]] || resolve(a[1]) || FILE[a[1]] || 'circle-dot', tone: '' };
+  if (a) return { n: OLD_TO_LINE[a[1]] || FILE_TO_LINE[a[1]] || resolve(a[1]) || FILE[a[1]] || FX_TO_LINE[a[1]] || 'circle-dot', tone: '' };
   const f = /^(?:\/[\w-]+)?\/icons\/fx\/(?:\d+\/)?([a-z0-9_]+)\.png/.exec(s);
   if (f) return { n: FX_TO_LINE[f[1]] || FX[f[1]] || 'circle-dot', tone: TONE[f[1]] || '' };
   const b = /^(?:\/[\w-]+)?\/icons\/([A-Za-z_]+)\.png(\?|$)/.exec(s);

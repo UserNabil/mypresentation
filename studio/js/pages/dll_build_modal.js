@@ -415,7 +415,7 @@ async function copier_client(s) {
     if (r && r.needs_confirm) {
       $$('#db-step').innerHTML += ' <span style="color:#cf9b2a">⚠ your client has a newer DLL — not replaced;'
         + ' use « Copy DLL » to downgrade on purpose</span>';
-      H.toast('built, but your client already runs a newer DLL: nothing copied', 'warn', { sticky: true });
+      H.toast('built, but your client already runs a newer DLL: nothing copied', 'info', { sticky: true });
       return;
     }
     if (r && r.needs_close) {

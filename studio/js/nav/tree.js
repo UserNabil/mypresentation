@@ -62,10 +62,12 @@ export const NAV_TREE = [
     { k: 'cdnaudit',     label: 'CDN Audit',       icon: 'network',        act: 'fn:openCdnAudit',      perm: 'deploy.client', archived: true },
     { k: 'community',    label: 'Community',       icon: 'community',      act: 'btn:btn-community',    perm: 'emoji.cdn', archived: true },
     { k: 'emojicdn',     label: 'Chat Emojis',     icon: 'image',          act: 'fn:openEmojiCdn',      perm: 'emoji.cdn' },
+    { k: 'sounds',       label: 'Sounds',          icon: 'sound',          act: 'btn:btn-community-sounds', perm: 'emoji.cdn', archived: true },
     { k: 'polls',        label: 'Polls',           icon: 'megaphone',      act: 'fn:openPolls',         perm: 'polls.view' },
+    { k: 'requests',     label: 'Altar Requests',  icon: 'altar_requests', act: 'fn:openRequests',      perm: 'altar.review' },
+    { k: 'event',        label: 'Event',           icon: 'trophy',         act: 'btn:btn-community-events', perm: 'events.view', archived: true },
     { k: 'rollback',     label: 'Changelog & Rollback', icon: 'changelog', act: 'btn:btn-changes',      perm: 'rollback', archived: true },
     { k: 'snapshots',    label: 'Snapshots',       icon: 'snapshots',      act: 'btn:btn-snapshots',    perm: 'rollback', archived: true },
-    { k: 'requests',     label: 'Altar Requests',  icon: 'altar_requests', act: 'fn:openRequests',      perm: 'altar.review' },
   ]},
 
   /* --------------------------------------------------------- ADMINISTRATION */

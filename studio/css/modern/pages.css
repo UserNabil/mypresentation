@@ -3,34 +3,6 @@ html[data-ui="modern"] #side {
   border-right: 1px solid var(--ui-line);
   box-shadow: none;
 }
-html[data-ui="modern"] .fbar { gap: 8px; padding: 16px 16px 10px; }
-html[data-ui="modern"] .fbar button { min-height: 40px; padding: 0 12px; border-radius: var(--ui-radius-ctl); font-size: 13.5px; }
-html[data-ui="modern"] .fbar-type {
-  border-color: transparent !important;
-  background: var(--ui-accent) !important;
-  color: var(--ui-accent-ink) !important;
-  font-weight: 600 !important;
-}
-html[data-ui="modern"] .fbar-type .caret { color: var(--ui-accent-ink); font-size: 0; }
-html[data-ui="modern"] .fbar-type .caret::before {
-  content: "";
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-  background: currentColor;
-  -webkit-mask: var(--mx-i-down) center / contain no-repeat;
-  mask: var(--mx-i-down) center / contain no-repeat;
-}
-html[data-ui="modern"] .fbar-n { background: var(--ui-accent); color: var(--ui-accent-ink); border-radius: var(--ui-radius-pill); font-weight: 600; }
-html[data-ui="modern"] .fbar-more .ui-icon:not(.lx) { border-radius: 5px; }
-html[data-ui="modern"] .fpanel.open {
-  border-bottom: 1px solid var(--ui-line);
-  background: var(--ui-surface);
-  box-shadow: 0 16px 32px rgba(16, 24, 40, .12);
-}
-html[data-ui="modern"] .filters { padding: 12px 16px 8px; }
-html[data-ui="modern"] .monfilter { gap: 6px; padding: 6px 16px 4px; }
 html[data-ui="modern"] .filterreset { border-radius: 10px; }
 html[data-ui="modern"] .othertypes { margin: 0 16px 10px; padding: 8px 10px; font-size: 12.5px; color: var(--ui-muted); }
 html[data-ui="modern"] .othertypes b { color: var(--ui-accent-text); }
@@ -91,6 +63,11 @@ html[data-ui="modern"] .abhead { display: flex; align-items: center; gap: 16px; 
 html[data-ui="modern"] .abhead::before { content: ""; flex: none; width: 72px; height: 72px; background: url("/studio/img/brand/bee_icon_512.png") center / contain no-repeat; }
 html[data-ui="modern"] .lg-sig img { display: none; }
 html[data-ui="modern"] .lg-sig::before { content: ""; display: block; width: 72px; height: 72px; margin: 0 auto; background: url("/studio/img/brand/bee_icon_512.png") center / contain no-repeat; }
+html[data-ui="modern"] :is(.abhead, .lg-sig) { position: relative; isolation: isolate; }
+html[data-ui="modern"] :is(.abhead, .lg-sig)::after { content: ""; position: absolute; width: 72px; height: 72px; display: none; background: var(--ui-accent); -webkit-mask: url("/studio/img/brand/bee_icon_tint.png") center / contain no-repeat; mask: url("/studio/img/brand/bee_icon_tint.png") center / contain no-repeat; mix-blend-mode: color; pointer-events: none; }
+html[data-ui="modern"] .abhead::after { left: 0; top: 50%; transform: translateY(-50%); }
+html[data-ui="modern"] .lg-sig::after { left: 50%; top: 0; margin-left: -36px; }
+html[data-ui="modern"][data-accent]:not([data-accent="gold"]) :is(.abhead, .lg-sig)::after { display: block; }
 html[data-ui="modern"] .lg-card { border: var(--ui-card-border); border-radius: var(--ui-radius-card); background: var(--ui-surface); color: var(--ui-ink); box-shadow: var(--ui-shadow-hover); }
 html[data-ui="modern"] .lg-title { color: var(--ui-ink); font-size: 22px; font-weight: 700; letter-spacing: -.01em; text-transform: none; }
 html[data-ui="modern"] .eden-splash { background: color-mix(in srgb, var(--ui-bg) 92%, transparent) !important; color: var(--ui-ink); }
@@ -99,10 +76,8 @@ html[data-ui="modern"] .eden-splash * { text-shadow: none !important; }
 html[data-ui="modern"] #conn-lost { background: color-mix(in srgb, var(--ui-bg) 94%, transparent) !important; }
 html[data-ui="modern"] .eden-splash .mx-loader { margin-bottom: 6px; }
 html[data-ui="modern"] .eden-splash::after { display: none; }
-html[data-ui="modern"] .eden-splash :is(.es-logo, .es-chroma, .es-chroma-src, .es-spin, .es-title) { display: none !important; }
 html[data-ui="modern"] .eden-splash :is(.es-msg, .es-sub) { color: var(--ui-muted); font-size: 14px; font-weight: 500; letter-spacing: 0; text-transform: none; }
 html[data-ui="modern"] .mx-loader { display: grid; place-items: center; margin-bottom: 16px; }
-html[data-ui="modern"] .fmloadhero > :is(.fmloadlogo, video) { display: none !important; }
 html[data-ui="modern"] .fmloadtx { color: var(--ui-muted); }
 html[data-ui="modern"] :is(.absec, .secline, .envdd-h, .hsec) { text-transform: none; }
 html[data-ui="modern"] .absec { margin: 20px 0 8px; color: var(--ui-ink); font-size: 14px; font-weight: 600; letter-spacing: 0; }
@@ -212,3 +187,25 @@ html[data-ui="modern"] .chstate.au-pill.off { background: var(--ui-surface-2); c
 html[data-ui="modern"] .au-srv { color: color-mix(in srgb, var(--ui-ok) 50%, var(--ui-ink)); }
 html[data-ui="modern"] .au-rev { font-size: 10.5px; color: var(--ui-muted); }
 html[data-ui="modern"] .chicon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex: none; border-radius: 10px; background: var(--ui-surface-2); color: var(--ui-muted); }
+
+html[data-ui="modern"] .rm-overlay {
+  --rm-accent-bg: var(--ui-accent-soft);
+  --rm-accent-line: transparent;
+  --rm-accent-ink: var(--ui-accent-text);
+  --rm-monster-bg: var(--ui-bad-soft);
+  --rm-monster-line: transparent;
+  --rm-monster-ink: var(--ui-bad);
+  --rm-npc-bg: var(--ui-ok-soft);
+  --rm-npc-line: transparent;
+  --rm-npc-ink: var(--ui-ok);
+  --rm-spell-bg: var(--ui-info-soft);
+  --rm-spell-line: transparent;
+  --rm-spell-ink: var(--ui-info);
+}
+html[data-ui="modern"] .rm-overlay :is(.rm-type, .rm-id, .rm-alt) { background-image: none; box-shadow: none; font-family: inherit; }
+html[data-ui="modern"] .ebadge { font-family: inherit; background-image: none; box-shadow: none; color: var(--ui-muted); }
+html[data-ui="modern"] .ebadge b { color: var(--ui-ink); }
+html[data-ui="modern"] .ebadge.map { background: var(--ui-accent-soft); border-color: transparent; color: var(--ui-accent-text); }
+html[data-ui="modern"] .catpill { border-radius: var(--ui-radius-pill); border-color: var(--ui-line); background: var(--ui-surface-2); color: var(--ui-muted); }
+html[data-ui="modern"] .animchip { background: var(--ui-surface-2); border-color: var(--ui-line); border-radius: var(--ui-radius-pill); color: var(--ui-ink); font-family: inherit; }
+html[data-ui="modern"] .animchip:hover { background: var(--ui-accent-soft); border-color: var(--ui-accent); }

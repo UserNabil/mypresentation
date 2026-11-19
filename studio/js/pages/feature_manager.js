@@ -56,11 +56,10 @@ export async function openFeatures(){
      publie desormais son compte exact (/api/features/scan-progress), on affiche un vrai
      pourcentage et une barre. Tant que le compte n'est pas encore arrive, on ecrit
      « starting… » — on n'invente pas un 0 % qui bougerait tout seul. */
-  H.$('#content').innerHTML='<div class="fmloadhero"><canvas class="fmloadlogo" id="fm-logocv"></canvas><video id="fm-logovid" src="/studio/logo.mp4" muted loop playsinline autoplay preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>'
+  H.$('#content').innerHTML='<div class="fmloadhero">'
     +'<div class="fmloadtx">scanning features — client (local) + server patches over SSH…'
     +'<div class="fmloadbar" id="fm-loadbar"><i></i></div>'
     +'<b id="fm-loadt">starting…</b></div></div>';
-  fmChromaLogo();   // MP4 du logo, fond #1a0f06 rendu transparent (chroma-key), ratio + résolution natifs
   const suivi=makeProgress();
   const tick=setInterval(async()=>{
     const e=H.$('#fm-loadt'); if(!e){ clearInterval(tick); return; }
@@ -182,7 +181,7 @@ function renderFeaturesShell(){
     const lock=f.private?'<span class="fm-lock" title="private feature (folder _'+H.esc(f.name)+') — never pushed to the shared repo">🔒</span>':'';
     const ver=f.version?'v'+H.esc(f.version):'';
     const hid=fmHiddenSet().has(f.name)?' fm-hid':'';
-    return `<div class="fm-row${on}${hid}" data-fmsel="${H.esc(f.name)}" data-fmpub="${+f.published||0}" data-fmleft="${(f.readiness||{}).defined?Math.max(0,((f.readiness||{}).total||0)-((f.readiness||{}).done||0)):-1}" data-fmstate="${st.join(' ')}" data-fmparts="${H.esc(fmPartsKeys(f))}">`
+    return `<div class="fm-row${on}${hid}" data-fmsel="${H.esc(f.name)}" data-fmpub="${+f.published||0}" data-fmleft="${(f.readiness||{}).infra?0:(f.readiness||{}).defined?Math.max(0,((f.readiness||{}).total||0)-((f.readiness||{}).done||0)):-1}" data-fmstate="${st.join(' ')}" data-fmparts="${H.esc(fmPartsKeys(f))}">`
       +`<span class="fm-icow" data-fmpick title="select for a batch action: install, deploy, validate (click the icon)"><img class="fm-ico" src="/studio/icons/features/${H.esc(f.name)}.png" alt="" loading="lazy" onerror="this.onerror=null;this.src='/studio/icons/icons/48/feature.png'"><i class="fm-pick" aria-hidden="true">✓</i></span>`
       +`<span class="fm-nm"><span class="fm-nmt">${lock}${H.esc(f.name)}</span><span class="fm-ver">${ver}${fmPubHtml(f)}${fmReadyBadge(f.readiness)}${fmEnvTagHtml(f.name)}${fmMineHtml(f)}${fmHideBtnHtml(f.name)}</span>${fmPartsRowHtml(f)}</span>`
       +`<span class="fm-bs">${fmBadgesHtml(f,cl,sv)}</span>`
@@ -209,7 +208,7 @@ function renderFeaturesShell(){
       ${fmDllBannerHtml(dll)}
       ${H.can('client.install')?`<div class="fm2-toprow">
         <button class="mini${nRepack?' gold':''}" id="fm-repack-all" title="one repack puts every file waiting in game_unpacked, for every feature, into the game (the per-feature Repack buttons do exactly the same)">${H.iconMarkup('packaging',24)} Repack all pending${nRepack?' ('+nRepack+')':''}</button>
-        <button class="mini" id="fm-reset-client" title="put your game back on the official Eden Reforged client (download from the Reforged CDN), rebuild game_unpacked, install every feature that is on, repack once, copy the DLL, then run Diagnostics. Backups first, your settings are kept.">↺ Reset client</button>
+        <button class="mini" id="fm-reset-client" title="put your game back on the official Eden Reforged client (download from the Reforged CDN), prepare the work folder (game_unpacked in legacy mode), install every feature that is on, repack once, copy the DLL, then run Diagnostics. Backups first, your settings are kept.">↺ Reset client</button>
       </div>`:''}
       <div class="fm2-pop" id="fm-pop" hidden>
         <div class="fm2-poph">Guides and review</div>
@@ -233,7 +232,7 @@ function renderFeaturesShell(){
         ${fmRuntimeRadio(j.dll||{})}
         <div class="fm2-poph">Legend</div>
         <div class="fm-legend">${fmBadge('C','ok')} client ${fmBadge('S','ok')} server · <span style="color:#2ea043">green</span> ok · <span style="color:#b8860b">orange</span> missing · <span style="color:#c2410c">rust</span> repack · <span style="color:#d1242f">red</span> off · <span style="color:#caa24a">gold</span> update · <span style="color:#9a8f78">dashed grey</span> not checked yet</div>
-        <div class="fm-legend"><span class="fm-rbadge done">✓</span> tests confirmed · <span class="fm-rbadge left">N</span> tests left · <span class="fm-rbadge none">–</span> no tests</div>
+        <div class="fm-legend"><span class="fm-rbadge done">✓</span> tests confirmed · <span class="fm-rbadge left">N</span> tests left · <span class="fm-rbadge none">–</span> no tests · <span class="fm-rbadge sys">System</span> always on</div>
       </div>
       <div class="fm-search"><div class="mapcombo" id="fm-searchcombo"><span class="pin"><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /studio/icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><input id="fm-search" placeholder="Filter features…" autocomplete="off" spellcheck="false"><span class="clr" id="fm-search-x">✕</span></div><button class="mini fm2-iconbtn fm2-fbtn" id="fm-fbtn" title="show / hide the filters window">⛃</button></div>
       <div class="fm2-fbox" id="fm-fbox" hidden>
@@ -380,6 +379,7 @@ function fmWireMulti(){
 function fmReadyBadge(rd){
   rd=rd||{};
   const tot=rd.total||0, done=rd.done||0, left=Math.max(0,tot-done);
+  if(rd.infra)return `<span class="fm-rbadge sys" title="System feature: always installable, always on (${done}/${tot} tests confirmed)">System</span>`;
   if(rd.ready)return '<span class="fm-rbadge done" title="ready to install — all tests confirmed">✓</span>';
   if(rd.defined)return `<span class="fm-rbadge left" title="${left} test${left>1?'s':''} not confirmed yet (${done}/${tot})">${left}</span>`;
   return '<span class="fm-rbadge none" title="no readiness tests defined yet">–</span>';
@@ -478,7 +478,23 @@ function fmSetKeyDialog(keygenCmd){
   H.showThemedDialog('Set the deploy key (one time, works on every machine)',
     '<div class="esub">1) Generate a keypair once:<br><code style="user-select:all">'+H.esc(keygenCmd||'ssh-keygen -t ed25519 -f feature_ee_deploy -N ""')+'</code><br>2) Register the <b>.pub</b> on <b>github.com/example/features → Settings → Deploy keys</b> (read-only).<br>3) Paste the PRIVATE key (feature_ee_deploy) below — the tool encrypts it into a file you <b>commit</b>, so the key travels with the tool to every machine.</div>'+
     '<textarea id="fm-key-in" placeholder="(paste the private key here)" style="width:100%;height:120px;font-size:11px;margin-top:8px;font-family:monospace"></textarea>'+
-    '<div style="text-align:right;margin-top:8px"><button class="mini" id="fm-key-save">Save key</button></div>');
+    '<div style="text-align:right;margin-top:8px"><button class="mini" id="fm-key-save">Save key</button></div>'+
+    '<hr style="margin:12px 0;opacity:.3"><div class="esub"><b>Light history</b>: after the feature_ee history rewrite, move your own clone onto it (no re-clone). The tool\'s own copy switches by itself on Pull.</div>'+
+    '<input id="fm-rl-path" placeholder="folder of your feature_ee clone" style="width:100%;margin-top:6px">'+
+    '<div style="text-align:right;margin-top:8px"><button class="mini" id="fm-rl-dry">Check</button> <button class="mini gold" id="fm-rl-go">Switch</button> <button class="mini" id="fm-rl-compact">Compact</button></div><pre id="fm-rl-out" style="white-space:pre-wrap;font-size:11px;max-height:200px;overflow:auto;margin:6px 0 0"></pre>');
+  setTimeout(()=>{ const rl=async(mode)=>{ const p=((H.$('#fm-rl-path')||{}).value||'').trim(); const o=H.$('#fm-rl-out'); if(!p){H.toast('enter the folder of your clone','error');return;}
+    if(mode==='switch'&&!await H.fmConfirm('Switch to the light history','Branches without local commits are moved to the new history, the others are rebased (left as they were on a conflict). The old tips are kept as backup refs until you click <b>Compact</b>. Uncommitted work refuses the switch.','Switch'))return;
+    if(mode==='compact'&&!await H.fmConfirm('Compact .git','Removes the backup refs of the switch and the old heavy history for good. Check your branches first.','Compact'))return;
+    o.textContent='working…';
+    try{ const r=await H.fmPost('/api/features/git/rebase-light',{path:p,mode,dry:mode==='check'});
+      if(r.refused){ o.textContent='Refused: '+r.refused; return; }
+      const lines=(r.steps||[]).map(s=>s.branch+': '+s.action+' ('+s.why+')');
+      if(r.dry) lines.push('Check only: nothing changed. .git '+r.git_mb+' MB');
+      else if(r.compacted) lines.push('.git '+r.git_mb_before+' MB -> '+r.git_mb_after+' MB');
+      else{ if((r.backups||[]).length) lines.push('Backup refs kept: '+r.backups.length+' (click Compact once your branches look right)'); if((r.failed||[]).length) lines.push('Left as they were: '+r.failed.map(f=>f.branch).join(', ')); }
+      o.textContent=lines.join('\n'); }
+    catch(e){ o.textContent=''; H.toast(H.errMessage(e),'error'); } };
+    const d1=H.$('#fm-rl-dry'), d2=H.$('#fm-rl-go'), d3=H.$('#fm-rl-compact'); if(d1)d1.onclick=()=>rl('check'); if(d2)d2.onclick=()=>rl('switch'); if(d3)d3.onclick=()=>rl('compact'); },100);
   setTimeout(()=>{ const b=H.$('#fm-key-save'); if(b)b.onclick=async()=>{ const v=(H.$('#fm-key-in')||{}).value||''; if(!v.trim()){H.toast('paste the private key','error');return;} try{ const r=await H.fmPost('/api/features/git/set-key',{private_key:v}); H.toast('deploy key stored — commit feature_ee.key.enc','ok'); fmShowPubKey(r.public_key); fmRenderGit(); }catch(e){ H.toast(H.errMessage(e),'error'); } }; },100);
 }
 /* ⛔ DEUX JETONS, PAS UN. Ils servaient a ignorer un scan lent qui atterrit apres un
@@ -656,13 +672,13 @@ export function fmPaintRowFromList(f){
   const nm=row.querySelector('.fm-nm .fm-rbadge');
   if(nm){
     const rd=f.readiness||{}, _tot=rd.total||0,_done=rd.done||0,_left=Math.max(0,_tot-_done);
-    if(rd.ready){ nm.className='fm-rbadge done'; nm.textContent='✓'; nm.title='ready to install — all tests confirmed'; }
+    if(rd.infra){ nm.className='fm-rbadge sys'; nm.textContent='System'; nm.title='System feature: always installable, always on ('+_done+'/'+_tot+' tests confirmed)'; }
+    else if(rd.ready){ nm.className='fm-rbadge done'; nm.textContent='✓'; nm.title='ready to install — all tests confirmed'; }
     else if(rd.defined){ nm.className='fm-rbadge left'; nm.textContent=String(_left); nm.title=_left+' test(s) not confirmed yet ('+_done+'/'+_tot+')'; }
     else { nm.className='fm-rbadge none'; nm.textContent='–'; nm.title='no readiness tests defined yet'; }
   }
   const mn=row.querySelector('.fm-mine'); if(mn) mn.outerHTML=fmMineHtml(f);
 }
-function fmChromaLogo(){ H.chromaVideo(H.$('#fm-logocv'), H.$('#fm-logovid'), ()=>!!H.$('#fm-logocv')); }
 
 function fmFilterBox(){
   const box=H.$('#fm-fbox'), btn=H.$('#fm-fbtn'); if(!box||!btn) return;

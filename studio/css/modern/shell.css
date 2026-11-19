@@ -74,8 +74,8 @@ html[data-ui="modern"] :is(.busy, [aria-busy="true"]) { cursor: progress !import
 html[data-ui="modern"] :is([draggable="true"], [style*="cursor:grab"], [style*="cursor:move"]) { cursor: grab !important; }
 
 html[data-ui="modern"] body::before { display: none; }
-html[data-ui="modern"] :is(.reforged-butterfly, .reforged-butterfly-stars, .rbf-star) { display: none !important; }
 html[data-ui="modern"] img[data-lx="1"] { display: none !important; }
+html[data-ui="modern"]:not(.mx-ico-fallback) :is(img[src*="/studio/icons/"]:not([src*="/studio/icons/line/"]), img[src^="/api/features/icon/"]):not([data-lx], [data-lx-name], [src^="data:"]):not(:is(.ic, .ph, .awslot, .lootslot, .ricon, .iconportrait, .gameicon, .skillicon, .ibcell, .ac-ic, .cc-icobox, .cdclassicon, .crest-img, [data-iid], [data-openitem], [data-openmon], [data-opennpc])):not(:is(.ic, .ph, .awslot, .lootslot, .ricon, .iconportrait, .gameicon, .skillicon, .ibcell, .ac-ic, .cc-icobox, .cdclassicon, .crest-img, [data-iid], [data-openitem], [data-openmon], [data-opennpc]) *) { visibility: hidden; }
 html[data-ui="modern"] .lx { flex: none; display: inline-block; vertical-align: middle; color: currentColor; }
 html[data-ui="modern"] .lx-ok { color: var(--ui-ok); }
 html[data-ui="modern"] .lx-bad { color: var(--ui-bad); }
@@ -166,26 +166,6 @@ html[data-ui="modern"] .mx-kbd {
   color: var(--ui-muted);
   font: 500 11.5px/1 var(--ui-font);
 }
-html[data-ui="modern"] .qtog {
-  width: 44px;
-  height: 44px;
-  margin-left: 8px;
-  border: 0;
-  border-radius: var(--ui-radius-ctl);
-  background: var(--ui-surface-2);
-  color: var(--ui-muted);
-  font-size: 0;
-}
-html[data-ui="modern"] .qtog::before {
-  content: "";
-  width: 20px;
-  height: 20px;
-  background: currentColor;
-  -webkit-mask: var(--mx-i-panel) center / contain no-repeat;
-  mask: var(--mx-i-panel) center / contain no-repeat;
-}
-html[data-ui="modern"] .qtog:hover { color: var(--ui-ink); background: var(--ui-line); }
-html[data-ui="modern"] .qtog.on { background: var(--ui-accent-soft); color: var(--ui-accent-text); }
 html[data-ui="modern"] .qhist {
   top: calc(100% + 8px);
   padding: 6px;
@@ -268,9 +248,10 @@ html[data-ui="modern"] .notifbell .nb-count {
   padding: 0 5px;
   border: 2px solid var(--ui-surface);
   border-radius: var(--ui-radius-pill);
-  background: var(--ui-warn);
-  color: #fff;
-  font: 600 10px/14px var(--ui-font);
+  background: #F23F43;
+  color: #FFFFFF;
+  font: 700 10px/14px var(--ui-font);
+  letter-spacing: -0.2px;
   box-sizing: border-box;
 }
 html[data-ui="modern"] .notifbell .nb-count[hidden] { display: none; }
@@ -389,6 +370,10 @@ html[data-ui="modern"] .rl-leaf.on { background: var(--ui-surface-2); color: var
 html[data-ui="modern"] .rl-star { position: absolute; right: 8px; top: 50%; width: 24px; height: 24px; margin-top: -12px; line-height: 24px; border: 0; border-radius: 6px; background: var(--ui-surface-2); color: var(--ui-faint); font-size: 12px; opacity: 0; }
 html[data-ui="modern"] .rl-star.on { color: var(--ui-accent); opacity: 0; }
 html[data-ui="modern"] .rl-leaf:hover .rl-star { opacity: 1; }
+html[data-ui="modern"] .rl-badge { margin-left: auto; padding: 1px 8px; border-radius: 999px; background: var(--ui-surface-2); color: var(--ui-muted); font-size: 12px; font-style: normal; font-weight: 600; line-height: 18px; white-space: nowrap; }
+html[data-ui="modern"] .rl-badge.warn { background: var(--ui-accent-soft); color: var(--ui-accent-text); }
+html[data-ui="modern"] .rl-leaf:hover .rl-badge { opacity: 0; }
+html[data-ui="modern"] main.rail-min .rl-badge { display: none; }
 html[data-ui="modern"] .rl-star:hover { color: var(--ui-accent-text); background: var(--ui-surface); border: 0; }
 html[data-ui="modern"] #rail-foot { gap: 8px; padding: 12px 12px 16px; border-top: 0; background: none; }
 html[data-ui="modern"] #rail-toggle { height: 40px; gap: 12px; padding: 0 12px; border-radius: 10px; color: var(--ui-muted); font-size: 14px; font-weight: 500; }
@@ -465,7 +450,7 @@ html[data-ui="modern"] #pending-restart-bar, html[data-ui="modern"] #update-bar 
 }
 html[data-ui="modern"] :is(#pending-restart-bar, #update-bar) .sbtn { background: var(--ui-surface) !important; color: var(--ui-ink) !important; border-color: var(--ui-line) !important; }
 
-html[data-ui="modern"] :where(button, .hbtn, .hq-b, .hmi, .sbtn, .rl-leaf, .rl-top, .rl-fam-h, .fchip, .qtog, [role="button"]):focus-visible {
+html[data-ui="modern"] :where(button, .hbtn, .hq-b, .hmi, .sbtn, .rl-leaf, .rl-top, .rl-fam-h, .fchip, [role="button"]):focus-visible {
   outline: 2px solid var(--ui-accent);
   outline-offset: 2px;
 }

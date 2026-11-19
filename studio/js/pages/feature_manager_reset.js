@@ -36,7 +36,9 @@ export async function fmOpenClientReset() {
       <div class="fd-bar"><button class="mini gold" id="fr-resume">Resume</button><span class="fd-dim">or choose a folder below and start over</span></div></div>` : '';
   body().innerHTML = `<div class="fd-it" style="border-left:4px solid #8a6d2e">Reset client puts your game back on the official Eden Reforged client, then installs every feature that is on, in one go:
       <ol class="fr-ol">${(p.steps || []).map(s => `<li>${e(s[1])}</li>`).join('')}</ol>
-      Everything replaced is kept in a backup first (<span class="fd-mono">_eden_reset_backup</span> in the game folder, and the old game_unpacked next to the new one). Your settings stay: ${e((p.keeps || []).join(', '))} and the launcher settings. The game must stay closed until the end. If the PC stops in the middle, open Reset client again and click Resume.</div>
+      ${p.game_files === 'archives'
+        ? `Game files: <b>RFG archives</b>. Nothing is unpacked: the work folder <span class="fd-mono">${e(p.work_folder || '')}</span> is emptied and gets the data tables again, so a few hundred MB free are enough. Everything replaced in the game folder is kept in a backup first (<span class="fd-mono">_eden_reset_backup</span>).`
+        : 'Game files: <b>Unpacked folder (legacy)</b>. Everything replaced is kept in a backup first (<span class="fd-mono">_eden_reset_backup</span> in the game folder, and the old game_unpacked next to the new one).'} Your settings stay: ${e((p.keeps || []).join(', '))} and the launcher settings. The game must stay closed until the end. If the PC stops in the middle, open Reset client again and click Resume.</div>
     ${run}${res}
     <div class="fr-h">${ch.length > 1 ? 'Which game do you play with? These folders are different:' : 'Your game folder:'}</div>
     <div class="fr-choices">${ch.map(c => choiceHtml(c, p.recommended)).join('')}</div>

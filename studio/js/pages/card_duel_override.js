@@ -31,7 +31,7 @@ const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 export async function openOverride(H, row, onDone) {
   let data;
   try { data = await H.cards(); } catch (e) { toast(errMessage(e), 'error'); return; }
-  if (!data.overridable) { toast('This card_duel version cannot change game cards: use Pull latest features (card_duel 0.7.0)', 'error'); return; }
+  if (!data.overridable) { toast('This card_duel version cannot change game cards: use Pull latest features (card_duel 0.7.0)', 'warn'); return; }
   const base = row.base || { name: row.name, element: row.element, rarity: row.rarity, sides: row.sides.slice(), skills: (row.skills || []).slice(), level: row.level, nodes: (row.nodes || []).slice() };
   const o = row.override || {};
   const c = { name: row.name, element: row.element, rarity: row.rarity, sides: row.sides.slice(), skills: (row.skills || []).slice(),
@@ -127,7 +127,7 @@ export async function openOverride(H, row, onDone) {
       (E.check.warnings || []).map(x => note('warn', x)));
   }
   async function loadArt(file) {
-    if (file.size > 2 << 20) { toast('The picture weighs ' + Math.round(file.size / 1024) + ' KB (2048 KB at most)', 'error'); return; }
+    if (file.size > 2 << 20) { toast('The picture weighs ' + Math.round(file.size / 1024) + ' KB (2048 KB at most)', 'warn'); return; }
     const b64 = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(file); });
     try {
       const info = await api.post(ROOT + '/cards/art-check', { png: b64 });
@@ -149,7 +149,7 @@ export async function openOverride(H, row, onDone) {
       btn({ label: 'Cancel', variant: 'ghost', onClick: () => box.remove() }),
       btn({ label: 'Save', icon: 'save', busyLabel: 'Saving…', onClick: async () => {
         await validate();
-        if (E.check && !E.check.ok) { toast('Fix the errors first', 'error'); return; }
+        if (E.check && !E.check.ok) { toast('Fix the errors first', 'warn'); return; }
         if (E.check && E.check.empty && !row.override) { toast('Nothing to save', 'info'); return; }
         try { await saveDesigner(H, data, body(), 'Card ' + base.name); box.remove(); if (onDone) await onDone(); }
         catch (e) { toast('Not saved: ' + errMessage(e), 'error'); }
@@ -171,9 +171,9 @@ export async function resetOverride(H, row, onDone) {
 export async function retireCard(H, row, onDone) {
   let data;
   try { data = await H.cards(); } catch (e) { toast(errMessage(e), 'error'); return; }
-  if (!data.overridable) { toast('This card_duel version cannot retire cards: use Pull latest features (card_duel 0.7.0)', 'error'); return; }
+  if (!data.overridable) { toast('This card_duel version cannot retire cards: use Pull latest features (card_duel 0.7.0)', 'warn'); return; }
   if ((row.card_items || []).length) {
-    toast('Delete its card items first (' + row.card_items.map(x => x.item).join(', ') + '): a used item of a retired card would give nothing', 'error');
+    toast('Delete its card items first (' + row.card_items.map(x => x.item).join(', ') + '): a used item of a retired card would give nothing', 'warn');
     return;
   }
   const reason = await uiPrompt('Retire ' + row.name + ' (' + row.id + ')? From the next Deploy nobody can get it any more: no loot, no item drop or pickup, '

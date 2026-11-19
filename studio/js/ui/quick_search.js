@@ -2,6 +2,8 @@ import { modernOn } from './modern_gate.js';
 import { searchScope } from './search_scope.js';
 import { navLine, lineSvg } from './line_icons.js';
 import { openAssistant } from './assistant.js';
+import { navigate } from '../nav/rail.js';
+import { openFeature } from '../nav/feature_opener.js';
 
 const HIST_KEY = 'reforged_search_history';
 const MAC = (() => {
@@ -219,10 +221,9 @@ async function activate(it) {
       try { (await import('/studio/js/pages/entity.js')).openEntity(it.etype, it.id, true); } catch (e2) {}
     }
   } else if (it.type === 'feature') {
-    if (typeof window.edenOpenFeature === 'function') window.edenOpenFeature(it.feat);
+    openFeature(it.feat);
   } else if (it.type === 'page') {
-    const b = document.querySelector('.rl-leaf[data-k="' + it.k + '"]');
-    if (b) b.click();
+    navigate(it.k);
   }
 }
 

@@ -1,0 +1,52 @@
+.mg-scrim .mg-br-grid { display: flex; flex-direction: column; gap: var(--mg-br-gap, 10px); }
+.mg-scrim .mg-br-row { display: flex; gap: var(--mg-br-gap, 10px); }
+.mg-scrim .mg-br-card {
+  position: relative; display: block; flex: none; width: var(--mg-br-size, 96px); height: var(--mg-br-size, 96px);
+  padding: 0; border: 0; border-radius: 14px; background: transparent; color: var(--ui-ink);
+  perspective: 700px; cursor: pointer;
+}
+.mg-scrim .mg-br-card[aria-disabled="true"] { cursor: default; }
+.mg-scrim .mg-br-flip {
+  position: absolute; inset: 0; display: block; border-radius: 14px;
+  transform-style: preserve-3d; transition: transform .18s ease;
+}
+.mg-scrim .mg-br-card.is-up .mg-br-flip, .mg-scrim .mg-br-card.is-found .mg-br-flip, .mg-scrim .mg-br-grid.is-peek .mg-br-flip { transform: rotateY(180deg); }
+.mg-scrim .mg-br-back, .mg-scrim .mg-br-face {
+  position: absolute; inset: 0; display: grid; place-items: center; border: 1px solid var(--ui-line);
+  border-radius: 14px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.mg-scrim .mg-br-back {
+  background:
+    radial-gradient(circle at 50% 50%, var(--ui-surface) 0 34%, transparent 35%),
+    var(--ui-surface-2);
+  transition: border-color .12s ease, background-color .12s ease;
+}
+.mg-scrim .mg-br-mark { display: grid; place-items: center; color: var(--ui-faint); }
+.mg-scrim .mg-br-mark > * { width: calc(var(--mg-br-size, 96px) * .3); height: calc(var(--mg-br-size, 96px) * .3); }
+.mg-scrim .mg-br-card:hover:not([aria-disabled="true"]) .mg-br-back { border-color: var(--ui-accent); }
+.mg-scrim .mg-br-card:hover:not([aria-disabled="true"]) .mg-br-mark { color: var(--ui-accent-text); }
+.mg-scrim .mg-br-face { background: var(--ui-surface); transform: rotateY(180deg); box-shadow: var(--ui-shadow); }
+.mg-scrim .mg-br-face .mg-art { border-radius: 12px; }
+.mg-scrim .mg-br-check {
+  position: absolute; top: 6px; right: 6px; display: none; place-items: center; width: 24px; height: 24px;
+  border-radius: 50%; background: var(--ui-surface); color: var(--ui-accent-text);
+}
+.mg-scrim .mg-br-card.is-found .mg-br-face { border-color: var(--ui-accent); background: var(--ui-accent-soft); }
+.mg-scrim .mg-br-card.is-found .mg-br-face .mg-art { opacity: .55; }
+.mg-scrim .mg-br-card.is-found .mg-br-check { display: grid; }
+.mg-scrim .mg-br-card.is-wrong .mg-br-face { border-color: var(--ui-bad); box-shadow: 0 0 0 2px var(--ui-bad-soft); }
+.mg-scrim .mg-br-grid.is-peek .mg-br-card:not(.is-found):not(.is-up) .mg-br-face { border-color: var(--ui-info); border-style: dashed; }
+.mg-scrim .mg-dialog .mg-br-card:focus-visible { outline: none; box-shadow: none; }
+.mg-scrim .mg-dialog .mg-br-card:focus-visible .mg-br-flip { box-shadow: 0 0 0 3px var(--ui-surface), 0 0 0 5px var(--ui-accent); }
+.mg-scrim .mg-br-card.is-hit .mg-br-flip { animation: mg-br-hit .32s ease; }
+
+@keyframes mg-br-hit {
+  0% { scale: 1; }
+  45% { scale: 1.06; }
+  100% { scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-scrim .mg-br-flip, .mg-scrim .mg-br-back { transition: none !important; }
+  .mg-scrim .mg-br-card.is-hit .mg-br-flip { animation: none !important; }
+}

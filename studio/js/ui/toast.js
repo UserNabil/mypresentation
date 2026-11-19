@@ -57,6 +57,17 @@ function renderMore(host) {
   }, MORE_MS);
 }
 
+let beeOkAt = 0;
+function beeSignal(type, text) {
+  let kind = '';
+  if (type === 'error') kind = 'error';
+  else if (type === 'ok' && /deploy|publish|release|push/i.test(text) && Date.now() - beeOkAt > 4000) {
+    kind = 'happy';
+    beeOkAt = Date.now();
+  }
+  if (kind) window.dispatchEvent(new CustomEvent('eden:bee', { detail: kind }));
+}
+
 export function toast(msg, type, o) {
   const opts = normOpts(o);
   const host = $('#toasts');
@@ -68,6 +79,7 @@ export function toast(msg, type, o) {
   }
   type = normType(type);
   const text = clean(msg);
+  beeSignal(type, text);
   const now = Date.now();
   const entry = { type, text, progress: !!opts.progress, sticky: !!opts.sticky || type === 'error', closed: false, last: now, count: 1 };
   const verdict = plan(STACK, entry, now);
@@ -94,7 +106,7 @@ export function toast(msg, type, o) {
 
   const ic = document.createElement('span');
   ic.className = 'tst-ic';
-  ic.appendChild(iconEl(SLUG[type] || 'live', 24));
+  ic.appendChild(iconEl(type === 'info' && !opts.progress ? 'info' : (SLUG[type] || 'live'), 24));
 
   const body = document.createElement('div');
   body.className = 'tst-msg';

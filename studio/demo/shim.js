@@ -334,7 +334,7 @@
     if (!scored.length) return ok({ text: 'No GM command matches "' + term + '".', cards: [], actions: [], intent: 'gm_command', confidence: 0.82 });
     return ok({
       text: scored.length + ' GM command' + (scored.length === 1 ? '' : 's') + ' match "' + term + '".',
-      cards: scored.slice(0, 8).map(function (x) { return { title: x[1].title, subtitle: x[1].sub, href: '#page/gm' }; }),
+      cards: scored.slice(0, 8).map(function (x) { return { title: x[1].title, subtitle: x[1].sub, href: '#page/gmcmds' }; }),
       actions: [], intent: 'gm_command', confidence: 0.82
     });
   }
@@ -343,6 +343,13 @@
     if (!R) return ok({ text: 'The assistant is not available in this snapshot.', cards: [], actions: [], intent: 'unmatched', confidence: 0 });
     var q = String((body && body.q) || '').trim();
     if (!q) return areply(R.help);
+    var an = body && body.answer;
+    var fx = R.doctor_fixes || {};
+    if (an && an.slot === 'fix') return areply(fx[an.value] || (an.env === 'preprod' ? R.doctor_preprod : R.doctor));
+    if (an && an.slot === 'client_folder' && R.doctor_folder) return areply(R.doctor_folder);
+    var dq = /\b(check|verify|diagnose|repair|fix|scan)\b.*\b(client|setup|install|game)\b|\b(client|setup)\b.*\b(check|broken|problem)/i;
+    if (R.doctor && dq.test(q)) return areply(/\bpreprod\b/i.test(q) && R.doctor_preprod ? R.doctor_preprod : R.doctor);
+    if (R.doctor_ask && /\b(which|find|where|locate|configure|set|change)\b.*\b(game folder|client folder|folder)\b|\bwhere is my (client|game)\b|^(my )?game folder$/i.test(q)) return areply(R.doctor_ask);
     var s = aslots(q), sc = ascore(s), best = 'unmatched', bv = 0.5 - 1e-9;
     ['help', 'open', 'search', 'status', 'tests', 'gm', 'servers', 'crashes', 'notifs', 'features_list', 'restart', 'thanks', 'pull', 'install'].forEach(function (k) { if (sc[k] > bv) { bv = sc[k]; best = k; } });
     var fe = s.features[0], F = fe && AS.feat[fe];
@@ -376,6 +383,8 @@
   }
   function assistantConfirm(body) {
     var t = String((body && body.token) || ''), m = /^demo-deploy:(.+)$/.exec(t);
+    var fm = /^demo-fix:(.+)$/.exec(t), done = AS.replies.doctor_fixed || {};
+    if (fm && done[fm[1]]) { noteJournal('assistant', 'client fix ' + fm[1], 'client folder', { simulated: true }); return areply(done[fm[1]]); }
     if (m) {
       noteJournal('assistant', 'deploy ' + m[1] + ' on DEV', m[1], { simulated: true });
       return ok({ text: 'Deploy of ' + m[1] + ' on DEV finished (simulated in the demo, nothing was changed).', cards: [{ title: m[1], subtitle: 'Server up to date', href: '#page/features?feature=' + m[1] }], actions: [], intent: 'install_feature', confidence: 1 });
@@ -385,6 +394,14 @@
   }
 
   var GET_ROUTES = [
+    [/^\/api\/launch\/preflight$/, function (c) {
+      var env = /preprod/.test(JSON.stringify(c.q)) ? 'preprod' : /prod/.test(JSON.stringify(c.q)) ? 'prod' : 'dev';
+      if (env === 'dev') { var f = fxGet(c.path, c.q); if (f) return ok(f[2]); }
+      return ok({ env: env, checks: [
+        { id: 'launcher', state: 'ok', label: 'Launcher ready', detail: 'Launcher.exe found', fix: null },
+        { id: 'dll', state: 'warn', label: 'Client DLL is old', detail: 'client 2.3.0, available 2.4.0', fix: null },
+        { id: 'server', state: 'ok', label: 'Server answers', detail: '', fix: null }] });
+    }],
     [/^\/api\/ui\/prefs$/, function () { return ok({ auto_update: false }); }],
     [/^\/api\/assistant\/help$/, function () { return ok(ASSIST_HELP); }],
     [/^\/api\/notif\/local$/, function () { return ok({ items: [] }); }],
@@ -423,6 +440,15 @@
       var f = FX[c.path];
       if (!f) return [404, { detail: 'This record is not part of the demo snapshot.' }];
       return ok(applyEditsToDetail(f[2], k));
+    }],
+    [/^\/api\/locale\/([a-z_]+)\/(\d+)$/, function (c) {
+      var f = FX['/api/entity/' + c.m[1] + '/' + c.m[2]];
+      var d = f && f[2];
+      if (!d) return ok({ etype: c.m[1], id: Number(c.m[2]), variants: [] });
+      return ok({ etype: c.m[1], id: Number(c.m[2]), variants: [
+        { locale: 'big5', label: 'Big5 (in-game/c_)', value: d.name_big5 || '', source: d.client_file || 'c_' + c.m[1] + '.ini', field: 1 },
+        { locale: 'en', label: 'English (t_)', value: d.name_en || '', source: d.text_file || 't_' + c.m[1] + '.ini', field: 1 }
+      ] });
     }],
     [/^\/api\/pkg\/(pack|repack|depack|verify)\/status$/, function (c) { return ok(pkgStatus(c.m[1])); }],
     [/^\/api\/pkg\/repack\/preview\/status$/, function () {

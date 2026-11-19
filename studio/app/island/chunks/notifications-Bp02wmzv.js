@@ -1,1 +1,0 @@
-import{t as e}from"./notifications-DVmFXwJE.js";import{H as t}from"./api-CzdxWfit.js";var n=t();function r({host:t}){return(0,n.jsx)(e,{host:t})}export{r as default};

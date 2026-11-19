@@ -88,6 +88,10 @@ body.home-view #side{ display:none; }
   .rl-kids{ transition:none }
   .rl-fam.open .rl-kids-in > .rl-leaf{ animation:none }
 }
+.rl-badge{ margin-left:auto; padding:0 7px; border-radius:9px; background:rgba(0,0,0,.25); color:inherit; font-size:11px; font-style:normal; font-weight:700; line-height:17px; white-space:nowrap; }
+.rl-badge.warn{ background:#c0392b; color:#fff; }
+.rl-leaf:hover .rl-badge{ opacity:0; }
+main.rail-min .rl-badge{ display:none; }
 .rl-leaf{
   position:relative; width:100%; display:flex; align-items:center; gap:8px; cursor:pointer;
   font-family:var(--ff-body); font-size:12.5px; color:var(--ink);
@@ -219,13 +223,13 @@ html.art-plate main:not(.rail-min) .rl-cta .rl-cta-p{ width:22px; height:22px; }
    ⛔ Ne PAS non plus « corriger » par un `blur()` au clic : la navigation au clavier
    deviendrait invisible et l'element actif retomberait sur <body>. */
 :where(button, .hbtn, .hq-b, .hmi, .sbtn, .qa, .tile, .rl-leaf, .rl-top, .rl-fam-h,
-       .rl-cta, .envchip, .dh-act, .fchip, .qtog, [role="button"]):focus{
+       .rl-cta, .envchip, .dh-act, .fchip, [role="button"]):focus{
   outline:none;
 }
 /* Au clavier, le liseré doit rester FRANC : un focus discret sur un fond parchemin ne se
    voit pas, et c'est le seul repere dont dispose quelqu'un sans souris. */
 html[data-nav="keyboard"] :where(button, .hbtn, .hq-b, .hmi, .sbtn, .qa, .tile, .rl-leaf,
-       .rl-top, .rl-fam-h, .rl-cta, .envchip, .dh-act, .fchip, .qtog,
+       .rl-top, .rl-fam-h, .rl-cta, .envchip, .dh-act, .fchip,
        [role="button"]):focus{
   outline:2px solid var(--gold); outline-offset:2px; border-radius:6px;
 }
@@ -320,16 +324,6 @@ body.home-view #side{ display:none; }
 body.home-view main.has-rail{ grid-template-columns:var(--rail-w) 1fr; }
 body.home-view main.has-rail.rail-min{ grid-template-columns:var(--rail-w-min) 1fr; }
 
-/* --- le bouton de bascule, colle a la barre de recherche --- */
-.qtog{
-  flex:none; width:32px; height:32px; margin-left:6px; cursor:pointer;
-  display:inline-flex; align-items:center; justify-content:center;
-  font-size:14px; line-height:1; color:var(--ink-2);
-  background:var(--surface); border:1px solid var(--edge); border-radius:var(--r-2);
-  transition:background .1s ease,color .1s ease,border-color .1s ease;
-}
-.qtog:hover{ border-color:var(--gold-dim); color:var(--ink); background:var(--frame); }
-.qtog.on{ background:var(--gold); border-color:var(--gold-2); color:#fff; }
 .searchwrap{ display:flex; align-items:center; }
 .searchwrap .searchbox{ flex:1; min-width:0; }
 

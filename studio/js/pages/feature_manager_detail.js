@@ -423,7 +423,7 @@ function sideHtml(d, pvList){
     <div class="fm-prev">${pvList.length?fmPreviewHtml(pvList):`<div class="fx-empty sm">${IC('image',32)}<div><b>No preview yet</b><span>Add links in Overview.</span></div></div>`}</div></section>`;
   const ready=`<section class="fx-card fx-side-card" id="fm-side-ready"><div class="fx-side-h">${IC('tests',20)} <b>Readiness</b>
       <span class="fx-pill fx-${rd.ready?'ok':(rd.defined?'bad':'na')}">${IC(rd.ready?'ready':(rd.defined?'not_ready':'status_off'),16)} ${rd.ready?'Ready':(rd.defined?'Not ready yet':'No tests')}</span></div>
-    <div class="fx-ready">${rd.defined?(rd.ready?`<b class="fx-ok">All ${rd.total} tests confirmed</b>`:`<b class="fx-big-n">${left} test${left>1?'s':''} left</b>`):'<b>No tests defined</b>'}
+    <div class="fx-ready">${rd.defined?(rd.infra?`<b class="fx-ok">System feature · always on</b>`:rd.ready?`<b class="fx-ok">All ${rd.total} tests confirmed</b>`:`<b class="fx-big-n">${left} test${left>1?'s':''} left</b>`):'<b>No tests defined</b>'}
       <span>${rd.defined?`${rd.done||0} of ${rd.total} tests have been confirmed on ${E(((fm().list||{}).env_name||(fm().list||{}).env)||'this environment')}.`:'Add the checks a tester must verify in-game.'}</span>
       <button class="fx-btn" data-fxtab="tests">View tests ${IC('chevron_right',14)}</button></div></section>`;
   return prev+fmProdCardHtml(d.name)+ready;

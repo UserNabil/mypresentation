@@ -222,7 +222,7 @@ export function renderEditor(box, D, cx) {
           add.disabled = true;
           const r = await cx.upload({ name: f.name, data: await readB64(f) });
           if (!r) break;
-          if (D.images.some(x => x.sha256 === r.sha256)) { toast(f.name + ' is already in this poll', 'warn'); continue; }
+          if (D.images.some(x => x.sha256 === r.sha256)) { toast(f.name + ' is already in this poll', 'info'); continue; }
           D.images.push({ sha256: r.sha256, url: r.url, width: r.width, height: r.height, frames: r.frames, fps: r.fps, bytes: r.bytes, name: r.name });
           toast(f.name + ': ' + r.width + 'x' + r.height + (r.frames > 1 ? ', ' + r.frames + ' frames' : '') + (r.verified ? ', on the CDN' : ', uploaded (CDN check pending)'), 'ok');
         } catch (e) { toast(f.name + ': ' + errMessage(e), 'error', { duration: 10000 }); }

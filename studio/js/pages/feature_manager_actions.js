@@ -31,7 +31,7 @@ import { openFeatures, fmRefreshClientOnly, fmRefreshServerOnly,
          fmPackedReady, fmAutoRepackIfStaged, fmPaintRowFromList } from './feature_manager.js';
 
 export function fmWireReadiness(main, name){
-  const re=async(p,b)=>{ try{ const r=await H.fmPost(p,Object.assign({name},b)); const f=(fm().list&&fm().list.features||[]).find(x=>x.name===name); if(f){ f.readiness={ready:r.ready,defined:r.defined,done:r.done,total:r.total,by:fmTouchedBy(r)}; fmPaintRowFromList(f); } if(fm().sel!==name||!fm().detail||fm().detail.name!==name) return; fm().detail.readiness=r; fmSwapParts(fm().detail, ['fm-tests','fm-hero','fm-tabs','fm-ov-facts','fm-side-ready']); }
+  const re=async(p,b)=>{ try{ const r=await H.fmPost(p,Object.assign({name},b)); const f=(fm().list&&fm().list.features||[]).find(x=>x.name===name); if(f){ f.readiness={ready:r.ready,defined:r.defined,done:r.done,total:r.total,infra:!!r.infra,by:fmTouchedBy(r)}; fmPaintRowFromList(f); } if(fm().sel!==name||!fm().detail||fm().detail.name!==name) return; fm().detail.readiness=r; fmSwapParts(fm().detail, ['fm-tests','fm-hero','fm-tabs','fm-ov-facts','fm-side-ready']); }
                         catch(e){ H.toast(H.errMessage(e),'error'); } };
   // VOTE ↑/↓ : recliquer son propre vote le RETIRE (toggle → vote=0).
   main.querySelectorAll('[data-fmvote]').forEach(b=>b.onclick=()=>{
@@ -69,6 +69,7 @@ export function fmWireReadiness(main, name){
     const fi=document.createElement('input'); fi.type='file'; fi.accept='image/*';
     fi.onchange=()=>{ if(fi.files[0]) uploadImg(idx, fi.files[0]); }; fi.click(); });
   main.querySelectorAll('[data-fmimgfull]').forEach(im=>im.onclick=()=>fmImgFull(im.dataset.fmimgfull));
+  main.querySelectorAll('[data-fmbug]').forEach(b=>b.onclick=()=>{ b.disabled=true; re('/api/features/tests/bug',{index:+b.dataset.fmbug,tester:b.dataset.bt,confirmed:b.dataset.bv==='1'}); });
   main.querySelectorAll('[data-fmcdel]').forEach(b=>b.onclick=()=>re('/api/features/tests/comment/delete',{comment_id:+b.dataset.fmcdel}));
   main.querySelectorAll('[data-fmtdel]').forEach(b=>b.onclick=()=>re('/api/features/tests/remove',{index:+b.dataset.fmtdel}));
   const inp=H.$('#fmt-in'), add=H.$('#fmt-add');
@@ -107,7 +108,7 @@ export function fmWireDetailButtons(root, d){
   root.querySelectorAll('[data-fmsrvrestart]').forEach(b=>b.onclick=async()=>{ if(!await H.fmConfirm('↻ Restart the game servers','Restart the server stack on <b>'+H.esc((fm().list||{}).env||'the active env')+'</b> (safe restart) to load the data?','Restart'))return; return H.runBusy(b,async()=>{ H.toast('restarting the server…','ok'); try{ const r=await H.fmPost('/api/features/server/restart'); H.showThemedDialog(r.ok?'✔ Server restarted':'✖ Restart issue','<div class="esub">'+H.esc(r.message||'')+'</div>'); await fmRefreshServerOnly(nm0); }catch(e){ H.toast(H.httpErr(e),'error'); } }); });
   root.querySelectorAll('[data-fmon],[data-fmoff]').forEach(b=>b.onclick=async()=>{ const on=!!b.dataset.fmon,nm=b.dataset.fmon||b.dataset.fmoff; return H.runBusy(b,async()=>{ try{ await H.fmPost('/api/features/client/toggle',{name:nm,enable:on}); H.toast(''+nm+(on?' enabled':' disabled')+' — restart the game to apply','ok'); await fmRefreshClientOnly(nm); }catch(e){ H.toast(H.httpErr(e),'error'); } }); });
   root.querySelectorAll('[data-fmreverify]').forEach(b=>b.onclick=async()=>{ const scope=b.dataset.fmscope||'client'; setBusy(b,true); try{ if(scope==='server') await fmRefreshServerOnly(nm0, true); else await fmRefreshClientOnly(nm0); }catch(_){}finally{ setBusy(b,false); } });
-  root.querySelectorAll('[data-fmreinstall]').forEach(b=>b.onclick=async()=>{ return H.runBusy(b,async()=>{ try{ const nmr=b.dataset.fmreinstall; let r=await H.fmPost('/api/features/client/reinstall',{name:nmr}); r=await fmOverlapGate(r,()=>H.fmPost('/api/features/client/reinstall',{name:nmr,force:true})); fmShowShared(r); const staged=(r.copied||[]).length>0; H.toast(staged?('✔ reinstalled '+r.copied.length+' file(s)'+(fmPackedReady()?'':' — repack game_unpacked to apply')):(r.note||'nothing to copy'),'ok'); await fmRefreshClientOnly(b.dataset.fmreinstall); await fmAutoRepackIfStaged(staged); }catch(e){ H.toast(H.httpErr(e),'error'); } }); });
+  root.querySelectorAll('[data-fmreinstall]').forEach(b=>b.onclick=async()=>{ return H.runBusy(b,async()=>{ try{ const nmr=b.dataset.fmreinstall; let r=await H.fmPost('/api/features/client/reinstall',{name:nmr}); r=await fmOverlapGate(r,()=>H.fmPost('/api/features/client/reinstall',{name:nmr,force:true})); fmShowShared(r); if(r.ok===false&&(r.unavailable||[]).length){ H.toast('⚠ '+r.unavailable.length+' race model file(s) missing: '+(r.unavailable[0].error||'')+' — not repacked','error'); await fmRefreshClientOnly(nmr); return; } const staged=(r.copied||[]).length>0; H.toast(staged?('✔ reinstalled '+r.copied.length+' file(s)'+(fmPackedReady()?'':' — repack game_unpacked to apply')):(r.note||'nothing to copy'),'ok'); await fmRefreshClientOnly(b.dataset.fmreinstall); await fmAutoRepackIfStaged(staged); }catch(e){ H.toast(H.httpErr(e),'error'); } }); });
   root.querySelectorAll('[data-fminstalldata]').forEach(b=>b.onclick=async()=>{ return H.runBusy(b,async()=>{ try{ const nmd=b.dataset.fminstalldata; let r=await H.fmPost('/api/features/client/install-data',{name:nmd}); r=await fmOverlapGate(r,()=>H.fmPost('/api/features/client/install-data',{name:nmd,force:true})); fmShowShared(r); const nAdd=(r.installed||[]).length, nRep=(r.replaced||[]).length, nRes=(r.restored||[]).length; const staged=(nAdd||nRep||nRes)>0; const parts=[]; if(nAdd)parts.push('added '+nAdd); if(nRep)parts.push('fixed '+nRep+' wrong'); if(nRes)parts.push('put back '+nRes+' native'); const msg=parts.length?('✔ '+parts.join(', ')+' record(s)'+(fmPackedReady()?'':' — 📦 repack game_unpacked to apply')):((r.missing_source||[]).length?'⚠ feature ships no record for: '+r.missing_source.join(', '):(r.errors&&r.errors.length?r.errors[0]:'nothing to do')); H.toast(msg, staged?'ok':'err'); await fmRefreshClientOnly(b.dataset.fminstalldata); await fmAutoRepackIfStaged(staged); }catch(e){ H.toast(H.httpErr(e),'error'); } }); });
   // « Copy DLL » = chez soi, « Deploy DLL » = vers le CDN (les joueurs). Deux gestes separes :
   // on teste en local, on publie quand c'est valide.
@@ -165,7 +166,9 @@ export function fmWireDetailButtons(root, d){
       // bien les assets. Annoncer un succes non verifie, c'est ce qui a laisse passer les 3 layouts
       // d'auto_altar : publies en apparence, absents en pratique.
       const bad=(r.mismatched||[]).length, nopkg=(r.not_in_pkg||[]).length;
-      if(bad||nopkg){
+      if(r.noop){
+        H.toast(r.message||'Nothing to publish','info',{duration:8000});
+      }else if(bad||nopkg){
         H.toast('published '+r.sent.length+' file(s), but '
           +(bad?bad+' not verified online':'')+(bad&&nopkg?' and ':'')
           +(nopkg?nopkg+' missing from the pkg (repack did not include them)':'')

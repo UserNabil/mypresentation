@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <script src="demo/shim.js"></script>
 
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('ui.theme');d.dataset.theme=(t==='dark'||t==='light')?t:((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');var a=localStorage.getItem('ui.accent');if(/^[a-z]{3,8}$/.test(a||''))d.dataset.accent=a;}catch(e){}document.documentElement.dataset.ui='modern';})();</script>
+<script src="/studio/js/core/window_key.js"></script>
+<script src="/studio/js/core/env_guard.js"></script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('ui.theme');d.dataset.theme=(t==='dark'||t==='light')?t:((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');var a=localStorage.getItem('ui.accent');if(/^[a-z]{3,8}$/.test(a||''))d.dataset.accent=a;}catch(e){}document.documentElement.dataset.ui='modern';setTimeout(function(){var r=document.documentElement;if(!r.dataset.mxShell)r.classList.add('mx-ico-fallback');},30000);})();</script>
 <title>Eden Reforged Studio - Demo</title>
 <link rel="icon" href="/studio/img/brand/eden_studio.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/studio/img/brand/favicon-32.png">
@@ -13,8 +15,6 @@
 <link rel="preload" href="/studio/fonts/Cinzel-500-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/studio/css/fonts.css">
 <link rel="stylesheet" href="/studio/design.css?v=motif5">
-<!-- Papillon vivant (décoratif, non interactif) : CSS + module ES auto-initialisé -->
-<link rel="stylesheet" href="/studio/css/butterfly.css?v=3">
 <link rel="stylesheet" href="/studio/css/app.css">
 <link rel="stylesheet" href="/studio/css/create_canvas.css">
 <link rel="stylesheet" href="/studio/css/packaging_kids.css">
@@ -39,8 +39,59 @@
 <link rel="stylesheet" href="/studio/css/modern/controls.css">
 <link rel="stylesheet" href="/studio/css/modern/pages.css">
 <link rel="stylesheet" href="/studio/css/modern/lineicons.css">
+<link rel="stylesheet" href="/studio/css/modern/account.css">
 <link rel="stylesheet" id="bee-css" href="/studio/css/modern/bee.css">
-<script type="module">import { initButterfly } from '/studio/js/butterfly.js?v=5'; initButterfly();</script>
+<style id="boot-critical">
+html:not(.css-ok) #boot{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#eeeff1;color:#6b6f76;font:14px/1.4 system-ui,"Segoe UI",sans-serif;overflow:hidden}
+html[data-theme="dark"]:not(.css-ok) #boot{background:#0b0b0c;color:#9aa0a6}
+html:not(.css-ok) #boot img{display:none}
+html:not(.css-ok) body>:not(#boot):not(script):not(style){display:none!important}
+html.css-failed #boot::after{content:"The interface styles could not be loaded. Press Ctrl+R to try again.";max-width:80vw;text-align:center}
+</style>
+<script>(function(){
+var d=document,r=d.documentElement,MAX=3;
+function broken(l){try{return !l.sheet||!l.sheet.cssRules;}catch(e){return true;}}
+function suspects(){
+  var all=[].slice.call(d.querySelectorAll('link[rel="stylesheet"]')),b=all.filter(broken);
+  if(b.length||applied())return b;
+  var e=all.filter(function(l){try{return l.sheet.cssRules.length===0;}catch(x){return true;}});
+  return e.length?e:all;
+}
+function applied(){try{return !!getComputedStyle(r).getPropertyValue('--ui-bg').trim();}catch(e){return true;}}
+function done(){r.classList.add('css-ok');}
+function fail(){r.classList.add('css-failed');}
+function reloadOnce(){
+  try{
+    var k='eut.cssReload',t=+sessionStorage.getItem(k)||0;
+    if(Date.now()-t<60000)return false;
+    sessionStorage.setItem(k,String(Date.now()));
+    location.reload();
+    return true;
+  }catch(e){return false;}
+}
+function refetch(link,n,cb){
+  var nl=d.createElement('link');
+  nl.rel='stylesheet';
+  var h=link.getAttribute('href');
+  nl.href=h+(h.indexOf('?')<0?'?':'&')+'r='+Date.now()+n;
+  var fin=false;
+  function end(){if(!fin){fin=true;cb();}}
+  nl.onload=function(){link.remove();end();};
+  nl.onerror=function(){nl.remove();end();};
+  setTimeout(end,2500);
+  link.parentNode.insertBefore(nl,link.nextSibling);
+}
+function repair(attempt){
+  var bad=suspects();
+  if(!bad.length&&applied()){done();return;}
+  if(attempt>=MAX){if(applied()){done();return;}if(!reloadOnce())fail();return;}
+  var left=bad.length||1;
+  function step(){if(--left<=0)setTimeout(function(){repair(attempt+1);},250*(attempt+1));}
+  if(!bad.length){step();return;}
+  bad.forEach(function(l){refetch(l,attempt,step);});
+}
+repair(0);
+})();</script>
 </head>
 <body class="ee-shell">
 <div id="cctb" class="pywebview-drag-region">
@@ -55,30 +106,8 @@
 </div>
 <div id="boot" class="eden-splash">
 <div class="mx-loader mx-only"><span class="bee-loader" style="--bee-loader-size:120px" role="status" aria-live="polite"><img class="bee-loader-ring" src="/studio/img/brand/loader_ring.png" alt="" draggable="false"><span class="bee is-flying" style="--bee-size:96px" role="img" aria-label="Loading"><span class="bee-fly"><img class="bee-wing-l" src="/studio/img/brand/bee_wing_l.png" alt="" draggable="false"><img class="bee-wing-r" src="/studio/img/brand/bee_wing_r.png" alt="" draggable="false"><img class="bee-body" src="/studio/img/brand/bee_body.png" alt="" draggable="false"></span></span><img class="bee-loader-spark" src="/studio/img/brand/sparkles.png" alt="" draggable="false"></span></div>
-  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" loop muted playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
-  <div class="es-title">EDEN ULTIMATE TOOL</div>
-  <div class="es-spin"></div>
   <div class="es-msg" id="boot-msg">Loading game data…</div>
 </div>
-<script>
-/* ⭐ DEMARRAGE IMMEDIAT DES VIDEOS DE CHARGEMENT — script en ligne, exécuté à l'analyse de la page.
-   MESURÉ le 2026-08-08 : la vidéo était entièrement chargée à 0,36 s mais restait EN PAUSE jusqu'à
-   3,0 s, parce que la demande de lecture n'arrivait qu'après le chargement de tout le module. Sur un
-   écran qui ne dure qu'une seconde et demie, on ne voyait donc que le logo fixe.
-   `muted` est repositionné EN PROPRIÉTÉ : c'est elle qui autorise la lecture automatique, l'attribut
-   seul peut être pris en compte trop tard. */
-(function(){
-  function lancer(){
-    if(document.documentElement.dataset.ui==='modern') return;
-    document.querySelectorAll('video.es-chroma-src').forEach(function(v){
-      v.muted = true; v.playsInline = true; v.loop = true;
-      var p = v.play(); if (p && p.catch) p.catch(function(){});
-    });
-  }
-  lancer();
-  document.addEventListener('DOMContentLoaded', lancer);
-})();
-</script>
 <script>
 /* ⭐ MOUCHARD D'ERREUR — posé AVANT tout le reste, exprès.
    « Press F12 → Console » suppose que la personne devant l'écran peut ouvrir la console et lire
@@ -232,8 +261,7 @@ window.__edenFirstError = null;
     <div><div class="ttl">EDEN ULTIMATE TOOL <span id="appver" title="version — click for changelog">v…</span></div><div class="sub" id="hsub">Game Master Console</div></div></div>
   <div class="searchwrap"><div class="searchbox">
     <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.2 3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    <input id="q" placeholder="Search — name · ID · #1234 · fuzzy" autocomplete="off" title="name, ID, #1234, multi-word, fuzzy — ↑↓ to pick, Enter to open"></div><button id="q-toggle" class="qtog" type="button" aria-label="Show the results panel" aria-pressed="false"
-    title="Show the results panel">☰</button><div id="q-history" class="qhist"></div></div>
+    <input id="q" placeholder="Search — name · ID · #1234 · fuzzy" autocomplete="off" title="name, ID, #1234, multi-word, fuzzy — ↑↓ to pick, Enter to open"></div><div id="q-history" class="qhist"></div></div>
   <div class="hactions">
     <div class="status" id="status">
       <!-- Environment badge = env icon in a pill. A colored halo/border shows status: green ok · red down · grey not set. Click opens the dropdown. -->
@@ -289,6 +317,7 @@ window.__edenFirstError = null;
       <button aria-label="Settings" class="hbtn hdrop-t navico" data-label="Settings"><img src="/studio/icons/icons/24/settings.png" srcset="/studio/icons/icons/24/settings.png 1x, /studio/icons/icons/64/settings.png 2x" class="ui-icon" width="24" height="24" alt="Settings"> <span class="caret">▾</span></button>
       <div class="hmenu">
         <div class="hsec hsec-account"><span class="hsec-me" id="settings-me">—</span></div>
+        <button class="hmi" id="um-account"><img src="/studio/icons/icons/24/accounts.png" srcset="/studio/icons/icons/24/accounts.png 1x, /studio/icons/icons/64/accounts.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Account</button>
         <button class="hmi" id="um-password"><img src="/studio/icons/icons/24/password.png" srcset="/studio/icons/icons/24/password.png 1x, /studio/icons/icons/64/password.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Change password</button>
         <button class="hmi" id="um-logout"><img src="/studio/icons/icons/24/logout.png" srcset="/studio/icons/icons/24/logout.png 1x, /studio/icons/icons/64/logout.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Sign out</button>
 
@@ -344,63 +373,9 @@ window.__edenFirstError = null;
     </div>
   </aside>
   <aside id="side">
-    <!-- Barre COMPACTE : c'est elle qu'on voit dès qu'il y a des résultats. Les 32 pastilles
-         de type + les filtres occupaient ~600 px sur 320 de large (11 rangées), ce qui ne
-         laissait que 3 ou 4 lignes de résultats visibles sur 293. Ils sont désormais repliés
-         derrière ce bandeau et s'ouvrent PAR-DESSUS la liste, sans la comprimer. -->
-    <div class="fbar" id="fbar">
-      <button class="fbar-type" id="fbar-type" title="Change the entity type">
-        <span id="fbar-type-label">All</span> <span class="caret">▾</span>
-      </button>
-      <button class="fbar-more" id="fbar-more" title="Show filters">
-        <img src="/studio/icons/icons/24/refresh.png" class="ui-icon ui-icon-24" width="16" height="16" alt="" aria-hidden="true">
-        Filters<span class="fbar-n" id="fbar-n"></span>
-      </button>
-    </div>
-    <!-- Bandeau discret : un filtre de type actif masquait des correspondances SANS RIEN DIRE.
-         Alimenté par /api/search/counts. -->
     <div class="othertypes" id="othertypes" style="display:none"></div>
-    <div class="fpanel" id="fpanel">
-    <div class="filters" id="filters">
-      <div class="fchip on" data-t="">All</div><div class="fchip" data-t="monster">Creatures</div>
-      <div class="fchip" data-t="item">Items</div><div class="fchip" data-t="npc">NPCs</div>
-      <div class="fchip" data-t="node">Nodes</div><div class="fchip" data-t="store">Stores</div>
-      <div class="fchip" data-t="textindex">Sys&nbsp;Text</div><div class="fchip" data-t="partner">Partners</div>
-      <div class="fchip" data-t="equipset">Sets</div><div class="fchip" data-t="territory">TW</div>
-      <div class="fchip" data-t="schedule">Schedules</div><div class="fchip" data-t="transport">Transport</div>
-      <div class="fchip" data-t="sceneevent">Scene&nbsp;Ev.</div><div class="fchip" data-t="buliding">Buildings</div>
-      <div class="fchip" data-t="paysystem">Pay&nbsp;Sys</div><div class="fchip" data-t="parameter">Params</div>
-    </div>
     <div class="spellsub" id="spellsub" style="display:none">
       <div class="sc on" data-sc="">All</div><div class="sc" data-sc="class">Class</div><div class="sc" data-sc="monster">Monster skills</div>
-    </div>
-    <div class="mapfilter" id="mapwrap">
-      <div class="mapcombo" id="mapcombo"><span class="pin"><img src="/studio/icons/icons/24/pin.png" srcset="/studio/icons/icons/24/pin.png 1x, /studio/icons/icons/48/pin.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>
-        <input id="mapinput" placeholder="Filter by map…" autocomplete="off">
-        <span class="clr" id="mapclear">✕</span></div>
-      <div class="maplist" id="maplist"></div>
-    </div>
-    <div class="monfilter" id="monfilter" style="display:none">
-      <select id="f-rank" title="minimum rank"><option value="">★ any rank</option><option value="2">★★★+</option><option value="3">★★★★+</option><option value="4">★★★★★</option></select>
-      <select id="f-bp" title="Break Point weakness"><option value="">any BP weakness</option></select>
-      <select id="f-loot" title="Filter by what the monster ACTUALLY rewards in-game (matches the in-fiche warnings): mail only counts if the monster is in the event range, loot only counts if its table is loaded server-side.">
-        <option value="">any loot</option>
-        <option value="mail">mails an item</option>
-        <option value="table">normal loot table</option>
-        <option value="both">+mail &amp; loot</option>
-        <option value="none">∅ no loot at all</option>
-      </select>
-      <input id="f-lvmin" type="number" placeholder="Lv min" min="0" title="min level">
-      <input id="f-lvmax" type="number" placeholder="Lv max" min="0" title="max level">
-      <span class="filterreset" id="f-reset" title="Clear all monster filters"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Reset filters</span>
-    </div>
-    <div class="mapfilter" id="itemcatwrap" style="display:none">
-      <div class="mapcombo" id="itemcombo"><span class="pin"><img src="/studio/icons/icons/24/propose_tag.png" srcset="/studio/icons/icons/24/propose_tag.png 1x, /studio/icons/icons/48/propose_tag.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span>
-        <input id="iteminput" placeholder="Filter by item type…" autocomplete="off">
-        <span class="clr" id="itemclear">✕</span></div>
-      <div class="maplist" id="itemcatlist"></div>
-    </div>
-    </div><!-- /#fpanel -->
     <div id="rows"></div>
   </aside>
   <section id="content"><div class="empty">⟡ Search a creature, item or spell ⟡</div></section>
@@ -444,7 +419,7 @@ window.__edenFirstError = null;
       <div class="sc on" data-ee="dev"><span class="ui-icon li lx env-ic" style="--li:url(/studio/icons/line/@2x/env-dev.png);width:20px;height:20px" aria-hidden="true"></span> Dev</div><div class="sc" data-ee="preprod"><span class="ui-icon li lx env-ic" style="--li:url(/studio/icons/line/@2x/env-preprod.png);width:20px;height:20px" aria-hidden="true"></span> Preprod</div><div class="sc" data-ee="prod"><span class="ui-icon li lx env-ic" style="--li:url(/studio/icons/line/@2x/env-prod.png);width:20px;height:20px" aria-hidden="true"></span> Prod</div>
     </div>
     <div class="secline">Client</div>
-    <div class="fld"><label>Client root (unpacked — data/db lives here)</label><input id="s-client"></div>
+    <div class="fld"><label>Client root (unpacked, used when Game files = Unpacked folder)</label><input id="s-client"></div>
     <div class="fld"><label>Packed game dir (target for repacking)</label><input id="s-packed"></div>
     <div class="fld"><label>Game launcher (.exe / .bat)</label><input id="s-launch"></div>
     <div style="margin:2px 0 8px"><button class="sbtn" id="s-clearcache" type="button" title="Drop all the tool's caches + re-scan the unpacked client — use after dropping new files (icons, assets) into the unpacked directory so they're detected"><img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Clear cache &amp; re-scan unpacked</button></div>
@@ -492,10 +467,9 @@ window.__edenFirstError = null;
 </div></div>
 
 <div id="overlay" class="eden-splash">
-  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" loop muted playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
-  <div class="es-title">EDEN ULTIMATE TOOL</div>
-  <div class="es-spin"></div>
+    <div class="mx-loader mx-only"><span class="bee-loader" style="--bee-loader-size:120px" role="status" aria-live="polite"><img class="bee-loader-ring" src="/studio/img/brand/loader_ring.png" alt="" draggable="false"><span class="bee is-flying" style="--bee-size:96px" role="img" aria-label="Loading"><span class="bee-fly"><img class="bee-wing-l" src="/studio/img/brand/bee_wing_l.png" alt="" draggable="false"><img class="bee-wing-r" src="/studio/img/brand/bee_wing_r.png" alt="" draggable="false"><img class="bee-body" src="/studio/img/brand/bee_body.png" alt="" draggable="false"></span></span><img class="bee-loader-spark" src="/studio/img/brand/sparkles.png" alt="" draggable="false"></span></div>
   <div class="es-msg" id="ov-msg">Working…</div>
+  <button class="sbtn ghost" id="ov-cancel" type="button" style="display:none;margin-top:14px">Cancel</button>
 </div>
 
 <div class="modal" id="diag"><div class="sheet" style="width:min(1100px,96vw);max-height:92vh">
@@ -591,6 +565,7 @@ window.__edenFirstError = null;
       <div class="pkghd"><span class="pkgttl"><img src="/studio/icons/icons/24/enchants.png" srcset="/studio/icons/icons/24/enchants.png 1x, /studio/icons/icons/48/enchants.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Depack <span class="pkgtag">incremental</span></span>
         <span class="pkgsub">Decompress the client <b>.pkg</b> into the unpacked client root, so you can edit the files. Only files that actually <b>changed in the archive</b> — or that you edited on disk — are re-extracted; everything already up to date is skipped. Leave the folder box empty for the whole archive, or type a subtree (e.g. <code>data\db</code>, several separated by <code>;</code>) to depack just that.</span></div>
       <div class="pkgrow" style="flex-wrap:wrap"><button class="sbtn" id="pkg-depack-btn">Depack archive</button>
+        <button class="sbtn ghost" id="pkg-depack-cancel" type="button" style="display:none">Cancel</button>
         <input id="pkg-depack-only" placeholder="whole archive — or e.g. data\db ; UIData" style="flex:1;min-width:200px;font-size:11.5px">
         <label style="font-size:11px;color:var(--faint);display:flex;align-items:center;gap:5px"><input type="checkbox" id="pkg-depack-force"> force re-extract everything</label>
         <div class="pkgprog" id="pkg-depack-prog"><div class="pkgbar"><i></i></div><span class="pkgpct"></span></div></div>
@@ -1108,6 +1083,7 @@ import { $, enc, esc, cssCol, el, frag, clear } from './js/core/dom.js';
 import { iconMarkup, hasIcon } from './js/core/icons.js';
 import { initSpawnPicker, openSpawnPicker } from './js/pages/spawn_picker.js';
 import { toast, progressToast } from './js/ui/toast.js';
+import { initAccountIdentity } from './js/auth/account_identity.js';
 import { createNotifAlerts } from './js/ui/notif_alerts.js';
 import './js/ui/notif_local.js';
 import { islandPagesAvailable, mountIslandPage } from './js/pages/island_pages.js';
@@ -1121,7 +1097,7 @@ installNet({ onError: (msg, status) => toast(msg, status >= 500 || status === 0 
              onWarning: msg => toast(msg, 'warn', { sticky: true }) });
 window.netLog = netLog;   // available from the console and the diagnostics page
 import { uiConfirm, uiConflict, uiPrompt, initDialogs } from './js/ui/dialogs.js';
-import { openLaunchDialog } from './js/ui/launch_dialog.js';
+import { openLaunchDialog, watchLaunch, showLaunchError } from './js/ui/launch_dialog.js';
 import { initGmCommands } from './js/pages/gm_commands.js';
 /* ⭐ REFONTE 2026-08 — rail de navigation, bandeau de statut, Dashboard.
    Ces modules ne SAVENT rien faire : ils redeclenchent ce qui existe ici (pastilles de
@@ -1174,9 +1150,6 @@ import { fmtBytes, fmtNum, fmtDate, ago, plural, truncate, titleCase, fmtDuratio
 const httpErr = e => (e instanceof ApiError && e.isNetwork)
   ? 'the tool did not answer — is it still running?'
   : errMessage(e);
-// démarre le chroma-key des vidéos de splash (#boot est déjà visible) dès que possible
-requestAnimationFrame(()=>{ try{ edenSplashChroma(); }
-  catch(e){ console.warn('[splash] logo animation unavailable — static logo kept',e); } });
 /* Custom window title bar — shown ONLY when the desktop window is frameless (native chrome removed).
    Falls back silently in a browser or a framed window, so it never double-renders a header. */
 async function ccInitTitlebar(){
@@ -1211,7 +1184,7 @@ async function ccInitTitlebar(){
 if(window.pywebview&&window.pywebview.api) ccInitTitlebar();
 else window.addEventListener('pywebviewready', ccInitTitlebar);
 /* cssCol (validation de couleur CSS, anti-XSS) -> static/js/core/dom.js */
-let MAPS=null, CUR=null, editing=false, filter='', sceneFilter='', curTab=null, RESULTS=[];
+let MAPS=null, CUR=null, editing=false, filter='', curTab=null, RESULTS=[];
 const DRAFT={};
 /* toast(...)                       -> static/js/ui/toast.js
    uiConfirm / uiConflict / uiPrompt -> static/js/ui/dialogs.js (avec Echap + Entree)
@@ -1259,7 +1232,7 @@ let ACTION_MIN={'altar.submit':'GS','altar.deploy':'GM','altar.review':'GM','dep
   'launch':'GS','accounts.manage':'SA','env.switch':'GM','env.config':'GM','env.config.server':'SA','gen3d':'GM',
   'integrity.view':'GM','char.sexrace':'GM','char.sexrace.apply':'GM',
   'features.test.toggle':'GS','features.manage':'GM','features.promote':'SA','features.release':'SA','client.install':'GS',
-  'client.publish':'SA','emoji.cdn':'SA','shopcurrency.manage':'SA','polls.manage':'SA','polls.view':'GM','cardduel.view':'GS','cardduel.cards':'GM','cardduel.rules':'GM','cardduel.prod':'SA','deploy.client':'GM','crashes.view':'GM','crashes.triage':'GM','perf.view':'GM','messages.moderate':'GM','living_aven.news':'GM'};
+  'client.publish':'SA','emoji.cdn':'SA','shopcurrency.manage':'SA','polls.manage':'SA','polls.view':'GM','events.manage':'SA','cardduel.view':'GS','cardduel.cards':'GM','cardduel.rules':'GM','cardduel.prod':'SA','deploy.client':'GM','crashes.view':'GM','crashes.triage':'GM','perf.view':'GM','messages.moderate':'GM','living_aven.news':'GM'};
 // ── Role impersonation (SA only, CLIENT-SIDE PREVIEW) ─────────────────────────────────────────
 // A Super-Admin can "View as GS/CM/GM" to preview exactly what each role sees — which Home tiles,
 // menu items and buttons are visible — to refine the per-role UX. This ONLY changes what myRole()
@@ -1319,7 +1292,7 @@ async function edenWatchPull(){
   }finally{ _AUTOPULL_WATCH=false; }
 }
 window.edenWatchPull=edenWatchPull;
-window.edenOpenFeature=n=>{FM._search=n;FM._filter='';openFeatures();};
+window.edenOpenFeature=(n,o)=>import('./js/nav/feature_opener.js').then(m=>m.openFeature(n,o));
 async function fetchMe(){
   try{ ME=await api.get('/api/auth/me'); }catch(e){ ME=null; }
   if(ME&&ME.authenticated&&!_AUTOPULL_PAGE){ _AUTOPULL_PAGE=true; edenAutoPull('page'); }
@@ -1429,36 +1402,13 @@ function handle401(resp){
     if(m&&!m.authenticated&&m.signin_reason&&e&&!e.textContent)e.textContent=m.signin_reason;}).catch(()=>{});
   return true;
 }
-let _loginBusy=false;
-async function doLogin(ev){if(ev)ev.preventDefault();
-  if(_loginBusy) return;                                    // ignore repeat submits / spam-clicks on Sign in
-  const u=$('#lg-user').value.trim(),p=$('#lg-pass').value;$('#lg-err').textContent='';
-  if(!u||!p){$('#lg-err').textContent='Enter username and password.';return;}
-  const btn=$('#lg-go'), label=btn?btn.textContent:'Sign in';
-  _loginBusy=true;
-  if(btn){btn.disabled=true;btn.classList.add('loading');btn.textContent='Signing in…';}
-  // Login authenticates against the game DB over SSH — a slow/unreachable server must NOT hang the
-  // window forever; abort after 25s and let the user retry. The disabled button already prevents a
-  // pile-up of concurrent logins that would saturate the single worker and freeze the app.
-  const ctl=new AbortController(), tmo=setTimeout(()=>ctl.abort(),25000);
-  try{
-    const envBefore=LG_ENV;
-    const r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({username:u,password:p,env:LG_ENV||undefined,remember:!!($('#lg-remember')&&$('#lg-remember').checked)}),signal:ctl.signal});
-    const j=await r.json().catch(()=>({}));
-    if(!r.ok){$('#lg-err').textContent=j.detail||'login failed';return;}
-    // "Remember" : mémoriser l'identifiant (JAMAIS le mot de passe). La session "rester connecté" est
-    // portée par le cookie glissant (30 j) côté serveur.
-    try{
-      const remember=$('#lg-remember')?$('#lg-remember').checked:true;
-      localStorage.setItem('eut_remember', remember?'1':'0');
-      if(remember)localStorage.setItem('eut_remember_user', u); else localStorage.removeItem('eut_remember_user');
-    }catch(_){}
+async function lgSignedIn(j,btn,how){
     // login succeeded FAST (no env switch inside it). If we picked a different env AND we're allowed to
     // switch, do the switch NOW — as a SEPARATE call with NO 25s timeout (switching a remote env reloads
     // the whole engine over SSH and can take a while). We keep the login card up with a clear message so
     // it never looks frozen, then reload onto the new env.
     if(j.switch_to){
+      try{accountIdentity.beforeReload(how);}catch(_){}
       if(btn)btn.textContent='Loading '+j.switch_to+'…';
       $('#lg-err').textContent='';$('#lg-err').style.color='var(--faint)';
       $('#lg-err').textContent='Signed in — loading the '+j.switch_to+' environment (this reloads all data)…';
@@ -1489,6 +1439,34 @@ async function doLogin(ev){if(ev)ev.preventDefault();
     try{closeAllModals();renderHome();}catch(e){}
     toast('Signed in as '+ME.username+' ('+ME.role+')','ok');
     if(ME.must_change)toast('You are using the default password — change it (user menu → Change password).','warn',8000);
+  try{accountIdentity.afterSignIn(how);}catch(_){}
+}
+let _loginBusy=false;
+async function doLogin(ev){if(ev)ev.preventDefault();
+  if(_loginBusy) return;                                    // ignore repeat submits / spam-clicks on Sign in
+  const u=$('#lg-user').value.trim(),p=$('#lg-pass').value;$('#lg-err').textContent='';
+  if(!u||!p){$('#lg-err').textContent='Enter username and password.';return;}
+  const btn=$('#lg-go'), label=btn?btn.textContent:'Sign in';
+  _loginBusy=true;
+  if(btn){btn.disabled=true;btn.classList.add('loading');btn.textContent='Signing in…';}
+  // Login authenticates against the game DB over SSH — a slow/unreachable server must NOT hang the
+  // window forever; abort after 25s and let the user retry. The disabled button already prevents a
+  // pile-up of concurrent logins that would saturate the single worker and freeze the app.
+  const ctl=new AbortController(), tmo=setTimeout(()=>ctl.abort(),25000);
+  try{
+    const envBefore=LG_ENV;
+    const r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username:u,password:p,env:LG_ENV||undefined,remember:!!($('#lg-remember')&&$('#lg-remember').checked)}),signal:ctl.signal});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok){$('#lg-err').textContent=j.detail||'login failed';return;}
+    // "Remember" : mémoriser l'identifiant (JAMAIS le mot de passe). La session "rester connecté" est
+    // portée par le cookie glissant (30 j) côté serveur.
+    try{
+      const remember=$('#lg-remember')?$('#lg-remember').checked:true;
+      localStorage.setItem('eut_remember', remember?'1':'0');
+      if(remember)localStorage.setItem('eut_remember_user', u); else localStorage.removeItem('eut_remember_user');
+    }catch(_){}
+    await lgSignedIn(j,btn,'password');
   }catch(e){
     // Un timeout au login = le SERVEUR de l'env choisi ne répond pas (SSH/DB injoignable), PAS un souci de
     // mot de passe. On nomme l'env et on suggère d'en essayer un autre — un env down ne doit pas bloquer un
@@ -1631,8 +1609,7 @@ function navContext(){
         document.body.classList.remove('home-view');
         document.body.classList.add('side-open');    // ces pages VIVENT dans le panneau de recherche
         try{stopDashboard();}catch(e){}
-        const chip=$(`#filters .fchip[data-t="${t}"]`);
-        if(chip)chip.click();
+        setTypeFilter(t);
         $('#content').innerHTML='<div class="empty">⟡ pick a result on the left, or search above ⟡</div>';
         try{$('#q').focus();}catch(e){}
       },
@@ -1670,9 +1647,6 @@ function sideOpen(on){
     const c=$('#content');
     if(c&&c.querySelector('.dash'))c.innerHTML='<div class="empty">⟡ pick a result on the left, or search above ⟡</div>';
   }
-  const t=$('#q-toggle');
-  if(t){ t.classList.toggle('on', v); t.setAttribute('aria-pressed', v?'true':'false');
-         t.title = v ? 'Hide the results panel' : 'Show the results panel'; }
   return v;
 }
 function renderHome(){
@@ -1689,9 +1663,7 @@ try{
      ouvrait le panneau. On ouvre quand la recherche est UTILISEE — une frappe, ou un clic
      sur une pastille de filtre. */
   const _q=$('#q');
-  if(_q)_q.addEventListener('input',()=>{ if(_q.value.trim())sideOpen(true); });
-  const _f=$('#filters'); if(_f)_f.addEventListener('click',()=>sideOpen(true));
-  const _t=$('#q-toggle'); if(_t)_t.onclick=()=>sideOpen();
+  if(_q)_q.addEventListener('input',()=>{ const sc=window.edenSearchScope; if(_q.value.trim()&&!(sc&&sc.active()))sideOpen(true); });
 }catch(e){}
 
 function showThemedDialog(title,html){
@@ -1737,6 +1709,8 @@ $('#um-password')&&($('#um-password').onclick=()=>{_closeSettings();
       'Use 4 to 20 characters: letters, digits and standard symbols, no spaces.'):'';}
   $('#pwModal').classList.add('open');});
 $('#lg-form')&&($('#lg-form').onsubmit=doLogin);
+const accountIdentity=initAccountIdentity({getMe:()=>ME,signedIn:(j,how)=>lgSignedIn(j,null,how),
+  loginEnv:()=>LG_ENV,closeSettings:()=>_closeSettings()});
 // login-screen environment picker: choose which env to sign in on (each env keeps its own session)
 document.querySelectorAll('#lg-envseg .lg-env').forEach(b=>b.onclick=()=>lgSelectEnv(b.dataset.env));
 $('#pw-cancel')&&($('#pw-cancel').onclick=()=>$('#pwModal').classList.remove('open'));
@@ -2037,97 +2011,17 @@ function hlText(s,q){
 }
 function rowMeta(m){return (m.meta||[]).map(b=>`<span class="mb">${b[0]?`<i>${esc(b[0])}</i>`:''}${esc(b[1])}</span>`).join('');}
 function qcountHead(n,q,ms,cached){return n?`<div class="qcount">${n} result${n!==1?'s':''}${q?' · '+(cached?'cached':Math.round(ms)+' ms'):''}</div>`:'';}
-let spellCat='',itemCat='';
-// ── Barre de filtres compacte ────────────────────────────────────────────────────────
-// Les 32 pastilles + les 6 contrôles prenaient ~600 px de la colonne : sur 293 résultats
-// on en voyait 4. Ils vivent maintenant dans #fpanel, replié par défaut et ouvert EN
-// SURIMPRESSION (position:absolute) — ouvrir les filtres ne comprime plus la liste.
-function fbarSync(){
-  const chip=$('#filters .fchip.on');
-  $('#fbar-type-label').textContent=chip?chip.textContent.trim():'All';
-  // Compte les filtres SECONDAIRES actifs (le type a déjà son propre libellé). Sans ce
-  // compteur, un filtre replié devient un filtre OUBLIÉ : on cherche, on ne trouve rien,
-  // et rien à l'écran ne dit qu'un « Lv max 20 » d'il y a dix minutes est encore actif.
-  let n=0;
-  if(sceneFilter)n++; if(itemCat)n++; if(spellCat)n++;
-  ['#f-rank','#f-bp','#f-loot','#f-lvmin','#f-lvmax'].forEach(s=>{const e=$(s);if(e&&e.value)n++;});
-  const b=$('#fbar-n'); b.textContent=n?n:''; b.classList.toggle('on',n>0);
+let spellCat='';
+const TYPE_LABELS={monster:'Creatures',item:'Items',npc:'NPCs',node:'Nodes',store:'Stores',textindex:'Sys Text',partner:'Partners',equipset:'Sets',territory:'TW',schedule:'Schedules',transport:'Transport',sceneevent:'Scene Ev.',buliding:'Buildings',paysystem:'Pay Sys',parameter:'Params',spell:'Spells'};
+function setTypeFilter(t){
+  filter=t||'';spellCat='';
+  const sub=$('#spellsub');
+  sub.style.display=filter==='spell'?'flex':'none';
+  sub.querySelectorAll('.sc').forEach((x,i)=>x.classList.toggle('on',i===0));
+  search();
 }
-function fpanelToggle(force){
-  const p=$('#fpanel'), bar=$('#fbar');
-  const open=(force!==undefined)?force:!p.classList.contains('open');
-  if(bar) p.style.setProperty('--fbar-h', bar.offsetHeight+'px');
-  p.classList.toggle('open',open);
-}
-$('#fbar-more').onclick=()=>fpanelToggle();
-$('#fbar-type').onclick=()=>fpanelToggle();
-// Un clic hors du panneau le referme : ouvert en surimpression, il masquerait la liste.
-document.addEventListener('mousedown',ev=>{
-  const p=$('#fpanel'); if(!p||!p.classList.contains('open'))return;
-  if(p.contains(ev.target)||$('#fbar').contains(ev.target))return;
-  fpanelToggle(false);
-});
-$('#filters').querySelectorAll('.fchip').forEach(c=>c.onclick=()=>{
-  $('#filters').querySelectorAll('.fchip').forEach(x=>x.classList.remove('on'));c.classList.add('on');filter=c.dataset.t;
-  fpanelToggle(false);        // le type choisi, on rend la place aux résultats
-  setTimeout(fbarSync,0);
-  // reset contextual sub-filters so they never bleed across types
-  sceneFilter='';itemCat='';spellCat='';
-  $('#mapinput').value='';$('#mapcombo').classList.remove('has');
-  $('#iteminput').value='';$('#itemcombo').classList.remove('has');
-  $('#spellsub').querySelectorAll('.sc').forEach((x,i)=>x.classList.toggle('on',i===0));
-  $('#spellsub').style.display=filter==='spell'?'flex':'none';
-  $('#mapwrap').style.display=(filter===''||filter==='monster')?'block':'none';
-  $('#itemcatwrap').style.display=filter==='item'?'block':'none';
-  $('#monfilter').style.display=filter==='monster'?'flex':'none';
-  if(filter!=='monster'){$('#f-rank').value='';$('#f-bp').value='';$('#f-loot').value='';$('#f-lvmin').value='';$('#f-lvmax').value='';}
-  search();});
-// BP weakness dropdown + monster filter change handlers
-['Slash','Strike','Pierce','Fire','Ice','Lightning','Nature','Light','Dark'].forEach(t=>{
-  const o=document.createElement('option');o.value=t;o.textContent='weak '+t;$('#f-bp').appendChild(o);});
-// `fbarSync` après CHAQUE changement : le compteur de la barre repliée est le seul indice
-// visible qu'un filtre reste actif une fois le panneau refermé.
-['f-rank','f-bp','f-loot','f-lvmin','f-lvmax'].forEach(id=>$('#'+id).addEventListener('change',()=>{search();fbarSync();}));
-['f-lvmin','f-lvmax'].forEach(id=>$('#'+id).addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{search();fbarSync();},250);}));
-fbarSync();     // état initial de la barre
-$('#f-reset').onclick=()=>{['f-rank','f-bp','f-loot','f-lvmin','f-lvmax'].forEach(id=>$('#'+id).value='');
-  sceneFilter='';if($('#mapinput'))$('#mapinput').value='';if($('#mapcombo'))$('#mapcombo').classList.remove('has');
-  const q=$('#q');if(q)q.value='';search();fbarSync();};
 $('#spellsub').querySelectorAll('.sc').forEach(c=>c.onclick=()=>{
   $('#spellsub').querySelectorAll('.sc').forEach(x=>x.classList.remove('on'));c.classList.add('on');spellCat=c.dataset.sc;search();});
-// map autocomplete combobox
-let MAPLIST=[],mapKbd=-1;
-function renderMapList(q){
-  q=(q||'').toLowerCase();const matches=(q?MAPLIST.filter(m=>m.map.toLowerCase().includes(q)||m.scene.toLowerCase().includes(q)):MAPLIST).slice(0,60);
-  mapKbd=-1;
-  $('#maplist').innerHTML=matches.map((m,i)=>`<div class="maprow" data-scene="${esc(m.scene)}" data-name="${esc(m.map)}">${esc(m.map)}<span class="sc">${esc(m.scene)}</span></div>`).join('')||'<div class="maprow" style="color:var(--faint);cursor:default">no map</div>';
-  $('#maplist').querySelectorAll('.maprow[data-scene]').forEach(r=>r.onclick=()=>pickMap(r.dataset.scene,r.dataset.name));
-  $('#maplist').classList.add('open');
-}
-function pickMap(scene,name){sceneFilter=scene;$('#mapinput').value=name;$('#mapcombo').classList.add('has');$('#maplist').classList.remove('open');search();}
-$('#mapinput').addEventListener('focus',()=>renderMapList($('#mapinput').value));
-$('#mapinput').addEventListener('input',()=>{$('#mapcombo').classList.toggle('has',!!$('#mapinput').value);renderMapList($('#mapinput').value);});
-$('#mapinput').addEventListener('keydown',e=>{const rows=[...$('#maplist').querySelectorAll('.maprow[data-scene]')];
-  if(e.key==='ArrowDown'){mapKbd=Math.min(mapKbd+1,rows.length-1);}else if(e.key==='ArrowUp'){mapKbd=Math.max(mapKbd-1,0);}
-  else if(e.key==='Enter'&&rows[mapKbd]){pickMap(rows[mapKbd].dataset.scene,rows[mapKbd].dataset.name);return;}
-  else if(e.key==='Escape'){$('#maplist').classList.remove('open');return;}else return;
-  rows.forEach((r,i)=>r.classList.toggle('kbd',i===mapKbd));if(rows[mapKbd])rows[mapKbd].scrollIntoView({block:'nearest'});e.preventDefault();});
-$('#mapclear').onclick=()=>{sceneFilter='';$('#mapinput').value='';$('#mapcombo').classList.remove('has');$('#maplist').classList.remove('open');search();};
-// item-category autocomplete combobox
-let ITEMCATS=[];
-function renderItemList(q){
-  q=(q||'').toLowerCase();
-  const ms=(q?ITEMCATS.filter(c=>(c.label||'').toLowerCase().includes(q)||c.value.includes(q)):ITEMCATS).slice(0,80);
-  $('#itemcatlist').innerHTML=ms.map(c=>`<div class="maprow" data-v="${esc(c.value)}">${esc(c.label||('Type '+c.value))}<span class="sc">#${esc(c.value)} · ${c.count}</span></div>`).join('')||'<div class="maprow" style="color:var(--faint);cursor:default">no type</div>';
-  $('#itemcatlist').querySelectorAll('.maprow[data-v]').forEach(r=>r.onclick=()=>{
-    itemCat=r.dataset.v;$('#iteminput').value=r.textContent.replace(/#.*/,'').trim();$('#itemcombo').classList.add('has');$('#itemcatlist').classList.remove('open');search();});
-  $('#itemcatlist').classList.add('open');
-}
-$('#iteminput').addEventListener('focus',()=>renderItemList($('#iteminput').value));
-$('#iteminput').addEventListener('input',()=>{$('#itemcombo').classList.toggle('has',!!$('#iteminput').value);renderItemList($('#iteminput').value);});
-$('#itemclear').onclick=()=>{itemCat='';$('#iteminput').value='';$('#itemcombo').classList.remove('has');$('#itemcatlist').classList.remove('open');search();};
-document.addEventListener('click',e=>{if(!e.target.closest('#itemcatwrap'))$('#itemcatlist').classList.remove('open');
-  if(!e.target.closest('.mapfilter'))$('#maplist').classList.remove('open');});
 
 // ---------- connection status (top bar) ----------
 let STATUS=null;
@@ -2217,7 +2111,7 @@ $('#status').querySelectorAll('.stpill').forEach(p=>{
   p.addEventListener('click',()=>{$('#sttip').classList.remove('open');$('#env-dd').classList.remove('open');openQuickCfg(p.dataset.st);});});
 // petit panneau de config focalisé (clic sur une pastille = juste ces champs de l'env actif)
 const QC_GROUPS={
-  client:{title:'Client configuration',fields:[['client_root','Client root (unpacked — data/db)'],['client_packed','Packed game dir'],['launcher_path','Game launcher (.exe / .bat)']]},
+  client:{title:'Client configuration',fields:[['client_root','Client root (unpacked folder, legacy)'],['client_packed','Packed game dir'],['launcher_path','Game launcher (.exe / .bat)']]},
   servers:{title:'Servers configuration',fields:[['game_host','Game host:port — Launch → connect.ini'],['server_root_local','Local server root (S_* copy)'],['server_db_remote','Remote Data/db (push over SSH)'],['server_ssh_host','SSH host'],['server_ssh_user','SSH user'],['server_ssh_pass','SSH password','pass'],['server_restart_cmd','Restart command']]},
   database:{title:'Database configuration',fields:[['db_host','DB host'],['db_user','DB user'],['db_pass','DB password','pass']]},
 };
@@ -2249,6 +2143,7 @@ async function openQuickCfg(which){
   qcEnv=env;
   $('#qc-title').textContent=g.title;
   $('#qc-env').textContent='Environment: '+env+(env===active?' (active)':' (not active — editing config only)');
+  $('#qc-env').dataset.env=env;
   // Un SECRET (pass) n'est JAMAIS renvoyé par le back (has_<field> dit seulement s'il en existe un).
   // Si un secret est déjà enregistré → placeholder explicite + on laisse le champ VIDE : un save à vide
   // = « inchangé » (le back ne l'écrase pas). Ça évite le « le mot de passe se barre / s'efface » perçu.
@@ -2297,16 +2192,18 @@ function wireQcClientActions(){
   const dp=$('#qc-do-depack'); if(dp)dp.onclick=async()=>{
     await _qcSaveFirst();
     showOverlay('Decompressing the client .pkg into the unpacked folder…');
+    const oc=$('#ov-cancel');
+    const ocDone=()=>{if(oc){oc.style.display='none';oc.onclick=null;oc.disabled=false;}};
     try{
       const r=await fetch('/api/pkg/unpack',{method:'POST'});const j=await r.json().catch(()=>({}));
-      if(!r.ok){hideOverlay();toast(''+(j.detail||'depack failed'),'error');return;}
-      // suivre la progression
+      if(!r.ok){hideOverlay();toast(''+(j.detail||'depack failed'),'error',{sticky:true});return;}
+      if(oc){oc.style.display='';oc.onclick=async()=>{oc.disabled=true;showOverlay('Stopping the depack…');await fetch('/api/pkg/unpack/cancel',{method:'POST'}).catch(()=>{});};}
       let done=false;while(!done){await new Promise(s=>setTimeout(s,700));
         const st=await(await fetch('/api/pkg/unpack/status')).json().catch(()=>({}));
-        if(st.total)showOverlay("Unpacking… "+st.done+"/"+st.total+" files");
-        if(st.finished||st.error){done=true;hideOverlay();
-          st.error?toast(''+st.error,'error'):toast('unpacked to the client root','ok');}}
-    }catch(e){hideOverlay();toast(errMessage(e),'error');}
+        if(st.total&&!(oc&&oc.disabled))showOverlay("Unpacking… "+st.done+"/"+st.total+" files");
+        if(st.finished||st.error){done=true;hideOverlay();ocDone();
+          st.cancelled?toast(''+st.error,'warn'):(st.error?toast(''+st.error,'error'):toast(st.prepared?'work folder ready':'unpacked to the client root','ok'));}}
+    }catch(e){hideOverlay();ocDone();toast(errMessage(e),'error');}
   };
   const pk=$('#qc-do-pack'); if(pk)pk.onclick=async()=>{
     await _qcSaveFirst();
@@ -2397,7 +2294,7 @@ async function renderEnvBadge(){
       const e=b.dataset.ev;if(e===active)return;
       try{const r=await fetch('/api/environments/active?env='+enc(e),{method:'POST'});
         if(handle401(r))return;                                    // session gone → reopen login
-        if(!r.ok){toast('switch failed ('+r.status+')');return;}}catch{toast('switch failed');return;}
+        if(!r.ok){let w='';try{w=(await r.json()).detail||'';}catch(_){}toast(w||('switch failed ('+r.status+')'));return;}}catch{toast('switch failed');return;}
       EDIT_ENV=e;toast('switched to '+e+' — reloading…');setTimeout(()=>location.reload(),350);
     });
   }
@@ -2460,12 +2357,7 @@ async function search(){
   if(filter==='scene'){url='/api/scenes?limit=500&q='+enc(q);kind='scene';}
   else if(filter==='quest'){url='/api/quests/search?limit=3000&q='+enc(q);kind='quest';}
   else{
-    const useScene=(filter===''||filter==='monster')&&sceneFilter;
-    let mon='';
-    if(filter==='monster'){const rk=$('#f-rank').value,bp=$('#f-bp').value,lt=$('#f-loot').value,lo=$('#f-lvmin').value,hi=$('#f-lvmax').value;
-      if(rk)mon+='&monrank='+rk; if(bp)mon+='&bptype='+bp; if(lt)mon+='&loot='+lt; if(lo)mon+='&lvmin='+lo; if(hi)mon+='&lvmax='+hi;}
-    url='/api/search?q='+enc(q)+(filter?'&types='+filter:'')+(useScene?'&scene='+enc(sceneFilter):'')
-      +(filter==='spell'&&spellCat?'&spellcat='+spellCat:'')+(filter==='item'&&itemCat?'&itemcat='+enc(itemCat):'')+mon+'&limit=400';
+    url='/api/search?q='+enc(q)+(filter?'&types='+filter:'')+(filter==='spell'&&spellCat?'&spellcat='+spellCat:'')+'&limit=400';
     kind='entity';
   }
   const t0=performance.now();
@@ -2499,7 +2391,7 @@ const _otCache=new Map();
 async function otherTypes(q){
   const box=$('#othertypes'); if(!box)return;
   if(!q||!filter){box.style.display='none';return;}   // sans filtre de type, rien n'est masqué
-  const key=q+'|'+sceneFilter+'|'+itemCat+'|'+spellCat;
+  const key=q+'|'+spellCat;
   let data=_otCache.get(key);
   if(!data){
     try{ data=await (await fetch('/api/search/counts?q='+enc(q))).json(); }
@@ -2510,7 +2402,7 @@ async function otherTypes(q){
   const autres=Object.entries(by).filter(([t])=>t!==filter).reduce((s,[,n])=>s+n,0);
   if(!autres){box.style.display='none';return;}
   const top=Object.entries(by).filter(([t])=>t!==filter).sort((a,b)=>b[1]-a[1]).slice(0,3)
-    .map(([t,n])=>{const c=$(`#filters .fchip[data-t="${t}"]`);return (c?c.textContent.trim():t)+' '+n;});
+    .map(([t,n])=>{return (TYPE_LABELS[t]||t)+' '+n;});
   // `capped` : le serveur a atteint son plafond de comptage, le total est TRONQUÉ. On écrit
   // « 4707+ » plutôt qu'un nombre exact qu'on ne peut pas garantir.
   const suffixe=data.capped?'+':'';
@@ -2614,23 +2506,39 @@ function showStaleBanner(){
   _staleToast=toast(`${SRVFP.file} was RE-WRITTEN on the server — it's the server itself, NOT another dev: at boot, restart_safe restores the clean data (master, ~21269 records), then a host process (activity-triggered) re-saves/reduces the file. This cycle can drop items (including recent clones). Reload to see the LIVE state before saving.`,
     'warn',{sticky:true,action:{label:'<img src="/studio/icons/icons/24/refresh.png" srcset="/studio/icons/icons/24/refresh.png 1x, /studio/icons/icons/48/refresh.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Reload',fn:()=>refresh()}});
 }
+function localeFail(etype,id,msg){
+  const box=$('#loc-body');
+  box.innerHTML=`<div class="esub" style="padding:14px"><b>Could not load the languages of this record.</b><div style="margin:6px 0 10px">${esc(msg)}</div><button class="sbtn" id="loc-retry">Retry</button></div>`;
+  $('#loc-retry').onclick=()=>openLocale(etype,id);
+}
 async function openLocale(etype,id){
-  $('#loc-body').innerHTML='<div class="esub" style="padding:14px"><span class="spin"></span> loading…</div>';
+  const box=$('#loc-body');
+  box.innerHTML='<div class="esub" style="padding:14px"><span class="spin"></span> loading…</div>';
   $('#localemodal').classList.add('open');
-  const j=await(await fetch('/api/locale/'+etype+'/'+id)).json();
-  $('#loc-body').innerHTML=j.variants.map(v=>`<div class="fld">
+  let j=null;
+  try{
+    const r=await fetch('/api/locale/'+enc(etype)+'/'+enc(id));
+    j=await r.json().catch(()=>null);
+    if(!r.ok)throw new Error((j&&typeof j.detail==='string'&&j.detail)||('the server answered HTTP '+r.status));
+    if(!j||!Array.isArray(j.variants))throw new Error('the server answered without a list of languages');
+  }catch(e){localeFail(etype,id,e&&e.message?e.message:String(e));return;}
+  if(!j.variants.length){box.innerHTML='<div class="esub" style="padding:14px">No language entry exists for this record.</div>';return;}
+  box.innerHTML=j.variants.map(v=>`<div class="fld">
     <label>${esc(v.label)} <span style="color:var(--faint);font-size:10px;text-transform:none">${esc(v.source)}</span></label>
     <div style="display:flex;gap:6px"><input data-loc="${esc(v.locale)}" value="${esc(v.value)}" style="flex:1">
     <button class="sbtn" data-locsave="${esc(v.locale)}" style="padding:6px 12px">Save</button></div></div>`).join('')+
     `<div class="note" style="color:var(--faint);font-size:11px">Big5 = in-game name (c_, client+server). English = t_. Other locales = data/db_locale/&lt;lang&gt;/ (dev only).</div>`;
-  $('#loc-body').querySelectorAll('[data-locsave]').forEach(b=>b.onclick=async()=>{
-    const loc=b.dataset.locsave,inp=$('#loc-body').querySelector(`input[data-loc="${loc}"]`);
+  box.querySelectorAll('[data-locsave]').forEach(b=>b.onclick=async()=>{
+    const loc=b.dataset.locsave,inp=box.querySelector(`input[data-loc="${loc}"]`);
     b.disabled=true;b.textContent='…';
-    const r=await fetch('/api/locale/'+etype+'/'+id,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({locale:loc,value:inp.value})});
-    const jr=await r.json();b.disabled=false;b.textContent='Save';
-    if(r.ok){toast(''+loc+' name saved (revert in History)');if(loc==='big5'||loc==='en')refresh();}
-    else toast(''+(jr.detail||'failed'));});
+    try{
+      const r=await fetch('/api/locale/'+enc(etype)+'/'+enc(id),{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({locale:loc,value:inp.value})});
+      const jr=await r.json().catch(()=>({}));
+      if(r.ok){toast(''+loc+' name saved (revert in History)');if(loc==='big5'||loc==='en')refresh();}
+      else toast(''+(jr.detail||('failed (HTTP '+r.status+')')));
+    }catch(e){toast('Could not save: '+(e&&e.message?e.message:e));}
+    b.disabled=false;b.textContent='Save';});
 }
 $('#loc-close').onclick=()=>$('#localemodal').classList.remove('open');
 let ibField=null,ibTimer;
@@ -3584,9 +3492,6 @@ function showOverlay(msg){
   const already=o.classList.contains('open');
   const m=$('#ov-msg');if(m)m.textContent=msg||'Working…';   // changer LE TEXTE seulement
   o.classList.add('open');
-  // ne (re)lancer le chroma de la vidéo QUE si l'overlay vient de s'ouvrir — sinon un simple
-  // changement de message rappellerait la mise en route et ferait « clignoter » la vidéo.
-  if(!already)edenSplashChroma();
 }
 function hideOverlay(){const o=$('#overlay');if(o)o.classList.remove('open');}
 
@@ -3643,7 +3548,25 @@ function pkgWsArchive(){
 }
 function pkgWsFolder(){ const f=$('#pkg-ws-folder'); return f?(f.value||'').trim():''; }
 
+async function pkgGameFiles(){
+  let st={};
+  try{ st=await(await fetch('/api/assets/status')).json(); }catch(e){ return; }
+  const arch=st.mode==='archives', card=$('#pkgcard-depack'); window.__gameFiles=st.mode; if(!card) return;
+  if(!card.dataset.legacyHtml) card.dataset.legacyHtml=card.querySelector('.pkghd').innerHTML;
+  const btn=$('#pkg-depack-btn'), only=$('#pkg-depack-only');
+  if(arch){
+    card.querySelector('.pkghd').innerHTML='<span class="pkgttl">Prepare work folder <span class="pkgtag">RFG archives</span></span><span class="pkgsub">Game files: <b>RFG archives</b>. The tool reads the archives directly, nothing is depacked. The work folder <code>'+esc(st.overlay||'')+'</code> holds the data tables (data/db, data/db_locale, data/scene) and the files you edit; type a subtree to add it (e.g. <code>UIData</code>). A full depack needs a folder typed in Working set &gt; Folder.</span>';
+    if(btn) btn.textContent='Prepare work folder';
+    if(only) only.placeholder='data tables only — or add e.g. UIData';
+  }else{
+    card.querySelector('.pkghd').innerHTML=card.dataset.legacyHtml;
+    if(btn) btn.textContent='Depack archive';
+    if(only) only.placeholder='whole archive — or e.g. data\\db ; UIData';
+  }
+}
+
 async function pkgLoadSources(){
+  pkgGameFiles();
   const s=$('#pkg-ws-archive'); if(!s) return;
   let j={};
   try{ j=await(await fetch('/api/pkg/sources')).json(); }catch(e){ j={}; }
@@ -3684,7 +3607,7 @@ $('#pkg-depack-btn').onclick=async()=>{
   const res=$('#pkg-depack-res');res.innerHTML='';
   // Dépack ciblé : un sous-arbre (ex. « data\db ») au lieu des 14,4 Go. Plusieurs préfixes
   // se séparent par « ; ». Vide = toute l'archive.
-  const only=($('#pkg-depack-only')&&$('#pkg-depack-only').value||'').trim();
+  const only=($('#pkg-depack-only')&&$('#pkg-depack-only').value||'').trim()||((window.__gameFiles==='archives'&&!pkgWsFolder())?'data/db':'');
   const force=!!($('#pkg-depack-force')&&$('#pkg-depack-force').checked);
   const qs='?only='+encodeURIComponent(only)+(force?'&force=true':'')
     +'&src='+encodeURIComponent(pkgWsArchive())+'&out='+encodeURIComponent(pkgWsFolder());
@@ -3692,8 +3615,12 @@ $('#pkg-depack-btn').onclick=async()=>{
   try{const r=await fetch('/api/pkg/unpack'+qs,{method:'POST'});const j=await r.json().catch(()=>({}));
     if(!r.ok){pkgSetProg('depack',null);pkgBusy(false);res.innerHTML='<span class="err">✗ '+esc(j.detail||'failed to start')+'</span>';return;}
   }catch(e){pkgSetProg('depack',null);pkgBusy(false);res.innerHTML='<span class="err">✗ '+esc(''+e)+'</span>';return;}
+  const dc=$('#pkg-depack-cancel');
+  if(dc){dc.style.display='';dc.disabled=false;dc.onclick=async()=>{dc.disabled=true;await fetch('/api/pkg/unpack/cancel',{method:'POST'}).catch(()=>{});};}
   pkgPoll('/api/pkg/unpack/status','depack',j=>{
-    if(j.error){res.innerHTML='<span class="err">✗ '+esc(j.error)+'</span>';toast('depack failed','error',{sticky:true});}
+    if(dc){dc.style.display='none';dc.onclick=null;}
+    if(j.cancelled){res.innerHTML='<span class="note">'+esc(j.error||'cancelled')+'</span>';toast('depack cancelled','warn');}
+    else if(j.error){res.innerHTML='<span class="err">✗ '+esc(j.error)+'</span>';toast('depack failed','error',{sticky:true});}
     else{
       // ⚠ Toujours dire ce qui a été SAUTÉ. « 12 fichiers » après un dépack de 66 127 se
       // lirait comme un échec ; c'est en fait « 12 à refaire, 66 115 déjà à jour ».
@@ -4937,8 +4864,7 @@ initFeatureManager({ $, esc, toast, errMessage, httpErr, showThemedDialog, iconM
   runBusy:(b,fn)=>UI.runBusy(b,fn), guardPage:(a,p)=>guardPage(a,p), edenSetView:(v)=>edenSetView(v),
   can:(a)=>can(a), me:()=>ME, getFM:()=>FM,
   fmGet:(u)=>fmGet(u), fmPost:(u,b)=>fmPost(u,b), fmConfirm:(t,h,l)=>fmConfirm(t,h,l),
-  barRepack:()=>barRepack(), isRepacking:()=>!!window._barRepacking,
-  chromaVideo:(cv,vid,keep)=>edenChromaVideo(cv,vid,keep) });
+  barRepack:()=>barRepack(), isRepacking:()=>!!window._barRepacking });
 let FM={list:null, sel:null, detail:null};
 async function fmGet(url){ return api.get(url); }
 async function fmPost(url,body){ return api.post(url, body===undefined?{}:body); }
@@ -4951,123 +4877,6 @@ function fmConfirm(title,html,okLabel){
     setTimeout(()=>{ const y=$('#fmc-yes'),n=$('#fmc-no');
       if(y)y.onclick=()=>{ close(); resolve(true); };
       if(n)n.onclick=()=>{ close(); resolve(false); }; },60);
-  });
-}
-
-// GÉNÉRIQUE : rend le FOND #1a0f06 d'une vidéo MP4 transparent (chroma-key) sur un canvas, à la
-// résolution/ratio NATIFS (aucune déformation). `keepAlive()` renvoie true tant qu'il faut continuer.
-// Utilisé par le loader Features ET les splashs de démarrage (#boot/#overlay/#conn-lost).
-function edenChromaVideo(cv, vid, keepAlive, onStop){
-  if(!cv||!vid)return;
-  const ctx=cv.getContext('2d',{willReadFrequently:true});
-  const KEY=[0x1a,0x0f,0x06], TOL=54;   // #1a0f06 ± tolérance (fond sombre uni)
-  let sized=false;
-  // ⚠️ PLAFOND DE SURFACE. La source fait 1664x1248 = 2,08 Mpx, et le chroma-key relit CHAQUE pixel
-  // en JS (getImageData + boucle + putImageData) a chaque frame : ~8 Mo parcourus 60 fois par seconde.
-  // Le logo n'est pourtant jamais affiche au-dela de 500 px de haut. On travaille donc a la taille
-  // REELLEMENT affichee (x DPR), soit ~16x moins de pixels : la premiere frame arrive tout de suite au
-  // lieu de faire ramer le demarrage sur une machine modeste — c'est pendant le boot que le tool a le
-  // moins de CPU disponible.
-  const MAXH=Math.round(500*Math.min(2,window.devicePixelRatio||1));
-  const sizeToVideo=()=>{ const w=vid.videoWidth||0,h=vid.videoHeight||0;
-    if(w&&h){ const k=Math.min(1,MAXH/h);
-      cv.width=Math.max(1,Math.round(w*k)); cv.height=Math.max(1,Math.round(h*k));
-      cv.style.aspectRatio=w+'/'+h; sized=true; } };
-  vid.addEventListener('loadedmetadata',sizeToVideo);
-  /* Relance de la lecture — définie AVANT la boucle de dessin, qui l'appelle au retour à l'écran. */
-  /* ⚠️ RELANCE BORNEE. Rappeler `play()` a CHAQUE evenement `pause` revient a se battre avec le
-     navigateur quand il refuse la lecture : il met en pause, on relance, il remet en pause — la
-     video sautille et le logo fixe reapparait entre deux. On espace donc les tentatives (300 ms
-     minimum) et on s'arrete apres quelques essais infructueux : le logo fixe reste alors affiche,
-     ce qui est un repli honnete, pas un clignotement. */
-  let dernier=0, essais=0;
-  const relancer=()=>{
-    if(!(vid.paused||vid.ended)) { essais=0; return; }
-    const now=Date.now();
-    if(now-dernier<300 || essais>12) return;
-    dernier=now; essais++;
-    try{ if(vid.ended)vid.currentTime=0; }catch(_){}
-    vid.play().then(()=>{essais=0;}).catch(()=>{});
-  };
-  let raf=null;
-  const draw=()=>{
-    if(!cv.isConnected || (keepAlive && !keepAlive())){ if(raf)cancelAnimationFrame(raf);
-      /* ⚠️ On SIGNALE l'arrêt. Sans ça la boucle s'arrêtait définitivement dès que le canevas
-         quittait le document (fermeture puis réouverture d'un écran de chargement) : le témoin
-         posé sur le canevas empêchait toute relance, et le logo FIXE reprenait la main pour de
-         bon — c'est la vidéo qui disparaissait « après une exécution ». */
-      if(onStop)onStop(); return; }
-    /* ⚠️ VISIBILITÉ. Les trois écrans de chargement (#boot / #overlay / #conn-lost) existent dès le
-       départ, mais deux d'entre eux sont MASQUÉS. Dessiner pour eux, c'était trois chroma-keys en
-       parallèle pendant tout le boot — le moment où le tool a le moins de CPU. Et à l'inverse, quand
-       un écran masqué réapparaît, sa vidéo a pu être mise en pause par le navigateur : elle restait
-       alors figée et le logo FIXE prenait le relais, ce qui est exactement le défaut signalé.
-       On saute donc le travail tant que le canevas n'est pas à l'écran (la boucle, elle, reste
-       vivante), et on RELANCE la lecture à l'instant où il redevient visible. */
-    /* ⛔ On teste le CONTENEUR, jamais le canevas. Le canevas est `display:none` TANT QU'IL N'A PAS
-       DESSINÉ (classe .vloaded) : le tester revenait à exiger qu'il ait déjà dessiné pour accepter
-       de dessiner — il restait donc noir à jamais. Défaut introduit puis attrapé au test, 2026-08-08. */
-    const hote = cv.closest('.eden-splash') || cv.parentElement;
-    const visible = !!hote && (hote.offsetParent !== null || hote.getClientRects().length > 0);
-    /* ⚠️ On AMORCE une image même masqué. Sinon un écran de chargement révélé plus tard part de zéro :
-       il affiche son ICONE FIXE le temps de dessiner sa première image, et c'est exactement le
-       « vidéo → image → vidéo » constaté quand un second écran se superpose au premier. Une image
-       suffit ; ensuite on ne travaille plus tant qu'il est masqué. */
-    if(!visible && cv._primed){ cv._wasHidden = true; raf=requestAnimationFrame(draw); return; }
-    if(cv._wasHidden){ cv._wasHidden = false; relancer(); }
-    if(!sized)sizeToVideo();
-    if(sized && vid.readyState>=2){
-      const W=cv.width,H=cv.height;
-      ctx.clearRect(0,0,W,H); ctx.drawImage(vid,0,0,W,H);
-      try{
-        const im=ctx.getImageData(0,0,W,H),d=im.data;
-        for(let i=0;i<d.length;i+=4){
-          const dr=d[i]-KEY[0],dg=d[i+1]-KEY[1],db=d[i+2]-KEY[2];
-          const dist=Math.sqrt(dr*dr+dg*dg+db*db);
-          if(dist<TOL)d[i+3]=0;
-          else if(dist<TOL*1.6)d[i+3]=Math.round(255*((dist-TOL)/(TOL*0.6)));
-        }
-        ctx.putImageData(im,0,0);
-      }catch(_){/* frame brute si canvas tainted */}
-      // 1re frame réellement dessinée → déclencher le FONDU d'apparition (opacity 0 -> 1 via .vloaded)
-      cv._primed = true;
-      if(!cv.classList.contains('vloaded')){ cv.classList.add('vloaded');
-        // le logo fixe s'efface SEULEMENT ici : une frame existe vraiment a l'ecran.
-        const sp=cv.closest('.eden-splash'); if(sp){ sp.classList.add('anim');
-          /* ⛔ On SUPPRIME l'icône du document, on ne la masque pas. Masquée, elle dépend d'une
-             classe CSS qu'un autre chemin peut défaire, et elle reste dessinable par le moteur de
-             rendu : c'est ce qui laissait l'icône réapparaître entre deux images. Retirée, plus
-             aucun chemin ne peut la faire revenir sur cet écran. */
-          const fixe = sp.querySelector('img.es-still'); if(fixe) fixe.remove(); } }
-    }
-    raf=requestAnimationFrame(draw);
-  };
-  // Un echec de lecture laissait le logo anime absent SANS AUCUNE trace : ni erreur, ni repli visible.
-  // Le repli est desormais le logo fixe (deja a l'ecran), et la cause part en console pour le diagnostic.
-  vid.addEventListener('error',()=>console.warn('[splash] logo.mp4 illisible — logo fixe conserve',vid.error));
-  /* La vidéo doit tourner EN BOUCLE tant que l'écran de chargement est là. L'attribut `loop` ne
-     suffit pas : une mise en pause par le navigateur (onglet en arrière-plan, économie d'énergie,
-     reprise après masquage) laisse la dernière image figée sans jamais repartir. On relance donc
-     sur `pause` et sur `ended`, et à chaque appel de la fonction. */
-  vid.addEventListener('pause',relancer);
-  vid.addEventListener('ended',relancer);
-  vid.play().catch(e=>console.warn('[splash] logo playback refused — static logo kept',e));
-  cv._chromaResume=relancer;
-  draw();
-}
-
-// SPLASHS (#boot/#overlay/#conn-lost) : chroma-key sur leur logo vidéo pour retirer le fond #1a0f06.
-function edenSplashChroma(){
-  if(document.documentElement.dataset.ui==='modern') return;
-  document.querySelectorAll('canvas.es-chroma').forEach(cv=>{
-    /* Témoin RELANÇABLE (et non « démarré une fois pour toutes ») : il n'empêche que les doubles
-       boucles simultanées. Dès que la boucle s'arrête, elle se remet à zéro et un nouvel appel la
-       repart — sinon un écran de chargement rouvert restait sur le logo fixe. */
-    if(cv._chromaRunning){ if(cv._chromaResume)cv._chromaResume(); return; }
-    const vid=cv.parentElement.querySelector('video.es-chroma-src');
-    if(!vid)return;
-    cv._chromaRunning=true;
-    edenChromaVideo(cv, vid, ()=>cv.isConnected, ()=>{ cv._chromaRunning=false; });
   });
 }
 
@@ -5120,7 +4929,7 @@ document.querySelectorAll('#envradio input[name="env"]').forEach(r=>r.addEventLi
   const e=r.value;
   try{const resp=await fetch('/api/environments/active?env='+enc(e),{method:'POST'});
     if(handle401(resp))return;                                     // session gone → reopen login
-    if(!resp.ok){toast('switch failed ('+resp.status+')');return;}}catch{toast('switch failed');return;}
+    if(!resp.ok){let w='';try{w=(await resp.json()).detail||'';}catch(_){}toast(w||('switch failed ('+resp.status+')'));fillSettings(SET_ENV);return;}}catch{toast('switch failed');return;}
   // per-env login: after the reload, /api/auth/me returns no user for `e` unless you're already signed in
   // on it → the login gate shows automatically (each env has its own session).
   toast('switched to '+e+' — reloading (login required if not signed in on '+e+')…');setTimeout(()=>location.reload(),350);
@@ -5182,8 +4991,9 @@ async function doLaunch(){
   try{const r=await fetch('/api/launch',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json().catch(()=>({}));hideOverlay();
     const disp=j.display&&Object.keys(j.display).length?(' · client.ini: '+Object.keys(j.display).length+' setting(s) updated'):'';
     const many=j.count>1?(' · '+j.count+' clients, one every '+(j.stagger_s||10)+' s'):'';
-    if(r.ok)toast('▶ game launched on '+esc(j.env||'?')+(j.server?(' → '+esc(String(j.server).replace(',',':'))):'')+many+disp+(j.note?(' · '+esc(j.note)):''),'ok');
-    else toast(''+(j.detail||'launch failed'),'error',{sticky:true});
+    if(r.ok){if(many||disp||j.note)toast('▶ '+esc(j.env||'?')+many+disp+(j.note?(' · '+esc(j.note)):''),'ok');
+      if(!watchLaunch(j))toast('▶ game launched on '+esc(j.env||'?')+(j.server?(' → '+esc(String(j.server).replace(',',':'))):''),'ok');}
+    else showLaunchError(''+(j.detail||'launch failed'),body.env||t.env,r.headers.get('X-Launch-Refusal')==='spawn');
   }catch(e){hideOverlay();toast(errMessage(e),'error');}
 }
 initGitHistory({$, esc, enc});   // Lot T1 — meme place que le cablage retire
@@ -5246,7 +5056,7 @@ async function initData(){
     try{const sb=$('#btn-settings'); if(sb)sb.click();}catch(e){}
     loadVersion();return;
   }
-  const wave2=Promise.all([getJSON('/api/spawn_maps',[]),getJSON('/api/item_categories',[]),getJSON('/api/iconmap',{})]).then(([mlist,icats,imap])=>{MAPLIST=mlist;ITEMCATS=icats;ICONMAP=imap||{};});
+  const wave2=Promise.all([getJSON('/api/iconmap',{})]).then(([imap])=>{ICONMAP=imap||{};});
   await Promise.race([wave2,new Promise(r=>setTimeout(r,1500))]);
   // En-tête : [ENV] · TENANT (le studio du build) — remplace le décompte creatures/items/spells.
   $('#hsub').textContent=`[${(env.active||'?').toUpperCase()}] · ${window.TENANT_BRAND||'Reforged Studio'}`;
@@ -5551,7 +5361,7 @@ window.addEventListener('keydown',(e)=>{
     try{const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);
       const r=await fetch('/api/version',{cache:'no-store',signal:c.signal});clearTimeout(t);
       if(!r.ok)throw 0; fails=0; if(down){down=false;hide();if(typeof edenAutoPull==='function')edenAutoPull('reconnect');}
-      try{const j=await r.json(); if(typeof j.notif_unread==='number') notifBeatCount(j.notif_unread); NOTIF_ALERTS.onBeat(j);}catch(_){}
+      try{const j=await r.json(); if(typeof j.notif_unread==='number') notifBeatCount(j.notif_unread); NOTIF_ALERTS.onBeat(j); const ig=j.self_clean&&j.self_clean.integrity; if(ig&&ig.notice&&ig.at!==window.__igSeen){window.__igSeen=ig.at; toast(ig.notice,'warn',{sticky:true});}}catch(_){}
     }catch(e){ fails++; if(!down && fails>=4){down=true;show();} }
     finally{ pinging=false; }
   }
@@ -6285,14 +6095,12 @@ document.addEventListener('click',(ev)=>{
   if(!a)return;
   if(a.dataset.act==='ot-all'){ ev.preventDefault();
     // « see all » = repasser sur « All » et relancer la MÊME requête.
-    const c=$('#filters .fchip[data-t=""]'); if(c) c.click(); return; }
+    setTypeFilter(''); return; }
   if(a.dataset.act==='retry-search'){ ev.preventDefault(); search(); }
 });
 </script>
 <div id="conn-lost" class="eden-splash">
-  <img class="es-logo es-still" src="/studio/logo_still.png" alt="Eden Ultimate Tool"><canvas class="es-logo es-chroma" aria-label="Eden Ultimate Tool"></canvas><video class="es-chroma-src" src="/studio/logo.mp4" loop muted playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video>
-  <div class="es-title">EDEN ULTIMATE TOOL</div>
-  <div class="es-spin"></div>
+    <div class="mx-loader mx-only"><span class="bee-loader" style="--bee-loader-size:120px" role="status" aria-live="polite"><img class="bee-loader-ring" src="/studio/img/brand/loader_ring.png" alt="" draggable="false"><span class="bee is-flying" style="--bee-size:96px" role="img" aria-label="Loading"><span class="bee-fly"><img class="bee-wing-l" src="/studio/img/brand/bee_wing_l.png" alt="" draggable="false"><img class="bee-wing-r" src="/studio/img/brand/bee_wing_r.png" alt="" draggable="false"><img class="bee-body" src="/studio/img/brand/bee_body.png" alt="" draggable="false"></span></span><img class="bee-loader-spark" src="/studio/img/brand/sparkles.png" alt="" draggable="false"></span></div>
   <div class="es-msg">Connection lost</div>
   <div class="es-sub">Reconnecting to the engine<span class="es-dots">&hellip;</span></div>
   <div style="margin-top:6px"><button class="hbtn" onclick="location.reload()">Reload</button></div>

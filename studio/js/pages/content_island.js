@@ -22,5 +22,6 @@ export async function openContentIsland(etype) {
     onOpenHistory: () => document.getElementById('btn-changes')?.click(),
   });
   if (!ok && el.isConnected) el.remove();
+  if (ok) window.dispatchEvent(new CustomEvent('rail-type', { detail: etype }));
   return ok;
 }

@@ -29,6 +29,28 @@ const MIN_KEY  = 'eden.rail.min';         /* rail reduit (icones seules) */
 
 let CTX = null;
 let CURRENT = 'dashboard';
+const BADGES = {};
+const SECTION_KEY = { emojis: 'emojicdn', sounds: 'sounds', polls: 'polls', altar: 'requests', events: 'event' };
+
+function badgeHtml(k) {
+  const b = BADGES[k];
+  return b ? `<em class="rl-badge${b.warn ? ' warn' : ''}">${esc(b.text)}</em>` : '';
+}
+
+function setBadge(detail) {
+  const k = detail && detail.k;
+  if (!k) return;
+  BADGES[k] = detail.text ? { text: String(detail.text), warn: !!detail.warn } : null;
+  const host = document.getElementById('rail-scroll');
+  if (!host) return;
+  host.querySelectorAll('.rl-leaf').forEach(b => {
+    if (b.dataset.k !== k) return;
+    const old = b.querySelector('.rl-badge');
+    if (old) old.remove();
+    const html = badgeHtml(k);
+    if (html) b.querySelector('.rl-lbl').insertAdjacentHTML('afterend', html);
+  });
+}
 
 /* -------------------------------------------------------------- rendu ---- */
 
@@ -86,7 +108,7 @@ function leafHtml(leaf, favs) {
   const star = favs.indexOf(leaf.k) >= 0;
   return `<button class="rl-leaf${CURRENT === leaf.k ? ' on' : ''}" data-k="${esc(leaf.k)}" title="${esc(leaf.label)}">
     ${navIco(leaf)}
-    <span class="rl-lbl">${esc(leaf.label)}</span>
+    <span class="rl-lbl">${esc(leaf.label)}</span>${badgeHtml(leaf.k)}
     <span class="rl-star${star ? ' on' : ''}" data-fav="${esc(leaf.k)}"
       title="${star ? 'Remove from favorites' : 'Pin to favorites'}">${star ? '★' : '☆'}</span>
   </button>`;
@@ -327,7 +349,7 @@ const VIEW_TO_KEY = {
   home: 'dashboard', dashboard: 'dashboard',
   features: 'features', accounts: 'accounts',
   classes: 'classes', altar: 'altar',
-  diagnostics: 'diagnostics', gm: 'gmcommands', history: 'history', crashes: 'crashes', perf: 'perf',
+  diagnostics: 'diagnostics', gm: 'gmcmds', history: 'history', crashes: 'crashes', perf: 'perf',
   cdnaudit: 'cdnaudit', emojicdn: 'emojicdn', pageaccess: 'pageaccess',
   shopcurrency: 'shopcurrency', polls: 'polls', cardduel: 'cardduel',
 };
@@ -335,8 +357,55 @@ const VIEW_TO_KEY = {
 /** Aligne le rail sur la vue REELLEMENT affichee, sans rien declencher. */
 export function syncActive(view) {
   if (!view) return;
-  const k = VIEW_TO_KEY[String(view).toLowerCase()];
-  if (k && k !== CURRENT) setActive(k);
+  const k = VIEW_TO_KEY[String(view).toLowerCase()] || '';
+  if (k !== CURRENT) setActive(k);
+}
+
+const BTN_ALIAS = { 'btn-settings': 'options', 'btn-home': 'dashboard' };
+const ACTION_ONLY = new Set(['restart', 'launch']);
+const ISLAND_ROOT = {
+  'options-react': 'options', 'community-react': 'community', 'health-react': 'health',
+  'people-react': 'people', 'gamesystems-react': 'gamesys', 'altar-react': 'altar',
+};
+
+function _btnKeys() {
+  const m = {};
+  const add = n => { if (typeof n.act === 'string' && n.act.startsWith('btn:')) m[n.act.slice(4)] = n.k; };
+  HEADER_ACTIONS.forEach(a => { if (!ACTION_ONLY.has(a.k)) add(a); });
+  for (const n of NAV_TREE) { add(n); (n.kids || []).forEach(add); }
+  return Object.assign(m, BTN_ALIAS);
+}
+
+function _typeKey(t) {
+  for (const n of NAV_TREE) for (const l of (n.kids || [])) if (l.act === 'type:' + t && !l.archived) return l.k;
+  return '';
+}
+
+function _followPage() {
+  const keys = _btnKeys();
+  document.addEventListener('click', e => {
+    const b = e.target && e.target.closest ? e.target.closest('button[id]') : null;
+    if (!b || b.disabled || !Object.prototype.hasOwnProperty.call(keys, b.id)) return;
+    if (b.closest('#rail-scroll') || b.closest('.rl-fly')) return;
+    if (keys[b.id] !== CURRENT) setActive(keys[b.id]);
+  }, true);
+  const content = document.getElementById('content');
+  if (content) {
+    new MutationObserver(() => {
+      const root = content.firstElementChild;
+      const k = root && root.id === 'community-react' ? (SECTION_KEY[root.dataset.section] || 'community')
+        : root && Object.prototype.hasOwnProperty.call(ISLAND_ROOT, root.id) ? ISLAND_ROOT[root.id] : null;
+      if (k !== null && k !== CURRENT) setActive(k);
+    }).observe(content, { childList: true });
+  }
+  window.addEventListener('community-section', e => {
+    const k = SECTION_KEY[e.detail];
+    if (k && k !== CURRENT) setActive(k);
+  });
+  window.addEventListener('rail-type', e => {
+    const k = _typeKey(e.detail);
+    if (k !== CURRENT) setActive(k);
+  });
 }
 
 /* -------------------------------------------------------------- init ----- */
@@ -359,4 +428,6 @@ export function initRail(ctx) {
   document.addEventListener('click', e => { if (FLY && !FLY.contains(e.target) && !e.target.closest('.rl-fam-h')) flyClose(); });
   window.addEventListener('ui-modern', again);
   window.addEventListener('rail-none', () => setActive(''));
+  window.addEventListener('rail-badge', e => setBadge(e.detail));
+  _followPage();
 }

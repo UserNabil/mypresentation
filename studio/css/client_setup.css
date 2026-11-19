@@ -1,6 +1,7 @@
 .cs-block{border:1px solid var(--edge);border-radius:8px;background:var(--paper2);padding:12px 14px;margin-bottom:16px}
 .cs-t{display:flex;align-items:center;gap:10px;font:700 18px Cinzel,serif;color:var(--gold2);margin-bottom:10px}
 .cs-t img{display:block}
+.cs-chk{display:flex;gap:8px;align-items:center;margin-top:8px;font-size:13px;cursor:pointer}.cs-chk input{width:auto;flex:none;min-height:0;margin:0}
 .cs-row{display:flex;gap:8px;align-items:center}
 .cs-row input{flex:1;min-width:0;font-size:14px}
 .cs-go{font-size:16px;padding:10px 26px;flex:none}

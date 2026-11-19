@@ -20,7 +20,12 @@ html.tour-off .tour-hint { display: none !important; }
 
 .tour-running .tour-bee { z-index: calc(var(--z-tour) + 200); }
 
-.tour-bee:focus-visible .tour-bee-r { border-radius: 50%; box-shadow: var(--ui-focus); }
+html[data-ui="modern"] .tour-bee,
+html[data-ui="modern"] .tour-bee:focus,
+html[data-ui="modern"] .tour-bee:focus-visible,
+html[data-ui="modern"] .tour-bee:active { outline: none; box-shadow: none; }
+html[data-ui="modern"] .tour-bee:focus-visible .tour-bee-r,
+html[data-ui="modern"] .tour-bee:focus .tour-bee-r { outline: none; box-shadow: none; }
 
 .tour-bee-y {
   display: block;

@@ -1,0 +1,79 @@
+.mg-scrim .mg-dialog[data-game="link"] .mg-toast { top: auto; right: auto; bottom: 10px; left: 50%; translate: -50% 0; transform: translateY(8px); }
+.mg-scrim .mg-dialog[data-game="link"] .mg-toast.is-on { transform: none; }
+.mg-scrim .mg-bl-field {
+  position: relative; flex: none; border-radius: var(--ui-radius-card); background: var(--ui-surface-2);
+  box-shadow: inset 0 0 0 1px var(--ui-line);
+}
+.mg-scrim .mg-bl-tiles, .mg-scrim .mg-bl-path { position: absolute; inset: 0; pointer-events: none; }
+.mg-scrim .mg-bl-path { z-index: 3; overflow: visible; }
+.mg-scrim .mg-bl-tile {
+  position: absolute; top: 0; left: 0; width: var(--mg-bl-t, 56px); height: var(--mg-bl-t, 56px);
+  transition: transform .16s ease, opacity .2s ease, scale .2s ease; will-change: transform;
+}
+.mg-scrim .mg-bl-field.is-still .mg-bl-tile { transition: none; }
+.mg-scrim .mg-bl-in {
+  display: grid; place-items: center; width: 100%; height: 100%; border: 1px solid var(--ui-line);
+  border-radius: calc(var(--mg-bl-t, 56px) * .22); background: var(--ui-surface); box-shadow: var(--ui-shadow);
+  transition: border-color .12s ease, background-color .12s ease, translate .12s ease, box-shadow .12s ease;
+}
+.mg-scrim .mg-bl-in .mg-art { border-radius: calc(var(--mg-bl-t, 56px) * .18); box-shadow: none; background: transparent; }
+.mg-scrim .mg-bl-tile.is-sel .mg-bl-in {
+  border: 2px solid var(--ui-accent); background: var(--ui-accent-soft); translate: 0 -4px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ui-accent) 40%, transparent), var(--ui-shadow-hover);
+}
+.mg-scrim .mg-bl-tile.is-hint .mg-bl-in { border: 2px dashed var(--ui-accent); animation: mg-bl-hint 1s ease-in-out 3; }
+.mg-scrim .mg-bl-tile.is-hint.is-sel .mg-bl-in { border-style: solid; }
+.mg-scrim .mg-bl-tile.is-bad .mg-bl-in {
+  border-color: var(--ui-bad); box-shadow: 0 0 0 3px var(--ui-bad-soft); animation: mg-bl-shake .32s ease;
+}
+.mg-scrim .mg-bl-tile.is-gone { opacity: 0; scale: .6; }
+.mg-scrim .mg-bl-field.is-shuffled .mg-bl-in { animation: mg-bl-pop .28s ease; }
+.mg-scrim .mg-bl-line {
+  fill: none; stroke: var(--ui-accent); stroke-linecap: round; stroke-linejoin: round;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--ui-accent) 55%, transparent));
+  animation: mg-bl-draw .35s ease forwards;
+}
+.mg-scrim .mg-bl-dot { fill: var(--ui-surface); stroke: var(--ui-accent); stroke-width: 3; }
+.mg-scrim .mg-bl-grid {
+  position: absolute; top: var(--mg-bl-m, 32px); left: var(--mg-bl-m, 32px); z-index: 4; display: grid;
+  grid-template-columns: repeat(var(--mg-bl-cols, 6), var(--mg-bl-t, 56px)); grid-auto-rows: var(--mg-bl-t, 56px); gap: 4px;
+}
+.mg-scrim .mg-bl-row { display: contents; }
+.mg-scrim .mg-bl-cell {
+  display: block; width: var(--mg-bl-t, 56px); height: var(--mg-bl-t, 56px); padding: 0; border: 0;
+  border-radius: calc(var(--mg-bl-t, 56px) * .22); background: transparent; cursor: pointer;
+}
+.mg-scrim .mg-bl-cell.is-empty { cursor: default; }
+.mg-scrim .mg-bl-cell:hover:not(.is-empty) { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ui-accent) 60%, transparent); }
+.mg-scrim .mg-dialog .mg-bl-cell:focus { outline: none; }
+.mg-scrim .mg-dialog .mg-bl-cell:focus-visible { box-shadow: 0 0 0 2px var(--ui-surface-2), 0 0 0 4px var(--ui-ink); }
+.mg-scrim .mg-dialog .mg-bl-cell.is-empty:focus-visible { background: color-mix(in srgb, var(--ui-ink) 6%, transparent); }
+
+@keyframes mg-bl-hint {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+@keyframes mg-bl-shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -5px 0; }
+  40% { translate: 5px 0; }
+  60% { translate: -3px 0; }
+  80% { translate: 3px 0; }
+}
+@keyframes mg-bl-pop {
+  0% { scale: .82; opacity: .4; }
+  100% { scale: 1; opacity: 1; }
+}
+@keyframes mg-bl-draw {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-scrim .mg-bl-tile, .mg-scrim .mg-bl-in { transition: none !important; }
+  .mg-scrim .mg-bl-tile.is-hint .mg-bl-in, .mg-scrim .mg-bl-tile.is-bad .mg-bl-in, .mg-scrim .mg-bl-field.is-shuffled .mg-bl-in { animation: none !important; }
+  .mg-scrim .mg-bl-tile.is-sel .mg-bl-in { translate: none; }
+  .mg-scrim .mg-bl-line { animation: none !important; }
+}

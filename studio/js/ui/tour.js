@@ -183,7 +183,7 @@ export function start() {
   if (!list.length) return 0;
   ctxKey = k || 'shell';
   const ae = document.activeElement;
-  returnTo = ae && ae !== document.body && !ae.closest('.tour-bubble') ? ae : null;
+  returnTo = ae && ae !== document.body && !ae.closest('.tour-bubble') && !ae.closest('.tour-bee') ? ae : null;
   steps = list;
   running = true;
   markSeen(ctxKey);
@@ -208,7 +208,8 @@ export function close() {
   dock(true);
   const back = returnTo;
   returnTo = null;
-  if (back && back.isConnected) { try { back.focus({ preventScroll: true }); } catch (err) { return; } }
+  if (bee && document.activeElement && bee.contains(document.activeElement)) { try { document.activeElement.blur(); } catch (err) { } }
+  if (back && back.isConnected && !back.closest('.tour-bee')) { try { back.focus({ preventScroll: true }); } catch (err) { return; } }
 }
 
 function go(i, dir) {
@@ -232,6 +233,7 @@ function go(i, dir) {
   nx.textContent = idx >= steps.length - 1 ? 'Done' : 'Next';
   bubble.setAttribute('aria-label', (TOUR_NAMES[ctxKey] || 'Tour') + ' tour, step ' + (idx + 1) + ' of ' + steps.length);
   layout(t, true);
+  window.dispatchEvent(new CustomEvent('eden:bee', { detail: 'sway' }));
   try { nx.focus({ preventScroll: true }); } catch (e) { return; }
 }
 

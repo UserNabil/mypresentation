@@ -2,6 +2,8 @@ import { modernOn } from './modern_gate.js';
 import { lineSvg, navLine } from './line_icons.js';
 import { toast } from './toast.js';
 import { navigate } from '../nav/rail.js';
+import { openFeature, resolvePage } from '../nav/feature_opener.js';
+import { checksHtml, askHtml, copyText, watchHtml, verdictMessage, followWatch, WATCH_CSS } from './assistant_views.js';
 
 const KEY = 'eden_assistant_thread';
 const CAP = 50;
@@ -70,7 +72,7 @@ function cardsHtml(cards) {
 }
 
 function confirmHtml(m, i, a) {
-  const e = envLabel();
+  const e = m.env ? m.env.toUpperCase() : envLabel();
   const busy = m.state === 'busy';
   let foot;
   if (m.state === 'done') foot = '<div class="as-st ok">' + lineSvg('circle-check', 16) + '<span>Done</span></div>';
@@ -90,6 +92,9 @@ function msgHtml(m, i) {
   let h = '<div class="as-m a">';
   if (conf) h += confirmHtml(m, i, conf);
   else if (m.text) h += '<div class="as-b-a' + (m.tone ? ' ' + m.tone : '') + '">' + (m.tone === 'bad' ? lineSvg('triangle-alert', 16) : '') + '<span>' + esc(m.text) + '</span></div>';
+  if (m.checks && m.checks.length) h += checksHtml(m, i, pending);
+  if (m.ask && m.ask.question) h += askHtml(m, i, pending);
+  if (m.watch || m.verdict) h += watchHtml(m, i, pending);
   if (m.cards && m.cards.length) h += cardsHtml(m.cards);
   if (navs.length) h += '<div class="as-btns">' + navs.map(a => '<button type="button" class="as-b" data-href="' + esc(a.href) + '">' + esc(a.label) + '</button>').join('') + '</div>';
   return h + '</div>';
@@ -150,18 +155,40 @@ function errText(e) {
 }
 
 function asReply(j) {
-  return { r: 'a', text: String(j.text || ''), cards: Array.isArray(j.cards) ? j.cards : [], actions: Array.isArray(j.actions) ? j.actions : [] };
+  const m = { r: 'a', text: String(j.text || ''), cards: Array.isArray(j.cards) ? j.cards : [], actions: Array.isArray(j.actions) ? j.actions : [] };
+  if (Array.isArray(j.checks) && j.checks.length) m.checks = j.checks;
+  if (j.ask && typeof j.ask === 'object' && j.ask.question) m.ask = j.ask;
+  if (typeof j.report === 'string' && j.report) m.report = j.report;
+  if (typeof j.rerun === 'string' && j.rerun) m.rerun = j.rerun;
+  if (typeof j.env === 'string' && /^(dev|preprod|prod)$/.test(j.env)) m.env = j.env;
+  if (j.tone === 'bad') m.tone = 'bad';
+  if (j.watch && typeof j.watch.id === 'string') m.watch = { id: j.watch.id, env: j.watch.env || m.env || '', limit: j.watch.limit, elapsed: 0 };
+  return m;
 }
 
-async function askAssistant(q) {
+const following = new Set();
+function follow() {
+  for (const m of load()) {
+    if (!m.watch || m.watch.done || following.has(m.watch.id)) continue;
+    following.add(m.watch.id);
+    followWatch(m, () => { save(); render(); }, st => { save(); push(verdictMessage(st)); });
+  }
+}
+
+function answerEnv(m) {
+  return (m && m.ask && m.ask.env) || (m && m.env) || envLabel().toLowerCase();
+}
+
+async function askAssistant(q, answer) {
   q = String(q || '').trim();
   if (!q || pending) return;
   openAssistant();
+  const history = load().filter(m => m.text && !m.watch).slice(-6).map(m => ({ r: m.r, text: String(m.text).slice(0, 400) }));
   push({ r: 'u', text: q });
   pending = true;
   render();
   try {
-    push(asReply(await post('/api/assistant/ask', { q, page: currentPage() })));
+    push(asReply(await post('/api/assistant/ask', answer ? { q, page: currentPage(), answer } : { q, page: currentPage(), history })));
   } catch (e) {
     push({ r: 'a', text: errText(e), tone: 'bad' });
   }
@@ -180,6 +207,7 @@ async function runConfirm(i) {
     const j = await post('/api/assistant/confirm', { token: a.token });
     m.state = 'done';
     push(asReply(j));
+    follow();
     toast(String(j.text || 'Done').slice(0, 140), 'ok');
   } catch (e) {
     m.state = 'failed';
@@ -188,6 +216,34 @@ async function runConfirm(i) {
     toast(t, 'error');
   }
   if (input && isOpen()) input.focus();
+}
+
+function fixCheck(ref) {
+  const [i, j] = ref.split(':').map(Number);
+  const m = load()[i];
+  const c = m && m.checks && m.checks[j];
+  if (!c || !c.fix || !c.fix.id || pending) return;
+  askAssistant(c.fix.label || 'Fix', { slot: 'fix', value: String(c.fix.id), env: answerEnv(m) });
+}
+
+function pickAsk(ref) {
+  const [i, j] = ref.split(':').map(Number);
+  const m = load()[i];
+  const c = m && m.ask && m.ask.choices && m.ask.choices[j];
+  if (!c || m.answered != null || pending) return;
+  m.answered = c.label;
+  save();
+  askAssistant(c.label, { slot: m.ask.slot, value: String(c.value), env: answerEnv(m) });
+}
+
+function useAsk(i) {
+  const m = load()[i];
+  const f = list.querySelector('[data-askin="' + i + '"]');
+  const v = f ? f.value.trim() : '';
+  if (!m || !m.ask || m.answered != null || pending || !v) { if (f) f.focus(); return; }
+  m.answered = v;
+  save();
+  askAssistant(v, { slot: m.ask.slot, value: v, env: answerEnv(m) });
 }
 
 function cancelConfirm(i) {
@@ -199,14 +255,17 @@ function cancelConfirm(i) {
 }
 
 async function go(href) {
+  if (href === '#assistant/help') { askAssistant('help'); return; }
+  if (href === '#minigames') { closeAssistant(true); window.dispatchEvent(new CustomEvent('minigames-open')); return; }
   const p = /^#page\/([^?]+)(?:\?(.*))?$/.exec(href || '');
   const e = /^#entity\/([^/]+)\/(.+)$/.exec(href || '');
   if (!p && !e) return;
   closeAssistant(true);
   if (p) {
-    navigate(p[1]);
     const q = new URLSearchParams(p[2] || '');
-    if (q.get('feature') && typeof window.edenOpenFeature === 'function') window.edenOpenFeature(q.get('feature'));
+    const page = resolvePage(decodeURIComponent(p[1]));
+    if (page === 'features' && q.get('feature')) openFeature(q.get('feature'), { tests: q.get('tests') === '1' });
+    else navigate(page);
     return;
   }
   const id = decodeURIComponent(e[2]);
@@ -249,6 +308,9 @@ function ensure() {
   if (root) return;
   root = build();
   document.body.appendChild(root);
+  const css = document.createElement('style');
+  css.textContent = WATCH_CSS;
+  document.head.appendChild(css);
   list = root.querySelector('.as-list');
   input = root.querySelector('.as-in');
   root.querySelector('.as-x').addEventListener('click', () => closeAssistant());
@@ -261,15 +323,25 @@ function ensure() {
   root.addEventListener('keydown', ev => {
     if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); closeAssistant(); }
   });
+  list.addEventListener('keydown', ev => {
+    const t = ev.target.closest && ev.target.closest('[data-askin]');
+    if (t && ev.key === 'Enter' && !ev.isComposing) { ev.preventDefault(); useAsk(Number(t.dataset.askin)); }
+  });
   list.addEventListener('click', ev => {
-    const t = ev.target.closest('[data-href],[data-q],[data-ok],[data-no]');
+    const t = ev.target.closest('[data-href],[data-q],[data-ok],[data-no],[data-fix],[data-pick],[data-use],[data-report],[data-rerun]');
     if (!t || t.disabled) return;
-    if (t.dataset.href) go(t.dataset.href);
+    if (t.dataset.fix) fixCheck(t.dataset.fix);
+    else if (t.dataset.pick) pickAsk(t.dataset.pick);
+    else if (t.dataset.use) useAsk(Number(t.dataset.use));
+    else if (t.dataset.report) { const m = load()[Number(t.dataset.report)]; if (m && m.report) copyText(m.report); }
+    else if (t.dataset.rerun) { const m = load()[Number(t.dataset.rerun)]; if (m && m.rerun) askAssistant(m.rerun); }
+    else if (t.dataset.href) go(t.dataset.href);
     else if (t.dataset.q) askAssistant(t.dataset.q);
     else if (t.dataset.ok) runConfirm(Number(t.dataset.ok));
     else cancelConfirm(Number(t.dataset.no));
   });
   render();
+  follow();
 }
 
 function isOpen() { return !!root && root.classList.contains('on'); }

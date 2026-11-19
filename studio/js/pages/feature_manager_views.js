@@ -93,6 +93,12 @@ export function fmReadinessHtml(name, rd){
         ${canDel?`<button class="fx-x" data-fmcdel="${c.id}" title="delete this comment">${IC('close',12)}</button>`:''}</div>`;
     }).join('');
     const key=name+':'+i;
+    const bugs=x.bugs||{};
+    const bugRow=(canManage&&down.length)?`<div class="fx-bugs">${down.map(t=>{
+      const on=Object.prototype.hasOwnProperty.call(bugs,t), mineT=t===me;
+      return `<span class="fx-bug${on?' on':''}"><b>${H.esc(t)}</b>${on?` · bug confirmed${bugs[t]?' by '+H.esc(bugs[t]):''}`:' · failing vote'}
+        ${mineT?'':`<button class="mini" data-fmbug="${i}" data-bt="${H.esc(t)}" data-bv="${on?0:1}" title="${on?'revoke: this was not a bug':'confirm this failing vote is a real bug (+points for the tester)'}">${on?'Not a bug':'Bug confirmed'}</button>`}</span>`;
+    }).join('')}</div>`:'';
     const mnum=String(x.item||'').match(/^\s*(\d+)[.)]\s*/);
     const num=mnum?mnum[1]:String(i+1), txt=mnum?String(x.item).slice(mnum[0].length):(x.item||'');
     return `<div class="fx-test fx-t${st}">
@@ -113,11 +119,11 @@ export function fmReadinessHtml(name, rd){
         <button class="fx-vote up${mine===1?' on':''}" data-fmvote="${i}" data-v="1" title="${mine===1?'click again to remove your vote':'it works'}">${IC('thumb_up',16)} +1 it works</button>
         <button class="fx-vote down${mine===-1?' on':''}" data-fmvote="${i}" data-v="-1" title="${mine===-1?'click again to remove your vote':'it fails'}">${IC('thumb_down',16)} It fails</button>
         ${canManage?`<button class="fx-x" data-fmtdel="${i}" title="remove this test">${IC('close',12)}</button>`:''}
-      </div></div>`;
+      </div>${bugRow}</div>`;
   }).join('');
   const head=`<div class="fx-card-h">${IC('checklist',26)}<div class="fx-card-t"><h2>Test readiness</h2><p>Votes of the testers on ${H.esc(env)}. A test is confirmed with at least one +1 and no failure; the feature is ready when every test is.</p></div></div>
     <div class="fx-rsum"><span class="fx-pill fx-${rd.ready?'ok':(total?'bad':'na')} big">${IC(rd.ready?'ready':(total?'not_ready':'status_off'),20)} ${rd.ready?'Ready':(total?'Not ready yet':'No tests')}</span>
-      <div><b class="fx-big-n">${total?(rd.ready?'All tests confirmed':left+' test'+(left>1?'s':'')+' left'):'No tests yet'}</b><span>${done} of ${total} tests confirmed</span></div>
+      <div><b class="fx-big-n">${total?(rd.infra?'System feature · always on':rd.ready?'All tests confirmed':left+' test'+(left>1?'s':'')+' left'):'No tests yet'}</b><span>${done} of ${total} tests confirmed</span></div>
       ${total?`<div class="fx-tprog wide"><i><b style="width:${Math.round(done/total*100)}%"></b></i><span>${done}/${total}</span></div>`:''}</div>`;
   const allBtn=(H.can('features.promote')&&total&&!rd.ready)?`<div style="text-align:right;margin:6px 0"><button class="fx-vote up" id="fmt-voteall" title="+1 every test you have not validated yet (super-admin only)">${IC('thumb_up',16)} Validate all</button></div>`:'';
   const addRow=canManage?`<div class="fm-ractrow"><input id="fmt-in" placeholder="add a test to verify (e.g. equip works in-game / server boots clean)…" maxlength="240"><button class="mini gold" id="fmt-add">+ Add test</button></div>`:'';

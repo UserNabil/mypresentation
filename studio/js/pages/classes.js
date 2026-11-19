@@ -71,7 +71,7 @@ export function renderClasses(){
       <div class="clsraces" title="Race — the same class exists per race; pick a race then a class to load its variant.">${races}</div>
       <span class="grow"></span>
       <div class="clsfind"><span><img src="/studio/icons/icons/24/search.png" srcset="/studio/icons/icons/24/search.png 1x, /studio/icons/icons/48/search.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"></span><input id="cls-q" placeholder="Filter class…" value="${esc(S.q)}"></div>
-      ${canEditData()?`<button class="clseditbtn" id="cls-new" title="Create a brand-new base class (dev only). Adds 5 race records to C_Class + S_Class; the class becomes playable after the ZoneServer is binary-patched + restarted."><img src="/studio/icons/icons/24/add.png" srcset="/studio/icons/icons/24/add.png 1x, /studio/icons/icons/48/add.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> New class</button>`:''}
+      ${canEditData()?`<button class="clseditbtn" id="cls-new" title="Create a new class (dev only). Adds one row per race to C_Class, S_Class, T_Class and the talent files. Data only: restart the ZoneServer and repack the client."><img src="/studio/icons/icons/24/add.png" srcset="/studio/icons/icons/24/add.png 1x, /studio/icons/icons/48/add.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> New class</button>`:''}
       <span class="clsmeta">${t.count} families</span>
     </div>
     <div class="clsbody">
@@ -117,8 +117,8 @@ function renderClassDetail(){
       <div class="clstierrole"><span class="clsbadge" style="background:${d.role_color}">${esc(d.role_label)}</span> ${esc(d.race_name)} · ${esc(d.fam_name)} · #${d.id}</div>
     </div>
     <span class="grow"></span>
-    ${S.edit?`<div class="clsscope" title="A class exists as 5 race variants sharing one runtime id. Group = apply to all 5 races (recommended, keeps them consistent). This race = only the currently selected variant.">
-      <button class="clsscopebtn${S.group?' on':''}" id="cls-scope-all"><img src="/studio/icons/icons/24/links.png" srcset="/studio/icons/icons/24/links.png 1x, /studio/icons/icons/48/links.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> All 5 races</button>
+    ${S.edit?`<div class="clsscope" title="A class has one row per race, sharing one runtime id. All races writes the original races; rows made by a race feature follow that feature. This race = only the selected row.">
+      <button class="clsscopebtn${S.group?' on':''}" id="cls-scope-all"><img src="/studio/icons/icons/24/links.png" srcset="/studio/icons/icons/24/links.png 1x, /studio/icons/icons/48/links.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> All races</button>
       <button class="clsscopebtn${S.group?'':' on'}" id="cls-scope-one">◇ This race only</button>
     </div>`:''}
     ${S.edit?`<button class="clseditbtn" id="cls-info" title="Edit this class' identity: name, family, icon, description, unlock text, required levels — in one modal, client + server."><img src="/studio/icons/icons/24/edit.png" srcset="/studio/icons/icons/24/edit.png 1x, /studio/icons/icons/48/edit.png 2x" class="ui-icon ui-icon-24" width="24" height="24" alt="" aria-hidden="true"> Class info</button>`:''}
@@ -156,7 +156,7 @@ function wireClassTab(){
 }
 
 /* ------------------------------------------------------------ ecritures ---- */
-// Ecriture de champs classe : sur la variante courante OU sur les 5 races si S.group.
+// Ecriture de champs classe : sur la variante courante OU sur toutes les races si S.group.
 // Renvoie la reponse JSON (avec restart_zs) ou leve. Toute ecriture est CLIENT + SERVEUR.
 export async function clsSaveFields(fields){
   if(S.group){
@@ -225,11 +225,13 @@ function clsEditInfo(){
   const d=S.detail; if(!d)return;
   const raw={}; (d.raw||[]).forEach(f=>raw[f.i]=String(f.value==null?'':f.value));
   const gv=i=>esc(raw[i]||'');
-  const scope=S.group?'all 5 races':'this race';
-  const famOpts=CLS_FAMOPTS.map(([id,nm])=>`<option value="${id}"${String(raw[2])===String(id)?' selected':''}>${esc(nm)} (${id})</option>`).join('');
+  const scope=S.group?'all races':'this race';
+  const famCur=String(raw[2]||'').trim();
+  const famList=CLS_FAMOPTS.some(([id])=>String(id)===famCur)||!famCur?CLS_FAMOPTS:CLS_FAMOPTS.concat([[famCur,(d.fam_name||('Class '+famCur))]]);
+  const famOpts=famList.map(([id,nm])=>`<option value="${esc(String(id))}"${famCur===String(id)?' selected':''}>${esc(nm)} (${esc(String(id))})</option>`).join('');
   $('#clsinfo-title').textContent='Edit class info — '+esc(d.name_en||('#'+d.id));
   $('#clsinfo-body').innerHTML=`
-    <div class="fld"><label>Name (English, T_Class) <i class="esub">shared by all 5 races</i></label>
+    <div class="fld"><label>Name (English, T_Class) <i class="esub">shared by every race</i></label>
       <input id="ci-name" value="${esc(d.name_en||'')}"></div>
     <div class="cirow">
       <div class="fld"><label>Family / class tree <i class="esub">#2</i></label><select id="ci-fam">${famOpts}</select></div>
@@ -272,7 +274,7 @@ async function clsCopyContent(){
   const src=$('#ci-copyfrom')?.value; if(!src){$('#clsinfo-err').textContent='choose a source class first';return;}
   const srcBase=((+src%100)+100)%100, dstBase=((d.id%100)+100)%100;
   const srcName=$('#ci-copyfrom').selectedOptions[0]?.textContent||('#'+src);
-  if(!await uiConfirm('Copy the playable content (stats, skills, certs, knowledge, appearance) of '+srcName+' onto '+(d.name_en||'#'+d.id)+' — for all 5 races?\nThis class keeps its own id, family and unlock. Client + server, byte-exact (backups kept).','Copy class content','Copy'))return;
+  if(!await uiConfirm('Copy the playable content (stats, skills, certs, knowledge, appearance) of '+srcName+' onto '+(d.name_en||'#'+d.id)+' for all races?\nThis class keeps its own id, family and unlock. Client + server, byte-exact (backups kept).','Copy class content','Copy'))return;
   const btn=$('#ci-copybtn'); if(btn){btn.disabled=true;btn.textContent='copying…';}
   try{
     const r=await fetch('/api/class/'+dstBase+'/copy-from',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:srcBase})});
@@ -326,10 +328,11 @@ function clsNewClass(){
     if(id0)tplOpts+=`<option value="${id0}">${esc(f.name_en)}</option>`;
   }
   $('#clsnew-body').innerHTML=`
-    <div class="esub" style="margin-bottom:10px">Creates a brand-new base class as 5 race variants (ids 62/162/…). It is written to C_Class.ini + S_Class.ini byte-exact. <b>It only becomes playable once the ZoneServer is binary-patched</b> to wire the new class id, then restarted. <b>Dev environment only.</b></div>
+    <div class="esub" style="margin-bottom:10px">Adds one row per race (ids 62, 162, … 1262) to C_Class, S_Class, T_Class and the talent files, cloned from the template, byte-exact. <b>Data only:</b> no server patch is written. Restart the ZoneServer and repack the client to load it. <b>Dev only.</b></div>
     <div class="fld"><label>Class name (English)</label><input id="cn-name" placeholder="e.g. Spellblade"></div>
     <div class="cirow">
-      <div class="fld"><label>Family / class tree</label><select id="cn-fam">${famOpts}</select></div>
+      <div class="fld"><label>Kind</label><select id="cn-mode"><option value="tree">New class tree</option><option value="awakening">Awakening of a family</option></select></div>
+      <div class="fld"><label>Family (awakening only)</label><select id="cn-fam">${famOpts}</select></div>
       <div class="fld"><label>Clone stats/skills from</label><select id="cn-tpl">${tplOpts}</select></div>
     </div>
     <div id="clsnew-err" class="lg-err"></div>`;
@@ -339,19 +342,20 @@ function clsNewClass(){
 async function clsNewCreate(){
   const {$,toast,uiConfirm}=host();
   const name=$('#cn-name')?.value.trim();
-  const family=+($('#cn-fam')?.value||0);
+  const mode=$('#cn-mode')?.value||'tree';
+  const family=mode==='awakening'?+($('#cn-fam')?.value||0):null;
   const template=+($('#cn-tpl')?.value||0);
   if(!name){$('#clsnew-err').textContent='enter a class name';return;}
   if(!template){$('#clsnew-err').textContent='choose a template class';return;}
-  if(!await uiConfirm('Create a NEW class "'+name+'" (5 race records, cloned from the selected template) in C_Class + S_Class?\nDev only. The class is NOT playable until the ZoneServer is binary-patched and restarted.','Create new class','Create'))return;
+  if(!await uiConfirm('Create the class "'+name+'" (one row per race, cloned from the selected template)?\nData only: restart the ZoneServer and repack the client afterwards. Dev only.','Create new class','Create'))return;
   const btn=$('#clsnew-create'); if(btn){btn.disabled=true;btn.textContent='creating…';}
   try{
-    const r=await fetch('/api/class/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,family,template})});
+    const r=await fetch('/api/class/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,mode,family,template})});
     const j=await r.json(); if(!r.ok)throw new Error(j.detail||r.status);
     $('#clsNewModal').classList.remove('open');
-    toast('class "'+name+'" created (base '+j.base+', '+((j.ids||[]).length)+' records) — client + server','ok');
+    toast('class "'+name+'" created: id '+j.base+', '+((j.ids||[]).length)+' race rows','ok');
     clsRestartBanner();
-    if(j.needs_binary_patch)toast('Not playable yet: the ZoneServer must be binary-patched to wire class id '+j.base+'.','warn');
+    toast('Restart the ZoneServer and repack the client to load it. Not yet proven in the running game.','warn');
     // recharger l'arbre
     g.setTree(null); await openClasses();
   }catch(e){$('#clsnew-err').textContent=''+e;if(btn){btn.disabled=false;btn.textContent='Create (dev)';}}

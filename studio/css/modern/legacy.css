@@ -1,6 +1,6 @@
 html[data-ui="modern"] h1, html[data-ui="modern"] h2, html[data-ui="modern"] h3, html[data-ui="modern"] .cinzel, html[data-ui="modern"] .empty, html[data-ui="modern"] .mcard-i .f,
 html[data-ui="modern"] .upd-title, html[data-ui="modern"] .upd-steps, html[data-ui="modern"] .fm2-title, html[data-ui="modern"] .cs-hex, html[data-ui="modern"] .cc-fldh { letter-spacing: 0; }
-html[data-ui="modern"] header.ee-top, html[data-ui="modern"] .fpanel.open { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
+html[data-ui="modern"] header.ee-top { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
 html[data-ui="modern"] #cctb, html[data-ui="modern"] .rp-t th { background: var(--ui-surface-2); border-bottom: 1px solid var(--ui-line); }
 html[data-ui="modern"] #cctb .cctb-name { color: var(--ui-ink); letter-spacing: 0; }
 html[data-ui="modern"] #cctb .cctb-ver, html[data-ui="modern"] .mb, html[data-ui="modern"] .aiconf.unk, html[data-ui="modern"] .fm-rbadge.left,
@@ -49,7 +49,7 @@ html[data-ui="modern"] .pz-no b, html[data-ui="modern"] .lv-note.block { color: 
 html[data-ui="modern"] .qhist .qh-clear, html[data-ui="modern"] .envdd-h.sep, html[data-ui="modern"] .mcard-sws, html[data-ui="modern"] .baldetail,
 html[data-ui="modern"] .sheet .foot, html[data-ui="modern"] .dgbody, html[data-ui="modern"] .ai-stats, html[data-ui="modern"] .ai-tier-cut { border-top: 1px solid var(--ui-line); }
 html[data-ui="modern"] .qhist .ac-ic, html[data-ui="modern"] .qhist .ac-nm mark, html[data-ui="modern"] .stpill, html[data-ui="modern"] .hbtn:hover,
-html[data-ui="modern"] .hmi:hover, html[data-ui="modern"] .fbar button, html[data-ui="modern"] .fbar button:hover, html[data-ui="modern"] .othertypes .seeall:hover,
+html[data-ui="modern"] .hmi:hover, html[data-ui="modern"] .othertypes .seeall:hover,
 html[data-ui="modern"] .fchip, html[data-ui="modern"] .maprow:hover, html[data-ui="modern"] .maprow.kbd, html[data-ui="modern"] .spellsub .sc,
 html[data-ui="modern"] .filterreset:hover, html[data-ui="modern"] .row:hover, html[data-ui="modern"] .row .nm mark, html[data-ui="modern"] .row .meta mark,
 html[data-ui="modern"] #viewer3d, html[data-ui="modern"] .backbtn, html[data-ui="modern"] .plate .ic, html[data-ui="modern"] .loottbl tr:hover td,
@@ -133,7 +133,6 @@ html[data-ui="modern"] .hbtn.navico[data-label]::before { border-bottom-color: v
 html[data-ui="modern"] .hmi.play:hover, html[data-ui="modern"] .addbtn:hover, html[data-ui="modern"] .dirow .dfix:hover, html[data-ui="modern"] .ai-tag.sk,
 html[data-ui="modern"] .ai-tag.own { background: var(--ui-ok-soft); color: var(--ui-ok); }
 html[data-ui="modern"] #side { background: var(--ui-surface-2); border-right: 1px solid var(--ui-line); box-shadow: none; }
-html[data-ui="modern"] .fbar-type { border-color: var(--ui-line) !important; background: var(--ui-surface-2) !important; color: var(--ui-ink) !important; }
 html[data-ui="modern"] .othertypes, html[data-ui="modern"] .chcard, html[data-ui="modern"] .plate, html[data-ui="modern"] .rescell, html[data-ui="modern"] .bf-err,
 html[data-ui="modern"] .bf-fix, html[data-ui="modern"] .skillcard, html[data-ui="modern"] .aigen, html[data-ui="modern"] .animgrp, html[data-ui="modern"] .aiedit,
 html[data-ui="modern"] .fm-search .mapcombo, html[data-ui="modern"] .ai-side, html[data-ui="modern"] .ai-palette, html[data-ui="modern"] .ai-share.warn,
@@ -236,7 +235,6 @@ html[data-ui="modern"] .eden-splash .es-title { text-shadow: none; color: var(--
 html[data-ui="modern"] .eden-splash .es-msg, html[data-ui="modern"] .eden-splash .es-sub { color: var(--ui-accent-text); letter-spacing: 0; }
 html[data-ui="modern"] .hrow .htag { background: var(--ui-surface-2); text-transform: none; }
 html[data-ui="modern"] .hrow .hundo { border: 1px solid var(--ui-bad); }
-html[data-ui="modern"] .notifbell .nb-count { background: var(--ui-bad); box-shadow: var(--ui-shadow); color: #fff; }
 html[data-ui="modern"] .notifpanel .np-mark, html[data-ui="modern"] .acchip, html[data-ui="modern"] .fm-rbadge.done { background: var(--ui-ok-soft); border: 1px solid var(--ui-ok); color: var(--ui-ok); }
 html[data-ui="modern"] .tst { background: var(--ui-surface); border: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); box-shadow: var(--ui-shadow); }
 html[data-ui="modern"] .tst.ok { border-left-color: var(--ui-ok); }
@@ -276,6 +274,7 @@ html[data-ui="modern"] .fx-lpw.off, html[data-ui="modern"] .cda-sa { border-colo
 html[data-ui="modern"] .fx-lpw:hover, html[data-ui="modern"] .cd-card.pick, html[data-ui="modern"] .emc-card.sel { outline: 1px solid var(--ui-line); }
 html[data-ui="modern"] .fx-dp-steps li.ok i, html[data-ui="modern"] .fm-row.picked .fm-pick, html[data-ui="modern"] .fm-dll.ok, html[data-ui="modern"] .pz-yes,
 html[data-ui="modern"] .gmv-copy.ok { background: var(--ui-ok); border-color: var(--ui-line); color: #fff; }
+html[data-ui="modern"] .fm-rbadge.sys { background: var(--ui-info-soft); border: 1px solid var(--ui-info); color: var(--ui-info); }
 html[data-ui="modern"] .fm-rbadge.none { background: var(--ui-surface-2); border: 1px solid var(--ui-line); color: var(--ui-muted); }
 html[data-ui="modern"] .ai-tag.fle, html[data-ui="modern"] .ai-tag.sh, html[data-ui="modern"] .eqflag.warn { background: var(--ui-surface-2); color: var(--ui-accent-text); }
 html[data-ui="modern"] .ai-slot { border: 1.1px solid var(--ui-line); }

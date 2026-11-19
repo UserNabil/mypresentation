@@ -66,7 +66,7 @@ function reportHtml(rep, text, opts) {
     + (todo.length ? todo.map(x => itemHtml(x, opts.live)).join('') : '<div class="fd-it" style="border-left:4px solid #2ea043">Nothing to fix.</div>')
     + sec('Features (' + feats.length + ')', `<table class="fd-tab"><tr><th></th><th>feature</th><th>repo</th><th>in DLL</th><th>last run</th><th>on</th><th>state</th></tr>${feats.map(featRow).join('')}</table>`, true)
     + sec('Client', kv([['tool client', c.tool_client_dir], ['launcher gamePath', (c.launcher || {}).game_path], ['client used for this report', c.real_client_dir],
-      ['config packed client', c.config_client_packed], ['config client root', c.config_client_root], ['game_unpacked', c.game_unpacked],
+      ['config packed client', c.config_client_packed], ['config client root', c.config_client_root], [c.game_files === 'RFG archives' ? 'work folder' : 'game_unpacked', c.game_unpacked], ['game files', c.game_files],
       ['runtime client', ((c.runtime_client || {}).dir || '') + ' (' + ((c.runtime_client || {}).source || '?') + ')'],
       ['works unpacked', c.works_unpacked ? 'yes' : 'no'], ['last game started (any client of this PC)', c.last_run_client_dir], ['log of the tool client', c.tool_client_log], ['wrong client', c.wrong_client ? 'YES - ' + c.wrong_reason : 'no'], ['game_.exe', c.game_exe ? 'present' : 'absent']]))
     + sec('DLL', `<table class="fd-tab"><tr><th>file</th><th>client</th><th>version</th><th>built</th><th>size</th><th>sha256</th></tr>${dllFiles}</table>`

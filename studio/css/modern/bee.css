@@ -1,43 +1,28 @@
-.bee {
-  position: relative;
-  display: inline-block;
-  width: var(--bee-size, 96px);
-  height: var(--bee-size, 96px);
-  flex: none;
-}
-
-.bee > img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  user-select: none;
-}
-
+.bee { position: relative; display: inline-block; width: var(--bee-size, 96px); height: var(--bee-size, 96px); flex: none; }
+.bee > img, .bee-fly > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; user-select: none; }
+.bee-fly:has(> img.bee-body)::after { content: ""; position: absolute; inset: 0; display: none; background: var(--ui-accent, #EDB83D); -webkit-mask: url("/studio/img/brand/bee_body_tint.png") center / 100% 100% no-repeat; mask: url("/studio/img/brand/bee_body_tint.png") center / 100% 100% no-repeat; mix-blend-mode: color; pointer-events: none; }
+html[data-ui="modern"][data-accent]:not([data-accent="gold"]) .bee-fly:has(> img.bee-body)::after { display: block; }
+.bee-fly { isolation: isolate; }
 .bee-wing-l { transform-origin: 39% 46%; }
 .bee-wing-r { transform-origin: 60% 48%; }
+@keyframes b-bob { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-5%) rotate(1.5deg); } }
+@keyframes b-flap-l { from { transform: rotate(-4deg) scaleX(1); } to { transform: rotate(10deg) scaleX(.55); } }
+@keyframes b-flap-r { from { transform: rotate(4deg) scaleX(1); } to { transform: rotate(-10deg) scaleX(.55); } }
+.bee.is-flying .bee-wing-l { animation: b-flap-l .16s ease-in-out infinite alternate; }
+.bee.is-flying .bee-wing-r { animation: b-flap-r .16s ease-in-out infinite alternate; }
+.bee.is-flying .bee-fly { animation: b-bob 1.6s ease-in-out infinite; }
+.bee-cv { position: absolute; left: 50%; top: 50%; width: 150%; height: 125%; max-width: none; transform: translate(-50%, -50%); pointer-events: none; display: none; }
+.bee.bee-live .bee-cv { display: block; }
+.bee.bee-live .bee-fly { visibility: hidden; }
 
-.bee.is-flying .bee-wing-l { animation: bee-flap-l .16s ease-in-out infinite alternate; }
-.bee.is-flying .bee-wing-r { animation: bee-flap-r .16s ease-in-out infinite alternate; }
-.bee.is-flying .bee-fly { animation: bee-bob 1.6s ease-in-out infinite; }
+.bee-loader-ring { --bee-m: url("/studio/img/brand/loader_ring.png"); }
+.bee-loader-spark { --bee-m: url("/studio/img/brand/sparkles.png"); }
 
-.bee-fly { position: absolute; inset: 0; }
-.bee-fly > img { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-@keyframes bee-flap-l {
-  from { transform: rotate(-4deg) scaleX(1); }
-  to { transform: rotate(10deg) scaleX(.55); }
-}
-
-@keyframes bee-flap-r {
-  from { transform: rotate(4deg) scaleX(1); }
-  to { transform: rotate(-10deg) scaleX(.55); }
-}
-
-@keyframes bee-bob {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-6%) rotate(2deg); }
+html[data-ui="modern"][data-accent]:not([data-accent="gold"]) :is(.bee-loader-ring, .bee-loader-spark) {
+  object-position: -10000px 0;
+  background: var(--ui-accent);
+  -webkit-mask: var(--bee-m) center / 100% 100% no-repeat;
+  mask: var(--bee-m) center / 100% 100% no-repeat;
 }
 
 .bee-loader {
@@ -84,9 +69,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bee.is-flying .bee-wing-l,
-  .bee.is-flying .bee-wing-r,
-  .bee.is-flying .bee-fly,
-  .bee-loader-ring,
-  .bee-loader-spark { animation: none; }
+  .bee-fly *, .bee-fly, .bee-loader-ring, .bee-loader-spark { animation: none !important; transition: none !important; }
 }
+
+@keyframes bee-flap-l { from { transform: rotate(-4deg) scaleX(1); } to { transform: rotate(10deg) scaleX(.55); } }
+@keyframes bee-flap-r { from { transform: rotate(4deg) scaleX(1); } to { transform: rotate(-10deg) scaleX(.55); } }

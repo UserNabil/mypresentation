@@ -4,6 +4,7 @@ import { avatarHtml, featureFileLine, tileHtml } from './line_assets.js';
 import { beeHtml, beeLoaderHtml } from './bee.js';
 import { initTour } from './tour.js';
 import { initAssistant } from './assistant.js';
+import { initMiniGames } from '../minigames/picker.js';
 import { initQuickSearch, chipHtml, shortcutLabel } from './quick_search.js';
 import { loadCrests, crestOf } from '../nav/crest.js';
 
@@ -91,7 +92,7 @@ function swapOne(img) {
   const w = w0 <= 20 ? 20 : (w0 <= 48 ? 24 : 32);
   const svg = lineEl(n, w, 'lx-sw' + (m.tone ? ' lx-' + m.tone : ''));
   if (!svg) return;
-  if (img.className && typeof img.className === 'string') svg.setAttribute('class', svg.getAttribute('class') + ' ' + img.className.replace(/ui-icon/g, ''));
+  if (img.className && typeof img.className === 'string') svg.setAttribute('class', svg.getAttribute('class') + ' ' + img.className.replace(/(^|\s)ui-icon(?=\s|$)/g, '$1'));
   img.before(svg);
 }
 
@@ -121,10 +122,6 @@ function brand() {
   const sig = document.querySelector('header .crest .sigil');
   if (sig && !sig.querySelector('.mx-bee')) {
     sig.appendChild(el('<span class="mx-bee mx-only">' + beeHtml({ size: 40, flying: false }) + '</span>'));
-    const crest = sig.closest('.crest');
-    const fly = on => { const b = sig.querySelector('.mx-bee .bee'); if (b) b.classList.toggle('is-flying', on); };
-    crest.addEventListener('mouseenter', () => fly(true));
-    crest.addEventListener('mouseleave', () => fly(false));
   }
   document.querySelectorAll('.eden-splash').forEach(sp => {
     if (sp.querySelector(':scope > .mx-loader')) return;
@@ -226,6 +223,7 @@ function buildTop() {
   if (!bar || document.getElementById('mx-top')) return;
   const box = el(`<div class="mx-top mx-only" id="mx-top">
     <span class="mx-sep"></span>
+    <button type="button" class="mx-ibtn" id="mx-games" title="Mini-games" aria-label="Mini-games">${lineIcon('minigames', 20)}</button>
     <button type="button" class="mx-ibtn" id="mx-ai" title="Assistant (Ctrl+J)" aria-label="Assistant" aria-expanded="false">${lineSvg('sparkles', 20)}</button>
     <button type="button" class="mx-ibtn" id="mx-theme"></button>
     <span class="mx-sep"></span>
@@ -268,7 +266,10 @@ function smoothToggle() {
 
 export function initModernShell(ctx, preview) {
   CTX = ctx || null;
-  if (!preview) return;
+  const root = document.documentElement;
+  root.dataset.mxShell = '1';
+  if (!preview) { root.classList.add('mx-ico-fallback'); return; }
+  root.classList.remove('mx-ico-fallback');
   buildTop();
   brand();
   paintTheme();
@@ -281,4 +282,5 @@ export function initModernShell(ctx, preview) {
   window.addEventListener('ui-modern', () => { paintModern(); watch(modernOn()); if (modernOn()) paintUser(); });
   initQuickSearch();
   initAssistant();
+  initMiniGames();
 }

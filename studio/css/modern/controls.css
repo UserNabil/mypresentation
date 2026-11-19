@@ -22,7 +22,7 @@ html[data-ui="modern"] .sbtn {
 }
 html[data-ui="modern"] .sbtn:hover { background: var(--ui-accent-hover); }
 html[data-ui="modern"] .sbtn:active { transform: translateY(1px); }
-html[data-ui="modern"] :is(.sbtn.ghost, .hbtn, .mini, .fbar button, .filterreset, .iconbrowse, .othertypes .seeall) {
+html[data-ui="modern"] :is(.sbtn.ghost, .hbtn, .mini, .filterreset, .iconbrowse, .othertypes .seeall) {
   border: 1px solid var(--ui-line);
   background: var(--ui-surface);
   color: var(--ui-ink);
@@ -31,7 +31,7 @@ html[data-ui="modern"] :is(.sbtn.ghost, .hbtn, .mini, .fbar button, .filterreset
   text-transform: none;
   box-shadow: none;
 }
-html[data-ui="modern"] :is(.sbtn.ghost, .hbtn, .mini, .fbar button, .filterreset, .iconbrowse, .othertypes .seeall):hover {
+html[data-ui="modern"] :is(.sbtn.ghost, .hbtn, .mini, .filterreset, .iconbrowse, .othertypes .seeall):hover {
   border-color: var(--ui-line);
   background: var(--ui-surface-2);
   color: var(--ui-ink);
@@ -87,7 +87,6 @@ html[data-ui="modern"] .chk.on::after { color: var(--ui-accent-ink); }
 html[data-ui="modern"] input[type=range] { accent-color: var(--ui-accent); }
 html[data-ui="modern"] .fx-toggle i { background: var(--ui-line); }
 html[data-ui="modern"] .fx-toggle input:checked + i { background: var(--ui-accent); }
-html[data-ui="modern"] .monfilter input { border: 1px solid var(--ui-line); border-radius: 10px; background: var(--ui-surface); }
 
 html[data-ui="modern"] .tabs {
   gap: 4px;
@@ -112,7 +111,7 @@ html[data-ui="modern"] .tab {
 }
 html[data-ui="modern"] .tab:hover { color: var(--ui-ink); }
 html[data-ui="modern"] .tab.on { border-bottom-color: var(--ui-accent); background: transparent; color: var(--ui-ink); font-weight: 600; box-shadow: none; }
-html[data-ui="modern"] :is(.filters, .ds-envs, .spellsub, .chchips) { gap: 4px; }
+html[data-ui="modern"] :is(.ds-envs, .spellsub, .chchips) { gap: 4px; }
 html[data-ui="modern"] .ds-envs { padding: 4px; border: 0; border-radius: var(--ui-radius-ctl); background: var(--ui-surface-2); }
 html[data-ui="modern"] :is(.fchip, .envchip, .spellsub .sc, .chchip) {
   padding: 6px 12px;
@@ -126,7 +125,7 @@ html[data-ui="modern"] :is(.fchip, .envchip, .spellsub .sc, .chchip) {
   text-transform: none;
   box-shadow: none;
 }
-html[data-ui="modern"] .filters .fchip, html[data-ui="modern"] .spellsub .sc, html[data-ui="modern"] .chchip { background: var(--ui-surface-2); }
+html[data-ui="modern"] .spellsub .sc, html[data-ui="modern"] .chchip { background: var(--ui-surface-2); }
 html[data-ui="modern"] :is(.fchip, .envchip, .spellsub .sc, .chchip):hover { background: var(--ui-line); color: var(--ui-ink); }
 html[data-ui="modern"] :is(.fchip.on, .envchip.on, .spellsub .sc.on, .chchip.on) { background: var(--ui-accent); color: var(--ui-accent-ink); font-weight: 600; box-shadow: none; }
 html[data-ui="modern"] .envchip.off { opacity: .45; }

@@ -58,8 +58,6 @@ export let H = null;
      fmConfirm        confirmation modale du Feature Manager -> Promise<bool>
      barRepack        repack game_unpacked -> pkg (barre d actions d index.html)
      isRepacking      () -> bool : window._barRepacking, pose par barRepack
-     chromaVideo      edenChromaVideo(canvas, video, keepAlive) : chroma-key du
-                      logo MP4 — reste dans index.html, les splashs l utilisent
 */
 export function fmSetHost(h) { H = h; }
 

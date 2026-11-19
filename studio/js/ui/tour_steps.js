@@ -29,7 +29,7 @@ export const TOURS = {
   content: [
     s('#content-react .ct-seg', 'Pick a type', 'Creatures, items or NPCs.'),
     s('#content-react .ct-search', 'Search', 'Type a name or an ID.'),
-    s('[data-tour="ct-filters"]', 'Filters', 'Show only one map, rank or level.'),
+    s('[data-tour="ct-filters"]', 'Filters', 'Show only one map, rank, weakness or level.'),
     s('[data-tour="ct-sort"]', 'Sort', 'Change the order of the list.'),
     s('#content-react .ct-list', 'The list', 'Click a row to open it.'),
     s('#content-react .ct-pane', 'The record', 'Its values show here. Change them, then save.'),
@@ -59,7 +59,8 @@ export const TOURS = {
     s('#options-react .op-bar', 'Save', 'Nothing changes until you press Save.'),
   ],
   community: [
-    s('#community-react .cm-seg', 'Sections', 'Emojis, polls and altar requests.'),
+    s('#rail-scroll .rl-fam[data-fam="production"] .rl-kids-in', 'Sections', 'Emojis, sounds, polls, altar and the event each have their own page here.'),
+    s('#community-react .ph-title', 'This page', 'The title says which section is open.'),
     s('#community-react .cm-chipsrow', 'At a glance', 'What is open and what waits for you.'),
     s('#community-react .cm-tools', 'Filter', 'Show only what you need, or add a new one.'),
     s('#community-react .cm-plist', 'Polls', 'Click a poll to see the votes or edit it.'),
@@ -119,8 +120,9 @@ export const TOURS = {
   ],
   clientcfg: [
     s('#qc-env', 'Which server', 'These settings are for this environment.'),
+    s('#cs-files', 'Game files', 'RFG archives: the tool reads the game directly. Unpacked folder: the old full copy.'),
     s('#cs-block', 'New tester', 'Pick a folder and install the game there.'),
-    s('#qc-fields .fld:has([data-k="client_root"])', 'Game data', 'The unpacked files. Depack fills this folder.'),
+    s('#qc-fields .fld:has([data-k="client_root"])', 'Game data', 'The unpacked files (Unpacked folder mode only).'),
     s('#qc-fields .fld:has([data-k="client_packed"])', 'Game folder', 'Where the game runs. Get the latest client here.'),
     s('#qc-fields .fld:has([data-k="launcher_path"])', 'Launcher', 'The program that starts the game.'),
     s('#qc-save', 'Save', 'Keep your changes.'),

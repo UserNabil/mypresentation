@@ -1,3 +1,5 @@
+import './accent_icon.js';
+
 const MODERN = 'ui.modern';
 const THEME = 'ui.theme';
 const ACCENT = 'ui.accent';
